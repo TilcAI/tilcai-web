@@ -1,0 +1,88 @@
+import type { ReactNode } from "react";
+
+const paths: Record<string, ReactNode> = {
+  arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
+  doc: (
+    <>
+      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+      <path d="M14 3v5h5M9 13h6M9 17h6" />
+    </>
+  ),
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+    </>
+  ),
+  menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  layers: (
+    <>
+      <path d="M12 3l9 5-9 5-9-5z" />
+      <path d="M3 13l9 5 9-5" />
+      <path d="M3 17.5l9 5 9-5" opacity=".55" />
+    </>
+  ),
+  target: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  shield: <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" />,
+  receipt: (
+    <>
+      <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" />
+      <path d="M9 8h6M9 12h6" />
+    </>
+  ),
+  tree: (
+    <>
+      <circle cx="12" cy="5" r="2" />
+      <circle cx="6" cy="19" r="2" />
+      <circle cx="18" cy="19" r="2" />
+      <path d="M12 7v5M12 12l-6 5M12 12l6 5" />
+    </>
+  ),
+  rules: (
+    <>
+      <path d="M4 6h10M4 12h16M4 18h7" />
+      <circle cx="18" cy="6" r="2" />
+      <circle cx="15" cy="18" r="2" />
+    </>
+  ),
+  signal: <path d="M12 20v-6M7 20v-3M17 20v-9M4 9l5-4 4 3 7-5" />,
+  pen: (
+    <>
+      <path d="M4 20l4-1 11-11-3-3L5 16z" />
+      <path d="M14 6l3 3" />
+    </>
+  ),
+  store: <path d="M4 9l2-5h12l2 5M4 9v11h16V9M4 9h16M9 20v-6h6v6" />,
+  check: <path d="M5 12l4 4 10-10" />,
+  x: <path d="M6 6l12 12M18 6L6 18" />,
+  lock: (
+    <>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </>
+  ),
+};
+
+export type IconName = keyof typeof paths;
+
+export function Icon({ name, className = "icon" }: { name: IconName; className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {paths[name]}
+    </svg>
+  );
+}

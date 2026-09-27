@@ -1,0 +1,29 @@
+import Link from "next/link";
+import type { Copy } from "@/lib/i18n";
+import { otherLocale, paths } from "@/lib/site";
+
+export function SiteFooter({ t, page }: { t: Copy; page: "home" | "docs" }) {
+  const other = otherLocale(t.locale);
+  return (
+    <footer className="site-footer">
+      <div className="container footer-inner">
+        <div className="footer-brand">
+          <span className="wordmark">
+            Tilc<span>AI</span>
+          </span>
+          <p>{t.footer.status}</p>
+        </div>
+        <nav className="footer-nav" aria-label="Footer">
+          <Link href={paths.home(t.locale)}>{t.nav.home}</Link>
+          <Link href={paths.docs(t.locale)}>{t.nav.docs}</Link>
+          <Link href={page === "home" ? paths.home(other) : paths.docs(other)} hrefLang={other} lang={other}>
+            {other === "es" ? "Español" : "English"}
+          </Link>
+        </nav>
+        <div className="footer-meta">
+          <span>{t.footer.rights}</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
