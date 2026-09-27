@@ -23,6 +23,7 @@ export const es: Copy = {
   nav: {
     problem: "Problema",
     flow: "Flujo",
+    demo: "Demo",
     capabilities: "Capacidades",
     code: "Interfaz",
     roadmap: "Hoja de ruta",
@@ -102,6 +103,19 @@ export const es: Copy = {
     firstCaseTitle: "Primer caso de uso",
     firstCase:
       "Un agente compra un servicio digital de prueba (un pequeño informe que cuesta unos centavos de USDC de testnet) a un vendedor de referencia que operamos nosotros. Una compra se permite; las compras alteradas, repetidas o fuera de presupuesto se bloquean.",
+  },
+  demo: {
+    eyebrow: "Demo conceptual interactiva",
+    title: "¿Qué decidiría la política?",
+    lead: "Elige una intención de pago de ejemplo. Ilustra una regla propuesta: solo puede pasar el destinatario aprobado con un monto dentro del límite.",
+    prompt: "Elige un escenario",
+    scenarios: [
+      { label: "Compra aprobada", detail: "0,05 USDC · vendedor aprobado", outcome: "ALLOW", reason: "El destinatario y el monto cumplen la política de ejemplo." },
+      { label: "Destinatario cambiado", detail: "0,05 USDC · vendedor desconocido", outcome: "DENY", reason: "El destinatario no está en la lista permitida." },
+      { label: "Supera el límite", detail: "0,15 USDC · vendedor aprobado", outcome: "DENY", reason: "Supera el límite de 0,10 USDC por pago." },
+    ],
+    empty: "Selecciona un escenario para ver una decisión de ejemplo.",
+    caveat: "Solo simulación visual. Sin wallet, oferta autenticada, petición x402, transacción en Stellar ni fondos reales. ALLOW aquí no efectúa un pago.",
   },
   capabilities: {
     eyebrow: "Capacidades previstas",
@@ -249,7 +263,7 @@ export const es: Copy = {
     secondary: "Volver al flujo",
   },
   footer: {
-    status: "TilcAI es un proyecto en etapa temprana, en desarrollo. Nada de este sitio está en producción ni maneja fondos reales.",
+    status: "TilcAI es un proyecto en etapa temprana. La demo interactiva es una simulación; no hay servicio de pagos activo ni fondos reales.",
     rights: "© 2026 equipo TilcAI",
   },
   notFound: { title: "Página no encontrada", body: "Esta página no existe. El proyecto está en etapa temprana, así que los enlaces todavía pueden cambiar.", back: "Volver al resumen" },

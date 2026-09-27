@@ -23,6 +23,7 @@ export const en: Copy = {
   nav: {
     problem: "Problem",
     flow: "Flow",
+    demo: "Demo",
     capabilities: "Capabilities",
     code: "Interface",
     roadmap: "Roadmap",
@@ -43,7 +44,7 @@ export const en: Copy = {
       "The vision: agents acting for people and small businesses that discover, book and pay for services. The first use case is much narrower — an agent buying a test digital service on Stellar testnet.",
     ctaPrimary: "Explore the architecture",
     ctaSecondary: "See the payment flow",
-    facts: ["Stellar-first", "Testnet only", "No production funds", "Nothing is live yet"],
+    facts: ["Stellar-first", "Testnet only", "No production funds", "No live payments"],
     logoAlt: "TilcAI logo: an Andean tilcayo (wildcat) head with the TilcAI wordmark",
   },
   problem: {
@@ -102,6 +103,19 @@ export const en: Copy = {
     firstCaseTitle: "First use case",
     firstCase:
       "An agent buys a test digital service — a small report priced at a few cents of testnet USDC — from a reference seller we run ourselves. One purchase is allowed; altered, repeated or over-budget purchases are blocked.",
+  },
+  demo: {
+    eyebrow: "Interactive concept demo",
+    title: "What would the policy decide?",
+    lead: "Choose a sample payment intent. This illustrates a proposed rule: only the approved recipient and an amount within the limit can pass.",
+    prompt: "Choose a scenario",
+    scenarios: [
+      { label: "Approved purchase", detail: "0.05 USDC · approved seller", outcome: "ALLOW", reason: "Recipient and amount match the sample policy." },
+      { label: "Recipient changed", detail: "0.05 USDC · unknown seller", outcome: "DENY", reason: "The recipient is not on the allowlist." },
+      { label: "Over the limit", detail: "0.15 USDC · approved seller", outcome: "DENY", reason: "The 0.10 USDC per-payment limit is exceeded." },
+    ],
+    empty: "Select a scenario to see a sample decision.",
+    caveat: "Visual simulation only. No wallet, authenticated offer, x402 request, Stellar transaction or real funds. ALLOW here does not make a payment.",
   },
   capabilities: {
     eyebrow: "Planned capabilities",
@@ -249,7 +263,7 @@ export const en: Copy = {
     secondary: "Back to the flow",
   },
   footer: {
-    status: "TilcAI is an early-stage project in development. Nothing on this site is live or handles real funds.",
+    status: "TilcAI is an early-stage project. The interactive demo is a simulation; no live payment service or real funds.",
     rights: "© 2026 TilcAI team",
   },
   notFound: { title: "Page not found", body: "This page does not exist. The project is early-stage, so links may still change.", back: "Back to overview" },

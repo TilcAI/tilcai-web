@@ -32,6 +32,7 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
   const links: [string, string][] = [
     [t.nav.problem, anchor("problem")],
     [t.nav.flow, anchor("flow")],
+    [t.nav.demo, anchor("demo")],
     [t.nav.capabilities, anchor("capabilities")],
     [t.nav.roadmap, anchor("roadmap")],
   ];

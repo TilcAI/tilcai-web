@@ -39,7 +39,7 @@ export interface Copy {
   htmlLang: string;
   meta: { title: string; description: string; docsTitle: string; docsDescription: string };
   a11y: { skip: string; langSwitch: string; menu: string; copied: string; copy: string; codeTabs: string };
-  nav: { problem: string; flow: string; capabilities: string; code: string; roadmap: string; docs: string; home: string };
+  nav: { problem: string; flow: string; demo: string; capabilities: string; code: string; roadmap: string; docs: string; home: string };
   stageLabels: Record<Stage, string>;
   hero: {
     status: string;
@@ -64,6 +64,15 @@ export interface Copy {
     vision: string;
     firstCaseTitle: string;
     firstCase: string;
+  };
+  demo: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    prompt: string;
+    scenarios: { label: string; detail: string; outcome: "ALLOW" | "DENY"; reason: string }[];
+    empty: string;
+    caveat: string;
   };
   capabilities: { eyebrow: string; title: string; lead: string; items: Capability[]; disclaimer: string };
   code: {

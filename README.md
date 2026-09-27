@@ -4,7 +4,7 @@ Landing page and **proposed architecture** page for TilcAI, an early-stage proje
 Built with **Next.js (App Router) + TypeScript + Tailwind CSS v4**, following the `create-next-app --yes` defaults.
 English is the default language; Spanish is available through the EN / ES selector.
 
-> Everything on this site describes plans. There is no deployed contract, no published package and no live service.
+> The policy demo is a visual simulation only. There is no deployed contract, published package, live payment service or transfer of funds.
 
 ## Run it
 
@@ -45,6 +45,7 @@ Then copy these from this folder into the new project, replacing what exists: `s
 | `/en/docs`, `/es/docs` | Proposed architecture |
 
 Both languages are generated statically (`generateStaticParams`); any other language segment returns 404.
+The landing's `#demo` section shows three fixed policy scenarios. It does not call `tilcai-core` or a payment network.
 
 ## Structure
 
@@ -96,4 +97,4 @@ Skip link, visible focus, keyboard-operable menu (Esc closes) and code tabs (arr
 
 ## Deployment
 
-Not deployed. It works on any Next.js host (e.g. Vercel) or as a Node server with `pnpm build && pnpm start`.
+The team publishes the landing at `https://tilcai.vercel.app/en`. This is a website deployment, not a deployed TilcAI payment service. It also works on any Next.js host or as a Node server with `pnpm build && pnpm start`.

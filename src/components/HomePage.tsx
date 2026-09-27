@@ -7,6 +7,7 @@ import { snippets } from "@/lib/snippets";
 import { paths } from "@/lib/site";
 import { CodeTabs } from "./CodeTabs";
 import { Icon, type IconName } from "./Icon";
+import { PolicyDemo } from "./PolicyDemo";
 
 const problemIcons: IconName[] = ["layers", "target", "shield", "receipt"];
 const capIcons: IconName[] = ["tree", "rules", "signal", "receipt", "pen", "store"];
@@ -147,6 +148,14 @@ export function HomePage({ t }: { t: Copy }) {
               <p>{t.flow.firstCase}</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Visual policy simulation; no payment or core-package integration. */}
+      <section id="demo" className="section" aria-labelledby="demo-title">
+        <div className="container">
+          <SectionHead id="demo-title" eyebrow={t.demo.eyebrow} title={t.demo.title} lead={t.demo.lead} />
+          <PolicyDemo t={t.demo} />
         </div>
       </section>
 
