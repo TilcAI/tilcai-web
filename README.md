@@ -82,7 +82,7 @@ public/assets/                    # original TilcAI logo (resized), favicon, soc
 - Architecture sections live in `docs.en.ts` / `docs.es.ts` as small HTML strings written in this repo (trusted content, rendered with `dangerouslySetInnerHTML`). Never put user input there.
 - Stage labels (`Stellar Elite · in development`, `HackMeridian · planned`, `Vision · not scheduled`) are defined once in `stageLabels`.
 - Only change wording to "live" or "deployed" when there is something verifiable (contract ID, testnet transaction, public repository).
-- For correct absolute Open Graph URLs in production, copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL`.
+- Absolute Open Graph URLs use `NEXT_PUBLIC_SITE_URL` if it is set to a valid URL (e.g. `https://tilcai.xyz`). On Vercel it is optional: if it is missing or empty, the production domain (`VERCEL_PROJECT_PRODUCTION_URL`) is used automatically. Locally, copy `.env.example` to `.env.local`.
 
 ## Styling
 
