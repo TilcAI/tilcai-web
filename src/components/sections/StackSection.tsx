@@ -1,4 +1,7 @@
+import Link from "next/link";
 import type { Copy } from "@/lib/i18n";
+import { paths } from "@/lib/site";
+import { Icon } from "../Icon";
 import { SectionHead } from "./shared";
 
 export function StackSection({ t }: { t: Copy }) {
@@ -15,6 +18,12 @@ export function StackSection({ t }: { t: Copy }) {
           ))}
         </ul>
         <p className="disclaimer reveal">{t.stack.disclaimer}</p>
+        <p className="stack-link reveal">
+          <Link className="btn btn-ghost" href={paths.docs(t.locale)}>
+            {t.stack.docsLink}
+            <Icon name="arrow" />
+          </Link>
+        </p>
       </div>
     </section>
   );
