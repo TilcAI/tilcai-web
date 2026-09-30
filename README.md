@@ -62,11 +62,18 @@ src/
 │   ├── PageShell.tsx             # skip link + header + main + footer
 │   ├── SiteHeader.tsx            # client: mobile menu, language switch
 │   ├── SiteFooter.tsx
-│   ├── HomePage.tsx              # all landing sections (server component)
+│   ├── HomePage.tsx              # landing = composition of the sections below (server component)
+│   ├── sections/                 # one file per landing section
+│   │   ├── HeroSection.tsx       # the only <h1>: eyebrow, headline, CTAs, stage facts
+│   │   ├── HeroScene.tsx         # illustrative 3-node scene (server component, CSS-only motion)
+│   │   ├── ProductOverview.tsx   # "What TilcAI is": your agent / TilcAI / the business
+│   │   ├── ProblemSection, FlowSection, DemoSection, CapabilitiesSection, InterfaceSection,
+│   │   │   CompareSection, StackSection, RoadmapSection, CtaSection   # earlier content, unchanged
+│   │   └── shared.tsx            # SectionHead, StageTag
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy
-│   ├── RevealObserver.tsx        # client: subtle reveal-on-scroll
+│   ├── RevealObserver.tsx        # client: reveal-on-scroll; also starts the hero scene when it is visible
 │   └── Icon.tsx
 └── lib/
     ├── i18n/                     # all visible copy — en.ts, es.ts, docs.en.ts, docs.es.ts, types.ts
@@ -76,6 +83,13 @@ src/
     └── site.ts                   # routes and site URL
 public/assets/                    # original TilcAI logo (resized), favicon, social image
 ```
+
+## Hero and overview
+
+- The hero scene (`sections/HeroScene.tsx`) is a **drawing**, labelled "Flujo ilustrativo" / "Illustrative flow". Its names and figures (cinema company, 10 USDC) are sample data, not a partner or a real quote. It is server-rendered, needs no client JavaScript and adds no dependency: the entrance sequence is CSS and is triggered by `RevealObserver` adding `is-visible`. Without JS or with `prefers-reduced-motion` it renders in its final state.
+- On mobile the copy comes first and the compact scene below it; the scene is a vertical chain so it works from 360 px.
+- "Enable my business" points to `#pilot` (the closing CTA) until the real contact channel exists (WEB-13). "Explore how it works" points to `#flow`.
+- Copy lives in `hero`, `hero.scene` and `overview` in `src/lib/i18n/*.ts`.
 
 ## Editing content
 

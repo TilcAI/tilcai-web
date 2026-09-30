@@ -181,7 +181,7 @@ ul, ol { margin: 0; padding: 0; }
 .tag-vision { color: var(--text-2); border-color: var(--border-strong); background: rgba(255,255,255,.03); }
 
 /* ---------- Hero ---------- */
-.hero { position: relative; padding: 72px 0 88px; overflow: hidden; }
+.hero { position: relative; padding: 48px 0 64px; overflow: hidden; }
 .hero::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background:
@@ -195,22 +195,98 @@ ul, ol { margin: 0; padding: 0; }
   mask-image: radial-gradient(ellipse at 50% 0%, #000 20%, transparent 70%);
   -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 20%, transparent 70%);
 }
-.hero-grid { position: relative; z-index: 1; display: grid; gap: 48px; align-items: center; }
-@media (min-width: 960px) { .hero-grid { grid-template-columns: 1.15fr 0.85fr; gap: 64px; } .hero { padding: 104px 0 120px; } }
+.hero-grid { position: relative; z-index: 1; display: grid; gap: 40px; align-items: center; }
+@media (min-width: 768px) { .hero { padding: 72px 0 88px; } .hero-grid { gap: 48px; } }
+@media (min-width: 960px) { .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 56px; } .hero { padding: 96px 0 112px; } }
+/* Entrance runs on load from CSS alone, so the h1 never waits for hydration. */
+.hero-copy { animation: hero-rise .6s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.hero-eyebrow { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+.hero-eyebrow .dot { flex: none; margin-top: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 3px rgba(232,173,92,.18); }
 .status-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--amber); border: 1px solid rgba(232,173,92,.35); background: var(--amber-soft); padding: 6px 12px; border-radius: 999px; margin-bottom: 24px; }
 .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 3px rgba(232,173,92,.18); }
-.hero h1 { font-size: clamp(36px, 6vw, 60px); letter-spacing: -0.035em; margin-bottom: 22px; font-weight: 700; }
+.hero h1 { font-size: clamp(2.25rem, 1.45rem + 2.75vw, 3.75rem); letter-spacing: -0.035em; margin-bottom: 22px; font-weight: 700; }
+.h1-sentence { display: inline-block; text-wrap: balance; }
 .facts { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 28px; color: var(--muted); font-family: var(--mono); font-size: 12.5px; }
 .facts li { display: inline-flex; align-items: center; gap: 8px; }
 .facts li::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--teal-2); }
-.hero-logo { margin: 0; display: grid; gap: 18px; justify-items: center; }
-.logo-card {
-  width: 100%; max-width: 440px; border-radius: 22px; padding: 18px;
-  background: #fefefe;
-  box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 30px 80px -30px rgba(44,195,205,.35), 0 20px 60px -40px rgba(232,173,92,.5);
+
+/* ---------- Hero scene: buyer's agent → TilcAI → business agent ----------
+   Pure CSS. The sequence starts when RevealObserver adds .is-visible; without JS (no .js on <html>)
+   or with reduced motion everything is shown in its final state. */
+.scene { position: relative; margin: 0; width: 100%; max-width: 520px; justify-self: center; padding: 16px 14px 18px; border: 1px solid var(--border-strong); border-radius: 22px; background: linear-gradient(180deg, rgba(21,30,33,.9), rgba(17,24,26,.94)); box-shadow: 0 30px 80px -40px rgba(44,195,205,.35); }
+@media (min-width: 768px) { .scene { padding: 22px 22px 24px; } }
+@media (min-width: 960px) { .scene { justify-self: end; } }
+.js .scene.reveal { opacity: 1; transform: none; transition: none; }
+.scene-badge { display: inline-flex; align-items: center; margin-bottom: 12px; padding: 4px 10px; border: 1px dashed var(--border-strong); border-radius: 999px; font-family: var(--mono); font-size: 12px; letter-spacing: .02em; color: var(--muted); }
+.scene-chain { --gap: 18px; display: grid; gap: var(--gap); }
+@media (min-width: 768px) { .scene-chain { --gap: 26px; } }
+.scene-node { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface-2); }
+@media (min-width: 768px) { .scene-node { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 14px; } }
+.node-core { border-color: rgba(44,195,205,.4); background: linear-gradient(180deg, var(--teal-soft), var(--surface-2) 75%); box-shadow: 0 0 0 1px rgba(44,195,205,.1), 0 18px 50px -28px rgba(44,195,205,.65); }
+.node-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; color: var(--teal); background: var(--teal-soft); border: 1px solid rgba(44,195,205,.25); }
+.node-business .node-icon { color: var(--amber); background: var(--amber-soft); border-color: rgba(232,173,92,.28); }
+.node-icon .icon { width: 19px; height: 19px; }
+@media (min-width: 768px) { .node-icon { width: 40px; height: 40px; border-radius: 12px; } .node-icon .icon { width: 20px; height: 20px; } }
+.node-icon-brand { overflow: hidden; border-radius: 50%; background: none; border: 0; box-shadow: 0 0 0 1px rgba(44,195,205,.45), 0 0 18px rgba(44,195,205,.3); }
+.node-icon-brand img { width: 100%; height: 100%; }
+.node-body { display: grid; gap: 5px; min-width: 0; }
+.node-role { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.node-action { font-weight: 400; color: var(--muted); }
+.node-text { color: var(--text-2); font-size: 14px; line-height: 1.4; }
+@media (min-width: 768px) { .node-text { font-size: 14.5px; } }
+.node-name { color: var(--text); font-size: 14.5px; }
+@media (min-width: 768px) { .node-name { font-size: 15px; } }
+.node-name strong { font-weight: 650; }
+.bubble { padding: 8px 11px; border: 1px solid rgba(44,195,205,.25); border-radius: 12px 12px 12px 4px; background: var(--teal-soft); color: var(--text); font-size: 14.5px; line-height: 1.35; }
+.scene-chip { display: inline-flex; align-items: center; gap: 8px; justify-self: start; margin-top: 2px; padding: 5px 11px 5px 10px; border: 1px solid rgba(232,173,92,.4); border-radius: 999px; background: var(--amber-soft); color: var(--amber); font-size: 13px; font-weight: 600; line-height: 1.3; }
+.scene-chip .icon { width: 14px; height: 14px; }
+.chip-dot { position: relative; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+.chip-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--amber); opacity: 0; }
+.offer { display: grid; gap: 3px; margin-top: 2px; font-size: 13.5px; color: var(--text-2); }
+.offer li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+.offer-ok { align-items: center; color: var(--allow); font-weight: 550; }
+.offer-ok .icon { width: 15px; height: 15px; align-self: center; }
+.offer-amount { font-family: var(--mono); font-weight: 600; color: var(--text); }
+
+/* Connectors: a line drawn down to each node plus one packet that travels it once. */
+.scene-node + .scene-node::before { content: ""; position: absolute; left: 27px; top: calc(-1px - var(--gap)); width: 2px; height: calc(var(--gap) + 1px); border-radius: 2px; background: linear-gradient(var(--teal-2), var(--teal)); transform-origin: top; }
+@media (min-width: 768px) { .scene-node + .scene-node::before { left: 33px; } }
+.scene-node + .scene-node::after { content: ""; position: absolute; left: 24px; top: calc(-1px - var(--gap)); width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 10px var(--teal); opacity: 0; }
+@media (min-width: 768px) { .scene-node + .scene-node::after { left: 30px; } }
+
+.js .scene .scene-node { opacity: 0; }
+.js .scene .scene-node + .scene-node::before { transform: scaleY(0); }
+.js .scene.is-visible .scene-node { animation: scene-in .55s cubic-bezier(.2, .7, .2, 1) var(--d, 0s) both; }
+.js .scene.is-visible .scene-node + .scene-node::before { animation: scene-draw .4s ease-out var(--l, 0s) both; }
+.js .scene.is-visible .scene-node + .scene-node::after { animation: scene-packet .4s ease-in-out var(--l, 0s) both; }
+.js .scene.is-visible .chip-dot::after { animation: scene-pulse 1.4s ease-out 1.9s 2 both; }
+.scene-node:nth-child(1) { --d: .05s; }
+.scene-node:nth-child(2) { --l: .4s; --d: .75s; }
+.scene-node:nth-child(3) { --l: 1.2s; --d: 1.55s; }
+@keyframes scene-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes scene-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes scene-packet { 0% { opacity: 0; transform: translateY(0); } 20%, 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(calc(var(--gap) - 6px)); } }
+@keyframes scene-pulse { from { opacity: .55; transform: scale(1); } to { opacity: 0; transform: scale(3.2); } }
+@media (prefers-reduced-motion: reduce) {
+  .js .scene .scene-node { opacity: 1; animation: none !important; }
+  .js .scene .scene-node + .scene-node::before { transform: none; animation: none !important; }
+  .scene-node + .scene-node::after, .chip-dot::after { animation: none !important; opacity: 0 !important; }
+  .hero-copy { animation: none; }
 }
-.logo-card img { width: 100%; }
-.vision-note { max-width: 440px; color: var(--muted); font-size: 14px; border-left: 2px solid var(--amber-2); padding-left: 14px; }
+
+/* ---------- Overview: your agent / TilcAI / the business ---------- */
+.overview-grid { display: grid; gap: 32px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .overview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; } }
+.overview-card { position: relative; padding: 28px 24px; }
+.overview-card h3 { font-size: 22px; letter-spacing: -0.015em; }
+.overview-card p { font-size: 16px; }
+.overview-card.is-core { border-color: rgba(44,195,205,.4); background: linear-gradient(180deg, var(--teal-soft), var(--surface) 70%); }
+.overview-arrow { position: absolute; display: grid; place-items: center; width: 24px; height: 24px; color: var(--teal-2); left: calc(50% - 12px); bottom: -28px; transform: rotate(90deg); }
+@media (min-width: 900px) { .overview-arrow { left: auto; right: -32px; top: calc(50% - 12px); bottom: auto; transform: none; } }
+.overview-foot { max-width: 760px; margin-top: 44px; }
+.overview-closing { font-size: clamp(19px, 2.4vw, 24px); line-height: 1.4; letter-spacing: -0.01em; color: var(--text); }
+.overview-support { margin-top: 14px; color: var(--muted); font-size: 14.5px; }
 
 /* ---------- Problem ---------- */
 .question {

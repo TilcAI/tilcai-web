@@ -58,6 +58,20 @@ const paths: Record<string, ReactNode> = {
     </>
   ),
   store: <path d="M4 9l2-5h12l2 5M4 9v11h16V9M4 9h16M9 20v-6h6v6" />,
+  agent: (
+    <>
+      <path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" />
+      <path d="M8 10h8M8 13h5" />
+    </>
+  ),
+  link: (
+    <>
+      <circle cx="5" cy="12" r="2" />
+      <circle cx="19" cy="12" r="2" />
+      <circle cx="12" cy="12" r="2.5" />
+      <path d="M7 12h2.5M14.5 12H17" />
+    </>
+  ),
   check: <path d="M5 12l4 4 10-10" />,
   x: <path d="M6 6l12 12M18 6L6 18" />,
   lock: (

@@ -36,16 +36,41 @@ export const en: Copy = {
     vision: "Vision · not scheduled",
   },
   hero: {
-    status: "Early-stage · In development",
-    title: "Give agents purchasing power. Keep humans in control.",
+    eyebrow: "Agent-to-agent commerce infrastructure · Stellar",
+    title: "Your agent buys. Your business responds. You stay in control.",
     lead:
-      "TilcAI is an SDK and gateway in development for spending policies and trust signals in payments between agents. Before an agent pays, TilcAI checks who gets paid, for what and within which budget — then allows, blocks or escalates, and keeps a receipt. Starting on Stellar.",
-    visionNote:
-      "The vision: agents acting for people and small businesses that discover, book and pay for services. The first use case is much narrower — an agent buying a test digital service on Stellar testnet.",
-    ctaPrimary: "Explore the architecture",
-    ctaSecondary: "See the payment flow",
-    facts: ["Stellar-first", "Testnet only", "No production funds", "No live payments"],
-    logoAlt: "TilcAI logo: an Andean tilcayo (wildcat) head with the TilcAI wordmark",
+      "We are building the connection between the agents of people and businesses to look up, book and buy with verifiable terms, limited permissions and payments on Stellar.",
+    ctaPrimary: "Explore how it works",
+    ctaSecondary: "Enable my business",
+    facts: ["Early stage · in development", "Stellar-first", "Testnet only", "No real funds"],
+    scene: {
+      label: "Illustrative flow",
+      buyer: { role: "Your agent", action: "Request", message: "Two tickets for Wednesday, up to 12 USDC" },
+      core: {
+        role: "TilcAI",
+        detail: "Checks the offer, your limit and the permissions.",
+        control: "Needs your approval",
+      },
+      business: {
+        role: "Business agent",
+        name: "Cinema company",
+        service: "Tickets and bookings",
+        availability: "Availability confirmed",
+        quote: { label: "Quote", amount: "10 USDC", note: "within your limit" },
+      },
+    },
+  },
+  overview: {
+    eyebrow: "What TilcAI is",
+    title: "A connection between your intent and the business's operation.",
+    blocks: [
+      { title: "Your agent", body: "Interprets what you ask for and the conditions you set." },
+      { title: "TilcAI", body: "Coordinates conditions, permissions and the operation between both sides." },
+      { title: "The business", body: "Offers real capabilities and delivers the service." },
+    ],
+    closing:
+      "You don't need to buy another agent. You need to connect the one you use with services that are ready to interact.",
+    support: "Availability depends on the assistant and on the business's integration.",
   },
   problem: {
     eyebrow: "The problem",

@@ -36,16 +36,41 @@ export const es: Copy = {
     vision: "Visión · sin fecha",
   },
   hero: {
-    status: "Etapa temprana · En desarrollo",
-    title: "Da poder de compra a los agentes. Mantén el control humano.",
+    eyebrow: "Infraestructura de comercio entre agentes · Stellar",
+    title: "Tu agente compra. Tu empresa responde. Tú mantienes el control.",
     lead:
-      "TilcAI es un SDK y gateway en desarrollo para políticas de gasto y señales de confianza en pagos entre agentes. Antes de que un agente pague, TilcAI comprueba a quién se paga, por qué y con qué presupuesto; luego permite, bloquea o escala, y guarda un recibo. Empezamos por Stellar.",
-    visionNote:
-      "La visión: agentes que actúan por personas y pequeñas empresas, y que descubren, reservan y pagan servicios. El primer caso de uso es mucho más acotado: un agente que compra un servicio digital de prueba en Stellar testnet.",
-    ctaPrimary: "Explorar la arquitectura",
-    ctaSecondary: "Ver el flujo de pago",
-    facts: ["Stellar primero", "Solo testnet", "Sin fondos reales", "Nada está en producción"],
-    logoAlt: "Logo de TilcAI: cabeza de un tilcayo (gato andino) junto al nombre TilcAI",
+      "Construimos la conexión entre agentes de personas y empresas para consultar, reservar y comprar con condiciones verificables, permisos limitados y pagos sobre Stellar.",
+    ctaPrimary: "Explorar cómo funciona",
+    ctaSecondary: "Habilitar mi empresa",
+    facts: ["Etapa temprana · en desarrollo", "Stellar primero", "Solo testnet", "Sin fondos reales"],
+    scene: {
+      label: "Flujo ilustrativo",
+      buyer: { role: "Tu agente", action: "Solicitud", message: "Dos entradas para el miércoles, hasta 12 USDC" },
+      core: {
+        role: "TilcAI",
+        detail: "Comprueba la oferta, tu límite y los permisos.",
+        control: "Requiere tu aprobación",
+      },
+      business: {
+        role: "Agente de la empresa",
+        name: "Empresa de cine",
+        service: "Entradas y reservas",
+        availability: "Disponibilidad confirmada",
+        quote: { label: "Cotización", amount: "10 USDC", note: "dentro de tu límite" },
+      },
+    },
+  },
+  overview: {
+    eyebrow: "Qué es TilcAI",
+    title: "Una conexión entre tu intención y la operación del negocio.",
+    blocks: [
+      { title: "Tu agente", body: "Interpreta lo que pides y las condiciones que defines." },
+      { title: "TilcAI", body: "Coordina condiciones, permisos y operación entre ambos lados." },
+      { title: "La empresa", body: "Ofrece capacidades reales y cumple el servicio." },
+    ],
+    closing:
+      "No necesitas comprar otro agente. Necesitas conectar el que utilizas con servicios preparados para interactuar.",
+    support: "La disponibilidad depende del asistente y de la integración del negocio.",
   },
   problem: {
     eyebrow: "El problema",
