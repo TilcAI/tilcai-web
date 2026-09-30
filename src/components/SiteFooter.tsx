@@ -13,7 +13,7 @@ export function SiteFooter({ t, page }: { t: Copy; page: "home" | "docs" }) {
           </span>
           <p>{t.footer.status}</p>
         </div>
-        <nav className="footer-nav" aria-label="Footer">
+        <nav className="footer-nav" aria-label={t.a11y.footerNav}>
           <Link href={paths.home(t.locale)}>{t.nav.home}</Link>
           <Link href={paths.docs(t.locale)}>{t.nav.docs}</Link>
           <Link href={page === "home" ? paths.home(other) : paths.docs(other)} hrefLang={other} lang={other}>

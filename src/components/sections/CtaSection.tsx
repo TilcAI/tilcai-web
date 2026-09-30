@@ -3,10 +3,9 @@ import type { Copy } from "@/lib/i18n";
 import { paths } from "@/lib/site";
 import { Icon } from "../Icon";
 
-/** `#pilot` is the target of the hero's "Enable my business" button until WEB-13 adds the contact channel. */
 export function CtaSection({ t }: { t: Copy }) {
   return (
-    <section id="pilot" className="section cta" aria-labelledby="cta-title">
+    <section className="section cta" aria-labelledby="cta-title">
       <div className="container">
         <div className="cta-card reveal">
           <h2 id="cta-title">{t.cta.title}</h2>
@@ -16,7 +15,7 @@ export function CtaSection({ t }: { t: Copy }) {
               {t.cta.primary}
               <Icon name="arrow" />
             </Link>
-            <a className="btn btn-ghost" href="#flow">
+            <a className="btn btn-ghost" href="#demo">
               {t.cta.secondary}
             </a>
           </div>

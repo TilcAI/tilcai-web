@@ -1,17 +1,20 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * Adds `is-visible` to `.reveal` elements as they enter the viewport.
  * The `js` class on <html> (set by an inline script in the layout) is what hides
  * them initially, so the page stays fully readable without JavaScript.
- * The layout persists across client-side navigations, so it re-observes on every path change.
  */
 export function RevealObserver() {
   const pathname = usePathname();
+
   useEffect(() => {
+    // Client navigation can replace the root layout's classes without rerunning
+    // its inline script. Restore enhancement and observe the new route's nodes.
+    document.documentElement.classList.add("js");
     const items = document.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce || !("IntersectionObserver" in window)) {

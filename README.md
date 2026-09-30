@@ -12,7 +12,7 @@ Requirements: Node.js 20.9+ (22 LTS recommended) and pnpm.
 
 ```bash
 cd tilcai-web
-pnpm install      # first time only — resolves the latest Next.js and writes pnpm-lock.yaml
+pnpm install --frozen-lockfile  # use the committed dependency versions
 pnpm dev          # http://localhost:3000  (redirects to /en)
 ```
 
@@ -23,18 +23,7 @@ pnpm build
 pnpm start
 ```
 
-> `package.json` uses `"latest"` for Next.js, React and tooling, like `pnpm create next-app@latest` would install today.
-> After the first `pnpm install`, commit `pnpm-lock.yaml` so the whole team uses the same versions.
-
-### Alternative: start from a fresh scaffold
-
-If the first install or build complains about a config file (for example ESLint changes between Next.js versions):
-
-```bash
-pnpm create next-app@latest tilcai-web --yes   # choose "src/" directory if asked
-```
-
-Then copy these from this folder into the new project, replacing what exists: `src/`, `public/assets/`, `next.config.ts`, and the `"@/*": ["./src/*"]` path in `tsconfig.json`.
+`package.json` uses `"latest"`, while the committed lockfile records resolved versions. Preserve this project and its lockfile when editing content; dependency upgrades are a separate task.
 
 ## Routes
 
@@ -64,18 +53,24 @@ src/
 │   ├── SiteFooter.tsx
 │   ├── HomePage.tsx              # landing = composition of the sections below (server component)
 │   ├── sections/                 # one file per landing section
-│   │   ├── HeroSection.tsx       # the only <h1>: eyebrow, headline, CTAs, stage facts
+│   │   ├── HeroSection.tsx       # the only <h1>: eyebrow, headline, CTAs, facts
 │   │   ├── HeroScene.tsx         # illustrative 3-node scene (server component, CSS-only motion)
-│   │   ├── ProductOverview.tsx   # "What TilcAI is": your agent / TilcAI / the business
-│   │   ├── ProblemSection, FlowSection, DemoSection, CapabilitiesSection, InterfaceSection,
-│   │   │   CompareSection, StackSection, RoadmapSection, CtaSection   # earlier content, unchanged
+│   │   ├── ProductOverview.tsx   # "What TilcAI is" (copy key `problem`): your agent / TilcAI / the business
+│   │   ├── FlowSection, DemoSection, CapabilitiesSection, InterfaceSection, CompareSection,
+│   │   │   StackSection, RoadmapSection, CtaSection   # earlier content, moved unchanged
 │   │   └── shared.tsx            # SectionHead, StageTag
+│   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
+│   ├── AgentCatalog.tsx          # client: six main clients + expandable group
+│   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
+│   ├── AgentGuidePanel.tsx       # client-specific preparation / validated guide
+│   ├── PolicyDemo.tsx            # client: illustrative policy choices
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy
 │   ├── RevealObserver.tsx        # client: reveal-on-scroll; also starts the hero scene when it is visible
 │   └── Icon.tsx
 └── lib/
+    ├── content/agents.ts         # typed catalog, surfaces and official references
     ├── i18n/                     # all visible copy — en.ts, es.ts, docs.en.ts, docs.es.ts, types.ts
     ├── highlight.ts              # build-time syntax colouring for code blocks
     ├── snippets.ts               # conceptual JSON shown on the landing
@@ -88,14 +83,21 @@ public/assets/                    # original TilcAI logo (resized), favicon, soc
 
 - The hero scene (`sections/HeroScene.tsx`) is a **drawing**, labelled "Flujo ilustrativo" / "Illustrative flow". Its names and figures (cinema company, 10 USDC) are sample data, not a partner or a real quote. It is server-rendered, needs no client JavaScript and adds no dependency: the entrance sequence is CSS and is triggered by `RevealObserver` adding `is-visible`. Without JS or with `prefers-reduced-motion` it renders in its final state.
 - On mobile the copy comes first and the compact scene below it; the scene is a vertical chain so it works from 360 px.
-- "Enable my business" points to `#pilot` (the closing CTA) until the real contact channel exists (WEB-13). "Explore how it works" points to `#flow`.
-- Copy lives in `hero`, `hero.scene` and `overview` in `src/lib/i18n/*.ts`.
+- "Explore how it works" points to `#flow`; the secondary CTA ("Explore for my business") points to `#capabilities`.
+- Copy lives in `hero` (including `hero.scene`) and `problem` (the overview) in `src/lib/i18n/*.ts`.
 
 ## Editing content
 
 - Change text in `src/lib/i18n/en.ts` and `es.ts`. `types.ts` forces both languages to carry the same keys, so a page never mixes languages.
 - Architecture sections live in `docs.en.ts` / `docs.es.ts` as small HTML strings written in this repo (trusted content, rendered with `dangerouslySetInnerHTML`). Never put user input there.
-- Stage labels (`Stellar Elite · in development`, `HackMeridian · planned`, `Vision · not scheduled`) are defined once in `stageLabels`.
+- The ES/EN message map, CTA destinations and team handoffs are in [docs/messaging-map.md](docs/messaging-map.md).
+- Construction labels (`available`, `integration`, `next`) are defined once in `stageLabels`. Assistant integration labels and environment labels are separate dimensions in `integrationLabels` and `environmentLabels`.
+- `FAQ_IDS` fixes the order of eight questions. Both dictionaries must provide every answer; keep each answer between 40 and 80 words.
+- `businesses` and `control` provide copy for the team's upcoming components. `agents` supplies the catalog and guide panel. Dictionary content does not mean an operational integration is enabled.
+- Add assistant clients in `src/lib/content/agents.ts`; no component changes are needed. See [docs/agent-catalog.md](docs/agent-catalog.md) for state promotion requirements, surface distinctions and asset handling.
+- Landing snippets receive translated comments from `code.comments`; they are illustrative excerpts, not complete payloads or a public SDK API.
+- CTAs currently explore the flow, capabilities, simulation and docs. A public contact channel/backend is needed before enabling pilot requests.
+- The architecture dictionaries retain the earlier proposal pending Saul's WEB-11 migration.
 - Only change wording to "live" or "deployed" when there is something verifiable (contract ID, testnet transaction, public repository).
 - Absolute Open Graph URLs use `NEXT_PUBLIC_SITE_URL` if it is set to a valid URL (e.g. `https://tilcai.xyz`). On Vercel it is optional: if it is missing or empty, the production domain (`VERCEL_PROJECT_PRODUCTION_URL`) is used automatically. Locally, copy `.env.example` to `.env.local`.
 
@@ -108,6 +110,12 @@ Fonts are Geist and Geist Mono via `next/font`, as in the default scaffold.
 ## Accessibility
 
 Skip link, visible focus, keyboard-operable menu (Esc closes) and code tabs (arrow keys, Home, End), `prefers-reduced-motion` support, readable without JavaScript, text contrast ≥ 4.5:1, `lang` and `hreflang` per language.
+
+## WEB-01 validation
+
+The production build and TypeScript check pass. Dictionary parity, eight FAQ answers per language (40–80 words), desktop/mobile copy, FAQ keyboard operation and the mobile menu after language switching were checked locally. See [the verification record](docs/messaging-map.md#verificación-local--2026-09-30) for scope and pending team review.
+
+Lint remains blocked before source analysis: the installed `typescript-eslint` rejects TypeScript 7.0.2. Resolve the tooling compatibility in a dependency task; do not work around it by rebuilding this project from a scaffold. This content update preserves `package.json` and `pnpm-lock.yaml`.
 
 ## Deployment
 

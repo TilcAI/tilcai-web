@@ -5,7 +5,7 @@ import { CodeTabs } from "../CodeTabs";
 import { Icon } from "../Icon";
 
 export function InterfaceSection({ t }: { t: Copy }) {
-  const code = snippets(t.locale);
+  const code = snippets(t.code.comments);
 
   return (
     <section id="interface" className="section section-alt" aria-labelledby="code-title">

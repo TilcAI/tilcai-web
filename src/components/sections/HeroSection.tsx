@@ -5,8 +5,6 @@ import { HeroScene } from "./HeroScene";
 
 /**
  * The only <h1> on the landing. On mobile the copy comes first and the compact scene below it.
- * "Enable my business" points to `#pilot` (the closing call-to-action) until the real contact
- * channel exists — see WEB-13.
  */
 export function HeroSection({ t }: { t: Copy }) {
   const { hero } = t;
@@ -34,7 +32,7 @@ export function HeroSection({ t }: { t: Copy }) {
               {hero.ctaPrimary}
               <Icon name="arrow" />
             </a>
-            <a className="btn btn-ghost" href="#pilot">
+            <a className="btn btn-ghost" href="#capabilities">
               {hero.ctaSecondary}
             </a>
           </div>

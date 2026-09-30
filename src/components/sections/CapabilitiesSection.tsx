@@ -2,7 +2,7 @@ import type { Copy } from "@/lib/i18n";
 import { Icon, type IconName } from "../Icon";
 import { SectionHead, StageTag } from "./shared";
 
-const capIcons: IconName[] = ["tree", "rules", "signal", "receipt", "pen", "store"];
+const capIcons: IconName[] = ["rules", "receipt", "store", "pen", "tree", "layers"];
 
 export function CapabilitiesSection({ t }: { t: Copy }) {
   return (
