@@ -47,7 +47,7 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
           </span>
         </Link>
 
-        <nav className={`main-nav${open ? " is-open" : ""}`} id="main-nav" aria-label={lang === "en" ? "Main" : "Principal"}>
+        <nav className={`main-nav${open ? " is-open" : ""}`} id="main-nav" aria-label={t.a11y.mainNav}>
           {links.map(([label, href]) => (
             <Link key={href} href={href} onClick={close}>
               {label}

@@ -176,9 +176,9 @@ ul, ol { margin: 0; padding: 0; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 
 .tag { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.02em; padding: 4px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
-.tag-elite { color: var(--teal); border-color: rgba(44,195,205,.35); background: var(--teal-soft); }
-.tag-meridian { color: var(--amber); border-color: rgba(232,173,92,.35); background: var(--amber-soft); }
-.tag-vision { color: var(--text-2); border-color: var(--border-strong); background: rgba(255,255,255,.03); }
+.tag-elite, .tag-available { color: var(--teal); border-color: rgba(44,195,205,.35); background: var(--teal-soft); }
+.tag-meridian, .tag-integration { color: var(--amber); border-color: rgba(232,173,92,.35); background: var(--amber-soft); }
+.tag-vision, .tag-next { color: var(--text-2); border-color: var(--border-strong); background: rgba(255,255,255,.03); }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; padding: 72px 0 88px; overflow: hidden; }
@@ -213,12 +213,11 @@ ul, ol { margin: 0; padding: 0; }
 .vision-note { max-width: 440px; color: var(--muted); font-size: 14px; border-left: 2px solid var(--amber-2); padding-left: 14px; }
 
 /* ---------- Problem ---------- */
-.question {
+.overview-note {
   margin: 40px 0 0; padding: 24px 28px; border-radius: var(--radius);
   border: 1px dashed var(--border-strong); background: rgba(255,255,255,.015);
   font-family: var(--mono); font-size: clamp(14px, 1.8vw, 16px); color: var(--text);
 }
-.question p::before { content: "? "; color: var(--amber); }
 
 /* ---------- Flow ---------- */
 .flow { border: 1px solid var(--border); border-radius: 18px; background: var(--surface); padding: 20px; }
@@ -269,7 +268,7 @@ ul, ol { margin: 0; padding: 0; }
 .cap-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .cap h3 { margin-top: 18px; }
 .cap-note { margin-top: 14px; font-size: 13px; color: var(--muted); font-family: var(--mono); }
-.cap.stage-vision { background: transparent; border-style: dashed; }
+.cap.stage-vision, .cap.stage-next { background: transparent; border-style: dashed; }
 
 /* ---------- Code ---------- */
 .code-grid { display: grid; gap: 40px; align-items: start; }
@@ -329,10 +328,17 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 
 /* ---------- Roadmap ---------- */
 .timeline { display: grid; gap: 16px; }
-@media (min-width: 900px) { .timeline { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .timeline { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .stage { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 24px; position: relative; }
-.stage.stage-elite { border-top: 2px solid var(--teal-2); }
-.stage.stage-meridian { border-top: 2px solid var(--amber-2); }
+.stage.stage-elite, .stage.stage-available { border-top: 2px solid var(--teal-2); }
+.stage.stage-meridian, .stage.stage-integration { border-top: 2px solid var(--amber-2); }
+
+/* ---------- FAQ ---------- */
+.faq-list { display: grid; gap: 12px; }
+.faq-item { padding: 20px 24px; border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--surface); }
+.faq-item summary { cursor: pointer; font-weight: 600; color: var(--text); }
+.faq-item summary::marker { color: var(--teal); }
+.faq-item p { margin-top: 16px; color: var(--text-2); max-width: 80ch; }
 .stage > .tag { margin-bottom: 16px; }
 .stage-head { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
 .stage-n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 13px; border: 1px solid var(--border-strong); color: var(--text-2); }

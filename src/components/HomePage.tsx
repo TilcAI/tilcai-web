@@ -8,9 +8,10 @@ import { paths } from "@/lib/site";
 import { CodeTabs } from "./CodeTabs";
 import { Icon, type IconName } from "./Icon";
 import { PolicyDemo } from "./PolicyDemo";
+import { FaqSection } from "./FaqSection";
 
-const problemIcons: IconName[] = ["layers", "target", "shield", "receipt"];
-const capIcons: IconName[] = ["tree", "rules", "signal", "receipt", "pen", "store"];
+const problemIcons: IconName[] = ["target", "rules", "store"];
+const capIcons: IconName[] = ["rules", "receipt", "store", "pen", "tree", "layers"];
 
 function StageTag({ t, stage }: { t: Copy; stage: Stage }) {
   return <span className={`tag tag-${stage}`}>{t.stageLabels[stage]}</span>;
@@ -40,7 +41,7 @@ function FlowNode({ step, n }: { step: FlowStep; n: number }) {
 
 export function HomePage({ t }: { t: Copy }) {
   const docs = paths.docs(t.locale);
-  const code = snippets(t.locale);
+  const code = snippets(t.code.comments);
 
   return (
     <>
@@ -55,11 +56,11 @@ export function HomePage({ t }: { t: Copy }) {
             <h1 id="hero-title">{t.hero.title}</h1>
             <p className="lead">{t.hero.lead}</p>
             <div className="cta-row">
-              <Link className="btn btn-primary" href={docs}>
+              <a className="btn btn-primary" href="#flow">
                 {t.hero.ctaPrimary}
                 <Icon name="arrow" />
-              </Link>
-              <a className="btn btn-ghost" href="#flow">
+              </a>
+              <a className="btn btn-ghost" href="#capabilities">
                 {t.hero.ctaSecondary}
               </a>
             </div>
@@ -86,11 +87,11 @@ export function HomePage({ t }: { t: Copy }) {
         </div>
       </section>
 
-      {/* 2. Problem */}
+      {/* Overview; retain the public anchor while the landing evolves. */}
       <section id="problem" className="section" aria-labelledby="problem-title">
         <div className="container">
           <SectionHead id="problem-title" eyebrow={t.problem.eyebrow} title={t.problem.title} lead={t.problem.lead} />
-          <ul className="grid grid-4" role="list">
+          <ul className="grid grid-3" role="list">
             {t.problem.cards.map((c, i) => (
               <li className="card reveal" key={c.title}>
                 <Icon name={problemIcons[i]} className="icon icon-card" />
@@ -99,9 +100,7 @@ export function HomePage({ t }: { t: Copy }) {
               </li>
             ))}
           </ul>
-          <blockquote className="question reveal">
-            <p>{t.problem.question}</p>
-          </blockquote>
+          <p className="overview-note reveal">{t.problem.question}</p>
         </div>
       </section>
 
@@ -301,7 +300,9 @@ export function HomePage({ t }: { t: Copy }) {
         </div>
       </section>
 
-      {/* 10. Final CTA */}
+      <FaqSection t={t.faq} />
+
+      {/* Final CTA */}
       <section className="section cta" aria-labelledby="cta-title">
         <div className="container">
           <div className="cta-card reveal">
@@ -312,7 +313,7 @@ export function HomePage({ t }: { t: Copy }) {
                 {t.cta.primary}
                 <Icon name="arrow" />
               </Link>
-              <a className="btn btn-ghost" href="#flow">
+              <a className="btn btn-ghost" href="#demo">
                 {t.cta.secondary}
               </a>
             </div>

@@ -12,7 +12,7 @@ Requirements: Node.js 20.9+ (22 LTS recommended) and pnpm.
 
 ```bash
 cd tilcai-web
-pnpm install      # first time only — resolves the latest Next.js and writes pnpm-lock.yaml
+pnpm install --frozen-lockfile  # use the committed dependency versions
 pnpm dev          # http://localhost:3000  (redirects to /en)
 ```
 
@@ -23,18 +23,7 @@ pnpm build
 pnpm start
 ```
 
-> `package.json` uses `"latest"` for Next.js, React and tooling, like `pnpm create next-app@latest` would install today.
-> After the first `pnpm install`, commit `pnpm-lock.yaml` so the whole team uses the same versions.
-
-### Alternative: start from a fresh scaffold
-
-If the first install or build complains about a config file (for example ESLint changes between Next.js versions):
-
-```bash
-pnpm create next-app@latest tilcai-web --yes   # choose "src/" directory if asked
-```
-
-Then copy these from this folder into the new project, replacing what exists: `src/`, `public/assets/`, `next.config.ts`, and the `"@/*": ["./src/*"]` path in `tsconfig.json`.
+`package.json` uses `"latest"`, while the committed lockfile records resolved versions. Preserve this project and its lockfile when editing content; dependency upgrades are a separate task.
 
 ## Routes
 
@@ -63,6 +52,8 @@ src/
 │   ├── SiteHeader.tsx            # client: mobile menu, language switch
 │   ├── SiteFooter.tsx
 │   ├── HomePage.tsx              # all landing sections (server component)
+│   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
+│   ├── PolicyDemo.tsx            # client: illustrative policy choices
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy
@@ -81,7 +72,13 @@ public/assets/                    # original TilcAI logo (resized), favicon, soc
 
 - Change text in `src/lib/i18n/en.ts` and `es.ts`. `types.ts` forces both languages to carry the same keys, so a page never mixes languages.
 - Architecture sections live in `docs.en.ts` / `docs.es.ts` as small HTML strings written in this repo (trusted content, rendered with `dangerouslySetInnerHTML`). Never put user input there.
-- Stage labels (`Stellar Elite · in development`, `HackMeridian · planned`, `Vision · not scheduled`) are defined once in `stageLabels`.
+- The ES/EN message map, CTA destinations and team handoffs are in [docs/messaging-map.md](docs/messaging-map.md).
+- Construction labels (`available`, `integration`, `next`) are defined once in `stageLabels`. Assistant integration labels and environment labels are separate dimensions in `integrationLabels` and `environmentLabels`.
+- `FAQ_IDS` fixes the order of eight questions. Both dictionaries must provide every answer; keep each answer between 40 and 80 words.
+- `businesses`, `agents` and `control` provide copy for the team's upcoming components. Their presence in a dictionary does not mean an operational integration is enabled.
+- Landing snippets receive translated comments from `code.comments`; they are illustrative excerpts, not complete payloads or a public SDK API.
+- CTAs currently explore the flow, capabilities, simulation and docs. A public contact channel/backend is needed before enabling pilot requests.
+- The architecture dictionaries retain the earlier proposal pending Saul's WEB-11 migration.
 - Only change wording to "live" or "deployed" when there is something verifiable (contract ID, testnet transaction, public repository).
 - Absolute Open Graph URLs use `NEXT_PUBLIC_SITE_URL` if it is set to a valid URL (e.g. `https://tilcai.xyz`). On Vercel it is optional: if it is missing or empty, the production domain (`VERCEL_PROJECT_PRODUCTION_URL`) is used automatically. Locally, copy `.env.example` to `.env.local`.
 

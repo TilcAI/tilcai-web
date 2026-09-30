@@ -22,7 +22,7 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
       <div className="demo-output" role="status" aria-live="polite">
         {result ? (
           <>
-            <span className={`demo-outcome tone-${result.outcome.toLowerCase()}`}>{result.outcome}</span>
+            <span className={`demo-outcome tone-${result.outcome.toLowerCase()}`}>{t.outcomes[result.outcome]}</span>
             <p>{result.reason}</p>
           </>
         ) : <p>{t.empty}</p>}
