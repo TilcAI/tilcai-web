@@ -104,5 +104,25 @@ se conservan; marca, banners y animaciones tienen tareas independientes.
 - [ ] Jose: validar explicación de cuenta, límites, aprobación y revocación.
 - [ ] Equipo: comprobar el mismo significado ES/EN antes de publicar.
 
-Verificación prevista: tipos, lint, build, paridad de claves y revisión de ES/EN
-en escritorio y móvil. No se modifica el stack ni se actualiza el lockfile.
+## Verificación local — 2026-09-30
+
+- TypeScript: `node node_modules/typescript/bin/tsc --noEmit --incremental false`, correcto.
+- Producción: `node node_modules/next/dist/bin/next build`, correcto; genera
+  `/en`, `/es`, `/en/docs` y `/es/docs`.
+- Diccionarios: 263 claves de texto coincidentes, sin valores vacíos. Ocho FAQ
+  por idioma: ES 46–52 palabras; EN 47–53 palabras por respuesta.
+- Navegador: ES/EN a 375 y 1440 px, sin desbordamiento horizontal del documento.
+  Se comprobaron las tres decisiones de la demo ES, FAQ con Enter en ambos
+  idiomas, destinos de exploración y anchors existentes.
+- Corrección de navegación: al cambiar de idioma se restaura la clase `js` y se
+  observan los nodos de la nueva ruta. El menú móvil conserva su presentación;
+  abrir y cerrar con Escape se comprobó en EN tras ES→EN.
+- Lint: `node node_modules/eslint/bin/eslint.js src` no llega a analizar el
+  código. El `typescript-eslint` instalado rechaza TypeScript 7.0.2.
+  Queda pendiente resolver esa compatibilidad en una tarea de dependencias.
+
+Estas comprobaciones cubren el cambio de contenido, no sustituyen el QA completo
+de WEB-15 ni la revisión humana. No se modifica el stack ni el lockfile.
+El PR y la revisión de Jhamil siguen pendientes: GitHub CLI no tiene una sesión
+autenticada disponible en este entorno. Los commits locales permiten revisar
+el entregable sin declarar el issue cerrado.
