@@ -1,0 +1,108 @@
+# WEB-01 — mapa de mensajes ES/EN
+
+Estado: contenido de Fase 1 para revisión de Jhamil. Responsable: Omar.
+Base: documentos de producto y web del 2026-09-29, §§5.4, 7 y 15 del plan web.
+El idioma de cada ruta procede de los diccionarios tipados; los componentes
+consumen sus claves y no mantienen otra copia del texto.
+
+## Mensaje y recorridos
+
+TilcAI conecta agentes de personas y empresas con condiciones verificables,
+autoridad limitada y evidencia de decisión, pago y cumplimiento. Stellar es el
+riel inicial del producto en construcción. La web presenta y simula el flujo;
+una simulación no demuestra una compra operativa.
+
+| Bloque / clave | Mensaje ES | Equivalente EN | Acción / límite |
+| --- | --- | --- | --- |
+| Hero / `hero` | Tu agente compra. Tu empresa responde. Tú mantienes el control. | Your agent buys. Your business responds. You stay in control. | Explorar el flujo; no iniciar una compra |
+| Qué es TilcAI / `problem` | Una conexión entre tu intención y la operación del negocio | A connection between your intent and the business operation | Tres actores: tu agente, TilcAI y la empresa |
+| Empresas / `businesses`, `capabilities` | Preparar servicios para atender solicitudes de agentes | Prepare services to respond to agents | Catálogo, condiciones, disponibilidad, órdenes y cumplimiento |
+| Asistentes / `agents` | Usar el asistente con el que ya trabajas | Use the assistant you already work with | Cliente/superficie concreta; seleccionarlo no autoriza gasto |
+| Flujo / `flow` | Pide, consulta, comprueba, autoriza, ejecuta y confirma | Ask, inquire, verify, authorize, execute and confirm | Flujo propuesto; separar política, firma, pago y entrega |
+| Simulación / `demo` | Mira qué cambia cuando hay reglas | See what changes when rules apply | Puede continuar / bloqueado; sin movimientos de fondos |
+| Control / `control`, `flow` | Delegas una tarea. No el control total de tu dinero. | Delegate a task. Keep control of your money. | Proveedores, límites, aprobación, vigencia y revocación |
+| Roadmap / `roadmap`, `stageLabels` | Construimos por capacidades, no por promesas | We build around capabilities, not promises | Base disponible, en integración, siguiente evolución |
+| FAQ / `faq` | Responder dudas de uso, autoridad y operación | Explain use, authority and operation | Ocho respuestas de 40–80 palabras por idioma |
+
+`problem` y `#problem` se conservan por compatibilidad, pero ahora contienen el
+overview de los tres actores. Las demás rutas y anchors existentes se mantienen.
+Se reutilizan los componentes actuales: la composición del hero, grid empresarial
+y control visual corresponden a los issues de Jhamil y Jose.
+
+## Estados, entorno y evidencia
+
+Son dimensiones distintas, con etiquetas únicas en cada diccionario:
+
+| Dimensión | Claves / tratamiento |
+| --- | --- |
+| Avance de construcción | `stageLabels`: `available`, `integration`, `next` |
+| Integración de asistentes | `integrationLabels`: `preparation`, `guide`, `pilot`, `enabled` |
+| Entorno | `environmentLabels`: `simulation`, `testnet`, `production` |
+
+Un piloto puede ejecutarse en Testnet. Una guía no implica integración probada.
+Producción es una etiqueta disponible para futuras capacidades verificadas,
+no el estado actual de la web ni del flujo de compra.
+
+La base local comprobable incluye el evaluador y los contratos de `tilcai-core`,
+además de la simulación visual de esta web. El informe declara un riel x402/Relayer
+existente; su conexión a compra/autorización/cumplimiento continúa siendo trabajo
+de integración. No se anuncia un servicio de compra habilitado sin evidencia.
+Saul mantiene el estado financiero y el roadmap operativo (issue de estados).
+
+`ALLOW` se explica como elegibilidad de política; no es permiso de firma ni pago
+confirmado. El resultado visible de la demo se traduce como «Puede continuar» /
+«Can continue». `DENY` se presenta como bloqueo. `REQUIRE_APPROVAL` describe una
+aprobación pendiente, coherente con el contrato compartido del core.
+Pago incierto: mantener retención y conciliar la misma operación; no pagar otra vez.
+Un pago liquidado no prueba entrega; revocar no revierte una liquidación anterior.
+
+## FAQ y equivalencia
+
+El orden de las preguntas se define una sola vez en `FAQ_IDS`; ambos idiomas
+deben completar el mismo `Record<FaqId, FaqItem>`.
+
+| ID | Pregunta ES | Pregunta EN | Punto que debe conservarse |
+| --- | --- | --- | --- |
+| `assistant` | ¿Necesito cambiar de asistente? | Do I need to switch assistants? | Cliente y superficie; guías/integración por etapas |
+| `wallet` | ¿TilcAI crea una wallet para cada agente? | Does TilcAI create a wallet for every agent? | Cuenta del principal; conexión no es autoridad de gasto |
+| `authority` | ¿Mi agente puede gastar sin preguntarme? | Can my agent spend without asking me? | Aprobación inicial y delegación limitada futura |
+| `business` | ¿Cómo se conecta una empresa? | How does a business connect? | Adaptador y fuente de verdad; no alta automática |
+| `today` | ¿Qué funciona hoy? | What works today? | Web/simulación, evaluador/contratos; compra completa en integración |
+| `simulation` | ¿La simulación realiza pagos? | Does the simulation make payments? | Sin wallet/transacción; tres variantes actuales de política |
+| `stellar` | ¿Por qué Stellar? | Why Stellar? | Riel inicial y autorización programable; comprobar flujo completo |
+| `fulfillment` | ¿Qué pasa si el pago se confirma pero el servicio no se entrega? | What if payment is confirmed but the service is not delivered? | Pago/entrega separados; soporte y resolución comercial |
+
+Las marcas y códigos técnicos permanecen iguales. Se traduce la intención del
+mensaje, no palabra por palabra. Los importes ilustrativos de la demo son iguales
+en ambos idiomas; cambia únicamente el separador decimal visible.
+
+## CTAs y contenido pendiente
+
+Decisión del usuario: mantener botones de exploración por ahora.
+Hero principal → `#flow`; hero secundario → `#capabilities` para empresas.
+CTA final → docs y simulación. No se publica correo personal, canal inventado,
+formulario sin backend ni un botón que simule haber solicitado un piloto.
+`businesses` y `agents` contienen etiquetas para componentes futuros, incluidas
+acciones de piloto, pero no se renderizan como solicitudes operativas todavía.
+
+- WEB-05/06 (Jhamil): composición del hero/overview y perfiles empresariales.
+- WEB-07 (Omar): catálogo/guías de asistentes; consume `agents` y etiquetas comunes.
+- WEB-09/10 (Jose): tres casos de uso y sección visual de control. Esta tarea
+  mantiene las tres variantes actuales de política; no implementa esos casos.
+- WEB-11 (Saul): migrar `docs.es.ts`/`docs.en.ts`. Se conservan sus contenidos
+  actuales como documentación del diseño anterior; no se reescriben en WEB-01.
+- WEB-14: nueva marca, recursos OG y favicon. Aquí solo cambia metadata textual.
+- Contacto: falta canal público y/o backend para habilitar solicitud de piloto.
+
+No se necesitan imágenes nuevas para este entregable. Logo y assets existentes
+se conservan; marca, banners y animaciones tienen tareas independientes.
+
+## Revisión
+
+- [ ] Jhamil: revisar copy y coherencia de CTAs/recorrido.
+- [ ] Saul: validar estado de capacidades y texto de pago/conciliación.
+- [ ] Jose: validar explicación de cuenta, límites, aprobación y revocación.
+- [ ] Equipo: comprobar el mismo significado ES/EN antes de publicar.
+
+Verificación prevista: tipos, lint, build, paridad de claves y revisión de ES/EN
+en escritorio y móvil. No se modifica el stack ni se actualiza el lockfile.
