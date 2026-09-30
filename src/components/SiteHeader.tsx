@@ -34,6 +34,7 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
     [t.nav.flow, anchor("flow")],
     [t.nav.demo, anchor("demo")],
     [t.nav.capabilities, anchor("capabilities")],
+    [t.nav.agents, anchor("agents")],
     [t.nav.roadmap, anchor("roadmap")],
   ];
 

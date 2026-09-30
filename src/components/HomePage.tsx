@@ -9,6 +9,7 @@ import { CodeTabs } from "./CodeTabs";
 import { Icon, type IconName } from "./Icon";
 import { PolicyDemo } from "./PolicyDemo";
 import { FaqSection } from "./FaqSection";
+import { AgentCatalog } from "./AgentCatalog";
 
 const problemIcons: IconName[] = ["target", "rules", "store"];
 const capIcons: IconName[] = ["rules", "receipt", "store", "pen", "tree", "layers"];
@@ -178,6 +179,8 @@ export function HomePage({ t }: { t: Copy }) {
           <p className="disclaimer reveal">{t.capabilities.disclaimer}</p>
         </div>
       </section>
+
+      <AgentCatalog t={t} />
 
       {/* 5. Proposed interface */}
       <section id="interface" className="section section-alt" aria-labelledby="code-title">

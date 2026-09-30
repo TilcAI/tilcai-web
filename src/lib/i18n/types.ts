@@ -44,7 +44,7 @@ export interface Copy {
   htmlLang: string;
   meta: { title: string; description: string; docsTitle: string; docsDescription: string };
   a11y: { skip: string; langSwitch: string; menu: string; copied: string; copy: string; codeTabs: string; mainNav: string; footerNav: string };
-  nav: { problem: string; flow: string; demo: string; capabilities: string; code: string; roadmap: string; docs: string; home: string };
+  nav: { problem: string; flow: string; demo: string; capabilities: string; agents: string; code: string; roadmap: string; docs: string; home: string };
   stageLabels: Record<Stage, string>;
   integrationLabels: Record<IntegrationStatus, string>;
   environmentLabels: Record<Environment, string>;
@@ -66,6 +66,17 @@ export interface Copy {
   agents: {
     eyebrow: string; title: string; lead: string; more: string; fewer: string;
     guide: string; pilot: string; permissionNote: string;
+    surfaceLabels: Record<"terminal" | "editor" | "desktop", string>;
+    exploration: string; thirdPartyNote: string;
+    panel: {
+      title: string; empty: string; close: string; officialDocs: string;
+      reference: string; requirements: string; preparation: string; preparationNote: string;
+      transport: string; pendingTransport: string; authentication: string; pendingAuthentication: string;
+      tools: string; pendingTools: string; approval: string; approvalNote: string;
+      disconnect: string; pendingDisconnect: string; steps: string;
+      verified: string; configuration: string; copy: string; copied: string; copyError: string;
+      explore: string;
+    };
   };
   control: { eyebrow: string; title: string; lead: string; panels: Card[]; note: string };
   faq: { eyebrow: string; title: string; items: Record<FaqId, { question: string; answer: string }> };
