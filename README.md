@@ -51,7 +51,14 @@ src/
 │   ├── PageShell.tsx             # skip link + header + main + footer
 │   ├── SiteHeader.tsx            # client: mobile menu, language switch
 │   ├── SiteFooter.tsx
-│   ├── HomePage.tsx              # all landing sections (server component)
+│   ├── HomePage.tsx              # landing = composition of the sections below (server component)
+│   ├── sections/                 # one file per landing section
+│   │   ├── HeroSection.tsx       # the only <h1>: eyebrow, headline, CTAs, facts
+│   │   ├── HeroScene.tsx         # illustrative 3-node scene (server component, CSS-only motion)
+│   │   ├── ProductOverview.tsx   # "What TilcAI is" (copy key `problem`): your agent / TilcAI / the business
+│   │   ├── FlowSection, DemoSection, CapabilitiesSection, InterfaceSection, CompareSection,
+│   │   │   StackSection, RoadmapSection, CtaSection   # earlier content, moved unchanged
+│   │   └── shared.tsx            # SectionHead, StageTag
 │   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
 │   ├── AgentCatalog.tsx          # client: six main clients + expandable group
 │   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
@@ -60,7 +67,7 @@ src/
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy
-│   ├── RevealObserver.tsx        # client: subtle reveal-on-scroll
+│   ├── RevealObserver.tsx        # client: reveal-on-scroll; also starts the hero scene when it is visible
 │   └── Icon.tsx
 └── lib/
     ├── content/agents.ts         # typed catalog, surfaces and official references
@@ -71,6 +78,13 @@ src/
     └── site.ts                   # routes and site URL
 public/assets/                    # original TilcAI logo (resized), favicon, social image
 ```
+
+## Hero and overview
+
+- The hero scene (`sections/HeroScene.tsx`) is a **drawing**, labelled "Flujo ilustrativo" / "Illustrative flow". Its names and figures (cinema company, 10 USDC) are sample data, not a partner or a real quote. It is server-rendered, needs no client JavaScript and adds no dependency: the entrance sequence is CSS and is triggered by `RevealObserver` adding `is-visible`. Without JS or with `prefers-reduced-motion` it renders in its final state.
+- On mobile the copy comes first and the compact scene below it; the scene is a vertical chain so it works from 360 px.
+- "Explore how it works" points to `#flow`; the secondary CTA ("Explore for my business") points to `#capabilities`.
+- Copy lives in `hero` (including `hero.scene`) and `problem` (the overview) in `src/lib/i18n/*.ts`.
 
 ## Editing content
 

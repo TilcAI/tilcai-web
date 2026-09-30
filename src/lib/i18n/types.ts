@@ -26,6 +26,20 @@ export interface FlowStep {
   tone?: "neutral" | "allow" | "deny" | "human" | "rail";
 }
 
+/** Copy for the illustrative three-node scene in the hero. */
+export interface HeroScene {
+  label: string;
+  buyer: { role: string; action: string; message: string };
+  core: { role: string; detail: string; control: string };
+  business: {
+    role: string;
+    name: string;
+    service: string;
+    availability: string;
+    quote: { label: string; amount: string; note: string };
+  };
+}
+
 export interface CompareRow {
   topic: string;
   walletOnly: string;
@@ -49,15 +63,16 @@ export interface Copy {
   integrationLabels: Record<IntegrationStatus, string>;
   environmentLabels: Record<Environment, string>;
   hero: {
-    status: string;
+    eyebrow: string;
     title: string;
     lead: string;
-    visionNote: string;
     ctaPrimary: string;
     ctaSecondary: string;
+    /** Short stage labels shown under the CTAs. */
     facts: string[];
-    logoAlt: string;
+    scene: HeroScene;
   };
+  /** "What TilcAI is": cards are buyer's agent, TilcAI, the business — in that order. */
   problem: { eyebrow: string; title: string; lead: string; cards: Card[]; question: string };
   businesses: {
     eyebrow: string; title: string; lead: string; empty: string;

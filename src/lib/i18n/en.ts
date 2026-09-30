@@ -22,13 +22,27 @@ export const en: Copy = {
   integrationLabels: { preparation: "In preparation", guide: "Guide available", pilot: "Pilot", enabled: "Enabled" },
   environmentLabels: { simulation: "Simulation", testnet: "Testnet", production: "Production" },
   hero: {
-    status: "Agent commerce infrastructure · Stellar · In development",
+    eyebrow: "Agent commerce infrastructure · Stellar · In development",
     title: "Your agent buys. Your business responds. You stay in control.",
     lead: "We are building the connection between agents acting for people and businesses to inquire, book and buy with verifiable terms, limited permissions and payments on Stellar.",
-    visionNote: "Your agent interprets the request. The business provides terms and availability. TilcAI coordinates permissions, operations and evidence. The complete purchase flow is enabled in stages.",
     ctaPrimary: "Explore how it works", ctaSecondary: "Explore for my business",
     facts: ["Verifiable terms", "Limited permissions", "Approval per purchase"],
-    logoAlt: "TilcAI brand with Tilcayo's feline face",
+    scene: {
+      label: "Illustrative flow",
+      buyer: { role: "Your agent", action: "Request", message: "Two tickets for Wednesday, up to 12 USDC" },
+      core: {
+        role: "TilcAI",
+        detail: "Checks the offer, your limit and the permissions.",
+        control: "Needs your approval",
+      },
+      business: {
+        role: "Business agent",
+        name: "Cinema company",
+        service: "Tickets and bookings",
+        availability: "Availability confirmed",
+        quote: { label: "Quote", amount: "10 USDC", note: "within your limit" },
+      },
+    },
   },
   problem: {
     eyebrow: "What TilcAI is",
