@@ -53,6 +53,9 @@ src/
 │   ├── SiteFooter.tsx
 │   ├── HomePage.tsx              # all landing sections (server component)
 │   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
+│   ├── AgentCatalog.tsx          # client: six main clients + expandable group
+│   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
+│   ├── AgentGuidePanel.tsx       # client-specific preparation / validated guide
 │   ├── PolicyDemo.tsx            # client: illustrative policy choices
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
@@ -60,6 +63,7 @@ src/
 │   ├── RevealObserver.tsx        # client: subtle reveal-on-scroll
 │   └── Icon.tsx
 └── lib/
+    ├── content/agents.ts         # typed catalog, surfaces and official references
     ├── i18n/                     # all visible copy — en.ts, es.ts, docs.en.ts, docs.es.ts, types.ts
     ├── highlight.ts              # build-time syntax colouring for code blocks
     ├── snippets.ts               # conceptual JSON shown on the landing
@@ -75,7 +79,8 @@ public/assets/                    # original TilcAI logo (resized), favicon, soc
 - The ES/EN message map, CTA destinations and team handoffs are in [docs/messaging-map.md](docs/messaging-map.md).
 - Construction labels (`available`, `integration`, `next`) are defined once in `stageLabels`. Assistant integration labels and environment labels are separate dimensions in `integrationLabels` and `environmentLabels`.
 - `FAQ_IDS` fixes the order of eight questions. Both dictionaries must provide every answer; keep each answer between 40 and 80 words.
-- `businesses`, `agents` and `control` provide copy for the team's upcoming components. Their presence in a dictionary does not mean an operational integration is enabled.
+- `businesses` and `control` provide copy for the team's upcoming components. `agents` supplies the catalog and guide panel. Dictionary content does not mean an operational integration is enabled.
+- Add assistant clients in `src/lib/content/agents.ts`; no component changes are needed. See [docs/agent-catalog.md](docs/agent-catalog.md) for state promotion requirements, surface distinctions and asset handling.
 - Landing snippets receive translated comments from `code.comments`; they are illustrative excerpts, not complete payloads or a public SDK API.
 - CTAs currently explore the flow, capabilities, simulation and docs. A public contact channel/backend is needed before enabling pilot requests.
 - The architecture dictionaries retain the earlier proposal pending Saul's WEB-11 migration.
