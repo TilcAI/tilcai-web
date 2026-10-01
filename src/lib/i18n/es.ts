@@ -154,17 +154,56 @@ export const es: Copy = {
     firstCase: "Un servicio digital con cotización verificable y aprobación por compra en Stellar Testnet. El cierre requiere pago conciliado, orden y evidencia de entrega; la simulación de esta página no ejecuta ese flujo.",
   },
   demo: {
-    eyebrow: "Simulación interactiva · sin movimientos de fondos", title: "Mira qué cambia cuando hay reglas.",
-    lead: "Explora tres variantes de una compra ilustrativa: condiciones dentro del límite, destinatario cambiado y monto excesivo. Cada resultado explica una regla de la política.",
-    prompt: "Elige una variante",
-    scenarios: [
-      { label: "Dentro de las reglas", detail: "0,05 USDC · vendedor permitido", outcome: "ALLOW", reason: "El destinatario y el importe cumplen la política ilustrativa. Puede continuar con las comprobaciones y la aprobación; no se ha realizado un pago." },
-      { label: "Destinatario cambiado", detail: "0,05 USDC · vendedor desconocido", outcome: "DENY", reason: "El destinatario queda fuera del alcance permitido. La operación se bloquea en este escenario." },
-      { label: "Supera el límite", detail: "0,15 USDC · vendedor permitido", outcome: "DENY", reason: "El importe supera el límite ilustrativo de 0,10 USDC por compra. La operación se bloquea en este escenario." },
-    ],
-    outcomes: { ALLOW: "Puede continuar", DENY: "Bloqueado" },
-    empty: "Selecciona una variante para ver la decisión ilustrativa.",
-    caveat: "Simulación visual: no conecta una wallet ni envía transacciones. Un resultado permitido no confirma un pago ni una entrega.",
+    eyebrow: "Simulación interactiva · sin movimientos de fondos", title: "Explora decisiones en tres casos comerciales.",
+    lead: "Selecciona un escenario y modifica sus condiciones para ver cómo cambia la decisión.",
+    scenarioPrompt: "Elige un escenario",
+    variantPrompt: "Elige una variante",
+    scenarios: {
+      cinema: {
+        title: "Cine", summary: "Reserva de entradas con una cotización del negocio.",
+        request: "Dos entradas para el miércoles.", service: "Entradas de cine", timing: "Miércoles", recipient: "Cine Central",
+      },
+      "digital-service": {
+        title: "Servicio digital", summary: "Acceso único a un recurso digital.",
+        request: "Un acceso para usar al confirmar la operación.", service: "Acceso digital", timing: "Uso único", recipient: "Servicio Digital",
+      },
+      "scheduled-purchase": {
+        title: "Compra programada", summary: "Una tarea que debe revisarse en cada ejecución.",
+        request: "Una compra mensual sujeta a las reglas vigentes.", service: "Servicio mensual", timing: "Cada mes", recipient: "Proveedor programado",
+      },
+    },
+    variants: {
+      valid: {
+        label: "Condiciones válidas", detail: "Destinatario e importe coinciden con la cotización.",
+        reason: "Las condiciones coinciden y la operación puede continuar.",
+      },
+      "changed-recipient": {
+        label: "Destinatario cambiado", detail: "Se presenta un destinatario diferente.",
+        reason: "El destinatario no coincide con el permitido para este escenario.",
+      },
+      "over-limit": {
+        label: "Monto fuera del límite", detail: "El importe supera el límite del escenario.",
+        reason: "El importe supera el límite establecido para esta compra.",
+      },
+      "requires-approval": {
+        label: "Requiere aprobación", detail: "La operación se detiene para revisión humana.",
+        reason: "Las condiciones requieren revisión humana antes de continuar.",
+      },
+    },
+    fields: {
+      request: "Solicitud", quote: "Cotización", service: "Servicio", quantity: "Cantidad",
+      timing: "Momento", recipient: "Destinatario", amount: "Importe", limit: "Límite",
+      alternativeRecipient: "Cuenta alternativa", result: "Resultado",
+    },
+    outcomes: { ALLOW: "Puede continuar", DENY: "Bloqueado", REQUIRE_APPROVAL: "Requiere aprobación" },
+    approval: {
+      title: "Revisión humana",
+      body: "Una persona debe revisar las condiciones antes de continuar.",
+      action: "Simular aprobación", pending: "Revisión pendiente.",
+      complete: "Revisión registrada",
+    },
+    reset: "Reiniciar demo",
+    continuationNote: "«Puede continuar» no confirma un pago ni una transacción.",
   },
   capabilities: {
     eyebrow: "Capacidades para empresas", title: "Tus servicios, preparados para una nueva forma de comprar.",

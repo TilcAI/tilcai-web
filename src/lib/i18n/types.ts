@@ -1,3 +1,5 @@
+import type { Decision, ScenarioId, VariantId } from "../demo/scenarios";
+
 // Shape of all visible copy. Both locales must implement every key,
 // so a view never mixes languages.
 import type { EventKind, OfficeStrings, Role, RoomId, TaskKind } from "@/components/office/types";
@@ -178,11 +180,33 @@ export interface Copy {
     eyebrow: string;
     title: string;
     lead: string;
-    prompt: string;
-    scenarios: { label: string; detail: string; outcome: "ALLOW" | "DENY"; reason: string }[];
-    outcomes: Record<"ALLOW" | "DENY", string>;
-    empty: string;
-    caveat: string;
+    scenarioPrompt: string;
+    variantPrompt: string;
+    scenarios: Record<ScenarioId, {
+      title: string;
+      summary: string;
+      request: string;
+      service: string;
+      timing: string;
+      recipient: string;
+    }>;
+    variants: Record<VariantId, { label: string; detail: string; reason: string }>;
+    fields: {
+      request: string;
+      quote: string;
+      service: string;
+      quantity: string;
+      timing: string;
+      recipient: string;
+      amount: string;
+      limit: string;
+      alternativeRecipient: string;
+      result: string;
+    };
+    outcomes: Record<Decision, string>;
+    approval: { title: string; body: string; action: string; pending: string; complete: string };
+    reset: string;
+    continuationNote: string;
   };
   capabilities: { eyebrow: string; title: string; lead: string; items: Capability[]; disclaimer: string };
   code: {
