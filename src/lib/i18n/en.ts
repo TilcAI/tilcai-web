@@ -62,7 +62,15 @@ export const en: Copy = {
     eyebrow: "Businesses", title: "Businesses preparing to respond to your agents.",
     lead: "We connect catalogs, terms and business operations so agents can inquire about services and prepare a purchase under clear rules.",
     empty: "We are preparing the first integrations. Explore capabilities for your business; profiles will be published with approval and a verifiable technical status.",
-    actions: { profile: "Meet the business", scenario: "Explore the use case", inquiry: "Inquire about the service", purchase: "Buy", pilot: "Evaluate a pilot for my business" },
+    previewOnly: "DESIGN PREVIEW ONLY", statusLabel: "Relationship and connection",
+    relationships: { participant: "Participant", partner: "Partner" },
+    connections: { planned: "Connection planned", pilot: "Technical pilot", testnet: "On Testnet", live: "Operational" },
+    categories: { digital: "Digital services", booking: "Bookings", commerce: "Commerce", experience: "Experiences" },
+    services: {
+      exampleDigital: "Illustrative inquiry for digital services.",
+      exampleBooking: "Illustrative example with longer text to check that the card reserves space and keeps the same height as the others.",
+    },
+    actions: { profile: "Meet the business", scenario: "Explore the use case", inquiry: "Inquire about the service", purchase: "Buy", pilot: "Explore a pilot for my business" },
   },
   agents: {
     eyebrow: "Assistants", title: "Use the assistant you already work with.",

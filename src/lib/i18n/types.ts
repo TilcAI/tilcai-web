@@ -10,7 +10,15 @@ export type Stage = "available" | "integration" | "next";
 export type IntegrationStatus = "preparation" | "guide" | "pilot" | "enabled";
 export type Environment = "simulation" | "testnet" | "production";
 
-export const FAQ_IDS = ["assistant", "wallet", "authority", "business", "today", "simulation", "stellar", "fulfillment"] as const;
+/**
+ * Closed keys for the business grid. A profile can only name a category or service summary that
+ * exists here, and both dictionaries must translate every key, so a card never shows a raw key.
+ * Adding a business means adding its service key here and its text in en.ts and es.ts.
+ */
+export type BusinessCategoryKey = "digital" | "booking" | "commerce" | "experience";
+export type BusinessServiceKey = "exampleDigital" | "exampleBooking";
+
+export const FAQ_IDS =["assistant", "wallet", "authority", "business", "today", "simulation", "stellar", "fulfillment"] as const;
 export type FaqId = typeof FAQ_IDS[number];
 
 export const ROADMAP_IDS = [
@@ -116,6 +124,11 @@ export interface Copy {
   problem: { eyebrow: string; title: string; lead: string; cards: Card[]; question: string };
   businesses: {
     eyebrow: string; title: string; lead: string; empty: string;
+    previewOnly: string; statusLabel: string;
+    relationships: Record<"participant" | "partner", string>;
+    connections: Record<"planned" | "pilot" | "testnet" | "live", string>;
+    categories: Record<BusinessCategoryKey, string>;
+    services: Record<BusinessServiceKey, string>;
     actions: { profile: string; scenario: string; inquiry: string; purchase: string; pilot: string };
   };
   agents: {
