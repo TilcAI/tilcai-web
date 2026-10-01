@@ -51,10 +51,11 @@ export const en: Copy = {
     eyebrow: "Assistants", title: "Use the assistant you already work with.",
     lead: "Each client will have its own guide, surface and TilcAI integration status. Configuration depends on the specific application you use.",
     more: "See more assistants", fewer: "See fewer assistants", guide: "View configuration", pilot: "Request pilot access",
+    carousel: { previous: "Previous assistant", next: "Next assistant", hint: "Swipe or choose an assistant to view its guide.", label: "Explore assistants" },
     permissionNote: "Selecting an assistant or connecting tools does not grant permission to spend.",
     surfaceLabels: { terminal: "Terminal", editor: "Editor / IDE", desktop: "Desktop application" },
     exploration: "Exploration environment",
-    thirdPartyNote: "Names identify third-party products. Their presence does not imply a partnership or an enabled TilcAI integration. Icons are original interface assets.",
+    thirdPartyNote: "Third-party products, without a partnership or an enabled TilcAI integration. Mascots and icons are visual assets for this website.",
     panel: {
       title: "Connection to TilcAI", empty: "Choose a client to review its surface, documentation and integration preparation.",
       close: "Close panel", officialDocs: "Official client documentation", reference: "Client reference",

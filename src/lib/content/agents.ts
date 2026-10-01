@@ -13,7 +13,7 @@ interface AgentIdentity {
   officialDocs: `https://${string}`;
   docsCheckedAt: string;
   environment: Environment;
-  asset: { src: `/assets/${string}`; alt: LocalizedText } | null;
+  asset: { src: `/assets/${string}`; alt: LocalizedText; accent?: "cool" | "warm"; scale?: number; poster?: `/assets/${string}` } | null;
   fallback: { initials: string; icon: "doc" | "layers" | "rules" };
   /** Client documentation reference, never a tested TilcAI setup recipe. */
   reference: LocalizedText;
@@ -40,20 +40,21 @@ type AgentIntegration =
 export type AgentClient = Readonly<AgentIdentity & AgentIntegration>;
 
 const text = (es: string, en: string): LocalizedText => ({ es, en });
-const prepared = (entry: Omit<AgentIdentity, "docsCheckedAt" | "environment" | "asset">): AgentClient => ({
+const prepared = (entry: Omit<AgentIdentity, "docsCheckedAt" | "environment" | "asset"> & { asset?: AgentIdentity["asset"] }): AgentClient => ({
   ...entry,
   docsCheckedAt: "2026-09-30",
   environment: "simulation",
-  asset: null,
+  asset: entry.asset ?? null,
   status: "preparation",
   guide: { kind: "preparation" },
 });
 
 // MCP support in the client's docs is not evidence of a TilcAI connection.
-// Add another entry here; the grid and panel do not depend on client names.
+// Add another entry here; the carousel and panel do not depend on client names.
 export const agents: readonly AgentClient[] = [
   prepared({
     slug: "codex", name: "Codex", group: "primary", surface: "terminal",
+    asset: { src: "/assets/codex.png", alt: text("Mascota azul de Codex", "Blue Codex mascot"), accent: "cool" },
     surfaceDetail: text("Codex CLI", "Codex CLI"),
     summary: text("Herramientas MCP desde tu terminal de desarrollo.", "MCP tools from your development terminal."),
     officialDocs: "https://learn.chatgpt.com/docs/extend/mcp?surface=cli",
@@ -63,6 +64,7 @@ export const agents: readonly AgentClient[] = [
   }),
   prepared({
     slug: "claude-code", name: "Claude Code", group: "primary", surface: "terminal",
+    asset: { src: "/assets/claude.png", alt: text("Mascota naranja de Claude", "Orange Claude mascot"), accent: "warm", scale: 1.35 },
     surfaceDetail: text("Claude Code · CLI", "Claude Code · CLI"),
     summary: text("Conexión de herramientas en la sesión de Claude Code.", "Tool connections in your Claude Code session."),
     officialDocs: "https://code.claude.com/docs/en/mcp",
@@ -153,6 +155,7 @@ export const agents: readonly AgentClient[] = [
   }),
   prepared({
     slug: "claude-desktop", name: "Claude Desktop", group: "additional", surface: "desktop",
+    asset: { src: "/assets/claude.png", alt: text("Mascota naranja de Claude", "Orange Claude mascot"), accent: "warm", scale: 1.35 },
     surfaceDetail: text("Claude Desktop · aplicación", "Claude Desktop · application"),
     summary: text("Aplicación de escritorio, con configuración propia.", "Desktop application with its own configuration."),
     officialDocs: "https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop",

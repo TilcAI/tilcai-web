@@ -66,6 +66,7 @@ export interface Copy {
   agents: {
     eyebrow: string; title: string; lead: string; more: string; fewer: string;
     guide: string; pilot: string; permissionNote: string;
+    carousel: { previous: string; next: string; hint: string; label: string };
     surfaceLabels: Record<"terminal" | "editor" | "desktop", string>;
     exploration: string; thirdPartyNote: string;
     panel: {
