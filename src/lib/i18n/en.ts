@@ -120,17 +120,56 @@ export const en: Copy = {
     firstCase: "A digital service with a verifiable quote and approval per purchase on Stellar Testnet. Completion requires reconciled payment, an order and delivery evidence; this page's simulation does not execute that flow.",
   },
   demo: {
-    eyebrow: "Interactive simulation · no funds moved", title: "See what changes when rules apply.",
-    lead: "Explore three variations of an illustrative purchase: terms within the limit, a changed recipient and an excessive amount. Each result explains a policy rule.",
-    prompt: "Choose a variation",
-    scenarios: [
-      { label: "Within the rules", detail: "0.05 USDC · allowed seller", outcome: "ALLOW", reason: "The recipient and amount meet the illustrative policy. Checks and approval can continue; no payment has been made." },
-      { label: "Recipient changed", detail: "0.05 USDC · unknown seller", outcome: "DENY", reason: "The recipient is outside the allowed scope. The operation is blocked in this scenario." },
-      { label: "Over the limit", detail: "0.15 USDC · allowed seller", outcome: "DENY", reason: "The amount exceeds the illustrative 0.10 USDC per-purchase limit. The operation is blocked in this scenario." },
-    ],
-    outcomes: { ALLOW: "Can continue", DENY: "Blocked" },
-    empty: "Select a variation to see the illustrative decision.",
-    caveat: "Visual simulation: it does not connect a wallet or submit transactions. An allowed result does not confirm payment or delivery.",
+    eyebrow: "Interactive simulation · no funds moved", title: "Explore decisions across three commercial cases.",
+    lead: "Select a scenario and change its conditions to see how the decision changes.",
+    scenarioPrompt: "Choose a scenario",
+    variantPrompt: "Choose a variation",
+    scenarios: {
+      cinema: {
+        title: "Cinema", summary: "A ticket booking with a quote from the business.",
+        request: "Two tickets for Wednesday.", service: "Cinema tickets", timing: "Wednesday", recipient: "Central Cinema",
+      },
+      "digital-service": {
+        title: "Digital service", summary: "One-time access to a digital resource.",
+        request: "One access to use after the operation is confirmed.", service: "Digital access", timing: "One-time use", recipient: "Digital Service",
+      },
+      "scheduled-purchase": {
+        title: "Scheduled purchase", summary: "A task that must be reviewed on every run.",
+        request: "A monthly purchase subject to the current rules.", service: "Monthly service", timing: "Every month", recipient: "Scheduled provider",
+      },
+    },
+    variants: {
+      valid: {
+        label: "Valid conditions", detail: "Recipient and amount match the quote.",
+        reason: "The conditions match and the operation can continue.",
+      },
+      "changed-recipient": {
+        label: "Changed recipient", detail: "A different recipient is presented.",
+        reason: "The recipient does not match the one allowed for this scenario.",
+      },
+      "over-limit": {
+        label: "Amount over the limit", detail: "The amount exceeds the scenario limit.",
+        reason: "The amount exceeds the limit set for this purchase.",
+      },
+      "requires-approval": {
+        label: "Requires approval", detail: "The operation stops for human review.",
+        reason: "The conditions require human review before continuing.",
+      },
+    },
+    fields: {
+      request: "Request", quote: "Quote", service: "Service", quantity: "Quantity",
+      timing: "Timing", recipient: "Recipient", amount: "Amount", limit: "Limit",
+      alternativeRecipient: "Alternative account", result: "Result",
+    },
+    outcomes: { ALLOW: "Can continue", DENY: "Blocked", REQUIRE_APPROVAL: "Requires approval" },
+    approval: {
+      title: "Human review",
+      body: "A person must review the conditions before continuing.",
+      action: "Simulate approval", pending: "Review pending.",
+      complete: "Review recorded",
+    },
+    reset: "Reset demo",
+    continuationNote: "“Can continue” does not confirm a payment or transaction.",
   },
   capabilities: {
     eyebrow: "Capabilities for businesses", title: "Your services, prepared for a new way to buy.",
