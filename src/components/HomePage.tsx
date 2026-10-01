@@ -2,6 +2,7 @@ import type { Copy } from "@/lib/i18n";
 import { AgentCatalog } from "./AgentCatalog";
 import { FaqSection } from "./FaqSection";
 import { CapabilitiesSection } from "./sections/CapabilitiesSection";
+import { BusinessesSection } from "./sections/BusinessesSection";
 import { CompareSection } from "./sections/CompareSection";
 import { ControlSection } from "./sections/ControlSection";
 import { CtaSection } from "./sections/CtaSection";
@@ -21,6 +22,7 @@ export function HomePage({ t }: { t: Copy }) {
       <HeroSection t={t} />
       <ProductOverview t={t} />
       <OfficeLegendSection t={t} />
+      <BusinessesSection t={t} />
       <FlowSection t={t} />
       <DemoSection t={t} />
       <ControlSection t={t} />
