@@ -3,6 +3,7 @@ import { AgentCatalog } from "./AgentCatalog";
 import { FaqSection } from "./FaqSection";
 import { CapabilitiesSection } from "./sections/CapabilitiesSection";
 import { CompareSection } from "./sections/CompareSection";
+import { ControlSection } from "./sections/ControlSection";
 import { CtaSection } from "./sections/CtaSection";
 import { DemoSection } from "./sections/DemoSection";
 import { FlowSection } from "./sections/FlowSection";
@@ -20,6 +21,7 @@ export function HomePage({ t }: { t: Copy }) {
       <ProductOverview t={t} />
       <FlowSection t={t} />
       <DemoSection t={t} />
+      <ControlSection t={t} />
       <CapabilitiesSection t={t} />
       <AgentCatalog t={t} />
       <InterfaceSection t={t} />

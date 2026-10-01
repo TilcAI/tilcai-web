@@ -88,13 +88,45 @@ export const es: Copy = {
   },
   control: {
     eyebrow: "Control del usuario", title: "Delegas una tarea. No el control total de tu dinero.",
-    lead: "Define el alcance de la compra y revisa las condiciones exactas antes de autorizar. El agente trabaja dentro de los permisos concedidos.",
+    lead: "El agente actúa dentro de condiciones definidas por la persona.",
     panels: [
       { title: "Qué puede hacer", body: "Servicios y proveedores permitidos, con condiciones verificadas para cada operación." },
-      { title: "Cuánto puede gastar", body: "Límite por compra y presupuesto compartido; varios agentes no crean fondos adicionales." },
+      { title: "Cuánto puede gastar", body: "Un límite por compra. El presupuesto compartido entre varios agentes es una evolución futura." },
       { title: "Cuándo se detiene", body: "Aprobación pendiente, vencimiento, pausa o revocación. Un cambio en la compra exige revisar su autoridad." },
     ],
-    note: "Empezamos con aprobación por compra. La delegación mediante cuentas inteligentes se habilita por etapas. Revocar un permiso no revierte un pago ya liquidado.",
+    example: {
+      label: "Ejemplo ilustrativo · Sin cuenta ni fondos reales",
+    },
+    budget: {
+      title: "Presupuesto de una compra",
+      limitLabel: "Límite por compra", limitValue: "50 USDC",
+      exampleLabel: "Importe del ejemplo", exampleValue: "30 / 50 USDC",
+      meterLabel: "El importe utiliza 30 de un límite de 50 USDC",
+    },
+    permission: {
+      title: "Condiciones del permiso",
+      fields: [
+        { label: "Alcance", value: "Servicio permitido" },
+        { label: "Límite por compra", value: "50 USDC" },
+        { label: "Modalidad", value: "Por operación" },
+        { label: "Estado", value: "Pendiente" },
+      ],
+      stopLabel: "Se detiene cuando",
+      stopConditions: ["Excede el límite", "Cambia el destinatario", "Expira el permiso", "El usuario lo pausa o revoca"],
+    },
+    account: {
+      title: "Cuenta, firma y autorización son cosas distintas",
+      body: "Conectar una wallet permite gestionar y firmar con la cuenta. No autoriza gastos por sí solo.",
+      current: {
+        title: "Aprobación por compra",
+        body: "El primer paso previsto es revisar las condiciones de cada compra antes de autorizarla.",
+      },
+      future: {
+        title: "Reglas con smart accounts",
+        body: "Más adelante podrían incorporarse límites, vigencia y revocación mediante reglas de cuenta.",
+      },
+    },
+    note: "Revocar permisos afecta operaciones futuras, no pagos ya liquidados.",
   },
   flow: {
     eyebrow: "Flujo propuesto", title: "De una solicitud a una compra comprobable.",
