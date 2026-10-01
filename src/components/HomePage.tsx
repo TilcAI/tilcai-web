@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { Copy } from "@/lib/i18n";
 import type { FlowStep, Stage } from "@/lib/i18n/types";
 import { json } from "@/lib/highlight";
@@ -10,6 +10,7 @@ import { Icon, type IconName } from "./Icon";
 import { PolicyDemo } from "./PolicyDemo";
 import { FaqSection } from "./FaqSection";
 import { AgentCatalog } from "./AgentCatalog";
+import { CommerceScene, FlowLayers } from "./CommerceScene";
 
 const problemIcons: IconName[] = ["target", "rules", "store"];
 const capIcons: IconName[] = ["rules", "receipt", "store", "pen", "tree", "layers"];
@@ -40,6 +41,17 @@ function FlowNode({ step, n }: { step: FlowStep; n: number }) {
   );
 }
 
+function TechnicalSection({ id, titleId, eyebrow, title, children }: {
+  id: string; titleId: string; eyebrow: string; title: string; children: ReactNode;
+}) {
+  return <section id={id} className="section section-alt technical-section" aria-labelledby={titleId}>
+    <div className="container"><details className="technical-disclosure">
+      <summary><h2 id={titleId}><span className="eyebrow">{eyebrow}</span><span className="technical-label">{title}</span><span className="technical-toggle" aria-hidden="true">+</span></h2></summary>
+      <div className="technical-content">{children}</div>
+    </details></div>
+  </section>;
+}
+
 export function HomePage({ t }: { t: Copy }) {
   const docs = paths.docs(t.locale);
   const code = snippets(t.code.comments);
@@ -54,7 +66,7 @@ export function HomePage({ t }: { t: Copy }) {
               <span className="dot" aria-hidden="true" />
               {t.hero.status}
             </p>
-            <h1 id="hero-title">{t.hero.title}</h1>
+            <h1 id="hero-title">{t.hero.title.split(/(?<=\.)\s+/).map((line, index) => <span key={line} className={index === 2 ? "hero-accent" : undefined}>{line} </span>)}</h1>
             <p className="lead">{t.hero.lead}</p>
             <div className="cta-row">
               <a className="btn btn-primary" href="#flow">
@@ -71,20 +83,7 @@ export function HomePage({ t }: { t: Copy }) {
               ))}
             </ul>
           </div>
-          <figure className="hero-logo reveal">
-            <div className="logo-card">
-              <Image
-                src="/assets/tilcai-logo@2x.webp"
-                width={1280}
-                height={887}
-                sizes="(min-width: 960px) 440px, 80vw"
-                alt={t.hero.logoAlt}
-                loading="eager"
-                fetchPriority="high"
-              />
-            </div>
-            <figcaption className="vision-note">{t.hero.visionNote}</figcaption>
-          </figure>
+          <CommerceScene t={t} />
         </div>
       </section>
 
@@ -109,6 +108,7 @@ export function HomePage({ t }: { t: Copy }) {
       <section id="flow" className="section section-alt" aria-labelledby="flow-title">
         <div className="container">
           <SectionHead id="flow-title" eyebrow={t.flow.eyebrow} title={t.flow.title} lead={t.flow.lead} />
+          <div className="flow-composition">
           <div className="flow reveal">
             <ol className="flow-track" role="list">
               {t.flow.steps.map((s, i) => (
@@ -137,6 +137,8 @@ export function HomePage({ t }: { t: Copy }) {
               <Icon name="receipt" />
               {t.flow.receiptNote}
             </p>
+          </div>
+          <FlowLayers t={t} />
           </div>
           <div className="grid grid-2 scope reveal">
             <div className="scope-card scope-vision">
@@ -183,11 +185,9 @@ export function HomePage({ t }: { t: Copy }) {
       <AgentCatalog t={t} />
 
       {/* 5. Proposed interface */}
-      <section id="interface" className="section section-alt" aria-labelledby="code-title">
-        <div className="container code-grid">
+      <TechnicalSection id="interface" titleId="code-title" eyebrow={t.code.eyebrow} title={t.code.title}>
+        <div className="code-grid">
           <header className="section-head reveal">
-            <p className="eyebrow">{t.code.eyebrow}</p>
-            <h2 id="code-title">{t.code.title}</h2>
             <p className="section-lead">{t.code.lead}</p>
             <ul className="bullets" role="list">
               {t.code.bullets.map((b) => (
@@ -204,12 +204,11 @@ export function HomePage({ t }: { t: Copy }) {
             tabs={t.code.tabs.map((tab) => ({ ...tab, html: json(code[tab.id]) }))}
           />
         </div>
-      </section>
+      </TechnicalSection>
 
       {/* 6. Comparison */}
-      <section id="compare" className="section" aria-labelledby="cmp-title">
-        <div className="container">
-          <SectionHead id="cmp-title" eyebrow={t.compare.eyebrow} title={t.compare.title} lead={t.compare.lead} />
+      <TechnicalSection id="compare" titleId="cmp-title" eyebrow={t.compare.eyebrow} title={t.compare.title}>
+          <p className="section-lead technical-lead">{t.compare.lead}</p>
           <div className="table-wrap reveal">
             <table className="compare">
               <thead>
@@ -243,13 +242,11 @@ export function HomePage({ t }: { t: Copy }) {
             </table>
           </div>
           <p className="disclaimer reveal">{t.compare.footnote}</p>
-        </div>
-      </section>
+      </TechnicalSection>
 
       {/* 7. Stack */}
-      <section id="stack" className="section section-alt" aria-labelledby="stack-title">
-        <div className="container">
-          <SectionHead id="stack-title" eyebrow={t.stack.eyebrow} title={t.stack.title} lead={t.stack.lead} />
+      <TechnicalSection id="stack" titleId="stack-title" eyebrow={t.stack.eyebrow} title={t.stack.title}>
+          <p className="section-lead technical-lead">{t.stack.lead}</p>
           <ul className="badges reveal" role="list">
             {t.stack.badges.map((b) => (
               <li className="badge" key={b.name}>
@@ -259,8 +256,7 @@ export function HomePage({ t }: { t: Copy }) {
             ))}
           </ul>
           <p className="disclaimer reveal">{t.stack.disclaimer}</p>
-        </div>
-      </section>
+      </TechnicalSection>
 
       {/* 8. Roadmap */}
       <section id="roadmap" className="section" aria-labelledby="road-title">
