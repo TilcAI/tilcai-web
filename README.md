@@ -53,9 +53,11 @@ src/
 │   ├── SiteFooter.tsx
 │   ├── HomePage.tsx              # all landing sections (server component)
 │   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
-│   ├── AgentCatalog.tsx          # client: six main clients + expandable group
+│   ├── AgentCatalog.tsx          # client: perspective carousel, six / twelve clients
 │   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
-│   ├── AgentGuidePanel.tsx       # client-specific preparation / validated guide
+│   ├── AgentGuidePanel.tsx       # native modal drawer; preparation / validated guide
+│   ├── CommerceScene.tsx         # holographic hero and four scroll-driven layers
+│   ├── useDepthMotion.ts         # event-driven depth and reduced-motion preference
 │   ├── PolicyDemo.tsx            # client: illustrative policy choices
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
@@ -69,7 +71,7 @@ src/
     ├── snippets.ts               # conceptual JSON shown on the landing
     ├── metadata.ts               # per-page title, description, hreflang, Open Graph
     └── site.ts                   # routes and site URL
-public/assets/                    # original TilcAI logo (resized), favicon, social image
+public/assets/                    # TilcAI branding and supplied Codex / Claude mascots
 ```
 
 ## Editing content
@@ -92,6 +94,14 @@ public/assets/                    # original TilcAI logo (resized), favicon, soc
 The design uses semantic CSS classes in `globals.css` (unlayered, so they take precedence over Tailwind's base layer).
 Tailwind CSS v4 stays available for new components; brand tokens are exposed as utilities (`bg-surface`, `text-teal`, `text-amber`, `font-mono`…).
 Fonts are Geist and Geist Mono via `next/font`, as in the default scaffold.
+
+`landing.css` composes the compact hero, holographic scenes and technical disclosures;
+`agents.css` styles the carousel and right-side modal. General sections use 36px
+vertical padding on mobile and 48px on desktop. Technical detail is available on
+demand through native disclosures, retaining the public section anchors.
+Motion uses CSS perspective and event-driven updates; no animation dependency was added.
+See [the visual structure and verification record](docs/visual-structure.md) for
+asset replacement, team extension points and suggested commits.
 
 ## Accessibility
 

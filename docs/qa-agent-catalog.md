@@ -2,6 +2,11 @@
 
 Fecha: 2026-09-30. Entregable: catálogo ES/EN y panel de guías en preparación.
 
+Este registro describe la primera entrega de WEB-07 (grilla y panel inline).
+La revisión visual posterior sustituye esa presentación por carrusel y diálogo
+lateral. Sus comprobaciones y nuevos grupos de commits están en
+[visual-structure.md](visual-structure.md); los resultados siguientes son históricos.
+
 ## Comprobaciones realizadas
 
 | Comprobación | Resultado |
