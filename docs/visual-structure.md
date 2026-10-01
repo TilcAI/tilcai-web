@@ -87,7 +87,7 @@ recupera el monograma. Revisar duración, peso y legibilidad al incorporar los G
 
 | Área | Dónde continuar | Información necesaria |
 | --- | --- | --- |
-| Empresas | `components/sections/CapabilitiesSection.tsx`, composición en `HomePage.tsx`, diccionarios `businesses`/`capabilities` | Perfiles aprobados, servicios, estado verificable y assets |
+| Empresas | `components/sections/BusinessesSection.tsx`, `components/BusinessCard.tsx`, `lib/content/businesses.ts`, diccionarios `businesses`/`capabilities` | Perfiles aprobados, servicios, estado verificable y assets |
 | Clientes y guías | `lib/content/agents.ts` | Versión/superficie, servidor, transporte, autenticación y pruebas |
 | Mascotas y GIFs | `public/assets/` + campo `asset` | Recursos restantes y posters estáticos |
 | Nueva marca | Assets de marca + `SiteHeader.tsx` | Logo definitivo y variantes/favicon/social |

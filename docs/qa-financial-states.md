@@ -43,8 +43,8 @@ No se repitió la prueba con teclado del menú ni del catálogo; esta tarea no l
 | Firma válida no basta para autorización | Cumple | `roadmap.signatureNote`, docs «Integración empresarial» y «Permisos y pagos» |
 | Presupuesto y autorización figuran en el recorrido | Cumple | `flow.steps`/`after`, `control.panels`, `flow.vision`, ítems `approval` y `reconciliation` |
 | Pago y entrega aparecen como estados distintos | Cumple | `flow.receiptNote`, FAQ `fulfillment`, `signatureNote`, docs (tabla: liquidado ≠ entregado) |
-| Contacto tiene un canal de envío verdadero | No aplica todavía | No existe formulario ni botón de solicitud de piloto; `businesses.actions.*` y `agents.pilot` no se renderizan. Depende de WEB-13 |
-| Perfil de empresa distingue colaboración y conexión | No aplica todavía | No hay perfiles publicados (`businesses.empty`). Depende de WEB-06 |
+| Contacto tiene un canal de envío verdadero | No aplica todavía | No existe formulario ni botón de solicitud de piloto; la invitación de `businesses` lleva a `#capabilities`. Depende de WEB-13 |
+| Perfil de empresa distingue colaboración y conexión | Cumple en el componente | `BusinessProfile.relationship` y `connection` se muestran por separado; no hay perfiles publicados hasta contar con aprobación. |
 
 ## Hallazgos de la revisión de textos
 
@@ -52,8 +52,8 @@ No hubo que reescribir copy ajeno: los diccionarios existentes ya separan decisi
 entrega en ES y EN. Puntos a vigilar:
 
 1. **`businesses.actions.purchase` («Buy» / «Comprar») y `agents.pilot` («Request pilot access»)**
-   existen en los diccionarios pero no se muestran. Si WEB-06 o WEB-13 los renderiza antes de tener compra
-   o canal de piloto reales, contradirían «Sin compra habilitada». Condicionarlos a un estado verificable.
+   La tarjeta solo muestra «Comprar» con conexión `live`, ruta de compra y flujo operativo confirmado.
+   `agents.pilot` sigue sin mostrarse como solicitud hasta disponer de un canal real.
 2. **Importes en USDC de la simulación** son ilustrativos y están rotulados así; la prueba real del
    riel usó el activo nativo de Testnet. No presentar esos importes como resultado del riel.
 3. **`stack.badges` incluye USDC** con el rol «según red y configuración». Mantener ese matiz hasta

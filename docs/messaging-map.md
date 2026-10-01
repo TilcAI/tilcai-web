@@ -82,8 +82,9 @@ Decisión del usuario: mantener botones de exploración por ahora.
 Hero principal → `#flow`; hero secundario → `#capabilities` para empresas.
 CTA final → docs y simulación. No se publica correo personal, canal inventado,
 formulario sin backend ni un botón que simule haber solicitado un piloto.
-`businesses` y `agents` contienen etiquetas para componentes futuros, incluidas
-acciones de piloto, pero no se renderizan como solicitudes operativas todavía.
+La sección `businesses` muestra una invitación para explorar el piloto que lleva a
+`#capabilities`; no envía una solicitud. `agents.pilot` permanece pendiente de un
+canal operativo. Las acciones empresariales dependen del estado y la ruta verificados.
 
 - WEB-05/06 (Jhamil): composición del hero/overview y perfiles empresariales.
 - WEB-07 (Omar): catálogo/guías de asistentes; consume `agents` y etiquetas comunes.
