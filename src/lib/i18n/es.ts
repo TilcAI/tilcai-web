@@ -22,13 +22,28 @@ export const es: Copy = {
   integrationLabels: { preparation: "En preparación", guide: "Guía disponible", pilot: "Piloto", enabled: "Habilitado" },
   environmentLabels: { simulation: "Simulación", testnet: "Testnet", production: "Producción" },
   hero: {
-    status: "Infraestructura de comercio entre agentes · Stellar · En desarrollo",
+    eyebrow: "Infraestructura de comercio entre agentes · Stellar · En desarrollo",
     title: "Tu agente compra. Tu empresa responde. Tú mantienes el control.",
     lead: "Construimos la conexión entre agentes de personas y empresas para consultar, reservar y comprar con condiciones verificables, permisos limitados y pagos sobre Stellar.",
-    visionNote: "Tu agente interpreta la solicitud. La empresa aporta condiciones y disponibilidad. TilcAI coordina permisos, operación y evidencia. La compra completa se habilita por etapas.",
     ctaPrimary: "Explorar cómo funciona", ctaSecondary: "Explorar para mi empresa",
     facts: ["Condiciones verificables", "Permisos limitados", "Aprobación por compra"],
-    logoAlt: "Marca TilcAI con el rostro felino de Tilcayo",
+    visionNote: "Tu agente interpreta la solicitud. La empresa aporta condiciones y disponibilidad. TilcAI coordina permisos, operación y evidencia. La compra completa se habilita por etapas.",
+    scene: {
+      label: "Flujo ilustrativo",
+      buyer: { role: "Tu agente", action: "Solicitud", message: "Dos entradas para el miércoles, hasta 12 USDC" },
+      core: {
+        role: "TilcAI",
+        detail: "Comprueba la oferta, tu límite y los permisos.",
+        control: "Requiere tu aprobación",
+      },
+      business: {
+        role: "Agente de la empresa",
+        name: "Empresa de cine",
+        service: "Entradas y reservas",
+        availability: "Disponibilidad confirmada",
+        quote: { label: "Cotización", amount: "10 USDC", note: "dentro de tu límite" },
+      },
+    },
   },
   problem: {
     eyebrow: "Qué es TilcAI",

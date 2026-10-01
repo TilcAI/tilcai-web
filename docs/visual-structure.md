@@ -87,7 +87,7 @@ recupera el monograma. Revisar duración, peso y legibilidad al incorporar los G
 
 | Área | Dónde continuar | Información necesaria |
 | --- | --- | --- |
-| Empresas | `HomePage.tsx`, diccionarios `businesses`/`capabilities` | Perfiles aprobados, servicios, estado verificable y assets |
+| Empresas | `components/sections/CapabilitiesSection.tsx`, composición en `HomePage.tsx`, diccionarios `businesses`/`capabilities` | Perfiles aprobados, servicios, estado verificable y assets |
 | Clientes y guías | `lib/content/agents.ts` | Versión/superficie, servidor, transporte, autenticación y pruebas |
 | Mascotas y GIFs | `public/assets/` + campo `asset` | Recursos restantes y posters estáticos |
 | Nueva marca | Assets de marca + `SiteHeader.tsx` | Logo definitivo y variantes/favicon/social |
@@ -145,3 +145,22 @@ git commit -m "feat(web): compact landing with holographic scenes and agent draw
 git add -- README.md docs/agent-catalog.md docs/qa-agent-catalog.md docs/visual-structure.md
 git commit -m "docs(web): record visual structure and redesign validation"
 ```
+
+## Integración del PR #11 — 2026-09-30
+
+Se integra `origin/main` en el trabajo local de Omar sin reemplazar el rediseño.
+Se conserva la separación por secciones y los iconos del PR #11 de Jhamil.
+`HomePage.tsx` compone esos módulos; la portada conserva `CommerceScene`, el flujo
+conserva `FlowLayers` y los tres módulos técnicos utilizan `TechnicalSection`
+compartido. El carrusel, las mascotas, el panel derecho y los estilos compactos
+permanecen. Los textos de la escena importada se conservan como datos; la portada
+actual no presenta sus precios de ejemplo.
+
+Los tres commits locales originales se mantienen en el historial. El merge
+queda pendiente del commit y push de Omar; esta integración no crea un commit.
+
+Validación de la integración: build de producción con TypeScript correcto para
+las cuatro rutas; a 1440×900 se mantiene la altura de 6.750px y un catálogo de
+~769px. Se comprobaron las cuatro láminas, las seis cards iniciales, apertura
+del panel de Claude Code a 360px, cierre con Escape y desbloqueo del scroll,
+comparación desplegable con cinco filas y cambio a EN a 375px sin overflow.

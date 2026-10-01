@@ -51,7 +51,14 @@ src/
 │   ├── PageShell.tsx             # skip link + header + main + footer
 │   ├── SiteHeader.tsx            # client: mobile menu, language switch
 │   ├── SiteFooter.tsx
-│   ├── HomePage.tsx              # all landing sections (server component)
+│   ├── HomePage.tsx              # landing = composition of the sections below (server component)
+│   ├── sections/                 # one file per landing section
+│   │   ├── HeroSection.tsx       # the only <h1>: eyebrow, headline, CTAs, facts
+│   │   ├── HeroScene.tsx         # section entry point for the holographic CommerceScene
+│   │   ├── ProductOverview.tsx   # "What TilcAI is" (copy key `problem`): your agent / TilcAI / the business
+│   │   ├── FlowSection, DemoSection, CapabilitiesSection, InterfaceSection, CompareSection,
+│   │   │   StackSection, RoadmapSection, CtaSection   # compact layout, with technical disclosures
+│   │   └── shared.tsx            # SectionHead, StageTag, TechnicalSection
 │   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
 │   ├── AgentCatalog.tsx          # client: perspective carousel, six / twelve clients
 │   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
@@ -62,7 +69,7 @@ src/
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy
-│   ├── RevealObserver.tsx        # client: subtle reveal-on-scroll
+│   ├── RevealObserver.tsx        # client: reveal as content enters the viewport
 │   └── Icon.tsx
 └── lib/
     ├── content/agents.ts         # typed catalog, surfaces and official references
@@ -73,6 +80,13 @@ src/
     └── site.ts                   # routes and site URL
 public/assets/                    # TilcAI branding and supplied Codex / Claude mascots
 ```
+
+## Hero and overview
+
+- The hero section retains the compact headline and holographic composition. `sections/HeroScene.tsx` delegates to `CommerceScene.tsx`; pointer depth is event-driven, with a static presentation when JavaScript is unavailable or reduced motion is requested. The illustration represents roles and permissions, not a live operation or price quote.
+- On mobile the copy comes first and the compact scene follows it. The four decorative flow layers are omitted below 960px to avoid increasing the page height.
+- "Explore how it works" points to `#flow`; the secondary CTA ("Explore for my business") points to `#capabilities`.
+- Copy lives in `hero` and `problem` in `src/lib/i18n/*.ts`. The caption uses `hero.visionNote`; the imported `hero.scene` example data remains available for future content but is not rendered by the current scene.
 
 ## Editing content
 
