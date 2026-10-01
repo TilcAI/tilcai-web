@@ -31,7 +31,7 @@ pnpm start
 | --- | --- |
 | `/` | Redirects to `/en` (see `next.config.ts`) |
 | `/en`, `/es` | Landing |
-| `/en/docs`, `/es/docs` | Proposed architecture |
+| `/en/docs`, `/es/docs` | Proposed design: architecture, business integration, MCP and assistants, permissions and payments, planned extensions |
 
 Both languages are generated statically (`generateStaticParams`); any other language segment returns 404.
 The landing's `#demo` section shows three fixed policy scenarios. It does not call `tilcai-core` or a payment network.
@@ -57,8 +57,9 @@ src/
 │   │   ├── HeroScene.tsx         # section entry point for the holographic CommerceScene
 │   │   ├── ProductOverview.tsx   # "What TilcAI is" (copy key `problem`): your agent / TilcAI / the business
 │   │   ├── FlowSection, DemoSection, CapabilitiesSection, InterfaceSection, CompareSection,
-│   │   │   StackSection, RoadmapSection, CtaSection   # compact layout, with technical disclosures
-│   │   └── shared.tsx            # SectionHead, StageTag, TechnicalSection
+│   │   │   StackSection, CtaSection   # earlier content, moved unchanged
+│   │   │   RoadmapSection         # three build-status columns with a maintainer per item
+│   │   └── shared.tsx            # SectionHead, StageTag
 │   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
 │   ├── AgentCatalog.tsx          # client: perspective carousel, six / twelve clients
 │   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
@@ -73,6 +74,7 @@ src/
 │   └── Icon.tsx
 └── lib/
     ├── content/agents.ts         # typed catalog, surfaces and official references
+    ├── content/roadmap.ts        # stage and maintainer of every roadmap item (no dates)
     ├── i18n/                     # all visible copy — en.ts, es.ts, docs.en.ts, docs.es.ts, types.ts
     ├── highlight.ts              # build-time syntax colouring for code blocks
     ├── snippets.ts               # conceptual JSON shown on the landing
@@ -99,7 +101,9 @@ public/assets/                    # TilcAI branding and supplied Codex / Claude 
 - Add assistant clients in `src/lib/content/agents.ts`; no component changes are needed. See [docs/agent-catalog.md](docs/agent-catalog.md) for state promotion requirements, surface distinctions and asset handling.
 - Landing snippets receive translated comments from `code.comments`; they are illustrative excerpts, not complete payloads or a public SDK API.
 - CTAs currently explore the flow, capabilities, simulation and docs. A public contact channel/backend is needed before enabling pilot requests.
-- The architecture dictionaries retain the earlier proposal pending Saul's WEB-11 migration.
+- The architecture dictionaries (`docs.en.ts`, `docs.es.ts`) follow the new direction: architecture, business integration, MCP and assistants, permissions and payments. Their HTML is trusted repository content; never interpolate form data or any user-supplied value into it.
+- The build-status roadmap has one entry per capability in `src/lib/content/roadmap.ts` (stage and maintainer) and its copy under `roadmap.items` in both dictionaries (`ROADMAP_IDS` keeps them aligned). Move an item to another stage only with evidence in its stated environment, and never add dates. The x402 / Relayer wording must stay consistent with [tilcai-core's payment rail documentation](https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-environment.md).
+- Financial-state wording (allowed ≠ approved ≠ sent ≠ settled ≠ delivered) was reviewed in [docs/qa-financial-states.md](docs/qa-financial-states.md); repeat that review when copy about decisions, payments or delivery changes.
 - Only change wording to "live" or "deployed" when there is something verifiable (contract ID, testnet transaction, public repository).
 - Absolute Open Graph URLs use `NEXT_PUBLIC_SITE_URL` if it is set to a valid URL (e.g. `https://tilcai.xyz`). On Vercel it is optional: if it is missing or empty, the production domain (`VERCEL_PROJECT_PRODUCTION_URL`) is used automatically. Locally, copy `.env.example` to `.env.local`.
 
