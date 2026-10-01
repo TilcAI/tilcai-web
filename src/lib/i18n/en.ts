@@ -27,6 +27,7 @@ export const en: Copy = {
     lead: "We are building the connection between agents acting for people and businesses to inquire, book and buy with verifiable terms, limited permissions and payments on Stellar.",
     ctaPrimary: "Explore how it works", ctaSecondary: "Explore for my business",
     facts: ["Verifiable terms", "Limited permissions", "Approval per purchase"],
+    visionNote: "Your agent interprets the request. The business provides terms and availability. TilcAI coordinates permissions, operations and evidence. The complete purchase flow is enabled in stages.",
     scene: {
       label: "Illustrative flow",
       buyer: { role: "Your agent", action: "Request", message: "Two tickets for Wednesday, up to 12 USDC" },
@@ -65,10 +66,11 @@ export const en: Copy = {
     eyebrow: "Assistants", title: "Use the assistant you already work with.",
     lead: "Each client will have its own guide, surface and TilcAI integration status. Configuration depends on the specific application you use.",
     more: "See more assistants", fewer: "See fewer assistants", guide: "View configuration", pilot: "Request pilot access",
+    carousel: { previous: "Previous assistant", next: "Next assistant", hint: "Swipe or choose an assistant to view its guide.", label: "Explore assistants" },
     permissionNote: "Selecting an assistant or connecting tools does not grant permission to spend.",
     surfaceLabels: { terminal: "Terminal", editor: "Editor / IDE", desktop: "Desktop application" },
     exploration: "Exploration environment",
-    thirdPartyNote: "Names identify third-party products. Their presence does not imply a partnership or an enabled TilcAI integration. Icons are original interface assets.",
+    thirdPartyNote: "Third-party products, without a partnership or an enabled TilcAI integration. Mascots and icons are visual assets for this website.",
     panel: {
       title: "Connection to TilcAI", empty: "Choose a client to review its surface, documentation and integration preparation.",
       close: "Close panel", officialDocs: "Official client documentation", reference: "Client reference",

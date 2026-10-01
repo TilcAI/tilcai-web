@@ -27,6 +27,7 @@ export const es: Copy = {
     lead: "Construimos la conexión entre agentes de personas y empresas para consultar, reservar y comprar con condiciones verificables, permisos limitados y pagos sobre Stellar.",
     ctaPrimary: "Explorar cómo funciona", ctaSecondary: "Explorar para mi empresa",
     facts: ["Condiciones verificables", "Permisos limitados", "Aprobación por compra"],
+    visionNote: "Tu agente interpreta la solicitud. La empresa aporta condiciones y disponibilidad. TilcAI coordina permisos, operación y evidencia. La compra completa se habilita por etapas.",
     scene: {
       label: "Flujo ilustrativo",
       buyer: { role: "Tu agente", action: "Solicitud", message: "Dos entradas para el miércoles, hasta 12 USDC" },
@@ -65,10 +66,11 @@ export const es: Copy = {
     eyebrow: "Asistentes", title: "Usa el asistente con el que ya trabajas.",
     lead: "Cada cliente tendrá su guía, superficie y estado de integración con TilcAI. La configuración depende de la aplicación concreta que utilizas.",
     more: "Ver más asistentes", fewer: "Ver menos asistentes", guide: "Ver configuración", pilot: "Solicitar acceso piloto",
+    carousel: { previous: "Asistente anterior", next: "Asistente siguiente", hint: "Desliza o elige un asistente para ver su guía.", label: "Explorar asistentes" },
     permissionNote: "Seleccionar un asistente o conectar herramientas no concede permiso para gastar.",
     surfaceLabels: { terminal: "Terminal", editor: "Editor / IDE", desktop: "Aplicación de escritorio" },
     exploration: "Entorno de exploración",
-    thirdPartyNote: "Los nombres identifican productos de terceros. Su presencia no implica alianza ni integración TilcAI habilitada. Los iconos son recursos propios de la interfaz.",
+    thirdPartyNote: "Productos de terceros, sin alianza ni integración TilcAI habilitada. Mascotas e iconos son recursos visuales de esta web.",
     panel: {
       title: "Conexión con TilcAI", empty: "Elige un cliente para revisar su superficie, documentación y preparación de la integración.",
       close: "Cerrar panel", officialDocs: "Documentación oficial del cliente", reference: "Referencia del cliente",

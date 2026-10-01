@@ -51,11 +51,19 @@ Publicar una guía no prueba un piloto y Testnet no es producción.
 
 ## Interacción y accesibilidad
 
-La sección `#agents` muestra seis clientes y un botón que revela otros seis.
-Cada card tiene un botón nativo, sin enlaces anidados, con `aria-controls` y
-`aria-expanded`. Al seleccionar se abre un panel inline y recibe foco su título.
-Cerrar o Escape devuelve el foco a la card. Colapsar el grupo adicional cierra
-su panel si estaba seleccionado, manteniendo el foco en el control de expansión.
+La sección `#agents` muestra un carrusel horizontal con seis clientes y un botón
+que añade otros seis a la misma fila, sin aumentar la altura de la sección.
+Se navega con desplazamiento táctil, controles anterior/siguiente, Tab y
+flechas/Home/End desde una card. No tiene reproducción automática ni slides
+duplicados. Las tarjetas usan perspectiva; con movimiento reducido quedan planas.
+
+Cada card contiene un botón que cubre su superficie, sin enlaces anidados, con
+`aria-haspopup="dialog"` y `aria-expanded`. Al seleccionar se abre un `dialog`
+modal a la derecha: 25vw (mínimo 360px, máximo 480px) en escritorio y ancho
+completo en móvil. Recibe foco el título, contiene el foco y bloquea el fondo.
+Cerrar, Escape o pulsar el fondo devuelve el foco a la card. La acción de explorar
+cierra el panel antes de navegar a la simulación. El cuerpo del panel tiene scroll
+propio; su apertura no aumenta la altura del documento.
 
 El panel separa la referencia del proveedor de la preparación TilcAI e informa
 requisitos, transporte, autenticación, herramientas, aprobación y desconexión.
@@ -66,16 +74,23 @@ La acción disponible es explorar la simulación, conforme a la decisión de Oma
 
 ## Recursos visuales y extensión
 
-No se necesita descargar ni generar logos para P0. Se usan nombres y monogramas
-con iconos propios, claramente identificados como recursos de interfaz. `asset`
-es `null` por ahora; una imagen local aprobada puede añadirse después. Si falla
-su carga, `AgentCard` muestra el fallback sin ocultar nombre ni estado.
-Animaciones y mascotas corresponden a WEB-12.
+La revisión visual solicitada por Omar incorpora las imágenes locales
+`public/assets/codex.png` y `public/assets/claude.png`. Claude Code y Claude Desktop
+comparten mascota, pero conservan guías y superficies distintas. Son recursos
+visuales de esta web; no acreditan una alianza. Los demás clientes conservan
+monogramas holográficos. Si falla una imagen, se muestra ese recurso provisional
+sin ocultar nombre ni estado.
+
+`asset` admite `src`, textos alternativos ES/EN, `accent` (cool/warm), `scale`
+para compensar márgenes transparentes y `poster` estático opcional. Un GIF local
+se sirve sin optimización de Next/Image. Con movimiento reducido se utiliza
+`poster`, o el monograma si no hay poster. No se generaron imágenes adicionales
+ni se modificaron los PNG originales. Véase [estructura visual](visual-structure.md).
 
 Para añadir un cliente:
 
 1. Añadir una entrada con slug único y ambos idiomas; elegir `primary` o
-   `additional`. La grilla y el panel no contienen condicionales por producto.
+   `additional`. El carrusel y el panel no contienen condicionales por producto.
 2. Comprobar nombre, superficie y URL oficial; registrar fecha de consulta.
 3. Mantener `preparation` hasta validar servidor, transporte y autenticación.
 4. Para promover el estado, adjuntar registro de versión/OS, prueba de

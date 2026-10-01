@@ -13,17 +13,12 @@ export function ProductOverview({ t }: { t: Copy }) {
     <section id="problem" className="section" aria-labelledby="problem-title">
       <div className="container">
         <SectionHead id="problem-title" eyebrow={problem.eyebrow} title={problem.title} lead={problem.lead} />
-        <ol className="overview-grid" role="list">
+        <ol className="grid grid-3" role="list">
           {problem.cards.map((c, i) => (
-            <li key={c.title} className={`card overview-card reveal${i === 1 ? " is-core" : ""}`}>
+            <li key={c.title} className="card reveal">
               <Icon name={blockIcons[i]} className="icon icon-card" />
               <h3>{c.title}</h3>
               <p>{c.body}</p>
-              {i < problem.cards.length - 1 && (
-                <span className="overview-arrow" aria-hidden="true">
-                  <Icon name="arrow" />
-                </span>
-              )}
             </li>
           ))}
         </ol>

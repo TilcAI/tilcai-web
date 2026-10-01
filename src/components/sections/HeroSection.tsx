@@ -1,49 +1,36 @@
-import { Fragment } from "react";
 import type { Copy } from "@/lib/i18n";
 import { Icon } from "../Icon";
 import { HeroScene } from "./HeroScene";
 
-/**
- * The only <h1> on the landing. On mobile the copy comes first and the compact scene below it.
- */
+/** Compact headline and holographic scene. */
 export function HeroSection({ t }: { t: Copy }) {
-  const { hero } = t;
-
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="container hero-grid">
-        <div className="hero-copy">
-          <p className="eyebrow hero-eyebrow">
-            <span className="dot" aria-hidden="true" />
-            {hero.eyebrow}
-          </p>
-          <h1 id="hero-title">
-            {/* One unit per sentence so lines break between sentences, not inside them. */}
-            {hero.title.split(/(?<=\.)\s+/).map((sentence, i) => (
-              <Fragment key={sentence}>
-                {i > 0 && " "}
-                <span className="h1-sentence">{sentence}</span>
-              </Fragment>
-            ))}
-          </h1>
-          <p className="lead">{hero.lead}</p>
-          <div className="cta-row">
-            <a className="btn btn-primary" href="#flow">
-              {hero.ctaPrimary}
-              <Icon name="arrow" />
-            </a>
-            <a className="btn btn-ghost" href="#capabilities">
-              {hero.ctaSecondary}
-            </a>
+        <div className="container hero-grid">
+          <div className="hero-copy reveal">
+            <p className="status-pill">
+              <span className="dot" aria-hidden="true" />
+              {t.hero.eyebrow}
+            </p>
+            <h1 id="hero-title">{t.hero.title.split(/(?<=\.)\s+/).map((line, index) => <span key={line} className={index === 2 ? "hero-accent" : undefined}>{line} </span>)}</h1>
+            <p className="lead">{t.hero.lead}</p>
+            <div className="cta-row">
+              <a className="btn btn-primary" href="#flow">
+                {t.hero.ctaPrimary}
+                <Icon name="arrow" />
+              </a>
+              <a className="btn btn-ghost" href="#capabilities">
+                {t.hero.ctaSecondary}
+              </a>
+            </div>
+            <ul className="facts" role="list">
+              {t.hero.facts.map((f) => (
+                <li key={f}>{f}</li>
+              ))}
+            </ul>
           </div>
-          <ul className="facts" role="list">
-            {hero.facts.map((f) => (
-              <li key={f}>{f}</li>
-            ))}
-          </ul>
+          <HeroScene t={t} />
         </div>
-        <HeroScene scene={hero.scene} />
-      </div>
-    </section>
+      </section>
   );
 }

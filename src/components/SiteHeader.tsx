@@ -50,9 +50,8 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
 
         <nav className={`main-nav${open ? " is-open" : ""}`} id="main-nav" aria-label={t.a11y.mainNav}>
           {links.map(([label, href]) => (
-            <Link key={href} href={href} onClick={close}>
-              {label}
-            </Link>
+            page === "home" ? <a key={href} href={href} onClick={close}>{label}</a> :
+              <Link key={href} href={href} onClick={close}>{label}</Link>
           ))}
           <Link
             className={`nav-docs${page === "docs" ? " is-active" : ""}`}

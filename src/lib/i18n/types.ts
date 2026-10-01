@@ -77,6 +77,7 @@ export interface Copy {
     ctaSecondary: string;
     /** Short stage labels shown under the CTAs. */
     facts: string[];
+    visionNote: string;
     scene: HeroScene;
   };
   /** "What TilcAI is": cards are buyer's agent, TilcAI, the business — in that order. */
@@ -88,6 +89,7 @@ export interface Copy {
   agents: {
     eyebrow: string; title: string; lead: string; more: string; fewer: string;
     guide: string; pilot: string; permissionNote: string;
+    carousel: { previous: string; next: string; hint: string; label: string };
     surfaceLabels: Record<"terminal" | "editor" | "desktop", string>;
     exploration: string; thirdPartyNote: string;
     panel: {

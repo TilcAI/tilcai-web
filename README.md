@@ -54,21 +54,23 @@ src/
 │   ├── HomePage.tsx              # landing = composition of the sections below (server component)
 │   ├── sections/                 # one file per landing section
 │   │   ├── HeroSection.tsx       # the only <h1>: eyebrow, headline, CTAs, facts
-│   │   ├── HeroScene.tsx         # illustrative 3-node scene (server component, CSS-only motion)
+│   │   ├── HeroScene.tsx         # section entry point for the holographic CommerceScene
 │   │   ├── ProductOverview.tsx   # "What TilcAI is" (copy key `problem`): your agent / TilcAI / the business
 │   │   ├── FlowSection, DemoSection, CapabilitiesSection, InterfaceSection, CompareSection,
 │   │   │   StackSection, CtaSection   # earlier content, moved unchanged
 │   │   │   RoadmapSection         # three build-status columns with a maintainer per item
 │   │   └── shared.tsx            # SectionHead, StageTag
 │   ├── FaqSection.tsx            # eight native disclosures from typed dictionaries
-│   ├── AgentCatalog.tsx          # client: six main clients + expandable group
+│   ├── AgentCatalog.tsx          # client: perspective carousel, six / twelve clients
 │   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
-│   ├── AgentGuidePanel.tsx       # client-specific preparation / validated guide
+│   ├── AgentGuidePanel.tsx       # native modal drawer; preparation / validated guide
+│   ├── CommerceScene.tsx         # holographic hero and four scroll-driven layers
+│   ├── useDepthMotion.ts         # event-driven depth and reduced-motion preference
 │   ├── PolicyDemo.tsx            # client: illustrative policy choices
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy
-│   ├── RevealObserver.tsx        # client: reveal-on-scroll; also starts the hero scene when it is visible
+│   ├── RevealObserver.tsx        # client: reveal as content enters the viewport
 │   └── Icon.tsx
 └── lib/
     ├── content/agents.ts         # typed catalog, surfaces and official references
@@ -78,15 +80,15 @@ src/
     ├── snippets.ts               # conceptual JSON shown on the landing
     ├── metadata.ts               # per-page title, description, hreflang, Open Graph
     └── site.ts                   # routes and site URL
-public/assets/                    # original TilcAI logo (resized), favicon, social image
+public/assets/                    # TilcAI branding and supplied Codex / Claude mascots
 ```
 
 ## Hero and overview
 
-- The hero scene (`sections/HeroScene.tsx`) is a **drawing**, labelled "Flujo ilustrativo" / "Illustrative flow". Its names and figures (cinema company, 10 USDC) are sample data, not a partner or a real quote. It is server-rendered, needs no client JavaScript and adds no dependency: the entrance sequence is CSS and is triggered by `RevealObserver` adding `is-visible`. Without JS or with `prefers-reduced-motion` it renders in its final state.
-- On mobile the copy comes first and the compact scene below it; the scene is a vertical chain so it works from 360 px.
+- The hero section retains the compact headline and holographic composition. `sections/HeroScene.tsx` delegates to `CommerceScene.tsx`; pointer depth is event-driven, with a static presentation when JavaScript is unavailable or reduced motion is requested. The illustration represents roles and permissions, not a live operation or price quote.
+- On mobile the copy comes first and the compact scene follows it. The four decorative flow layers are omitted below 960px to avoid increasing the page height.
 - "Explore how it works" points to `#flow`; the secondary CTA ("Explore for my business") points to `#capabilities`.
-- Copy lives in `hero` (including `hero.scene`) and `problem` (the overview) in `src/lib/i18n/*.ts`.
+- Copy lives in `hero` and `problem` in `src/lib/i18n/*.ts`. The caption uses `hero.visionNote`; the imported `hero.scene` example data remains available for future content but is not rendered by the current scene.
 
 ## Editing content
 
@@ -110,6 +112,14 @@ public/assets/                    # original TilcAI logo (resized), favicon, soc
 The design uses semantic CSS classes in `globals.css` (unlayered, so they take precedence over Tailwind's base layer).
 Tailwind CSS v4 stays available for new components; brand tokens are exposed as utilities (`bg-surface`, `text-teal`, `text-amber`, `font-mono`…).
 Fonts are Geist and Geist Mono via `next/font`, as in the default scaffold.
+
+`landing.css` composes the compact hero, holographic scenes and technical disclosures;
+`agents.css` styles the carousel and right-side modal. General sections use 36px
+vertical padding on mobile and 48px on desktop. Technical detail is available on
+demand through native disclosures, retaining the public section anchors.
+Motion uses CSS perspective and event-driven updates; no animation dependency was added.
+See [the visual structure and verification record](docs/visual-structure.md) for
+asset replacement, team extension points and suggested commits.
 
 ## Accessibility
 

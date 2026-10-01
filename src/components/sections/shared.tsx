@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Copy } from "@/lib/i18n";
 import type { Stage } from "@/lib/i18n/types";
 
@@ -13,4 +14,15 @@ export function SectionHead({ id, eyebrow, title, lead }: { id: string; eyebrow:
       {lead && <p className="section-lead">{lead}</p>}
     </header>
   );
+}
+
+export function TechnicalSection({ id, titleId, eyebrow, title, children }: {
+  id: string; titleId: string; eyebrow: string; title: string; children: ReactNode;
+}) {
+  return <section id={id} className="section section-alt technical-section" aria-labelledby={titleId}>
+    <div className="container"><details className="technical-disclosure">
+      <summary><h2 id={titleId}><span className="eyebrow">{eyebrow}</span><span className="technical-label">{title}</span><span className="technical-toggle" aria-hidden="true">+</span></h2></summary>
+      <div className="technical-content">{children}</div>
+    </details></div>
+  </section>;
 }
