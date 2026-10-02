@@ -1,48 +1,142 @@
+.controlRail {
+  position: relative;
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .panel {
+  --panel-accent: var(--purple-400);
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 36px minmax(0, 1fr);
+  gap: 12px;
   min-width: 0;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel:first-child {
+  padding-top: 0;
+}
+
+.panel:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.panel:nth-child(2) {
+  --panel-accent: var(--turquoise);
+}
+
+.panel:nth-child(3) {
+  --panel-accent: var(--purple);
+}
+
+.railNumber,
+.stageNumber {
+  display: inline-grid;
+  width: 28px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--panel-accent, var(--purple-400)) 42%, transparent);
+  border-radius: 5px;
+  color: var(--panel-accent, var(--purple-200));
+  background: color-mix(in srgb, var(--panel-accent, var(--purple)) 12%, transparent);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .02em;
+}
+
+.panel :global(.icon-card) {
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  color: var(--panel-accent);
 }
 
 .panel h3 {
-  margin-top: 18px;
+  margin: 0;
+  font-size: 18px;
+}
+
+.panel p {
+  max-width: 38ch;
+  margin-top: 5px;
+  color: var(--text-2);
+  font-size: 14px;
 }
 
 .example {
-  margin-top: 20px;
-  padding: 20px;
+  position: relative;
+  margin-top: 36px;
+  padding: clamp(20px, 3.5vw, 36px);
+  overflow: hidden;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: linear-gradient(135deg, var(--pane), var(--bg-deep) 72%);
+  box-shadow: 0 24px 70px color-mix(in srgb, var(--bg-deep) 72%, transparent);
 }
 
-.exampleLabel {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: .07em;
-  text-transform: uppercase;
+.example::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--purple), var(--turquoise), transparent 72%);
 }
 
 .exampleLabel {
   display: inline-flex;
-  margin-bottom: 16px;
-  padding: 4px 9px;
-  color: var(--amber);
-  border: 1px solid rgba(232, 173, 92, .35);
+  margin-bottom: 20px;
+  padding: 5px 10px;
+  color: var(--purple-200);
+  border: 1px solid color-mix(in srgb, var(--purple-400) 38%, transparent);
   border-radius: 999px;
-  background: var(--amber-soft);
+  background: var(--purple-soft);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
 }
 
 .exampleGrid {
   display: grid;
-  gap: 16px;
+  gap: clamp(20px, 3vw, 38px);
 }
 
 .budget,
 .permission {
   min-width: 0;
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg-alt);
+}
+
+.budget {
+  position: relative;
+  padding: clamp(20px, 3vw, 30px);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--purple-400) 42%, transparent);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 88% 10%, var(--purple-soft), transparent 38%),
+    var(--bg-deep);
+}
+
+.budget::after {
+  content: "";
+  position: absolute;
+  right: -42px;
+  bottom: -52px;
+  width: 150px;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--turquoise) 20%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.permission {
+  padding: 2px 0;
 }
 
 .visualHead {
@@ -53,29 +147,30 @@
 }
 
 .visualHead h3,
-.explainer h3,
-.stageGrid h4,
+.authorizationStage h3,
+.authorizationStage h4,
 .stopConditions h4 {
   margin: 0;
 }
 
 .visualHead h3 {
-  font-size: 18px;
+  max-width: 18ch;
+  font-size: clamp(19px, 2vw, 24px);
 }
 
 .visualIcon,
 .explainerIcon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   flex: none;
-  color: var(--teal);
+  color: var(--turquoise);
 }
 
 .budgetValues {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
   gap: 12px;
-  margin: 24px 0 16px;
+  margin: clamp(26px, 4vw, 42px) 0 18px;
 }
 
 .budgetValues div,
@@ -86,27 +181,33 @@
 .budgetValues dt,
 .permissionFields dt {
   color: var(--muted);
-  font-size: 12px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
 }
 
 .budgetValues dd,
 .permissionFields dd {
-  margin: 3px 0 0;
+  margin: 4px 0 0;
   overflow-wrap: anywhere;
 }
 
 .budgetValues dd {
+  color: var(--text-bright);
   font-family: var(--mono);
-  font-size: clamp(18px, 3vw, 24px);
-  color: var(--text);
+  font-size: clamp(19px, 3vw, 30px);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
 }
 
 .meter {
-  height: 12px;
+  position: relative;
+  height: 10px;
   overflow: hidden;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
-  background: rgba(255, 255, 255, .035);
+  background: var(--surface-2);
 }
 
 .meter span {
@@ -114,136 +215,346 @@
   width: 60%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--teal-2), var(--teal));
-}
-
-.note {
-  color: var(--muted);
-  font-size: 13px;
+  background: linear-gradient(90deg, var(--purple), var(--turquoise));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--turquoise) 38%, transparent);
 }
 
 .permissionFields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 20px;
-  margin: 24px 0 18px;
+  gap: 0 18px;
+  margin: 18px 0;
 }
 
-.permissionFields dd {
-  color: var(--text-2);
-  font-size: 14px;
-}
-
-.stopConditions {
-  padding-top: 16px;
+.permissionFields div {
+  padding: 10px 0;
   border-top: 1px solid var(--border);
 }
 
-.stopConditions h4 {
-  font-size: 13px;
+.permissionFields dd {
   color: var(--text);
+  font-size: 13px;
+}
+
+.permissionFields .statusField dd {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 9px;
+  border: 1px solid color-mix(in srgb, var(--human) 38%, transparent);
+  border-radius: 999px;
+  background: var(--human-soft);
+  color: var(--text-bright);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--human);
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--human) 12%, transparent);
+}
+
+.stopConditions {
+  padding: 15px 16px;
+  border-left: 2px solid var(--human);
+  background: var(--human-soft);
+}
+
+.stopConditions h4 {
+  color: var(--human);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
 }
 
 .stopConditions ul {
   display: grid;
-  gap: 6px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 12px;
   margin-top: 10px;
   list-style: none;
 }
 
 .stopConditions li {
   position: relative;
+  min-width: 0;
   padding-left: 16px;
+  color: var(--text-2);
+  font-size: 12.5px;
+}
+
+.stopConditions li::before {
+  content: "!";
+  position: absolute;
+  left: 0;
+  top: .25em;
+  display: grid;
+  width: 11px;
+  height: 11px;
+  place-items: center;
+  border: 1px solid var(--human);
+  border-radius: 50%;
+  color: var(--human);
+  font: 700 8px/1 var(--mono);
+}
+
+.explainer {
+  margin-top: 40px;
+  padding: 28px 0;
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border);
+}
+
+.authorizationFlow {
+  position: relative;
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.authorizationStage {
+  --stage-accent: var(--purple-400);
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px 24px minmax(0, 1fr);
+  gap: 10px;
+  min-width: 0;
+  padding: 0 0 20px;
+}
+
+.authorizationStage:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  bottom: 4px;
+  left: 13px;
+  width: 1px;
+  background: linear-gradient(var(--stage-accent), var(--border));
+}
+
+.authorizationStage:last-child {
+  padding-bottom: 0;
+}
+
+.authorizationStage:nth-child(2) {
+  --stage-accent: var(--human);
+}
+
+.authorizationStage:nth-child(3) {
+  --stage-accent: var(--purple-400);
+}
+
+.authorizationStage .stageNumber {
+  --panel-accent: var(--stage-accent);
+}
+
+.authorizationStage > div {
+  grid-column: 2 / -1;
+}
+
+.authorizationStage .explainerIcon + div {
+  grid-column: 3;
+}
+
+.authorizationStage h3,
+.authorizationStage h4 {
+  color: var(--text-bright);
+  font-size: 15px;
+}
+
+.authorizationStage p,
+.authorizationStage > div > span {
+  display: block;
+  max-width: 50ch;
+  margin-top: 5px;
   color: var(--text-2);
   font-size: 13px;
 }
 
-.stopConditions li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: .65em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--amber);
+.explainerIcon {
+  color: var(--purple-300);
 }
 
-.explainer {
-  display: grid;
-  gap: 20px;
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, .015);
+.stageCurrent {
+  --stage-accent: var(--human);
 }
 
-.explainerIntro {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-}
-
-.explainerIntro p {
-  margin-top: 8px;
-  color: var(--text-2);
-  font-size: 14px;
-}
-
-.stageGrid {
-  display: grid;
-  gap: 12px;
-}
-
-.stageGrid section {
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-}
-
-.stageGrid h4 {
-  font-size: 15px;
-}
-
-.stageGrid span {
-  display: block;
-  margin-top: 7px;
-  color: var(--text-2);
-  font-size: 13.5px;
-}
-
-.stageGrid .stageCurrent {
-  border-color: rgba(232, 173, 92, .3);
-  background: linear-gradient(180deg, var(--amber-soft), transparent 85%);
-}
-
-.stageGrid .stageFuture {
-  border-style: dashed;
+.stageFuture {
+  --stage-accent: var(--purple-400);
 }
 
 .note {
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
+  margin-top: 20px;
+  padding: 11px 14px;
+  border-left: 2px solid var(--turquoise);
+  background: var(--rail-soft);
+  color: var(--text-2);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.55;
 }
 
 @media (min-width: 760px) {
-  .example {
-    padding: 24px;
-  }
-
   .exampleGrid {
-    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    align-items: stretch;
   }
 
-  .stageGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .permission {
+    padding: 2px 0 2px clamp(22px, 3vw, 38px);
+    border-left: 1px solid var(--border);
+  }
+}
+
+@media (min-width: 900px) {
+  .controlRail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .panel {
+    grid-template-columns: 30px 34px minmax(0, 1fr);
+    padding: 0 clamp(18px, 2.5vw, 30px);
+    border-right: 1px solid var(--border);
+    border-bottom: 0;
+  }
+
+  .panel:first-child {
+    padding-left: 0;
+  }
+
+  .panel:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .authorizationFlow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 52px);
+  }
+
+  .authorizationFlow::before {
+    content: "";
+    position: absolute;
+    top: 11px;
+    right: 8%;
+    left: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--purple-400), var(--human), var(--purple-400));
+  }
+
+  .authorizationStage .stageNumber,
+  .authorizationStage .explainerIcon,
+  .authorizationStage > div {
+    position: relative;
+    z-index: 1;
+    background-color: var(--bg-alt);
+  }
+
+  .authorizationStage {
+    display: grid;
+    grid-template-columns: 28px 24px minmax(0, 1fr);
+    align-content: start;
+    padding: 0;
+  }
+
+  .authorizationStage:not(:last-child)::after {
+    display: none;
+  }
+
+  .note {
+    margin: 24px auto 0;
+    max-width: 72ch;
+    text-align: center;
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--turquoise) 35%, transparent);
   }
 }
 
 @media (max-width: 420px) {
-  .budgetValues,
+  .panel {
+    grid-template-columns: 28px 32px minmax(0, 1fr);
+    gap: 9px;
+    padding: 14px 0;
+  }
+
+  .panel :global(.icon-card) {
+    width: 30px;
+    height: 30px;
+    padding: 7px;
+  }
+
+  .panel h3 {
+    font-size: 16px;
+  }
+
+  .panel p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .example {
+    margin-top: 28px;
+    padding: 18px;
+  }
+
+  .exampleLabel {
+    margin-bottom: 16px;
+    font-size: 9.5px;
+  }
+
+  .budget {
+    padding: 18px;
+  }
+
+  .budgetValues {
+    margin: 22px 0 16px;
+  }
+
+  .budgetValues dd {
+    font-size: 18px;
+  }
+
   .permissionFields {
-    grid-template-columns: 1fr;
+    gap: 0 12px;
+    margin: 14px 0;
+  }
+
+  .permissionFields div {
+    padding: 8px 0;
+  }
+
+  .stopConditions {
+    padding: 13px 14px;
+  }
+
+  .stopConditions ul {
+    gap: 6px 10px;
+  }
+
+  .explainer {
+    margin-top: 30px;
+    padding: 22px 0;
+  }
+
+  .authorizationStage {
+    padding-bottom: 16px;
+  }
+
+  .note {
+    margin-top: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meter span {
+    transition: none;
   }
 }

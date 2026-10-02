@@ -102,42 +102,42 @@ export const en: Copy = {
   },
   control: {
     eyebrow: "User control", title: "Delegate a task. Keep control of your money.",
-    lead: "The agent acts within conditions set by the person.",
+    lead: "Set the scope and limits before delegating.",
     panels: [
-      { title: "What it can do", body: "Allowed services and providers, with verified terms for each operation." },
-      { title: "How much it can spend", body: "A per-purchase limit. A shared budget across multiple agents is a future evolution." },
-      { title: "When it stops", body: "Pending approval, expiry, pause or revocation. A change in the purchase requires its authority to be reviewed." },
+      { title: "What it can do", body: "Approved services and providers." },
+      { title: "How much it can spend", body: "A defined limit for each purchase." },
+      { title: "When it stops", body: "A change in terms, expiry, pause or revocation." },
     ],
     example: {
       label: "Illustrative example · No real account or funds",
     },
     budget: {
-      title: "Budget for one purchase",
-      limitLabel: "Per-purchase limit", limitValue: "50 USDC",
-      exampleLabel: "Example amount", exampleValue: "30 / 50 USDC",
+      title: "Purchase budget",
+      limitLabel: "Limit", limitValue: "50 USDC",
+      exampleLabel: "This purchase", exampleValue: "30 / 50 USDC",
       meterLabel: "The amount uses 30 out of a 50 USDC limit",
     },
     permission: {
-      title: "Permission conditions",
+      title: "Permission",
       fields: [
         { label: "Scope", value: "Allowed service" },
-        { label: "Per-purchase limit", value: "50 USDC" },
-        { label: "Mode", value: "Per operation" },
+        { label: "Limit", value: "50 USDC" },
+        { label: "Mode", value: "Per purchase" },
         { label: "Status", value: "Pending" },
       ],
       stopLabel: "It stops when",
-      stopConditions: ["The amount exceeds the limit", "The recipient changes", "The permission expires", "The user pauses or revokes it"],
+      stopConditions: ["Over the limit", "Recipient changes", "Permission expires", "Paused or revoked"],
     },
     account: {
-      title: "Account, signing and authorization are different things",
-      body: "Connecting a wallet lets you manage and sign with the account. It does not authorize spending by itself.",
+      title: "Wallet and signing",
+      body: "Connecting a wallet enables signing, but does not grant spending permission.",
       current: {
         title: "Approval per purchase",
-        body: "The planned first step is to review the terms of each purchase before authorizing it.",
+        body: "Planned control: review the exact terms before authorizing.",
       },
       future: {
-        title: "Rules with smart accounts",
-        body: "Later, limits, expiry and revocation could be added through account rules.",
+        title: "Smart accounts",
+        body: "Future: limits, expiry and revocation as account rules.",
       },
     },
     note: "Revoking permissions affects future operations, not payments that have already settled.",
@@ -167,39 +167,37 @@ export const en: Copy = {
   },
   demo: {
     eyebrow: "Interactive simulation · no funds moved", title: "Explore decisions across three commercial cases.",
-    lead: "Select a scenario and change its conditions to see how the decision changes.",
+    lead: "Compare recipient, amount and approval conditions.",
     scenarioPrompt: "Choose a scenario",
-    variantPrompt: "Choose a variation",
+    variantPrompt: "Test a condition",
     scenarios: {
       cinema: {
-        title: "Cinema", summary: "A ticket booking with a quote from the business.",
+        title: "Cinema", summary: "Tickets quoted by the business.",
         request: "Two tickets for Wednesday.", service: "Cinema tickets", timing: "Wednesday", recipient: "Central Cinema",
       },
       "digital-service": {
-        title: "Digital service", summary: "One-time access to a digital resource.",
+        title: "Digital service", summary: "One-time digital access.",
         request: "One access to use after the operation is confirmed.", service: "Digital access", timing: "One-time use", recipient: "Digital Service",
       },
       "scheduled-purchase": {
-        title: "Scheduled purchase", summary: "A task that must be reviewed on every run.",
+        title: "Scheduled purchase", summary: "Reviewed on every run.",
         request: "A monthly purchase subject to the current rules.", service: "Monthly service", timing: "Every month", recipient: "Scheduled provider",
       },
     },
     variants: {
       valid: {
-        label: "Valid conditions", detail: "Recipient and amount match the quote.",
-        reason: "The conditions match and the operation can continue.",
+        label: "Valid conditions", detail: "Quoted recipient and amount.",
       },
       "changed-recipient": {
-        label: "Changed recipient", detail: "A different recipient is presented.",
-        reason: "The recipient does not match the one allowed for this scenario.",
+        label: "Changed recipient",
+        reason: "The recipient does not match the approved one.",
       },
       "over-limit": {
-        label: "Amount over the limit", detail: "The amount exceeds the scenario limit.",
-        reason: "The amount exceeds the limit set for this purchase.",
+        label: "Amount over the limit",
+        reason: "The amount exceeds the purchase limit.",
       },
       "requires-approval": {
-        label: "Requires approval", detail: "The operation stops for human review.",
-        reason: "The conditions require human review before continuing.",
+        label: "Requires approval",
       },
     },
     fields: {
@@ -207,10 +205,9 @@ export const en: Copy = {
       timing: "Timing", recipient: "Recipient", amount: "Amount", limit: "Limit",
       alternativeRecipient: "Alternative account", result: "Result",
     },
-    outcomes: { ALLOW: "Can continue", DENY: "Blocked", REQUIRE_APPROVAL: "Requires approval" },
+    outcomes: { ALLOW: "Can continue", DENY: "Blocked by policy", REQUIRE_APPROVAL: "Human review required" },
     approval: {
       title: "Human review",
-      body: "A person must review the conditions before continuing.",
       action: "Simulate approval", pending: "Review pending.",
       complete: "Review recorded",
     },
