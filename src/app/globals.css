@@ -101,24 +101,24 @@ ul, ol { margin: 0; padding: 0; }
   border-bottom: 1px solid var(--border);
 }
 .header-inner { display: flex; align-items: center; gap: 24px; height: 64px; }
-.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 700; }
+.brand { display: inline-flex; align-items: center; gap: 10px; min-width: 44px; min-height: 44px; color: var(--text); font-weight: 700; }
 .brand img { border-radius: 50%; box-shadow: 0 0 0 1px var(--border-strong); }
 .wordmark { font-size: 18px; letter-spacing: -0.01em; font-weight: 750; color: var(--text); }
 .wordmark span { color: var(--teal); }
 .main-nav { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-.main-nav a { color: var(--text-2); font-size: 14px; padding: 8px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
+.main-nav a { color: var(--text-2); font-size: 14px; min-width: 44px; min-height: 44px; padding: 8px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
 .main-nav a:hover { color: var(--text); background: rgba(255,255,255,0.04); }
 .main-nav .nav-docs { color: var(--text); border: 1px solid var(--border-strong); margin-left: 6px; }
 .main-nav .nav-docs.is-active { border-color: var(--teal-2); color: var(--teal); }
 .header-tools { display: flex; align-items: center; gap: 8px; }
-.lang { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); font-family: var(--mono); padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; }
+.lang { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 13px; color: var(--muted); font-family: var(--mono); padding: 0 8px; border: 1px solid var(--border); border-radius: 999px; }
 .lang .icon { width: 14px; height: 14px; }
 .lang-item { display: inline-flex; align-items: center; gap: 6px; }
-.lang a { color: var(--text-2); padding: 2px 2px; }
+.lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: var(--text-2); padding: 0 2px; }
 .lang a:hover { color: var(--text); }
 .lang-current { color: var(--amber); font-weight: 600; }
 .lang .sep { color: var(--border-strong); }
-.menu-btn { display: none; background: transparent; border: 1px solid var(--border-strong); color: var(--text); border-radius: 8px; width: 40px; height: 40px; align-items: center; justify-content: center; cursor: pointer; }
+.menu-btn { display: none; background: transparent; border: 1px solid var(--border-strong); color: var(--text); border-radius: 8px; width: 44px; height: 44px; align-items: center; justify-content: center; cursor: pointer; }
 
 @media (max-width: 1100px) {
   .header-inner { gap: 12px; }
@@ -133,7 +133,10 @@ ul, ol { margin: 0; padding: 0; }
   .main-nav a { padding: 12px; font-size: 15px; }
   .main-nav .nav-docs { margin: 6px 0 0; justify-content: center; }
   .main-nav.is-open { display: flex; }
-  html:not(.js) .main-nav { display: flex; position: static; flex-direction: row; flex-wrap: wrap; padding: 0; background: none; border: 0; }
+  html:not(.js) .site-header { position: static; }
+  html:not(.js) .header-inner { height: auto; min-height: 64px; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+  html:not(.js) .main-nav { display: grid; position: static; flex: 1 0 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; margin-left: 0; padding: 0; background: none; border: 0; }
+  html:not(.js) .main-nav .nav-docs { justify-content: flex-start; margin: 0; }
   html:not(.js) .menu-btn { display: none; }
 }
 
@@ -306,7 +309,7 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 /* ---------- FAQ ---------- */
 .faq-list { display: grid; gap: 12px; }
 .faq-item { padding: 16px 20px; border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--surface); }
-.faq-item summary { cursor: pointer; font-weight: 600; color: var(--text); }
+.faq-item summary { min-height: 44px; cursor: pointer; font-weight: 600; color: var(--text); }
 .faq-item summary::marker { color: var(--teal); }
 .faq-item p { margin-top: 16px; color: var(--text-2); max-width: 80ch; }
 .road-col > .tag { margin-bottom: 16px; }
@@ -341,7 +344,7 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 @media (min-width: 900px) { .footer-inner { grid-template-columns: 2fr 1fr; } .footer-meta { grid-column: 1 / -1; } }
 .footer-brand p { margin-top: 10px; max-width: 60ch; }
 .footer-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; align-content: start; }
-.footer-nav a { color: var(--text-2); }
+.footer-nav a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; color: var(--text-2); }
 .footer-meta { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 13px; border-top: 1px solid var(--border); padding-top: 20px; }
 
 /* ---------- Docs ---------- */
@@ -355,10 +358,10 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 @media (max-width: 1023px) { .docs-toc { border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; background: var(--surface); } }
 .toc-title { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 .docs-toc ol { display: grid; gap: 2px; }
-.docs-toc ol a { display: block; color: var(--text-2); padding: 6px 10px; border-radius: 8px; border-left: 2px solid transparent; }
+.docs-toc ol a { display: flex; align-items: center; min-height: 44px; color: var(--text-2); padding: 6px 10px; border-radius: 8px; border-left: 2px solid transparent; }
 .docs-toc ol a:hover { color: var(--text); background: rgba(255,255,255,.03); }
 .docs-toc ol a.is-current { color: var(--teal); border-left-color: var(--teal); background: var(--teal-soft); }
-.toc-back { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--text-2); }
+.toc-back { display: inline-flex; align-items: center; gap: 8px; min-width: 44px; min-height: 44px; margin-top: 18px; color: var(--text-2); }
 .prose { min-width: 0; max-width: 780px; }
 .prose section { padding: 8px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
 .prose section:last-child { border-bottom: 0; }

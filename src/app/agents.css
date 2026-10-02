@@ -36,7 +36,7 @@
 .integration-enabled { color: var(--allow); border-color: var(--allow); }
 .catalog-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
 .carousel-hint { font-size: 12px; color: var(--muted); }
-.catalog-footer .btn { height: 40px; font-size: 12px; padding: 0 14px; background: transparent; cursor: pointer; }
+.catalog-footer .btn { height: 44px; font-size: 12px; padding: 0 14px; background: transparent; cursor: pointer; }
 .agent-permission { display: flex; gap: 8px; align-items: flex-start; color: var(--text-2); font-size: 12px; margin-top: 16px; }
 .agent-permission .icon { color: var(--teal); height: 15px; width: 15px; margin-top: 2px; }
 #agents .disclaimer { font-size: 11px; margin-top: 8px; }
@@ -50,7 +50,7 @@ html:not(.js) .carousel-controls, html:not(.js) .agent-card-trigger, html:not(.j
 .agent-guide-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 20px; border-bottom: 1px solid var(--border); flex: none; }
 .agent-guide-head .eyebrow { font-size: 10px; margin-bottom: 8px; }
 .agent-guide-head h3 { font-size: 26px; }
-.drawer-close { width: 40px; height: 40px; flex: none; }
+.drawer-close { width: 44px; height: 44px; flex: none; }
 .agent-guide-body { padding: 16px 20px 24px; overflow-y: auto; overscroll-behavior-y: contain; min-height: 0; }
 .agent-guide-surface { color: var(--amber); font-family: var(--mono); font-size: 11px; }
 .agent-guide-summary { color: var(--text-2); font-size: 14px; margin-top: 10px; }
@@ -60,7 +60,7 @@ html:not(.js) .carousel-controls, html:not(.js) .agent-card-trigger, html:not(.j
 .agent-guide h4 { font-size: 12px; font-weight: 600; margin: 0 0 8px; }
 .agent-guide-preparation p, .guide-disclosure p { font-size: 12px; color: var(--text-2); line-height: 1.65; }
 .guide-disclosure { padding: 12px 0; border-bottom: 1px solid var(--border); }
-.guide-disclosure summary { cursor: pointer; font-size: 12px; font-weight: 550; }
+.guide-disclosure summary { min-height: 44px; cursor: pointer; font-size: 12px; font-weight: 550; }
 .guide-disclosure summary::marker { color: var(--teal); }
 .guide-disclosure p { margin-top: 10px; overflow-wrap: anywhere; }
 .agent-official-link { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12px; min-height: 44px; margin: 4px 0; }

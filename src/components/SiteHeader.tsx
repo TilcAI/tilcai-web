@@ -12,12 +12,14 @@ type Page = "home" | "docs";
 export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   const lang = t.locale;
   const anchor = (id: string) => (page === "home" ? `#${id}` : paths.section(lang, id));
   const localeHref = (loc: Locale) => (page === "home" ? paths.home(loc) : paths.docs(loc));
 
   useEffect(() => {
     if (!open) return;
+    navRef.current?.querySelector<HTMLAnchorElement>("a[href]")?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
@@ -48,7 +50,7 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
           </span>
         </Link>
 
-        <nav className={`main-nav${open ? " is-open" : ""}`} id="main-nav" aria-label={t.a11y.mainNav}>
+        <nav ref={navRef} className={`main-nav${open ? " is-open" : ""}`} id="main-nav" aria-label={t.a11y.mainNav}>
           {links.map(([label, href]) => (
             page === "home" ? <a key={href} href={href} onClick={close}>{label}</a> :
               <Link key={href} href={href} onClick={close}>{label}</Link>
