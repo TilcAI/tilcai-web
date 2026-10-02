@@ -57,16 +57,30 @@ export function drawRoomDetails(ctx: Ctx, r: Room) {
     ctx.beginPath(); ctx.moveTo(...P(x, yy, z)); ctx.lineTo(...P(xx, yy, z)); ctx.lineTo(...P(xx, y, z));
     ctx.strokeStyle = hexA(c.primary, z ? .25 : .8); ctx.lineWidth = z ? 5 : 1.5; ctx.stroke();
   }
-  // Back-wall glass bays, separated at the real door cells.
+  // Architectural cutaway: a solid service wall with framed glazing above it.
+  // Segments respect the same door gaps used by the simulation.
   for (let k = x; k <= r.x1; k++) {
     if (r.doors.some(d => d.x === k && d.y === y)) continue;
-    poly(ctx, [P(k, y), P(k + 1, y), P(k + 1, y, 82), P(k, y, 82)]);
-    ctx.fillStyle = hexA(c.primary, .045); ctx.fill();
-    ctx.strokeStyle = hexA(c.light, .15); ctx.lineWidth = .7; ctx.stroke();
+    // Shadow is painted on the room floor, never over occupants.
+    poly(ctx, [P(k, y), P(k + 1, y), P(k + 1.7, y + .65), P(k + .7, y + .65)]);
+    ctx.fillStyle = '#05061A66'; ctx.fill();
+    box(ctx, k, y - .09, k + 1, y + .09, 32, '#675B83', '#3B3356', '#211B37', 0, '#827399');
+    poly(ctx, [P(k + .04, y, 34), P(k + .96, y, 34), P(k + .96, y, 79), P(k + .04, y, 79)]);
+    ctx.fillStyle = '#171831BB'; ctx.fill();
+    ctx.strokeStyle = '#6C658455'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(...P(k + .12, y, 74)); ctx.lineTo(...P(k + .75, y, 42));
+    ctx.strokeStyle = '#AFA4D016'; ctx.stroke();
+    box(ctx, k, y - .06, k + 1, y + .06, 3, '#73668E', '#423755', '#312741', 80);
     if ((k - x) % 3 === 0) {
-      ctx.beginPath(); ctx.moveTo(...P(k, y, 5)); ctx.lineTo(...P(k, y, 82));
-      ctx.strokeStyle = hexA(c.light, .45); ctx.lineWidth = 1.4; ctx.stroke();
+      box(ctx, k - .07, y - .13, k + .07, y + .13, 86, '#776889', '#473859', '#2E2444');
+      ctx.beginPath(); ctx.moveTo(...P(k + .07, y + .14, 38)); ctx.lineTo(...P(k + .07, y + .14, 70));
+      ctx.strokeStyle = hexA(c.light, .65); ctx.lineWidth = 1.5; ctx.stroke();
     }
+  }
+  // The adjacent wall stays low so the room reads as an open dollhouse.
+  for (let k = y; k <= r.y1; k++) {
+    if (r.doors.some(d => d.x === x && d.y === k)) continue;
+    box(ctx, x - .08, k, x + .08, k + 1, 20, '#605677', '#302943', '#211B37', 0, '#8D7E9C55');
   }
   for (const d of r.doors) {
     const p = P(d.x + .5, d.y + .5);
