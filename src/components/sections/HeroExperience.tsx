@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import type { Copy } from "@/lib/i18n";
 import { paths } from "@/lib/site";
 import { Icon } from "../Icon";
+import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroScene, type HeroStep } from "./HeroScene";
 import { useHeroAnimation } from "./useHeroAnimation";
 
@@ -37,6 +38,7 @@ export function HeroExperience({ t }: { t: Copy }) {
   return (
     <section ref={root} className="brand-hero" aria-labelledby="hero-title">
       <div className="hero-ambient" aria-hidden="true" />
+      <HeroBackdrop eventSource={root} paused={paused} />
       <HeroScene t={t} active={active} onSelect={setActive} />
 
       <div className="brand-hero-content">
