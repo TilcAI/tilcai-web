@@ -1,14 +1,14 @@
 /* Compact landing composition; shared content/anchors remain in HomePage. */
-.hero { position: relative; padding: 40px 0; overflow: clip; background: radial-gradient(ellipse at 75% 35%, #10333870, transparent 55%); }
+.hero { position: relative; padding: 40px 0; overflow: clip; background: radial-gradient(ellipse at 75% 35%, rgb(var(--brand-deep-rgb) / .28), transparent 55%); }
 .hero-grid { display: grid; align-items: center; gap: 28px; position: relative; }
 .hero-copy { min-width: 0; }
-.hero h1 { font-size: clamp(36px, 4.2vw, 60px); line-height: 1.07; font-weight: 600; letter-spacing: -.055em; margin-bottom: 20px; text-wrap: balance; }
+.hero h1 { font-size: var(--fs-hero); line-height: 1.07; font-weight: 600; letter-spacing: -.055em; margin-bottom: 20px; text-wrap: balance; }
 .hero h1 > span { display: block; }
-.hero-accent { color: var(--teal); }
+.hero-accent { color: var(--brand); }
 .hero .lead { font-size: 16px; line-height: 1.65; max-width: 56ch; }
 .hero .cta-row { margin-top: 22px; }
 .status-pill { display: inline-flex; align-items: center; gap: 8px; color: var(--text-2); font-family: var(--mono); font-size: 10.5px; line-height: 1.5; margin-bottom: 20px; }
-.status-pill .dot { width: 6px; height: 6px; flex: none; background: var(--teal); border-radius: 50%; box-shadow: 0 0 12px #2cc3cd80; }
+.status-pill .dot { width: 6px; height: 6px; flex: none; background: var(--brand); border-radius: 50%; box-shadow: 0 0 12px rgb(var(--brand-rgb) / 0.5); }
 .facts { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 20px; font-size: 11px; color: var(--muted); font-family: var(--mono); }
 .facts li { display: flex; align-items: center; gap: 6px; }
 .facts li::before { content: ""; height: 4px; width: 4px; border-radius: 50%; background: var(--teal); }
@@ -16,13 +16,13 @@
 .vision-note { color: var(--muted); font-size: 12px; line-height: 1.6; padding: 0 14px; max-width: 54ch; margin: 0 auto; }
 .commerce-scene { --scene-x: 0; --scene-y: 0; position: relative; height: 380px; perspective: 1000px; isolation: isolate; }
 .scene-grid { position: absolute; inset: 22% -10% 0; background-image: linear-gradient(#5adee814 1px, transparent 1px), linear-gradient(90deg, #5adee814 1px, transparent 1px); background-size: 34px 34px; transform: rotateX(65deg); mask-image: radial-gradient(ellipse, #000, transparent 70%); }
-.scene-orbit { position: absolute; left: 50%; top: 46%; width: 320px; height: 320px; border: 1px solid #2cc3cd38; border-radius: 50%; transform: translate(-50%, -50%) rotateX(64deg) rotateZ(calc(var(--scene-x) * 12deg)); box-shadow: 0 0 25px #2cc3cd09, inset 0 0 25px #2cc3cd09; }
+.scene-orbit { position: absolute; left: 50%; top: 46%; width: 320px; height: 320px; border: 1px solid rgb(var(--brand-rgb) / 0.22); border-radius: 50%; transform: translate(-50%, -50%) rotateX(64deg) rotateZ(calc(var(--scene-x) * 12deg)); box-shadow: 0 0 25px rgb(var(--brand-rgb) / 0.04), inset 0 0 25px rgb(var(--brand-rgb) / 0.04); }
 .orbit-two { width: 390px; height: 390px; border-style: dashed; opacity: .45; transform: translate(-50%, -50%) rotateX(60deg) rotateY(-25deg); }
 .holo-core { position: absolute; width: 170px; height: 170px; top: 25%; left: calc(50% - 85px); transform: rotateX(calc(12deg - var(--scene-y) * 7deg)) rotateY(calc(-26deg + var(--scene-x) * 9deg)) rotateZ(-7deg); transform-style: preserve-3d; transition: transform .2s ease-out; }
-.core-face { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; border: 1px solid #a3faff90; border-radius: 18px; background: radial-gradient(ellipse at 30% 15%, #2cc3cd55, #092023b0 65%), repeating-linear-gradient(0deg, #7bfbff0c 0 1px, transparent 1px 4px); box-shadow: inset 0 0 40px #2cc3cd26, 0 0 70px #2cc3cd25; }
-.core-face::before, .core-face::after { content: ""; position: absolute; inset: 0; border: 1px solid #76eafc50; border-radius: inherit; transform: translateZ(-30px); background: #2cc3cd07; }
+.core-face { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; border: 1px solid #a3faff90; border-radius: 18px; background: radial-gradient(ellipse at 30% 15%, rgb(var(--brand-rgb) / 0.33), #092023b0 65%), repeating-linear-gradient(0deg, #7bfbff0c 0 1px, transparent 1px 4px); box-shadow: inset 0 0 40px rgb(var(--brand-rgb) / 0.15), 0 0 70px rgb(var(--brand-rgb) / 0.15); }
+.core-face::before, .core-face::after { content: ""; position: absolute; inset: 0; border: 1px solid #76eafc50; border-radius: inherit; transform: translateZ(-30px); background: rgb(var(--brand-rgb) / 0.03); }
 .core-face::after { transform: translateZ(-60px); }
-.core-face > .icon { width: 45px; height: 45px; color: #a4faff; filter: drop-shadow(0 0 10px #2cc3cd); }
+.core-face > .icon { width: 45px; height: 45px; color: #a4faff; filter: drop-shadow(0 0 10px var(--brand)); }
 .core-face > span { font-size: 26px; font-weight: 650; letter-spacing: -.04em; }
 .core-face > span span { color: var(--teal); }
 .scene-node { position: absolute; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 5px 10px; padding: 12px 14px; border: 1px solid #9ee9ee35; border-radius: 12px; background: linear-gradient(140deg, #13272bd9, #0b141be6); box-shadow: inset 0 1px #ffffff0a, 0 10px 30px #0005; font-size: 13px; transform: translate(calc(var(--scene-x) * -8px), calc(var(--scene-y) * -6px)); transition: transform .2s ease-out; }
@@ -30,7 +30,7 @@
 .scene-node small { color: var(--muted); font-family: var(--mono); font-size: 9px; max-width: 20ch; }
 .node-agent { top: 14%; left: 1%; }
 .node-business { top: 20%; right: 0; }
-.node-authority { bottom: 22%; left: 0; border-color: #e8ad5c40; }
+.node-authority { bottom: 22%; left: 0; border-color: rgb(var(--amber-rgb) / 0.25); }
 .node-authority .icon { color: var(--amber); }
 .node-evidence { bottom: 18%; right: 1%; }
 .scene-coordinate { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 9px; color: var(--muted); white-space: nowrap; }
@@ -38,18 +38,18 @@
 /* Four holographic sheets, moving over the natural section height. */
 .flow-composition { display: grid; align-items: center; gap: 12px; }
 .flow-layers { --scene-scroll: 0; position: relative; height: 360px; perspective: 1100px; isolation: isolate; overflow: clip; }
-.layer-floor { position: absolute; inset: 28% 0 0; background: radial-gradient(ellipse at 50% 70%, #2cc3cd30, transparent 65%); }
+.layer-floor { position: absolute; inset: 28% 0 0; background: radial-gradient(ellipse at 50% 70%, rgb(var(--brand-rgb) / 0.19), transparent 65%); }
 .holo-layer { --layer: 0; --offset: 0; position: absolute; width: 230px; height: 200px; left: calc(50% - 115px); top: 20%; padding: 18px; border: 1px solid #7ae6ee66; border-radius: 16px; background: linear-gradient(140deg, #163e46ed, #0a1b21f2), repeating-linear-gradient(0deg, #ffffff10 0 1px, transparent 1px 4px); box-shadow: inset 0 1px #ffffff18, 0 12px 30px #0004; transform: translateY(calc(var(--offset) * 1px + var(--scene-scroll) * var(--layer) * -24px)) rotateX(48deg) rotateZ(-24deg) translateZ(calc(var(--layer) * 35px)); transform-origin: center; }
 .layer-0 { --layer: 3; --offset: -45; z-index: 4; }
 .layer-1 { --layer: 2; --offset: 5; z-index: 3; border-color: #7ae6ee50; }
-.layer-2 { --layer: 1; --offset: 55; z-index: 2; border-color: #e8ad5c80; background: linear-gradient(140deg, #343124ef, #171c21f2); }
+.layer-2 { --layer: 1; --offset: 55; z-index: 2; border-color: rgb(var(--amber-rgb) / 0.5); background: linear-gradient(140deg, #343124ef, #171c21f2); }
 .layer-3 { --layer: 0; --offset: 105; z-index: 1; }
 .layer-header { display: flex; justify-content: space-between; align-items: center; color: #91e8eb; font-family: var(--mono); font-size: 11px; }
 .layer-title { display: block; margin-top: 8px; font-size: 14px; font-weight: 600; }
 .layer-caption { position: absolute; bottom: 14px; font-family: var(--mono); font-size: 9px; color: var(--muted); }
 .layer-glyph { display: flex; align-items: center; gap: 8px; margin-top: 22px; color: var(--teal); }
 .layer-glyph > .icon { width: 40px; height: 40px; }
-.layer-glyph i { display: block; width: 25px; height: 6px; background: #2cc3cd50; border-radius: 4px; }
+.layer-glyph i { display: block; width: 25px; height: 6px; background: rgb(var(--brand-rgb) / 0.31); border-radius: 4px; }
 .layer-glyph i:nth-last-child(2) { width: 16px; opacity: .65; }
 .layer-glyph i:last-child { width: 10px; opacity: .35; }
 .flow-composition .flow { padding: 16px; }
