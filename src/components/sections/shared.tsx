@@ -6,11 +6,11 @@ export function StageTag({ t, stage }: { t: Copy; stage: Stage }) {
   return <span className={`tag tag-${stage}`}>{t.stageLabels[stage]}</span>;
 }
 
-export function SectionHead({ id, eyebrow, title, lead }: { id: string; eyebrow: string; title: string; lead?: string }) {
+export function SectionHead({ id, eyebrow, title, dim, lead }: { id: string; eyebrow: string; title: string; dim?: string; lead?: string }) {
   return (
     <header className="section-head reveal">
       <p className="eyebrow">{eyebrow}</p>
-      <h2 id={id}>{title}</h2>
+      <h2 id={id}>{title}{dim && <> <span className="dim">{dim}</span></>}</h2>
       {lead && <p className="section-lead">{lead}</p>}
     </header>
   );
