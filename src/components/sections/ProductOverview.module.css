@@ -1,0 +1,116 @@
+/*
+ * "What TilcAI is" content: heading, three illustrated cards and a closing note.
+ * On desktop everything is sized in --u (defined by TilcAIParallax) so the block keeps the proportions of the
+ * 1672x941 composition and fits one screen. Below 1024px it is a normal fluid stack.
+ */
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+/* ---------- Heading ---------- */
+.head { max-width: 900px; margin: 0 auto 28px; }
+.head .eyebrow { font-size: 15px; font-weight: 500; color: var(--purple-300); margin-bottom: 12px; }
+.head .eyebrow::before { width: 8px; height: 8px; border-radius: 50%; }
+.head .title { font-size: clamp(30px, 7vw, 46px); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; word-spacing: 0.04em; text-wrap: balance; }
+.accent { color: #a066ff; background: linear-gradient(90deg, #8f66ff, #c07dff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.head .lead { max-width: 62ch; margin-top: 16px; font-size: 16px; line-height: 1.6; color: #e9e5f6; }
+
+/* ---------- Cards ---------- */
+/* A tall dark panel; the illustration floats over its top edge and the text sits in the lower part. */
+.cards { display: grid; grid-template-columns: 1fr; gap: 100px; margin: 92px auto 0; max-width: 560px; list-style: none; padding: 0; }
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 28px;
+  border: 1.5px solid rgb(152 116 255 / 0.9);
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgb(111 76 255 / 0.2), transparent 70%),
+    linear-gradient(180deg, rgb(20 14 58 / 0.5), rgb(8 6 28 / 0.9) 55%);
+  box-shadow: 0 0 0 1px rgb(111 76 255 / 0.18), 0 0 38px rgb(111 76 255 / 0.4), inset 0 0 40px rgb(111 76 255 / 0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.card:hover { border-color: rgb(176 142 255 / 0.95); box-shadow: 0 0 0 1px rgb(140 104 255 / 0.3), 0 0 44px rgb(111 76 255 / 0.42), inset 0 0 36px rgb(111 76 255 / 0.14); }
+
+/* 4:3 transparent illustration. Percent margins are relative to the card width, so it scales with the card. */
+.art { position: relative; aspect-ratio: 4 / 3; margin: -21.7% 2.5% -11.8%; pointer-events: none; }
+.art img { object-fit: contain; filter: drop-shadow(0 18px 26px rgb(2 2 15 / 0.45)); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.card:hover .art img { transform: translateY(-6px); }
+
+.body {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 18px 22px 22px;
+  margin: 0 -1.5px -1.5px;
+  border-top: 1.5px solid rgb(152 116 255 / 0.75);
+  border-radius: 22px 22px 28px 28px;
+  background: linear-gradient(180deg, rgb(12 9 40 / 0.8), rgb(6 5 24 / 0.94));
+}
+.icon {
+  flex: none;
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  padding: 16px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(145deg, #7a4dff, #4f2fe0);
+  border: 1px solid rgb(176 142 255 / 0.5);
+  box-shadow: 0 8px 20px rgb(79 47 224 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.22);
+}
+.body h3 { margin: 0 0 6px; font-size: 22px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: #fff; }
+.body p { font-size: 15px; line-height: 1.55; color: #d9d4ea; }
+
+/* ---------- Closing note ---------- */
+.note {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 900px;
+  margin: 28px auto 0;
+  padding: 18px 22px;
+  border-radius: 22px;
+  border: 1.5px solid rgb(104 126 255 / 0.9);
+  background: linear-gradient(90deg, rgb(12 10 44 / 0.88), rgb(8 8 34 / 0.88));
+  box-shadow: 0 0 34px rgb(76 102 255 / 0.4), inset 0 0 28px rgb(76 102 255 / 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-align: left;
+}
+.noteIcon { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; color: #fff; background: linear-gradient(145deg, #7a4dff, #4f2fe0); box-shadow: 0 8px 20px rgb(79 47 224 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.22); }
+.noteIcon :global(.icon) { width: 28px; height: 28px; }
+.noteLead { display: block; font-size: 16px; font-weight: 500; line-height: 1.45; color: #fff; }
+.noteRest { display: block; margin-top: 2px; font-size: 15px; line-height: 1.5; color: #b9b2d6; }
+
+/* ---------- Desktop: keep the proportions of the 1672x941 composition ---------- */
+@media (min-width: 1024px) {
+  .wrap { max-width: none; width: calc(var(--u, 0.7px) * 1510); padding: 0; }
+
+  .head { max-width: none; margin: 0 auto; }
+  .head .eyebrow { font-size: max(14px, calc(var(--u, 0.7px) * 21)); margin-bottom: calc(var(--u, 0.7px) * 8); }
+  .head .title { max-width: calc(var(--u, 0.7px) * 900); margin-inline: auto; font-size: max(32px, calc(var(--u, 0.7px) * 55)); line-height: 1.04; }
+  .head .lead { max-width: calc(var(--u, 0.7px) * 900); margin: calc(var(--u, 0.7px) * 14) auto 0; font-size: max(15px, calc(var(--u, 0.7px) * 21.5)); line-height: 1.58; }
+
+  .cards { grid-template-columns: 493fr 461fr 494fr; gap: calc(var(--u, 0.7px) * 30); max-width: none; margin: calc(var(--u, 0.7px) * 75) 0 0; }
+  .card { border-radius: calc(var(--u, 0.7px) * 30); }
+  .body { gap: calc(var(--u, 0.7px) * 25); padding: calc(var(--u, 0.7px) * 17) calc(var(--u, 0.7px) * 21) calc(var(--u, 0.7px) * 20); border-radius: calc(var(--u, 0.7px) * 24) calc(var(--u, 0.7px) * 24) calc(var(--u, 0.7px) * 29) calc(var(--u, 0.7px) * 29); }
+  .icon { width: max(46px, calc(var(--u, 0.7px) * 66)); height: max(46px, calc(var(--u, 0.7px) * 66)); padding: max(12px, calc(var(--u, 0.7px) * 17)); border-radius: calc(var(--u, 0.7px) * 15); }
+  .body h3 { font-size: max(18px, calc(var(--u, 0.7px) * 29)); margin-bottom: calc(var(--u, 0.7px) * 4); }
+  .body p { font-size: max(14px, calc(var(--u, 0.7px) * 19)); line-height: 1.38; }
+  .card:nth-child(2) .body { gap: calc(var(--u, 0.7px) * 20); padding-inline: calc(var(--u, 0.7px) * 17); }
+  .card:nth-child(2) .body p { font-size: max(13.5px, calc(var(--u, 0.7px) * 17.2)); }
+
+  .note { max-width: none; width: calc(var(--u, 0.7px) * 901); margin: calc(var(--u, 0.7px) * 22) auto 0; padding: calc(var(--u, 0.7px) * 18) calc(var(--u, 0.7px) * 40); gap: calc(var(--u, 0.7px) * 27); border-radius: calc(var(--u, 0.7px) * 24); }
+  .noteIcon { width: max(44px, calc(var(--u, 0.7px) * 68)); height: max(44px, calc(var(--u, 0.7px) * 68)); border-radius: calc(var(--u, 0.7px) * 16); }
+  .noteIcon :global(.icon) { width: 50%; height: 50%; }
+  .noteLead { font-size: max(14px, calc(var(--u, 0.7px) * 19.5)); }
+  .noteRest { font-size: max(13px, calc(var(--u, 0.7px) * 19)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .art img { transition: none; }
+  .card:hover .art img { transform: none; }
+}

@@ -72,6 +72,12 @@ const paths: Record<string, ReactNode> = {
       <path d="M7 12h2.5M14.5 12H17" />
     </>
   ),
+  chain: (
+    <>
+      <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1" />
+      <path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
+    </>
+  ),
   check: <path d="M5 12l4 4 10-10" />,
   x: <path d="M6 6l12 12M18 6L6 18" />,
   play: <path d="M8 5l11 7-11 7z" />,

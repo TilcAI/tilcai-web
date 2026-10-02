@@ -53,6 +53,7 @@ export const es: Copy = {
   problem: {
     eyebrow: "Qué es TilcAI",
     title: "Una conexión entre tu intención y la operación del negocio.",
+    titleAccent: "conexión",
     lead: "Tu asistente entiende lo que necesitas. El negocio mantiene sus servicios y condiciones. TilcAI construye la infraestructura para coordinar ambos lados con autoridad limitada.",
     cards: [
       { title: "Tu agente", body: "Interpreta la solicitud y consulta herramientas para conocer servicios, disponibilidad y cotizaciones." },

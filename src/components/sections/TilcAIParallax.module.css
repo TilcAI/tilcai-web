@@ -63,12 +63,14 @@
   /* Long section: the sticky stage and the centred content both stay while the layers separate. */
   .root { height: 180vh; }
   .content {
+    /* Content is sized against the 1672x941 composition: 1 unit = the smaller of width/1672 and height/941. */
+    --u: min(calc(100vw / 1672), calc(100vh / 941));
     position: sticky;
     top: 0;
     display: grid;
     align-items: center;
     min-height: 100vh;
-    padding: calc(var(--header-h) + 24px) 0 56px;
+    padding: calc(var(--header-h) + var(--u) * 24) 0 calc(var(--u) * 40);
   }
 }
 

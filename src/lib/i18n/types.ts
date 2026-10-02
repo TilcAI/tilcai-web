@@ -124,7 +124,7 @@ export interface Copy {
     scene: HeroScene;
   };
   /** "What TilcAI is": cards are buyer's agent, TilcAI, the business — in that order. */
-  problem: { eyebrow: string; title: string; lead: string; cards: Card[]; question: string };
+  problem: { eyebrow: string; title: string; /** Word inside `title` that is highlighted. */ titleAccent?: string; lead: string; cards: Card[]; question: string };
   businesses: {
     eyebrow: string; title: string; lead: string; empty: string;
     previewOnly: string; statusLabel: string;

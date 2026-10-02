@@ -53,6 +53,7 @@ export const en: Copy = {
   problem: {
     eyebrow: "What TilcAI is",
     title: "A connection between your intent and the business operation.",
+    titleAccent: "connection",
     lead: "Your assistant understands what you need. The business maintains its services and terms. TilcAI is building the infrastructure to coordinate both sides under limited authority.",
     cards: [
       { title: "Your agent", body: "Interprets the request and uses tools to inquire about services, availability and quotes." },
