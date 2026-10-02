@@ -1,5 +1,6 @@
 import type { Copy } from "./types";
 import { docsEs } from "./docs.es";
+import { officeEs } from "./office.es";
 
 export const es: Copy = {
   locale: "es",
@@ -21,6 +22,7 @@ export const es: Copy = {
   stageLabels: { available: "Base disponible", integration: "En integración", next: "Siguiente evolución" },
   integrationLabels: { preparation: "En preparación", guide: "Guía disponible", pilot: "Piloto", enabled: "Habilitado" },
   environmentLabels: { simulation: "Simulación", testnet: "Testnet", production: "Producción" },
+  office: officeEs,
   hero: {
     eyebrow: "Infraestructura de comercio entre agentes · Stellar · En desarrollo",
     title: "Tu agente compra. Tu empresa responde. Tú mantienes el control.",
