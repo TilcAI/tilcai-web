@@ -110,8 +110,10 @@ public/assets/                    # TilcAI branding and supplied Codex / Claude 
 ## Styling
 
 The design uses semantic CSS classes in `globals.css` (unlayered, so they take precedence over Tailwind's base layer).
-Tailwind CSS v4 stays available for new components; brand tokens are exposed as utilities (`bg-surface`, `text-teal`, `text-amber`, `font-mono`…).
+Tailwind CSS v4 stays available for new components; brand tokens are exposed as utilities (`bg-surface`, `bg-brand`, `text-brand`, `text-heritage-amber`, `font-mono`…; `text-teal` and `text-amber` remain as aliases).
 Fonts are Geist and Geist Mono via `next/font`, as in the default scaffold.
+
+Design tokens (obsidian + glacial cyan palette, type scale, radii, borders, spacing) live at the top of `globals.css`; the button, badge and card are the base components. Contrast of the real colour pairs is verified with `node scripts/check-contrast.mjs` (no dependencies). See [docs/design-tokens.md](docs/design-tokens.md). The Tilcayo isotype proposals (routes A and B) are in [docs/brand-exploration.md](docs/brand-exploration.md); they are not approved and do not replace the current logo.
 
 `landing.css` composes the compact hero, holographic scenes and technical disclosures;
 `agents.css` styles the carousel and right-side modal. General sections use 36px
