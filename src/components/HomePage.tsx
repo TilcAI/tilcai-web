@@ -9,6 +9,7 @@ import { CtaSection } from "./sections/CtaSection";
 import { DemoSection } from "./sections/DemoSection";
 import { FlowSection } from "./sections/FlowSection";
 import { HeroSection } from "./sections/HeroSection";
+import { OfficeHero } from "./office/OfficeHero";
 import { InterfaceSection } from "./sections/InterfaceSection";
 import { OfficeLegendSection } from "./sections/OfficeLegendSection";
 import { ProductOverview } from "./sections/ProductOverview";
@@ -20,6 +21,7 @@ export function HomePage({ t }: { t: Copy }) {
   return (
     <>
       <HeroSection t={t} />
+      <OfficeHero t={t} />
       <ProductOverview t={t} />
       <OfficeLegendSection t={t} />
       <BusinessesSection t={t} />

@@ -17,7 +17,7 @@ export const en: Copy = {
   },
   nav: {
     problem: "What it is", flow: "How it works", demo: "Simulation", capabilities: "Businesses",
-    agents: "Assistants", code: "Contracts", roadmap: "Progress", docs: "Docs", home: "Home",
+    agents: "Agents", code: "Contracts", roadmap: "Progress", docs: "Docs", home: "Home",
   },
   stageLabels: { available: "Available foundation", integration: "Being integrated", next: "Next steps" },
   integrationLabels: { preparation: "In preparation", guide: "Guide available", pilot: "Pilot", enabled: "Enabled" },
@@ -26,8 +26,11 @@ export const en: Copy = {
   hero: {
     eyebrow: "Agent commerce infrastructure · Stellar · In development",
     title: "Your agent buys. Your business responds. You stay in control.",
-    lead: "We are building the connection between agents acting for people and businesses to inquire, book and buy with verifiable terms, limited permissions and payments on Stellar.",
-    ctaPrimary: "Explore how it works", ctaSecondary: "Explore for my business",
+    titleTop: "Your agent buys",
+    titleBottom: "You stay in control",
+    visual: { person: "Person", business: "Business", document: "Document", development: "In development", docs: "Read docs", pause: "Pause animation", resume: "Play animation", scroll: "Explore the simulation" },
+    lead: "Businesses respond with verifiable terms and limited permissions.",
+    ctaPrimary: "Explore now", ctaSecondary: "Explore for my business",
     facts: ["Verifiable terms", "Limited permissions", "Approval per purchase"],
     visionNote: "Your agent interprets the request. The business provides terms and availability. TilcAI coordinates permissions, operations and evidence. The complete purchase flow is enabled in stages.",
     scene: {

@@ -1,7 +1,7 @@
 import type { Copy } from "@/lib/i18n";
-import { OfficeHero } from "../office/OfficeHero";
+import { HeroExperience } from "./HeroExperience";
 
-/** Full-screen hero: the live TilcAI office simulation holds the page's only <h1>. */
+/** Brand-led opening screen. The office simulation follows immediately below. */
 export function HeroSection({ t }: { t: Copy }) {
-  return <OfficeHero t={t} />;
+  return <HeroExperience t={t} />;
 }

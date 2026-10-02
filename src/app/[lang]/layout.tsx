@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Anton, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import type { ReactNode } from "react";
@@ -11,6 +11,7 @@ import "../globals.css";
 // Plus Jakarta Sans stands in for The Graph's licensed Euclid Circular A (see docs/redesign-the-graph.md).
 const display = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
+const heroDisplay = Anton({ variable: "--font-anton", subsets: ["latin"], weight: "400", display: "swap" });
 
 // Only /en and /es exist; anything else is a 404.
 export const dynamicParams = false;
@@ -46,7 +47,7 @@ export default async function RootLayout({
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={`${display.variable} ${mono.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} className={`${display.variable} ${mono.variable} ${heroDisplay.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Enables reveal-on-scroll styles only when JavaScript runs; content stays visible without it. */}
         <Script id="tilcai-enhancement" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

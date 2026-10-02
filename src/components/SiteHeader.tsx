@@ -37,10 +37,14 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
   const scrolled = useSyncExternalStore(subscribeScroll, () => window.scrollY > 24, () => false);
 
   const close = () => setOpen(false);
-  const links: [string, string][] = [
+  const links: [string, string][] = page === "home" ? [
+    [t.nav.agents, anchor("agents")],
+    [t.nav.capabilities, anchor("businesses")],
+    [t.nav.roadmap, anchor("roadmap")],
+  ] : [
     [t.nav.problem, anchor("problem")],
     [t.nav.flow, anchor("flow")],
-    [t.nav.demo, anchor("demo")],
+    [t.nav.demo, anchor("simulation")],
     [t.nav.capabilities, anchor("businesses")],
     [t.nav.agents, anchor("agents")],
     [t.nav.roadmap, anchor("roadmap")],
@@ -72,7 +76,7 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
         <div className="header-tools">
           <div className="lang" role="group" aria-label={t.a11y.langSwitch}>
             <Icon name="globe" />
-            {(["en", "es"] as const).map((loc, i) => (
+            {([lang, lang === "es" ? "en" : "es"] as const).map((loc, i) => (
               <span key={loc} className="lang-item">
                 {i > 0 && (
                   <span aria-hidden="true" className="sep">
@@ -91,6 +95,7 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
               </span>
             ))}
           </div>
+          {page === "home" && <a className="header-hero-link" href="#simulation" aria-label={t.nav.demo}><span aria-hidden="true">↗</span></a>}
           <button
             ref={btnRef}
             className="menu-btn"

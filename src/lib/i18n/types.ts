@@ -112,6 +112,9 @@ export interface Copy {
   hero: {
     eyebrow: string;
     title: string;
+    titleTop: string;
+    titleBottom: string;
+    visual: { person: string; business: string; document: string; development: string; docs: string; pause: string; resume: string; scroll: string };
     lead: string;
     ctaPrimary: string;
     ctaSecondary: string;
