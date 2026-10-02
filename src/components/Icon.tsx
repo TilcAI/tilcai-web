@@ -74,6 +74,44 @@ const paths: Record<string, ReactNode> = {
   ),
   check: <path d="M5 12l4 4 10-10" />,
   x: <path d="M6 6l12 12M18 6L6 18" />,
+  play: <path d="M8 5l11 7-11 7z" />,
+  pause: <path d="M9 5v14M15 5v14" />,
+  plus: <path d="M12 5v14M5 12h14" />,
+  minus: <path d="M5 12h14" />,
+  expand: <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />,
+  power: (
+    <>
+      <path d="M12 3v8" />
+      <path d="M6.3 7.5a8 8 0 1 0 11.4 0" />
+    </>
+  ),
+  repeat: (
+    <>
+      <path d="M17 2l4 4-4 4" />
+      <path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4" />
+      <path d="M21 13v2a3 3 0 0 1-3 3H3" />
+    </>
+  ),
+  alert: (
+    <>
+      <path d="M12 3l10 18H2z" />
+      <path d="M12 10v5M12 18v.5" />
+    </>
+  ),
+  cart: (
+    <>
+      <path d="M3 4h2l2.5 11h11L21 8H6.5" />
+      <circle cx="9" cy="19" r="1.5" />
+      <circle cx="17" cy="19" r="1.5" />
+    </>
+  ),
+  chevron: <path d="M6 9l6 6 6-6" />,
+  panel: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M15 4v16" />
+    </>
+  ),
   lock: (
     <>
       <rect x="5" y="11" width="14" height="10" rx="2" />

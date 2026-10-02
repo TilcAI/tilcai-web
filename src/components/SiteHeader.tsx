@@ -2,12 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { Copy, Locale } from "@/lib/i18n";
 import { paths } from "@/lib/site";
 import { Icon } from "./Icon";
 
 type Page = "home" | "docs";
+
+const subscribeScroll = (cb: () => void) => {
+  window.addEventListener("scroll", cb, { passive: true });
+  return () => window.removeEventListener("scroll", cb);
+};
 
 export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
   const [open, setOpen] = useState(false);
@@ -28,6 +33,9 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // On the home page the header floats over the office hero until the page scrolls.
+  const scrolled = useSyncExternalStore(subscribeScroll, () => window.scrollY > 24, () => false);
+
   const close = () => setOpen(false);
   const links: [string, string][] = [
     [t.nav.problem, anchor("problem")],
@@ -39,13 +47,10 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
   ];
 
   return (
-    <header className="site-header">
+    <header className={`site-header${page === "home" ? " is-overlay" : ""}${scrolled ? " is-scrolled" : ""}${open ? " menu-open" : ""}`}>
       <div className="container header-inner">
         <Link className="brand" href={paths.home(lang)} aria-label={`TilcAI — ${t.nav.home}`}>
-          <Image src="/assets/tilcai-face-64.png" width={28} height={28} alt="" loading="eager" />
-          <span className="wordmark">
-            Tilc<span>AI</span>
-          </span>
+          <Image src="/brand/tilcai-logo@2x.webp" width={720} height={276} alt="" loading="eager" fetchPriority="high" sizes="80px" />
         </Link>
 
         <nav className={`main-nav${open ? " is-open" : ""}`} id="main-nav" aria-label={t.a11y.mainNav}>
