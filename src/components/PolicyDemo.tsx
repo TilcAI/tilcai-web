@@ -12,6 +12,7 @@ import {
 } from "@/lib/demo/scenarios";
 import type { Copy } from "@/lib/i18n";
 import styles from "./PolicyDemo.module.css";
+import { PolicyFlowVisualization } from "./PolicyFlowVisualization";
 
 export function PolicyDemo({ t }: { t: Copy["demo"] }) {
   const [scenarioId, setScenarioId] = useState<ScenarioId>(initialScenarioId);
@@ -56,6 +57,11 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
     : displayedDecision === "DENY"
       ? styles.badgeDeny
       : styles.badgeApproval;
+  const displayedDecisionLabel = displayedDecision === "ALLOW"
+    ? t.flow.allowed
+    : displayedDecision === "DENY"
+      ? t.flow.blocked
+      : t.flow.reviewRequired;
 
   return (
     <div className={`reveal ${styles.explorer}`}>
@@ -104,6 +110,20 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
         </div>
       </div>
 
+      <PolicyFlowVisualization
+        t={t}
+        scenarioTitle={scenarioCopy.title}
+        businessName={scenarioCopy.recipient}
+        amount={currentAmount}
+        limit={scenario.quote.limit}
+        currency={scenario.quote.currency}
+        displayedDecision={displayedDecision}
+        needsApproval={needsApproval}
+        approvalSimulated={approvalSimulated}
+        changedRecipient={changedRecipient}
+        amountOverLimit={amountOverLimit}
+      />
+
       <div className={styles.resultGrid}>
         <div id="demo-result" className="demo-output" role="status" aria-live="polite" aria-atomic="true">
           <p className={styles.decisionContext}>
@@ -113,9 +133,9 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
           <div className={styles.decisionTrace} aria-hidden="true">
             <span>{variantCopy.label}</span>
             <span className={styles.traceArrow}>→</span>
-            <span className={`${styles.decisionBadge} ${decisionBadgeClass}`}>{displayedDecision}</span>
+            <span className={`${styles.decisionBadge} ${decisionBadgeClass}`}>{displayedDecisionLabel}</span>
           </div>
-          <span className="sr-only">{scenarioCopy.title}. {variantCopy.label}. {displayedDecision}.</span>
+          <span className="sr-only">{scenarioCopy.title}. {variantCopy.label}. {displayedDecisionLabel}.</span>
           <span className={`demo-outcome ${decisionClass}`}>{t.outcomes[displayedDecision]}</span>
           {variantCopy.reason && displayedDecision !== "ALLOW" && <p>{variantCopy.reason}</p>}
           {displayedDecision === "ALLOW" && <p className={styles.continuationNote}>{t.continuationNote}</p>}

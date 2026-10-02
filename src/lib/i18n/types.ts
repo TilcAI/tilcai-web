@@ -220,6 +220,23 @@ export interface Copy {
       result: string;
     };
     outcomes: Record<Decision, string>;
+    flow: {
+      label: string;
+      user: string;
+      tilcaiAgent: string;
+      policy: string;
+      humanReview: string;
+      pending: string;
+      approved: string;
+      destination: string;
+      businessAgent: string;
+      business: string;
+      allowed: string;
+      blocked: string;
+      reviewRequired: string;
+      recipientNotAllowed: string;
+      overLimit: string;
+    };
     approval: { title: string; action: string; pending: string; complete: string };
     reset: string;
     continuationNote: string;
