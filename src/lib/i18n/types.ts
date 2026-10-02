@@ -206,7 +206,7 @@ export interface Copy {
       timing: string;
       recipient: string;
     }>;
-    variants: Record<VariantId, { label: string; detail: string; reason: string }>;
+    variants: Record<VariantId, { label: string; detail?: string; reason?: string }>;
     fields: {
       request: string;
       quote: string;
@@ -220,7 +220,7 @@ export interface Copy {
       result: string;
     };
     outcomes: Record<Decision, string>;
-    approval: { title: string; body: string; action: string; pending: string; complete: string };
+    approval: { title: string; action: string; pending: string; complete: string };
     reset: string;
     continuationNote: string;
   };

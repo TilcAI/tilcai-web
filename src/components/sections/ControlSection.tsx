@@ -18,15 +18,18 @@ export function ControlSection({ t }: { t: Copy }) {
           lead={control.lead}
         />
 
-        <ul className="grid grid-3" role="list">
+        <ol className={styles.controlRail}>
           {control.panels.map((panel, index) => (
-            <li key={panel.title} className={`card reveal ${styles.panel}`}>
+            <li key={panel.title} className={`reveal ${styles.panel}`}>
+              <span className={styles.railNumber} aria-hidden="true">0{index + 1}</span>
               <Icon name={panelIcons[index]} className="icon icon-card" />
-              <h3>{panel.title}</h3>
-              <p>{panel.body}</p>
+              <div>
+                <h3>{panel.title}</h3>
+                <p>{panel.body}</p>
+              </div>
             </li>
           ))}
-        </ul>
+        </ol>
 
         <div className={`reveal ${styles.example}`} role="group" aria-labelledby="control-example-label">
           <p id="control-example-label" className={styles.exampleLabel}>{control.example.label}</p>
@@ -65,10 +68,13 @@ export function ControlSection({ t }: { t: Copy }) {
                 <Icon name="shield" className={styles.visualIcon} />
               </div>
               <dl className={styles.permissionFields}>
-                {control.permission.fields.map((field) => (
-                  <div key={field.label}>
+                {control.permission.fields.map((field, index) => (
+                  <div key={field.label} className={index === control.permission.fields.length - 1 ? styles.statusField : undefined}>
                     <dt>{field.label}</dt>
-                    <dd>{field.value}</dd>
+                    <dd>
+                      {index === control.permission.fields.length - 1 && <span className={styles.statusDot} aria-hidden="true" />}
+                      {field.value}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -85,23 +91,30 @@ export function ControlSection({ t }: { t: Copy }) {
         </div>
 
         <aside className={`reveal ${styles.explainer}`} aria-labelledby="control-account-title">
-          <div className={styles.explainerIntro}>
-            <Icon name="lock" className={styles.explainerIcon} />
-            <div>
-              <h3 id="control-account-title">{control.account.title}</h3>
-              <p>{control.account.body}</p>
-            </div>
-          </div>
-          <div className={styles.stageGrid}>
-            <section className={styles.stageCurrent} aria-labelledby="control-current-title">
-              <h4 id="control-current-title">{control.account.current.title}</h4>
-              <span>{control.account.current.body}</span>
-            </section>
-            <section className={styles.stageFuture} aria-labelledby="control-future-title">
-              <h4 id="control-future-title">{control.account.future.title}</h4>
-              <span>{control.account.future.body}</span>
-            </section>
-          </div>
+          <ol className={styles.authorizationFlow}>
+            <li className={styles.authorizationStage}>
+              <span className={styles.stageNumber} aria-hidden="true">01</span>
+              <Icon name="lock" className={styles.explainerIcon} />
+              <div>
+                <h3 id="control-account-title">{control.account.title}</h3>
+                <p>{control.account.body}</p>
+              </div>
+            </li>
+            <li className={`${styles.authorizationStage} ${styles.stageCurrent}`}>
+              <span className={styles.stageNumber} aria-hidden="true">02</span>
+              <div>
+                <h4 id="control-current-title">{control.account.current.title}</h4>
+                <span>{control.account.current.body}</span>
+              </div>
+            </li>
+            <li className={`${styles.authorizationStage} ${styles.stageFuture}`}>
+              <span className={styles.stageNumber} aria-hidden="true">03</span>
+              <div>
+                <h4 id="control-future-title">{control.account.future.title}</h4>
+                <span>{control.account.future.body}</span>
+              </div>
+            </li>
+          </ol>
           <p className={styles.note}>{control.note}</p>
         </aside>
       </div>
