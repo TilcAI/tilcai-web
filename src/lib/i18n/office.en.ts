@@ -46,6 +46,10 @@ export const officeEn: OfficeCopy = {
   roles: { buyer: "Buyer agent", seller: "Business agent", policy: "Policy core", budget: "Budget", guardian: "Principal / guardian", vault: "Stellar rail", receipts: "Receipts", barista: "Café" },
   tasks: { idle: "At their desk", intent: "Preparing intent", walking: "Walking", quoting: "Requesting a quote", policy: "Under policy evaluation", approval: "Waiting for approval", settling: "Settling x402 payment", receipt: "Collecting receipt", resting: "On a break", frozen: "Frozen by kill switch" },
   legend: {
+    buildingEyebrow: "The TilcAI building",
+    buildingTitle: "Eight floors. One connected journey.",
+    buildingLead: "Move through the building to explore every part of the office. The same agents and functions from the simulation connect as one infrastructure.",
+    jumpToFloor: "Go to floor",
     eyebrow: "How to read the office",
     title: "Every room is a piece of TilcAI.",
     titleDim: "Agents walk the full path of a purchase.",

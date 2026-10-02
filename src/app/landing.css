@@ -5,21 +5,6 @@
 .facts li { display: flex; align-items: center; gap: 6px; }
 .facts li::before { content: ""; height: 5px; width: 5px; border-radius: 2px; background: var(--purple-400); }
 
-/* ---------- Office legend ---------- */
-.legend-grid { display: grid; gap: 14px; grid-template-columns: 1fr; counter-reset: room; }
-@media (min-width: 700px) { .legend-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .legend-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.legend-card { --room: var(--purple); position: relative; display: grid; gap: 8px; align-content: start; padding: 22px 22px 24px; border-radius: var(--radius); border: 1px solid var(--border); background: radial-gradient(240px 120px at 0% 0%, color-mix(in srgb, var(--room) 16%, transparent), transparent 75%), var(--pane); counter-increment: room; transition: border-color .2s ease, transform .2s ease; }
-.legend-card:hover { border-color: color-mix(in srgb, var(--room) 55%, transparent); transform: translateY(-2px); }
-.legend-card::after { content: counter(room, decimal-leading-zero); position: absolute; top: 20px; right: 22px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
-.legend-swatch { width: 34px; height: 20px; border-radius: 4px; background: color-mix(in srgb, var(--room) 30%, var(--bg)); border: 1.5px solid var(--room); transform: skewX(-30deg) scaleY(.9); margin: 2px 0 8px 6px; box-shadow: 0 0 18px color-mix(in srgb, var(--room) 45%, transparent); }
-.legend-card h3 { font-size: 19px; letter-spacing: -0.02em; }
-.legend-who { font-size: 13px; font-weight: 500; color: var(--room); }
-.legend-card p:last-child { color: var(--text-2); font-size: 14.5px; line-height: 1.65; }
-.legend-note { margin: 24px auto 0; color: var(--muted); font-size: 13.5px; text-align: center; }
-.room-hub { --room: #4C66FF; } .room-business { --room: #FF79C6; } .room-budget { --room: #A994FF; } .room-core { --room: #8C70FF; }
-.room-approval { --room: #FFA801; } .room-vault { --room: #66D8FF; } .room-receipts { --room: #4BCA81; } .room-cafe { --room: #C5C4C6; }
-
 /* ---------- Flow layers (decorative copy of the accessible flow) ---------- */
 .flow-composition { display: grid; align-items: center; gap: 12px; }
 .flow-layers { --scene-scroll: 0; position: relative; height: 360px; perspective: 1100px; isolation: isolate; overflow: clip; }

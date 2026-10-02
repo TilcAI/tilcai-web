@@ -35,6 +35,12 @@ const paths: Record<string, ReactNode> = {
       <path d="M9 8h6M9 12h6" />
     </>
   ),
+  cafe: (
+    <>
+      <path d="M4 8h12v6a6 6 0 0 1-12 0zM16 9h2a3 3 0 0 1 0 6h-2M3 21h15" />
+      <path d="M8 5c-2-2 1-3 0-5M12 5c-2-2 1-3 0-5" />
+    </>
+  ),
   tree: (
     <>
       <circle cx="12" cy="5" r="2" />

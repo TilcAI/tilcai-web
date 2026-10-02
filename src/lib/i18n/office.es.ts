@@ -46,6 +46,10 @@ export const officeEs: OfficeCopy = {
   roles: { buyer: "Agente comprador", seller: "Agente de empresa", policy: "Núcleo de políticas", budget: "Presupuesto", guardian: "Principal / guardián", vault: "Riel Stellar", receipts: "Recibos", barista: "Café" },
   tasks: { idle: "En su escritorio", intent: "Preparando intención", walking: "Caminando", quoting: "Pidiendo cotización", policy: "En evaluación de política", approval: "Esperando aprobación", settling: "Liquidando pago x402", receipt: "Recogiendo recibo", resting: "Descansando", frozen: "Congelado por kill switch" },
   legend: {
+    buildingEyebrow: "El edificio TilcAI",
+    buildingTitle: "Ocho pisos. Un solo recorrido.",
+    buildingLead: "Desciende por el edificio para conocer cada pieza de la oficina. Los mismos agentes y funciones de la simulación se conectan en una sola infraestructura.",
+    jumpToFloor: "Ir al piso",
     eyebrow: "Cómo leer la oficina",
     title: "Cada sala es una pieza de TilcAI.",
     titleDim: "Los agentes recorren el camino completo de una compra.",
