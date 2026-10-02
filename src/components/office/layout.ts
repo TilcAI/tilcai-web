@@ -6,16 +6,16 @@ export const GRID_H = 30;
 
 const c = (x: number, y: number): Cell => ({ x, y });
 
-/** Room hues follow The Graph palette; floors are dark tints so agents and bubbles stay legible. */
+/** Room hues follow the TilcAI functional palette; floors are dark tints so agents and bubbles stay legible. */
 export const ROOMS: Room[] = [
-  { id: "business", x0: 1, y0: 1, x1: 12, y1: 12, doors: [c(5, 12), c(6, 12), c(12, 6), c(12, 7)], color: "#FF79C6", floor: "#231A35" },
-  { id: "budget", x0: 14, y0: 1, x1: 25, y1: 7, doors: [c(19, 7), c(20, 7), c(14, 4)], color: "#A994FF", floor: "#1F1B3A" },
-  { id: "vault", x0: 27, y0: 1, x1: 38, y1: 12, doors: [c(27, 6), c(27, 7), c(32, 12), c(33, 12)], color: "#66D8FF", floor: "#152036" },
-  { id: "hub", x0: 1, y0: 14, x1: 12, y1: 28, doors: [c(5, 14), c(6, 14), c(12, 20), c(12, 21)], color: "#4C66FF", floor: "#181C3C" },
-  { id: "core", x0: 14, y0: 9, x1: 25, y1: 19, doors: [c(14, 13), c(14, 14), c(19, 9), c(20, 9), c(25, 13), c(25, 14), c(19, 19), c(20, 19)], color: "#6F4CFF", floor: "#211845" },
-  { id: "receipts", x0: 27, y0: 14, x1: 38, y1: 20, doors: [c(27, 17), c(32, 14)], color: "#4BCA81", floor: "#14262B" },
-  { id: "approval", x0: 14, y0: 21, x1: 25, y1: 28, doors: [c(19, 21), c(20, 21), c(14, 24)], color: "#FFA801", floor: "#2A2130" },
-  { id: "cafe", x0: 27, y0: 22, x1: 38, y1: 28, doors: [c(32, 22), c(33, 22), c(27, 25)], color: "#C5C4C6", floor: "#201E30" },
+  { id: "business", x0: 1, y0: 1, x1: 12, y1: 12, doors: [c(5, 12), c(6, 12), c(12, 6), c(12, 7)], color: "#D946A8", floor: "#301331" },
+  { id: "budget", x0: 14, y0: 1, x1: 25, y1: 7, doors: [c(19, 7), c(20, 7), c(14, 4)], color: "#A855F7", floor: "#291444" },
+  { id: "vault", x0: 27, y0: 1, x1: 38, y1: 12, doors: [c(27, 6), c(27, 7), c(32, 12), c(33, 12)], color: "#29C7F6", floor: "#102D42" },
+  { id: "hub", x0: 1, y0: 14, x1: 12, y1: 28, doors: [c(5, 14), c(6, 14), c(12, 20), c(12, 21)], color: "#416CD5", floor: "#121D40" },
+  { id: "core", x0: 14, y0: 9, x1: 25, y1: 19, doors: [c(14, 13), c(14, 14), c(19, 9), c(20, 9), c(25, 13), c(25, 14), c(19, 19), c(20, 19)], color: "#6024E8", floor: "#211344" },
+  { id: "receipts", x0: 27, y0: 14, x1: 38, y1: 20, doors: [c(27, 17), c(32, 14)], color: "#34D399", floor: "#12312F" },
+  { id: "approval", x0: 14, y0: 21, x1: 25, y1: 28, doors: [c(19, 21), c(20, 21), c(14, 24)], color: "#F5A623", floor: "#302235" },
+  { id: "cafe", x0: 27, y0: 22, x1: 38, y1: 28, doors: [c(32, 22), c(33, 22), c(27, 25)], color: "#B7A5FF", floor: "#2A253A" },
 ];
 
 export const ROOM_BY_ID = Object.fromEntries(ROOMS.map((r) => [r.id, r])) as Record<RoomId, Room>;
@@ -71,7 +71,7 @@ export const SPOTS = {
 /** Holograms floating above key furniture (drawn last, animated). */
 export const HOLOGRAMS = [
   { kind: "policy" as const, x: 20, y: 14, color: "#8C70FF" },
-  { kind: "tree" as const, x: 20, y: 4, color: "#A994FF" },
+  { kind: "tree" as const, x: 20, y: 4, color: "#A855F7" },
 ];
 
 /** Screens mounted on the back walls (y0 edge of a room, spanning x from..to). */
@@ -85,7 +85,7 @@ export const WALL_SCREENS: { room: RoomId; from: number; to: number; title: stri
 ];
 
 /** A round vault door on the vault's back wall. */
-export const VAULT_DOOR = { x: 36, y: 1, color: "#66D8FF" };
+export const VAULT_DOOR = { x: 36, y: 1, color: "#29C7F6" };
 
 // ---------------------------------------------------------------------------
 // Derived grid data

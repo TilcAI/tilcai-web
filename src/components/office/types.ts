@@ -71,6 +71,8 @@ export interface AgentInfo {
   ok: number;
   denied: number;
   room: RoomId | null;
+  amountCents: number | null;
+  decision: "ALLOW" | "DENY" | "REQUIRE_APPROVAL" | null;
 }
 
 /** All localized strings the simulation needs to narrate itself. */

@@ -17,6 +17,7 @@ export const officeEs: OfficeCopy = {
     label: "Comandos de la simulación",
     purchase: "Compra correcta", injection: "Inyección de prompt", duplicate: "Reintento duplicado", approval: "Sobre el umbral",
     pause: "Pausar mandato", resume: "Reanudar mandato", kill: "Kill switch", revive: "Reactivar",
+    fullscreen: "Pantalla completa", exitFullscreen: "Salir de pantalla completa",
     zoomIn: "Acercar", zoomOut: "Alejar", reset: "Encuadrar", play: "Reanudar animación", stop: "Pausar animación",
   },
   hints: {
@@ -31,7 +32,7 @@ export const officeEs: OfficeCopy = {
   killBanner: "Kill switch activo · mandatos y firmantes congelados",
   pausedBanner: "Mandato pausado por el guardián · las nuevas compras se rechazan",
   reducedMotion: "Animación en pausa por tu preferencia de movimiento reducido.",
-  agent: { title: "Agente", task: "Ahora", room: "Sala", ok: "Completadas", denied: "Bloqueadas", close: "Cerrar ficha", corridor: "Pasillo", hint: "Toca un agente para ver su ficha" },
+  agent: { amount: "Importe", decision: "Decisión", keyboard: "Flechas: seleccionar agente. Espacio: pausar. Más y menos: zoom. Escape: cerrar.", title: "Agente", task: "Ahora", room: "Sala", ok: "Completadas", denied: "Bloqueadas", close: "Cerrar ficha", corridor: "Pasillo", hint: "Toca un agente para ver su ficha" },
   rooms: {
     hub: { name: "Hub de intenciones", who: "Agentes compradores", body: "Los asistentes de personas y equipos llegan por MCP con una intención: qué quieren, para quién y con qué tope." },
     business: { name: "Empresas", who: "Agentes de negocio", body: "Cada empresa responde desde su sistema con una cotización firmada: precio, activo, destinatario y vigencia." },

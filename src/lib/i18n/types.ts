@@ -84,14 +84,14 @@ export interface OfficeCopy {
   commands: {
     label: string; purchase: string; injection: string; duplicate: string; approval: string;
     pause: string; resume: string; kill: string; revive: string;
-    zoomIn: string; zoomOut: string; reset: string; play: string; stop: string;
+    zoomIn: string; zoomOut: string; reset: string; play: string; stop: string; fullscreen: string; exitFullscreen: string;
   };
   hints: { purchase: string; injection: string; duplicate: string; approval: string; pause: string; kill: string };
   scroll: string;
   killBanner: string;
   pausedBanner: string;
   reducedMotion: string;
-  agent: { title: string; task: string; room: string; ok: string; denied: string; close: string; corridor: string; hint: string };
+  agent: { title: string; task: string; room: string; ok: string; denied: string; close: string; corridor: string; hint: string; amount: string; decision: string; keyboard: string };
   rooms: Record<RoomId, { name: string; who: string; body: string }>;
   roles: Record<Role, string>;
   tasks: Record<TaskKind, string>;

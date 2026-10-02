@@ -49,6 +49,9 @@ type FeedEvent = OfficeEvent & { renderKey: number };
 export function OfficeHero({ t }: { t: Copy }) {
   const o = t.office;
   const locale = t.locale;
+  const sectionRef = useRef<HTMLElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const reducedRef = useRef(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const staticRef = useRef<HTMLCanvasElement>(null);
   const dynRef = useRef<HTMLCanvasElement>(null);
@@ -80,6 +83,12 @@ export function OfficeHero({ t }: { t: Copy }) {
   }), [o]);
 
   useEffect(() => { runningRef.current = running; }, [running]);
+  useEffect(() => { reducedRef.current = reduced; }, [reduced]);
+  useEffect(() => {
+    const sync = () => setExpanded(document.fullscreenElement === sectionRef.current);
+    document.addEventListener("fullscreenchange", sync);
+    return () => document.removeEventListener("fullscreenchange", sync);
+  }, []);
 
   // Simulation + render loop.
   useEffect(() => {
@@ -118,6 +127,9 @@ export function OfficeHero({ t }: { t: Copy }) {
     io.observe(stage);
 
     let raf = 0, last = performance.now();
+    let previousCamera: Camera | null = null;
+    let previousSelected: number | null = null, previousHover: number | null = null;
+    let previousReduced = reducedRef.current;
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       const dt = Math.min(0.1, (now - last) / 1000);
@@ -125,6 +137,9 @@ export function OfficeHero({ t }: { t: Copy }) {
       if (!view.visible || document.hidden) return;
       const cam = camRef.current;
       if (!cam) return;
+      const redraw = view.dirty || previousCamera !== cam || previousSelected !== selectedRef.current || previousHover !== hoverRef.current || previousReduced !== reducedRef.current;
+      if (!runningRef.current && !redraw) return;
+      previousCamera = cam; previousSelected = selectedRef.current; previousHover = hoverRef.current; previousReduced = reducedRef.current;
       if (view.dirty) {
         drawStatic(sctx, cam, fullLabels);
         cs.style.transform = "";
@@ -132,7 +147,7 @@ export function OfficeHero({ t }: { t: Copy }) {
         view.dirty = false;
       }
       if (runningRef.current) sim.update(dt);
-      drawDynamic(dctx, cam, sim, fullLabels, { selected: selectedRef.current, hover: hoverRef.current, compact: view.compact });
+      drawDynamic(dctx, cam, sim, fullLabels, { selected: selectedRef.current, hover: hoverRef.current, compact: view.compact, reducedMotion: reducedRef.current });
     };
     // Draw at least once even when paused (reduced motion).
     raf = requestAnimationFrame(frame);
@@ -175,15 +190,22 @@ export function OfficeHero({ t }: { t: Copy }) {
     recamera();
   };
 
+  const toggleFullscreen = async () => {
+    if (document.fullscreenElement) { await document.exitFullscreen(); return; }
+    if (expanded) { setExpanded(false); return; }
+    try { await sectionRef.current?.requestFullscreen(); }
+    catch { setExpanded(true); }
+  };
+
   const command = (cmd: Parameters<OfficeSim["command"]>[0]) => {
     simRef.current?.command(cmd);
+    viewRef.current.dirty = true;
     const sim = simRef.current;
     if (sim) setStats(sim.getStats());
   };
 
   // Pointer: drag to pan (mouse/pen), click/tap to select an agent.
   const onPointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (e.pointerType === "touch") return;
     const v = viewRef.current;
     dragRef.current = { x: e.clientX, y: e.clientY, px: v.panX, py: v.panY, moved: false };
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -192,6 +214,7 @@ export function OfficeHero({ t }: { t: Copy }) {
     const d = dragRef.current;
     if (d) {
       const dx = e.clientX - d.x, dy = e.clientY - d.y;
+      if (e.pointerType === "touch" && Math.abs(dy) > Math.abs(dx) && !d.moved) return;
       if (Math.abs(dx) + Math.abs(dy) > 4) d.moved = true;
       if (d.moved) {
         const v = viewRef.current;
@@ -245,16 +268,30 @@ export function OfficeHero({ t }: { t: Copy }) {
   ];
 
   return (
-    <section id="simulation" data-section-label={t.nav.demo} className={`office-hero${stats.frozen ? " is-frozen" : ""}${feedOpen ? " feed-open" : ""}`} aria-label={o.mode}>
+    <section ref={sectionRef} id="simulation" data-section-label={t.nav.demo} className={`office-hero${stats.frozen ? " is-frozen" : ""}${feedOpen ? " feed-open" : ""}${expanded ? " is-expanded" : ""}`} aria-label={o.mode}>
       <div className="office-stage" ref={stageRef}>
         <canvas ref={staticRef} className="office-canvas" aria-hidden="true" />
         <canvas
           ref={dynRef}
           className="office-canvas office-dynamic"
-          aria-hidden="true"
+          tabIndex={0}
+          role="img"
+          aria-label={o.label + '. ' + o.agent.keyboard}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') { selectedRef.current = null; setSelected(null); if (!document.fullscreenElement) setExpanded(false); }
+            else if (e.key === ' ') { e.preventDefault(); setUserRunning(!running); }
+            else if (e.key === '+' || e.key === '=') { e.preventDefault(); zoomBy(1.2); }
+            else if (e.key === '-') { e.preventDefault(); zoomBy(1 / 1.2); }
+            else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+              e.preventDefault(); const sim = simRef.current; if (!sim) return;
+              const id = ((selectedRef.current ?? -1) + (e.key === 'ArrowRight' ? 1 : -1) + sim.agents.length) % sim.agents.length;
+              selectedRef.current = id; setSelected(sim.agentInfo(id));
+            }
+          }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
+          onPointerCancel={() => { dragRef.current = null; viewRef.current.dirty = true; }}
           onPointerLeave={() => { hoverRef.current = null; }}
         />
         <p className="sr-only">{o.description}</p>
@@ -306,6 +343,8 @@ export function OfficeHero({ t }: { t: Copy }) {
           <dl className="office-agent-data">
             <div><dt>{o.agent.task}</dt><dd>{o.tasks[selected.task]}</dd></div>
             <div><dt>{o.agent.room}</dt><dd>{selected.room ? o.rooms[selected.room].name : o.agent.corridor}</dd></div>
+            {selected.amountCents !== null && <div><dt>{o.agent.amount}</dt><dd className="num">{formatCents(selected.amountCents, locale)} USDC</dd></div>}
+            {selected.decision && <div><dt>{o.agent.decision}</dt><dd>{selected.decision}</dd></div>}
             {selected.role === "buyer" && <>
               <div><dt>{o.agent.ok}</dt><dd className="tone-allow num">{selected.ok}</dd></div>
               <div><dt>{o.agent.denied}</dt><dd className="tone-deny num">{selected.denied}</dd></div>
@@ -333,6 +372,7 @@ export function OfficeHero({ t }: { t: Copy }) {
             {visibleFeed.length === 0 && <li className="feed-empty">{o.feed.empty}</li>}
             {visibleFeed.map((e) => (
               <li key={e.renderKey} className={`feed-item kind-${e.kind}`}>
+                <span className="feed-event-icon" aria-hidden="true"><Icon name={e.kind === "deny" ? "shield" : e.kind === "x402" ? "repeat" : e.kind === "approval" ? "alert" : e.kind === "receipt" ? "receipt" : e.kind === "allow" ? "check" : "doc"} /></span>
                 <span className="feed-tag">{o.tags[e.kind]}</span>
                 <span className="feed-text">{e.text}</span>
                 <time className="feed-time">{fmtClock(e.t)}</time>
@@ -345,7 +385,7 @@ export function OfficeHero({ t }: { t: Copy }) {
       <div className="office-commands" role="toolbar" aria-label={o.commands.label}>
         <div className="cmd-group">
           {cmds.map((c) => (
-            <button key={c.id} type="button" className={`cmd${c.tone ? ` tone-${c.tone}` : ""}`} title={c.hint} aria-pressed={c.pressed} disabled={stats.frozen && c.id !== "togglePause"} onClick={() => command(c.id)}>
+            <button key={c.id} type="button" className={`cmd${c.tone ? ` tone-${c.tone}` : ""}`} title={c.hint} aria-label={c.label} aria-pressed={c.pressed} disabled={stats.frozen && c.id !== "togglePause"} onClick={() => command(c.id)}>
               <Icon name={c.icon} />
               <span>{c.label}</span>
             </button>
@@ -358,7 +398,8 @@ export function OfficeHero({ t }: { t: Copy }) {
         <div className="cmd-group cmd-view">
           <button type="button" className="cmd cmd-icon" onClick={() => zoomBy(1 / 1.2)} aria-label={o.commands.zoomOut} title={o.commands.zoomOut}><Icon name="minus" /></button>
           <button type="button" className="cmd cmd-icon" onClick={() => zoomBy(1.2)} aria-label={o.commands.zoomIn} title={o.commands.zoomIn}><Icon name="plus" /></button>
-          <button type="button" className="cmd cmd-icon" onClick={resetView} aria-label={o.commands.reset} title={o.commands.reset}><Icon name="expand" /></button>
+          <button type="button" className="cmd cmd-icon" onClick={toggleFullscreen} aria-label={expanded ? o.commands.exitFullscreen : o.commands.fullscreen} title={expanded ? o.commands.exitFullscreen : o.commands.fullscreen} aria-pressed={expanded}><Icon name="expand" /></button>
+          <button type="button" className="cmd cmd-icon" onClick={resetView} aria-label={o.commands.reset} title={o.commands.reset}><Icon name="target" /></button>
           <button type="button" className="cmd cmd-icon" onClick={() => setUserRunning(!running)} aria-label={running ? o.commands.stop : o.commands.play} title={running ? o.commands.stop : o.commands.play} aria-pressed={!running}>
             <Icon name={running ? "pause" : "play"} />
           </button>

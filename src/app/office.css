@@ -193,3 +193,65 @@
   .live-dot, .office-scroll .icon { animation: none; }
   .feed-item { animation: none; }
 }
+
+/* Neo-VGA office: restrained glass UI, functional room colours and clear canvas space. */
+.office-hero {
+  --panel: rgba(12, 11, 37, .72);
+  --panel-border: rgba(183, 165, 255, .18);
+  background: radial-gradient(ellipse at 45% 48%, #1F1A573D, transparent 65%), #05061A;
+}
+.office-hero .office-glow { opacity: .08; }
+.office-hero .office-feed { background: linear-gradient(160deg, #10102AAB, #0C0B2599); backdrop-filter: blur(9px); }
+.office-hero .hud-bar { height: 4px; }
+.office-hero .hud-bar i { background: linear-gradient(90deg, #416CD5, #57D2F9); }
+.office-hero .cmd { background: #16132E; border-color: #B7A5FF26; }
+.office-hero .cmd.tone-allow { background: linear-gradient(130deg, #6024E8, #492AB5); border-color: #925FF6; --t: #E1DDEB; }
+.office-hero .cmd-kill { background: #ED4A6D1F; border-color: #ED4A6D66; }
+.office-hero .cmd-kill.is-on { background: #A42F51; }
+.office-hero .feed-item { grid-template-columns: 30px 1fr auto; padding: 11px 10px; column-gap: 9px; background: #1F1A5733; }
+.office-hero .feed-event-icon { grid-column: 1; grid-row: 1 / 3; color: var(--k); width: 30px; height: 36px; display: grid; place-items: center; background: color-mix(in srgb, var(--k) 12%, transparent); border-radius: 7px; }
+.feed-event-icon .icon { width: 18px; height: 18px; }
+.office-hero .feed-tag { grid-column: 2; }
+.office-hero .feed-time { grid-column: 3; }
+.office-hero .feed-text { grid-column: 2 / 4; font-size: 12px; }
+.office-hero .kind-intent { --k: #51C5FB; } .office-hero .kind-quote { --k: #D946A8; }
+.office-hero .kind-allow { --k: #34D399; } .office-hero .kind-deny { --k: #ED4A6D; }
+.office-hero .kind-approval { --k: #F5A623; } .office-hero .kind-x402 { --k: #29C7F6; }
+.office-hero .kind-receipt { --k: #2DD4BF; } .office-hero .kind-system { --k: #925FF6; }
+.office-hero .office-agent { top: 110px; background: #0C0B25EB; }
+.office-hero .role-buyer { --c: #416CD5; } .office-hero .role-seller { --c: #D946A8; }
+.office-hero .role-policy { --c: #6024E8; } .office-hero .role-budget { --c: #A855F7; }
+.office-hero .role-guardian { --c: #F5A623; } .office-hero .role-vault { --c: #29C7F6; }
+.office-hero .role-receipts { --c: #34D399; } .office-hero .role-barista { --c: #B7A5FF; }
+.office-dynamic:focus-visible { outline: 2px solid #925FF6; outline-offset: -5px; }
+.office-hero.is-expanded { position: fixed; inset: 0; z-index: 1000; min-height: 0; height: 100dvh; margin: 0; }
+.office-hero:fullscreen { min-height: 0; height: 100dvh; }
+@media (min-width: 1101px) {
+  .office-hero.feed-open .office-stage { right: 320px; }
+  .office-hero .office-feed { width: 292px; }
+}
+@media (min-width: 1600px) {
+  .office-hero.feed-open .office-stage { right: 360px; }
+  .office-hero .office-feed { width: 332px; }
+}
+@media (max-width: 1100px) and (min-width: 901px) {
+  .office-hero .office-feed.is-open { top: auto; bottom: 100px; height: 42%; width: 292px; }
+}
+@media (max-width: 640px) {
+  .office-hero .office-agent { top: 112px; }
+  .office-hero .office-feed.is-open { top: auto; }
+  .office-hero .hud-period { display: inline-flex; }
+  .office-hero .office-commands { bottom: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .office-hero *, .office-hero *::before, .office-hero *::after { animation: none !important; transition: none !important; }
+}
+.office-hero .hud-period { display: inline-flex; }
+@media (min-width: 1250px) {
+  .office-hero .cmd span { display: inline; }
+  .office-hero .cmd { font-size: 12px; padding-inline: 10px; }
+  .office-hero .cmd-icon { padding: 0; }
+}
+@media (min-width: 1250px) {
+  .office-hero .cmd:not(.cmd-icon) { width: auto; }
+}

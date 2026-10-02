@@ -181,7 +181,7 @@ export class OfficeSim {
   agentInfo(id: number): AgentInfo | null {
     const a = this.agents[id];
     if (!a) return null;
-    return { id: a.id, name: a.name, role: a.role, task: this.stats.frozen ? "frozen" : a.task, ok: a.ok, denied: a.denied, room: roomAt(a.px, a.py) };
+    return { id: a.id, name: a.name, role: a.role, task: this.stats.frozen ? "frozen" : a.task, ok: a.ok, denied: a.denied, room: roomAt(a.px, a.py), amountCents: a.op?.amount ?? null, decision: a.op?.decision ?? null };
   }
 
   command(cmd: "purchase" | "injection" | "duplicate" | "approval" | "togglePause" | "toggleKill") {

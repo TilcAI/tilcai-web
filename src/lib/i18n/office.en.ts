@@ -17,6 +17,7 @@ export const officeEn: OfficeCopy = {
     label: "Simulation commands",
     purchase: "Valid purchase", injection: "Prompt injection", duplicate: "Duplicate retry", approval: "Over threshold",
     pause: "Pause mandate", resume: "Resume mandate", kill: "Kill switch", revive: "Reactivate",
+    fullscreen: "Fullscreen", exitFullscreen: "Exit fullscreen",
     zoomIn: "Zoom in", zoomOut: "Zoom out", reset: "Reset view", play: "Resume animation", stop: "Pause animation",
   },
   hints: {
@@ -31,7 +32,7 @@ export const officeEn: OfficeCopy = {
   killBanner: "Kill switch on · mandates and signers frozen",
   pausedBanner: "Mandate paused by the guardian · new purchases are denied",
   reducedMotion: "Animation paused because you prefer reduced motion.",
-  agent: { title: "Agent", task: "Now", room: "Room", ok: "Completed", denied: "Blocked", close: "Close card", corridor: "Corridor", hint: "Tap an agent to open its card" },
+  agent: { amount: "Amount", decision: "Decision", keyboard: "Arrows: select agent. Space: pause. Plus and minus: zoom. Escape: close.", title: "Agent", task: "Now", room: "Room", ok: "Completed", denied: "Blocked", close: "Close card", corridor: "Corridor", hint: "Tap an agent to open its card" },
   rooms: {
     hub: { name: "Intent hub", who: "Buyer agents", body: "People's and teams' assistants arrive through MCP with an intent: what they want, for whom and up to what amount." },
     business: { name: "Businesses", who: "Business agents", body: "Each business answers from its own system with a signed quote: price, asset, payee and expiry." },
