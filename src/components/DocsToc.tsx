@@ -37,7 +37,11 @@ export function DocsToc({
       <ol role="list">
         {items.map((s) => (
           <li key={s.id}>
-            <a href={`#${s.id}`} className={current === s.id ? "is-current" : undefined}>
+            <a
+              href={`#${s.id}`}
+              className={current === s.id ? "is-current" : undefined}
+              aria-current={current === s.id ? "location" : undefined}
+            >
               {s.title}
             </a>
           </li>

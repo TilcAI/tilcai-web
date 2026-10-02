@@ -7,6 +7,7 @@
 @import "./landing.css";
 @import "./office.css";
 @import "./hero.css";
+@import "./mobile.css";
 
 @theme inline {
   --color-background: var(--bg);
@@ -151,26 +152,26 @@ ul, ol { margin: 0; padding: 0; }
 .header-inner { display: flex; align-items: center; gap: 24px; height: 100%; }
 .site-header.is-overlay .container { max-width: none; }
 @media (min-width: 768px) { .site-header.is-overlay .container { padding: 0 24px; } }
-.brand { display: inline-flex; align-items: center; color: var(--text-bright); flex: none; }
+.brand { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: var(--text-bright); flex: none; }
 .brand img { width: auto; height: 26px; }
 @media (min-width: 1024px) { .brand img { height: 30px; } }
 .wordmark { font-size: 18px; letter-spacing: -0.01em; font-weight: 600; color: var(--text-bright); }
 .wordmark span { color: var(--purple-300); }
 .main-nav { display: flex; align-items: center; gap: 2px; margin-left: auto; }
-.main-nav a { color: rgb(219 219 219); font-size: 15px; font-weight: 500; padding: 8px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
+.main-nav a { color: rgb(219 219 219); font-size: 15px; font-weight: 500; min-height: 44px; padding: 8px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
 .main-nav a:hover { color: #fff; background: rgba(255, 255, 255, 0.06); }
-.main-nav .nav-docs { color: #fff; background: #242236; border: 0.8px solid var(--line); margin-left: 8px; height: 40px; padding: 0 14px; }
+.main-nav .nav-docs { color: #fff; background: #242236; border: 0.8px solid var(--line); margin-left: 8px; min-height: 44px; padding: 0 14px; }
 .main-nav .nav-docs:hover { border-color: var(--purple-400); background: #2a2742; }
 .main-nav .nav-docs.is-active { border-color: var(--purple-400); color: #fff; background: var(--purple-soft); }
 .header-tools { display: flex; align-items: center; gap: 8px; }
-.lang { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); font-weight: 500; padding: 6px 10px; border: 0.8px solid var(--border-strong); border-radius: 8px; height: 40px; }
+.lang { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 13px; color: var(--muted); font-weight: 500; padding: 0 8px; border: 0.8px solid var(--border-strong); border-radius: 8px; }
 .lang .icon { width: 15px; height: 15px; }
 .lang-item { display: inline-flex; align-items: center; gap: 6px; }
-.lang a { color: var(--text-2); padding: 2px; }
+.lang a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: var(--text-2); padding: 0 2px; }
 .lang a:hover { color: #fff; }
 .lang-current { color: #fff; font-weight: 600; }
 .lang .sep { color: var(--border-strong); }
-.menu-btn { display: none; background: #242236; border: 0.8px solid var(--line); color: #fff; border-radius: 8px; width: 40px; height: 40px; align-items: center; justify-content: center; cursor: pointer; }
+.menu-btn { display: none; background: #242236; border: 0.8px solid var(--line); color: #fff; border-radius: 8px; width: 44px; height: 44px; align-items: center; justify-content: center; cursor: pointer; }
 
 @media (max-width: 1180px) {
   .header-inner { gap: 12px; }
@@ -186,7 +187,10 @@ ul, ol { margin: 0; padding: 0; }
   .main-nav .nav-docs { margin: 6px 0 0; justify-content: center; }
   .main-nav.is-open { display: flex; }
   .site-header.is-overlay.menu-open { background: rgba(12, 10, 29, 0.97); }
-  html:not(.js) .main-nav { display: flex; position: static; flex-direction: row; flex-wrap: wrap; padding: 0; background: none; border: 0; }
+  html:not(.js) .site-header { position: static; height: auto; }
+  html:not(.js) .header-inner { height: auto; min-height: var(--header-h); flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+  html:not(.js) .main-nav { display: grid; position: static; flex: 1 0 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; margin-left: 0; padding: 0; background: none; border: 0; }
+  html:not(.js) .main-nav .nav-docs { justify-content: flex-start; margin: 0; }
   html:not(.js) .menu-btn { display: none; }
 }
 
@@ -372,7 +376,7 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 .faq-list { display: grid; gap: 12px; max-width: 1080px; margin: 0 auto; }
 .faq-item { padding: 18px 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--pane); transition: border-color .2s ease; }
 .faq-item[open] { border-color: rgba(140, 112, 255, .4); }
-.faq-item summary { cursor: pointer; font-weight: 500; color: #fff; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq-item summary { min-height: 44px; cursor: pointer; font-weight: 500; color: #fff; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .faq-item summary::-webkit-details-marker { display: none; }
 .faq-item summary::after { content: "+"; color: var(--purple-300); font-size: 20px; line-height: 1; transition: rotate .2s ease; }
 .faq-item[open] summary::after { rotate: 45deg; }
@@ -427,10 +431,10 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 @media (max-width: 1023px) { .docs-toc { border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; background: var(--pane); } }
 .toc-title { font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 12px; }
 .docs-toc ol { display: grid; gap: 2px; }
-.docs-toc ol a { display: block; color: var(--text-2); padding: 6px 10px; border-radius: 8px; border-left: 2px solid transparent; }
+.docs-toc ol a { display: flex; align-items: center; min-height: 44px; color: var(--text-2); padding: 6px 10px; border-radius: 8px; border-left: 2px solid transparent; }
 .docs-toc ol a:hover { color: #fff; background: rgba(255, 255, 255, .04); }
 .docs-toc ol a.is-current { color: #fff; border-left-color: var(--purple); background: var(--purple-soft); }
-.toc-back { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--text-2); }
+.toc-back { display: inline-flex; align-items: center; gap: 8px; min-width: 44px; min-height: 44px; margin-top: 18px; color: var(--text-2); }
 .prose { min-width: 0; max-width: 780px; }
 .prose section { padding: 8px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
 .prose section:last-child { border-bottom: 0; }

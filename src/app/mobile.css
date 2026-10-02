@@ -1,0 +1,80 @@
+/*
+ * Phone layout (<= 640px) for the opening screens: hero particles, the office simulation and its controls.
+ * Kept apart from office.css/hero.css so the desktop rules stay untouched; imported last so it wins on equal specificity.
+ * Targets are at least 44px, the map is centred in the free band between the HUD and the controls, and every
+ * control keeps a visible label instead of becoming an unlabeled icon.
+ */
+@media (max-width: 640px) {
+  /* ---------- Hero ---------- */
+  /* The particle field is decoration: keep it behind the copy, fainter, so the headline stays crisp. */
+  .hero-antigravity { opacity: 0.4; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 38%, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 38%, #000 70%, transparent 100%); }
+  .brand-hero-title { text-wrap: balance; }
+  .brand-hero-lead { max-width: 34ch; }
+  .brand-hero-actions { flex-wrap: wrap; row-gap: 14px; }
+  .brand-hero-primary { min-width: 0; flex: 1 1 200px; max-width: 280px; justify-content: space-between; height: 54px; }
+  .brand-hero-secondary { padding: 12px 2px; }
+  .hero-motion-control { min-height: 44px; min-width: 44px; }
+  .hero-scroll-cue { min-height: 44px; }
+
+  /* ---------- Simulation: HUD ---------- */
+  .office-hero { height: 100svh; min-height: 680px; }
+  .office-hero .office-hud { flex-direction: column; align-items: stretch; gap: 8px; top: calc(var(--header-h) + 10px); }
+  .office-hero .hud-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; overflow: hidden; border-radius: 14px; }
+  .office-hero .hud-stat { flex: none; padding: 8px 10px 9px; border-right: 1px solid var(--panel-border); border-bottom: 1px solid var(--panel-border); }
+  .office-hero .hud-stat:nth-child(3n) { border-right: 0; }
+  .office-hero .hud-stat:nth-child(n + 4) { border-bottom: 0; }
+  .office-hero .hud-stat.hud-optional { display: grid; } /* approvals fill the 3 x 2 grid */
+  .office-hero .hud-stat dt { font-size: 9.5px; letter-spacing: 0.06em; }
+  .office-hero .hud-stat dd { font-size: 16px; }
+  /* The cap (/150,00 USDC) does not fit a third of the width; the bar under the figure still shows what is left. */
+  .office-hero .hud-root dd small { display: none; }
+  /* "Simulation, no funds" must stay visible: it is the honesty label of the whole block. */
+  .office-hero .hud-pills { display: flex; flex-wrap: nowrap; justify-content: flex-start; margin: 0; gap: 6px; overflow: hidden; }
+  .office-hero .hud-pills .pill { height: 28px; padding: 0 11px; font-size: 11.5px; flex: none; }
+  .office-hero .hud-pills .hud-optional { display: none; }
+
+  /* ---------- Simulation: commands ---------- */
+  .office-hero .office-commands {
+    left: var(--gap); right: var(--gap); bottom: 34px; width: auto; max-width: none; transform: none;
+    flex-direction: column; align-items: stretch; gap: 6px; padding: 7px; overflow: visible;
+  }
+  .office-hero .office-commands .cmd-group:first-child { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+  .office-hero .office-commands .cmd-group:first-child .cmd {
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3px;
+    width: auto; min-width: 0; height: 54px; padding: 4px 1px; border-radius: 10px;
+  }
+  .office-hero .office-commands .cmd-group:first-child .cmd span {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+    max-width: 100%; font-size: 9.5px; line-height: 1.1; font-weight: 500; text-align: center; white-space: normal; overflow-wrap: anywhere;
+  }
+  .office-hero .office-commands .cmd .icon { width: 17px; height: 17px; }
+  .office-hero .office-commands .cmd-view {
+    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; padding: 6px 0 0; border-left: 0; border-top: 1px solid var(--panel-border);
+  }
+  .office-hero .office-commands .cmd-view .cmd { width: auto; height: 44px; border-radius: 10px; }
+  .office-hero .office-commands .cmd-feed { display: inline-flex; }
+  .office-hero .office-scroll { bottom: 4px; min-height: 28px; font-size: 11.5px; }
+  .office-hero .office-reduced { bottom: 190px; white-space: normal; width: calc(100% - 2 * var(--gap)); text-align: center; }
+
+  /* ---------- Simulation: overlays above the controls ---------- */
+  .office-hero .office-agent { top: auto; bottom: 178px; left: var(--gap); right: var(--gap); width: auto; border-radius: 16px; padding: 12px 14px 14px; }
+  .office-hero .office-banner { top: calc(var(--header-h) + 168px); }
+  .office-hero .office-feed.is-open { top: calc(var(--header-h) + 150px); bottom: 178px; height: auto; left: var(--gap); right: var(--gap); width: auto; }
+  .office-hero .icon-btn { width: 44px; height: 44px; }
+  .office-hero .feed-filters button { height: 36px; }
+
+  /* The workspace reserves canvas space for the taller mobile HUD and controls. */
+  .office-hero.office-workspace { --office-top: 172px; min-height: 680px; }
+  .office-hero.office-workspace .office-hud { top: 16px; }
+  .office-hero.office-workspace .office-stage { top: calc(var(--office-top) + 40px); bottom: 178px; }
+  .office-hero.office-workspace .office-feed.is-open { top: calc(var(--office-top) + 40px); bottom: 178px; }
+  .office-hero.office-workspace .office-banner { top: calc(var(--office-top) + 40px); }
+}
+
+/* Very narrow phones (360px): a little less type so the control labels are never cut. */
+@media (max-width: 380px) {
+  .office-hero .office-commands .cmd-group:first-child .cmd span { font-size: 8.5px; letter-spacing: -0.01em; }
+  .office-hero .office-commands .cmd-group:first-child { gap: 3px; }
+  .office-hero .hud-stat { padding: 7px 8px 8px; }
+  .office-hero .office-scroll { white-space: nowrap; font-size: 11px; }
+}

@@ -84,6 +84,11 @@
   .root { min-height: 150svh; }
 }
 
+/* Phones: the section runs a little taller, so the scene keeps travelling while the three cards go by. */
+@media (max-width: 767px) {
+  .root { min-height: 175svh; }
+}
+
 /* A portrait screen shows a slice of the 16:9 scene: centre it on the planet's edge, same for every layer. */
 @media (max-width: 767px) {
   .img { object-position: 62% 50%; }
