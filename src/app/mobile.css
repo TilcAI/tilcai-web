@@ -62,6 +62,13 @@
   .office-hero .office-feed.is-open { top: calc(var(--header-h) + 150px); bottom: 178px; height: auto; left: var(--gap); right: var(--gap); width: auto; }
   .office-hero .icon-btn { width: 44px; height: 44px; }
   .office-hero .feed-filters button { height: 36px; }
+
+  /* The workspace reserves canvas space for the taller mobile HUD and controls. */
+  .office-hero.office-workspace { --office-top: 172px; min-height: 680px; }
+  .office-hero.office-workspace .office-hud { top: 16px; }
+  .office-hero.office-workspace .office-stage { top: calc(var(--office-top) + 40px); bottom: 178px; }
+  .office-hero.office-workspace .office-feed.is-open { top: calc(var(--office-top) + 40px); bottom: 178px; }
+  .office-hero.office-workspace .office-banner { top: calc(var(--office-top) + 40px); }
 }
 
 /* Very narrow phones (360px): a little less type so the control labels are never cut. */

@@ -20,7 +20,7 @@ export type TaskKind = "idle" | "intent" | "walking" | "quoting" | "policy" | "a
 
 export type Cell = { x: number; y: number };
 
-export type FurnitureKind = "desk" | "table" | "console" | "rack" | "plant" | "sofa" | "counter" | "cabinet" | "podium";
+export type FurnitureKind = "desk" | "table" | "console" | "rack" | "plant" | "sofa" | "counter" | "cabinet" | "podium" | "dock";
 
 export interface Furniture {
   kind: FurnitureKind;

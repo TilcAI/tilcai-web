@@ -24,13 +24,14 @@ const f = (kind: Furniture["kind"], room: RoomId, x0: number, y0: number, x1 = x
 
 export const FURNITURE: Furniture[] = [
   // Business booths: one seller per desk.
-  f("desk", "business", 4, 4, 4, 4, { label: "cinema" }), f("desk", "business", 8, 4, 8, 4, { label: "data" }),
-  f("desk", "business", 4, 9, 4, 9, { label: "risk" }), f("desk", "business", 8, 9, 8, 9, { label: "travel" }),
+  f("desk", "business", 4, 4, 5, 4, { label: "cinema" }), f("desk", "business", 8, 4, 9, 4, { label: "data" }),
+  f("desk", "business", 4, 9, 5, 9, { label: "risk" }), f("desk", "business", 8, 9, 9, 9, { label: "travel" }),
   f("plant", "business", 1, 1), f("plant", "business", 11, 1), f("plant", "business", 1, 12),
   ...[3, 4, 5, 7, 8, 9].map((x) => f("cabinet", "business", x, 1)), f("sofa", "business", 10, 11, 11, 11),
   // Hub: buyer agents' desks.
-  ...[3, 6, 9].flatMap((x) => [17, 20, 23, 26].map((y) => f("desk", "hub", x, y))),
+  ...[3, 6, 9].flatMap((x) => [17, 20, 23, 26].map((y) => f("desk", "hub", x, y, x + 1, y))),
   f("plant", "hub", 1, 28), f("plant", "hub", 12, 28), f("plant", "hub", 1, 14),
+  f("dock", "hub", 11, 17), f("dock", "hub", 11, 26),
   // Policy core: the central table.
   f("table", "core", 18, 12, 21, 15),
   f("plant", "core", 14, 9), f("plant", "core", 25, 9), f("plant", "core", 14, 19), f("plant", "core", 25, 19),

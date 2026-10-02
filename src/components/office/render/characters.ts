@@ -19,13 +19,14 @@ export function drawAgent(ctx: CanvasRenderingContext2D, a: Agent, seated: boole
   const base = fy - (seated ? 5 : 0) - bob;
   if (!seated) {
     ctx.fillStyle = "#1A1730";
-    ctx.fillRect(fx - 5, base - 10 + Math.max(0, walk) * 2.4, 3.6, 10 - Math.max(0, walk) * 2.4);
-    ctx.fillRect(fx + 1.4, base - 10 + Math.max(0, -walk) * 2.4, 3.6, 10 - Math.max(0, -walk) * 2.4);
+    ctx.fillRect(fx - 5, base - 14 + Math.max(0, walk) * 3, 3.6, 14 - Math.max(0, walk) * 3);
+    ctx.fillRect(fx + 1.4, base - 14 + Math.max(0, -walk) * 3, 3.6, 14 - Math.max(0, -walk) * 3);
   }
   // Torso as a small iso prism
-  const tb = base - (seated ? 2 : 9);
-  const w = 7, d = 3.5, h = 13;
-  const top = shade(color, 0.28), left = color, right = shade(color, -0.28);
+  const tb = base - (seated ? 7 : 13);
+  const w = 6, d = 3, h = 17;
+  const shirt = a.id % 3 === 0 ? "#CBC6DD" : a.id % 3 === 1 ? "#677397" : color;
+  const top = shade(shirt, 0.2), left = shirt, right = shade(shirt, -0.3);
   poly(ctx, [[fx - w, tb - d * 0.0], [fx, tb + d], [fx, tb + d - h], [fx - w, tb - h]]);
   ctx.fillStyle = left; ctx.fill();
   poly(ctx, [[fx, tb + d], [fx + w, tb], [fx + w, tb - h], [fx, tb + d - h]]);
@@ -34,10 +35,11 @@ export function drawAgent(ctx: CanvasRenderingContext2D, a: Agent, seated: boole
   ctx.fillStyle = top; ctx.fill();
   // Sleeves, hands, lanyard and shoes give the silhouette depth.
   const swing = seated ? Math.sin(t * 2 + a.id) * .6 : walk * 2;
-  ctx.strokeStyle = color; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(-7, tb - 10); ctx.lineTo(-8 - swing, tb - 1); ctx.moveTo(7, tb - 10); ctx.lineTo(8 + swing, tb - 1); ctx.stroke();
+  ctx.strokeStyle = shirt; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(-6, tb - 14); ctx.lineTo(-8 - swing, tb - 6); ctx.lineTo(seated ? -12 : -8 - swing, tb - 1); ctx.moveTo(6, tb - 14); ctx.lineTo(8 + swing, tb - 6); ctx.lineTo(seated ? 12 : 8 + swing, tb - 1); ctx.stroke();
   ctx.fillStyle = a.skin; ctx.fillRect(-10 - swing, tb - 2, 3, 3); ctx.fillRect(7 + swing, tb - 2, 3, 3);
   ctx.fillStyle = '#E1DDEB'; ctx.fillRect(-2, tb - 10, 2, 4);
+  ctx.fillStyle = color; ctx.fillRect(2, tb - 12, 3, 4);
   if (!seated) { ctx.fillStyle = '#727599'; ctx.fillRect(-6, base - 2, 5, 2); ctx.fillRect(1, base - 2, 5, 2); }
   // Head
   const hy = tb - h - 6.5;

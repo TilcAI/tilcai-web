@@ -1,5 +1,5 @@
 // Canvas 2D renderer for the isometric office (2:1 projection). Pure drawing: reads the simulation, never mutates it.
-import { FURNITURE, GRID_H, GRID_W, ROOM_BY_ID, ROOMS, VAULT_DOOR, WALL_SCREENS } from "./layout";
+import { FURNITURE, GRID_H, GRID_W, ROOM_BY_ID, ROOMS, SPOTS, VAULT_DOOR, WALL_SCREENS } from "./layout";
 import type { Agent, OfficeSim } from "./sim";
 import type { RoomId } from "./types";
 
@@ -7,6 +7,7 @@ export { HALF_W, HALF_H, iso } from "./render/geometry";
 import { HALF_W, HALF_H, iso, P, poly, hexA } from "./render/geometry";
 import { TONE, PALETTE } from "./render/palette";
 import { drawFurniture } from "./render/furniture";
+import { officeChair } from "./render/workstations";
 import { drawAgent, AGENT_SCALE } from "./render/characters";
 import { drawInfrastructure, drawRoomDetails, ROOM_ANCHORS } from "./render/scenery";
 import { drawRoomHologram, drawAgentEffects, drawAmbient } from "./render/effects";
@@ -34,8 +35,8 @@ export interface RenderLabels {
 export const MAP_BOUNDS = {
   minX: -GRID_H * HALF_W,
   maxX: GRID_W * HALF_W,
-  minY: -60,
-  maxY: (GRID_W + GRID_H) * HALF_H + 10,
+  minY: -100,
+  maxY: (GRID_W + GRID_H) * HALF_H + 24,
 };
 
 /** World (tile) coordinates → world pixels (before camera). */
@@ -108,7 +109,7 @@ export function drawStatic(ctx: CanvasRenderingContext2D, cam: Camera, labels: R
     ctx.font = `700 ${size}px ${labels.font}`;
     const m = ctx.measureText(text).width;
     if (m > width * 50) { size = Math.floor(size * (width * 50) / m); ctx.font = `700 ${size}px ${labels.font}`; }
-    ctx.fillStyle = hexA(r.color, r.id === "cafe" ? 0.35 : 0.62);
+    ctx.fillStyle = hexA(r.color, 0.23);
     ctx.textBaseline = "alphabetic";
     ctx.fillText(text, 0, 0);
     ctx.restore();
@@ -117,7 +118,7 @@ export function drawStatic(ctx: CanvasRenderingContext2D, cam: Camera, labels: R
   // Low walls with door gaps.
   for (const r of ROOMS) {
     const doors = new Set(r.doors.map((d) => `${d.x},${d.y}`));
-    const h = 7;
+    const h = 10;
     const seg = (ax: number, ay: number, bx: number, by: number, open: boolean, back: boolean) => {
       if (open) return;
       poly(ctx, [P(ax, ay), P(bx, by), P(bx, by, h), P(ax, ay, h)]);
@@ -191,6 +192,16 @@ export function drawStatic(ctx: CanvasRenderingContext2D, cam: Camera, labels: R
 
 type Drawable = { depth: number; draw: () => void };
 
+const SEATS = [
+  ...SPOTS.hubSeats.map(p => ({ ...p, color: PALETTE.hub.light })),
+  ...SPOTS.sellerSeats.map(p => ({ ...p, color: PALETTE.business.light })),
+  ...SPOTS.coreStaff.map(p => ({ ...p, color: PALETTE.core.light })),
+  ...SPOTS.vaultStaff.map(p => ({ ...p, color: PALETTE.vault.light })),
+  { ...SPOTS.budgetStaff, color: PALETTE.budget.light },
+  { ...SPOTS.approvalStaff, color: PALETTE.approval.light },
+  { ...SPOTS.receiptsStaff, color: PALETTE.receipts.light },
+];
+
 function headPoint(cam: Camera, a: Agent, seated: boolean): [number, number] {
   const [sx, sy] = toScreen(cam, a.px, a.py);
   return [sx, sy - (seated ? 34 : 42) * AGENT_SCALE * cam.scale];
@@ -249,6 +260,9 @@ export function drawDynamic(ctx: CanvasRenderingContext2D, cam: Camera, sim: Off
 
   drawAmbient(ctx, sim, t, reduced, opts.selected);
   const items: Drawable[] = [];
+  for (const seat of SEATS) {
+    items.push({ depth: seat.x + seat.y + .95, draw: () => officeChair(ctx, seat.x + .5, seat.y + .5, seat.color) });
+  }
   for (const it of FURNITURE) {
     items.push({ depth: (it.x0 + it.x1 + 1) / 2 + (it.y0 + it.y1 + 1) / 2, draw: () => drawFurniture(ctx, it, t) });
   }
@@ -298,8 +312,8 @@ export function drawDynamic(ctx: CanvasRenderingContext2D, cam: Camera, sim: Off
     const text = labels.sellers[i] ?? "";
     const w = ctx.measureText(text).width + 14;
     roundRect(ctx, x - w / 2, y - 9 * s, w, 18 * s, 9 * s);
-    ctx.fillStyle = "rgba(37,14,37,.88)"; ctx.fill(); ctx.strokeStyle = "rgba(255,121,198,.6)"; ctx.lineWidth = 1; ctx.stroke();
-    ctx.fillStyle = "#FBDBE2"; ctx.fillText(text, x, y + 0.5);
+    ctx.fillStyle = "#15112BED"; ctx.fill(); ctx.strokeStyle = "#925FF680"; ctx.lineWidth = 1; ctx.stroke();
+    ctx.fillStyle = "#E1DDEB"; ctx.fillText(text, x, y + 0.5);
   });
 
   // Status marks
@@ -379,12 +393,10 @@ export function agentAt(cam: Camera, sim: OfficeSim, x: number, y: number): numb
 export function fitCamera(width: number, height: number, dpr: number, zoom: number, panX: number, panY: number): Camera {
   const mapW = MAP_BOUNDS.maxX - MAP_BOUNDS.minX;
   const mapH = MAP_BOUNDS.maxY - MAP_BOUNDS.minY;
-  let base = Math.min(width / mapW, height / mapH) * .94;
-  if (width < 760) base = Math.max(base, 0.46);
+  const base = Math.min(width / mapW, height / mapH) * .96;
   const scale = base * zoom;
-  // Centre on the policy core, nudged down a bit to leave room for the top HUD.
-  const [cx, cy] = iso(GRID_W / 2, GRID_H / 2 - 1);
-  const ox = width / 2 - cx * scale + panX;
-  const oy = height / 2 - cy * scale + panY + (width < 760 ? height * 0.04 : -24);
+  // HUD and stream have their own layout space; fit the complete model here.
+  const ox = width / 2 - (MAP_BOUNDS.minX + MAP_BOUNDS.maxX) / 2 * scale + panX;
+  const oy = height / 2 - (MAP_BOUNDS.minY + MAP_BOUNDS.maxY) / 2 * scale + panY;
   return { scale, ox, oy, dpr, width, height };
 }
