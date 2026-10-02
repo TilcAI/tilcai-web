@@ -90,13 +90,45 @@ export const en: Copy = {
   },
   control: {
     eyebrow: "User control", title: "Delegate a task. Keep control of your money.",
-    lead: "Define the scope of the purchase and review its exact terms before authorizing. The agent works within the permissions granted.",
+    lead: "The agent acts within conditions set by the person.",
     panels: [
       { title: "What it can do", body: "Allowed services and providers, with verified terms for each operation." },
-      { title: "How much it can spend", body: "A per-purchase limit and a shared budget; multiple agents do not create additional funds." },
+      { title: "How much it can spend", body: "A per-purchase limit. A shared budget across multiple agents is a future evolution." },
       { title: "When it stops", body: "Pending approval, expiry, pause or revocation. A change in the purchase requires its authority to be reviewed." },
     ],
-    note: "We start with approval per purchase. Delegation through smart accounts is enabled in stages. Revoking a permission does not reverse an already settled payment.",
+    example: {
+      label: "Illustrative example · No real account or funds",
+    },
+    budget: {
+      title: "Budget for one purchase",
+      limitLabel: "Per-purchase limit", limitValue: "50 USDC",
+      exampleLabel: "Example amount", exampleValue: "30 / 50 USDC",
+      meterLabel: "The amount uses 30 out of a 50 USDC limit",
+    },
+    permission: {
+      title: "Permission conditions",
+      fields: [
+        { label: "Scope", value: "Allowed service" },
+        { label: "Per-purchase limit", value: "50 USDC" },
+        { label: "Mode", value: "Per operation" },
+        { label: "Status", value: "Pending" },
+      ],
+      stopLabel: "It stops when",
+      stopConditions: ["The amount exceeds the limit", "The recipient changes", "The permission expires", "The user pauses or revokes it"],
+    },
+    account: {
+      title: "Account, signing and authorization are different things",
+      body: "Connecting a wallet lets you manage and sign with the account. It does not authorize spending by itself.",
+      current: {
+        title: "Approval per purchase",
+        body: "The planned first step is to review the terms of each purchase before authorizing it.",
+      },
+      future: {
+        title: "Rules with smart accounts",
+        body: "Later, limits, expiry and revocation could be added through account rules.",
+      },
+    },
+    note: "Revoking permissions affects future operations, not payments that have already settled.",
   },
   flow: {
     eyebrow: "Proposed flow", title: "From a request to a verifiable purchase.",

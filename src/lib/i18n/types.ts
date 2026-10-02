@@ -132,7 +132,34 @@ export interface Copy {
       explore: string;
     };
   };
-  control: { eyebrow: string; title: string; lead: string; panels: Card[]; note: string };
+  control: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    panels: Card[];
+    example: { label: string };
+    budget: {
+      title: string;
+      limitLabel: string;
+      limitValue: string;
+      exampleLabel: string;
+      exampleValue: string;
+      meterLabel: string;
+    };
+    permission: {
+      title: string;
+      fields: { label: string; value: string }[];
+      stopLabel: string;
+      stopConditions: string[];
+    };
+    account: {
+      title: string;
+      body: string;
+      current: { title: string; body: string };
+      future: { title: string; body: string };
+    };
+    note: string;
+  };
   faq: { eyebrow: string; title: string; items: Record<FaqId, { question: string; answer: string }> };
   flow: {
     eyebrow: string;

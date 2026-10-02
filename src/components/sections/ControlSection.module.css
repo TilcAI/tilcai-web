@@ -1,0 +1,249 @@
+.panel {
+  min-width: 0;
+}
+
+.panel h3 {
+  margin-top: 18px;
+}
+
+.example {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.exampleLabel {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.exampleLabel {
+  display: inline-flex;
+  margin-bottom: 16px;
+  padding: 4px 9px;
+  color: var(--amber);
+  border: 1px solid rgba(232, 173, 92, .35);
+  border-radius: 999px;
+  background: var(--amber-soft);
+}
+
+.exampleGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.budget,
+.permission {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-alt);
+}
+
+.visualHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.visualHead h3,
+.explainer h3,
+.stageGrid h4,
+.stopConditions h4 {
+  margin: 0;
+}
+
+.visualHead h3 {
+  font-size: 18px;
+}
+
+.visualIcon,
+.explainerIcon {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  color: var(--teal);
+}
+
+.budgetValues {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0 16px;
+}
+
+.budgetValues div,
+.permissionFields div {
+  min-width: 0;
+}
+
+.budgetValues dt,
+.permissionFields dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.budgetValues dd,
+.permissionFields dd {
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.budgetValues dd {
+  font-family: var(--mono);
+  font-size: clamp(18px, 3vw, 24px);
+  color: var(--text);
+}
+
+.meter {
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .035);
+}
+
+.meter span {
+  display: block;
+  width: 60%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--teal-2), var(--teal));
+}
+
+.note {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.permissionFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin: 24px 0 18px;
+}
+
+.permissionFields dd {
+  color: var(--text-2);
+  font-size: 14px;
+}
+
+.stopConditions {
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.stopConditions h4 {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.stopConditions ul {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  list-style: none;
+}
+
+.stopConditions li {
+  position: relative;
+  padding-left: 16px;
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+.stopConditions li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .65em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.explainer {
+  display: grid;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .015);
+}
+
+.explainerIntro {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.explainerIntro p {
+  margin-top: 8px;
+  color: var(--text-2);
+  font-size: 14px;
+}
+
+.stageGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.stageGrid section {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.stageGrid h4 {
+  font-size: 15px;
+}
+
+.stageGrid span {
+  display: block;
+  margin-top: 7px;
+  color: var(--text-2);
+  font-size: 13.5px;
+}
+
+.stageGrid .stageCurrent {
+  border-color: rgba(232, 173, 92, .3);
+  background: linear-gradient(180deg, var(--amber-soft), transparent 85%);
+}
+
+.stageGrid .stageFuture {
+  border-style: dashed;
+}
+
+.note {
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 760px) {
+  .example {
+    padding: 24px;
+  }
+
+  .exampleGrid {
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  }
+
+  .stageGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .budgetValues,
+  .permissionFields {
+    grid-template-columns: 1fr;
+  }
+}
