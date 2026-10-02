@@ -58,12 +58,12 @@ export function HeroBackdrop({ eventSource, paused }: { eventSource: RefObject<H
           <Antigravity
             eventSource={eventSource}
             paused={paused || !visible}
-            count={compact ? 260 : 520}
+            count={compact ? 150 : 520}
             magnetRadius={6}
             ringRadius={7}
             waveSpeed={0.4}
             waveAmplitude={0.6}
-            particleSize={compact ? 1.1 : 1.4}
+            particleSize={compact ? 0.55 : 1.4}
             lerpSpeed={0.05}
             color="#a98bff"
             autoAnimate

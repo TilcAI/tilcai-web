@@ -110,6 +110,37 @@
   .noteRest { font-size: max(13px, calc(var(--u, 0.7px) * 19)); }
 }
 
+/* ---------- Phones ---------- */
+@media (max-width: 767px) {
+  .wrap { padding: 0 16px; }
+
+  /* A soft dark halo travels with the heading so it stays readable over the bright planet. */
+  .head { position: relative; isolation: isolate; margin-bottom: 18px; }
+  .head::before {
+    content: ""; position: absolute; z-index: -1; inset: -26px -26px -18px;
+    background: radial-gradient(ellipse 62% 60% at 50% 48%, rgb(2 2 15 / 0.78), rgb(2 2 15 / 0.4) 58%, transparent 100%);
+    pointer-events: none;
+  }
+  .head .eyebrow { font-size: 14px; }
+  .head .title { font-size: clamp(28px, 7.8vw, 36px); line-height: 1.08; text-shadow: 0 2px 20px rgb(2 2 15 / 0.85); }
+  .head .lead { max-width: 33ch; margin-top: 12px; font-size: 14.5px; line-height: 1.55; text-shadow: 0 1px 14px rgb(2 2 15 / 0.9); }
+
+  /* Compact cards: the art keeps overlapping the top edge, just smaller, and the copy sits tighter below it. */
+  .cards { gap: 62px; margin-top: 72px; max-width: 460px; }
+  .art { margin: -16% 9% -8%; }
+  .card { border-radius: 24px; }
+  .body { gap: 14px; padding: 14px 16px 18px; border-radius: 18px 18px 24px 24px; }
+  .icon { width: 48px; height: 48px; padding: 13px; border-radius: 12px; }
+  .body h3 { font-size: 20px; margin-bottom: 4px; }
+  .body p { font-size: 14px; line-height: 1.5; }
+
+  .note { gap: 14px; margin-top: 22px; padding: 14px 16px; border-radius: 18px; }
+  .noteIcon { width: 46px; height: 46px; border-radius: 12px; }
+  .noteIcon :global(.icon) { width: 22px; height: 22px; }
+  .noteLead { font-size: 14.5px; }
+  .noteRest { font-size: 13.5px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card, .art img { transition: none; }
   .card:hover .art img { transform: none; }

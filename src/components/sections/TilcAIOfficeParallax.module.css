@@ -104,6 +104,31 @@
   .lead { max-width: none; margin-top: calc(var(--u) * 24); font-size: max(14px, calc(var(--u) * 20)); line-height: 1.34; }
 }
 
+/*
+ * Phones: the headline gets the top of the screen and the illustration the lower part, instead of the text
+ * sitting on top of the bright core. The camera box is a shorter band at the bottom (the frame inside it is
+ * still the full 16:9 art, so every layer keeps its alignment) and its top edge fades into the dark stage.
+ */
+@media (max-width: 767px) {
+  .root { height: 175vh; }
+  .stage { --cam-h: 56%; }
+  .camera {
+    inset: auto -4% -4% -4%;
+    height: calc(var(--cam-h) + 4%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 22%);
+  }
+  .scrim { background: linear-gradient(180deg, rgb(2 2 15 / 0.7) 0, rgb(2 2 15 / 0.35) 34%, transparent 52%); }
+  .content { padding: 28px 22px 0; }
+  .eyebrow { margin-bottom: 12px; font-size: 14px; }
+  .eyebrow::before { width: 11px; height: 11px; }
+  .title { max-width: 17em; font-size: clamp(24px, 6.5vw, 31px); line-height: 1.12; text-shadow: 0 2px 22px rgb(2 2 15 / 0.9); }
+  .lead { max-width: 36ch; margin-top: 14px; font-size: 14.5px; line-height: 1.5; color: #e4e0f4; text-shadow: 0 1px 14px rgb(2 2 15 / 0.95); }
+  /* One short paragraph: let the sentences flow instead of forcing three separate lines. */
+  .leadLine { display: inline; text-wrap: pretty; }
+  .leadLine::after { content: " "; }
+}
+
 /* Reduced motion: JS never animates; the eight layers rest perfectly stacked and the text is visible. */
 @media (prefers-reduced-motion: reduce) {
   .camera, .layer, .mouse { will-change: auto; }

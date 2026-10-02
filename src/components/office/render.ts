@@ -385,6 +385,6 @@ export function fitCamera(width: number, height: number, dpr: number, zoom: numb
   // Centre on the policy core, nudged down a bit to leave room for the top HUD.
   const [cx, cy] = iso(GRID_W / 2, GRID_H / 2 - 1);
   const ox = width / 2 - cx * scale + panX;
-  const oy = height / 2 - cy * scale + panY + (width < 760 ? -height * 0.17 : -24);
+  const oy = height / 2 - cy * scale + panY + (width < 760 ? height * 0.04 : -24);
   return { scale, ox, oy, dpr, width, height };
 }
