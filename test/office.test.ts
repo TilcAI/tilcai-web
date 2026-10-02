@@ -17,7 +17,17 @@ const { officeEn } = await import('../src/lib/i18n/office.en.ts');
 const { SPOTS, blockedGrid, GRID_W, ROOMS } = await import('../src/components/office/layout.ts');
 const { canStep, findPath } = await import('../src/components/office/pathfinding.ts');
 const { packetFor } = await import('../src/components/office/render/effects.ts');
-const { agentAt, fitCamera, toScreen } = await import('../src/components/office/render.ts');
+const { agentAt, fitCamera, toScreen, MAP_BOUNDS } = await import('../src/components/office/render.ts');
+
+test('reset camera fits the complete office in desktop and narrow viewports', () => {
+  for (const [width, height] of [[1440, 720], [926, 400], [390, 410], [320, 300]]) {
+    const cam = fitCamera(width, height, 2, 1, 0, 0);
+    assert.ok(MAP_BOUNDS.minX * cam.scale + cam.ox >= 0);
+    assert.ok(MAP_BOUNDS.maxX * cam.scale + cam.ox <= width);
+    assert.ok(MAP_BOUNDS.minY * cam.scale + cam.oy >= 0);
+    assert.ok(MAP_BOUNDS.maxY * cam.scale + cam.oy <= height);
+  }
+});
 
 function fixture(seed = 11, isolated = false) {
   const sim = new OfficeSim(officeEn.sim, seed);
