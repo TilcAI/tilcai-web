@@ -11,7 +11,7 @@ import { FlowSection } from "./sections/FlowSection";
 import { HeroSection } from "./sections/HeroSection";
 import { OfficeHero } from "./office/OfficeHero";
 import { InterfaceSection } from "./sections/InterfaceSection";
-import { OfficeLegendSection } from "./sections/OfficeLegendSection";
+import { OfficeLegendSection, OfficeRoomsSection } from "./sections/OfficeLegendSection";
 import { ProductOverview } from "./sections/ProductOverview";
 import { RoadmapSection } from "./sections/RoadmapSection";
 import { StackSection } from "./sections/StackSection";
@@ -24,6 +24,7 @@ export function HomePage({ t }: { t: Copy }) {
       <OfficeHero t={t} />
       <ProductOverview t={t} />
       <OfficeLegendSection t={t} />
+      <OfficeRoomsSection t={t} />
       <BusinessesSection t={t} />
       <FlowSection t={t} />
       <DemoSection t={t} />
