@@ -44,11 +44,13 @@ export function HeroScene({ t, active, onSelect }: { t: Copy; active: HeroStep; 
             <div className="hero-float">
               <button type="button" className={`hero-glass-card${active === step ? " is-active" : ""}`} onClick={() => onSelect(step)} aria-pressed={active === step} aria-controls="hero-scene-detail">
                 <span className="hero-card-label">{label}</span>
-                <span className={`hero-card-glyph glyph-${step}`} aria-hidden="true">
-                  {step === "buyer" ? <svg viewBox="0 0 60 65"><circle cx="30" cy="17" r="14" /><path d="M5 63V54C5 28 55 28 55 54V63Z" /></svg> : <Icon name={step === "business" ? "store" : "doc"} />}
+                <span className="hero-card-visual" aria-hidden="true">
+                  <span className={`hero-card-glyph glyph-${step}`}>
+                    {step === "buyer" ? <svg viewBox="0 0 60 65"><circle cx="30" cy="17" r="14" /><path d="M5 63V54C5 28 55 28 55 54V63Z" /></svg> : <Icon name={step === "business" ? "store" : "doc"} />}
+                  </span>
+                  <span className="hero-card-check"><Icon name="check" /></span>
+                  <span className="hero-card-lines"><i /><i /><i /></span>
                 </span>
-                <span className="hero-card-check" aria-hidden="true"><Icon name="check" /></span>
-                <span className="hero-card-lines" aria-hidden="true"><i /><i /><i /></span>
               </button>
             </div>
           </div>

@@ -51,15 +51,16 @@
 .hero-person { left: 1%; top: 10%; }
 .hero-business { left: 3%; top: 60%; }
 .hero-document { right: 0; top: 35%; width: 22%; }
-.hero-glass-card { position: relative; display: block; width: 100%; aspect-ratio: 1.1; padding: 13px; text-align: left; border: 1px solid #b8a0ff88; border-radius: 15px; background: linear-gradient(135deg, #0b0819e8, #15132dc9); color: #f6f2ff; font: 400 15px/1.3 var(--font); cursor: pointer; transform: perspective(700px) rotateY(-13deg) rotateZ(8deg); box-shadow: inset 0 1px 0 #eee7ff55, 0 14px 25px #03010e66; backdrop-filter: blur(12px); transition: border-color .25s, box-shadow .25s, background .25s; }
+.hero-glass-card { position: relative; display: flex; flex-direction: column; width: 100%; aspect-ratio: 1.1; padding: 13px; text-align: left; border: 1px solid #b8a0ff88; border-radius: 15px; background: linear-gradient(135deg, #0b0819e8, #15132dc9); color: #f6f2ff; font: 400 15px/1.3 var(--font); cursor: pointer; transform: perspective(700px) rotateY(-13deg) rotateZ(8deg); box-shadow: inset 0 1px 0 #eee7ff55, 0 14px 25px #03010e66; backdrop-filter: blur(12px); transition: border-color .25s, box-shadow .25s, background .25s; }
 .hero-glass-card:hover, .hero-glass-card.is-active { border-color: #c1a1ff; background: linear-gradient(135deg, #251343eb, #15132df0); box-shadow: inset 0 1px 0 #eee7ff66, 0 0 32px #8251fa38; }
-.hero-card-label { display: block; font-size: clamp(11px, 1vw, 17px); }
-.hero-card-glyph { position: absolute; left: 12%; bottom: 13%; width: 39%; height: 48%; display: grid; place-items: center; color: #c896ff; filter: drop-shadow(2px 5px 0 #553082); }
+.hero-card-label { display: block; flex: none; width: 100%; font-size: clamp(11px, 1vw, 17px); }
+.hero-card-visual { display: grid; flex: 1; min-height: 0; width: 100%; grid-template-columns: 62% 38%; grid-template-rows: minmax(0, 1fr) auto; place-items: center; }
+.hero-card-glyph { grid-column: 1; grid-row: 1 / 3; display: grid; place-items: center; width: min(75%, 72px); aspect-ratio: 1; color: #c896ff; filter: drop-shadow(2px 5px 0 #553082); }
 .hero-card-glyph svg { width: 100%; height: 100%; fill: #b890f3; }
 .hero-card-glyph .icon { width: 94%; height: 94%; fill: #9763e32e; stroke: #d9b7ff; stroke-width: 1.8; }
-.hero-card-check { position: absolute; right: 12%; top: 39%; display: grid; place-items: center; width: 22%; aspect-ratio: 1; border-radius: 50%; color: #102339; background: #52e2bd; box-shadow: 0 0 18px #48e9c533; }
+.hero-card-check { grid-column: 2; grid-row: 1; display: grid; place-items: center; width: min(80%, 44px); aspect-ratio: 1; border-radius: 50%; color: #102339; background: #52e2bd; box-shadow: 0 0 18px #48e9c533; }
 .hero-card-check .icon { width: 62%; height: 62%; stroke-width: 2.5; }
-.hero-card-lines { position: absolute; right: 12%; bottom: 12%; width: 24%; display: grid; gap: 4px; }
+.hero-card-lines { grid-column: 2; grid-row: 2; display: grid; width: 70%; gap: 4px; }
 .hero-card-lines i { height: 3px; border-radius: 2px; background: #64558e; }
 .hero-card-lines i:last-child { width: 70%; }
 .hero-core { position: absolute; z-index: 4; left: 19%; top: 40%; width: 14%; }
