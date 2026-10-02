@@ -11,6 +11,13 @@ export type Environment = "simulation" | "testnet" | "production";
 export const FAQ_IDS = ["assistant", "wallet", "authority", "business", "today", "simulation", "stellar", "fulfillment"] as const;
 export type FaqId = typeof FAQ_IDS[number];
 
+export const ROADMAP_IDS = [
+  "rail", "evaluator", "contracts", "site",
+  "connector", "commerce", "approval", "reconciliation",
+  "smartAccounts", "sharedBudget", "scheduled",
+] as const;
+export type RoadmapId = typeof ROADMAP_IDS[number];
+
 export interface Card {
   title: string;
   body: string;
@@ -161,12 +168,14 @@ export interface Copy {
     comments: { illustrative: string; verifiedTerms: string; noFunds: string; trustedKey: string };
   };
   compare: { eyebrow: string; title: string; lead: string; colTopic: string; colWallet: string; colTilcai: string; rows: CompareRow[]; footnote: string };
-  stack: { eyebrow: string; title: string; lead: string; badges: { name: string; role: string }[]; disclaimer: string };
+  stack: { eyebrow: string; title: string; lead: string; badges: { name: string; role: string }[]; disclaimer: string; docsLink: string };
   roadmap: {
     eyebrow: string;
     title: string;
     lead: string;
-    stages: { stage: Stage; when: string; title: string; items: string[]; note?: string }[];
+    maintainer: string;
+    columns: Record<Stage, { when: string; title: string; note?: string }>;
+    items: Record<RoadmapId, { title: string; detail: string }>;
     signatureTitle: string;
     signatureChecks: string[];
     signatureNote: string;
