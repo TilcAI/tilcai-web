@@ -53,8 +53,8 @@ src/
 │   ├── SiteFooter.tsx
 │   ├── HomePage.tsx              # landing = composition of the sections below (server component)
 │   ├── sections/                 # one file per landing section
-│   │   ├── HeroSection.tsx       # the only <h1>: eyebrow, headline, CTAs, facts
-│   │   ├── HeroScene.tsx         # section entry point for the holographic CommerceScene
+│   │   ├── HeroSection.tsx       # renders the full-screen office hero (only <h1>)
+│   │   ├── OfficeLegendSection.tsx # "How to read the office": one card per room
 │   │   ├── ProductOverview.tsx   # "What TilcAI is" (copy key `problem`): your agent / TilcAI / the business
 │   │   ├── FlowSection, DemoSection, CapabilitiesSection, InterfaceSection, CompareSection,
 │   │   │   StackSection, CtaSection   # earlier content, moved unchanged
@@ -64,7 +64,8 @@ src/
 │   ├── AgentCatalog.tsx          # client: perspective carousel, six / twelve clients
 │   ├── AgentCard.tsx             # keyboard-operable card with asset fallback
 │   ├── AgentGuidePanel.tsx       # native modal drawer; preparation / validated guide
-│   ├── CommerceScene.tsx         # holographic hero and four scroll-driven layers
+│   ├── CommerceScene.tsx         # four scroll-driven flow layers (FlowLayers)
+│   ├── office/                   # full-screen office: layout, A*, simulation, canvas renderer, OfficeHero
 │   ├── useDepthMotion.ts         # event-driven depth and reduced-motion preference
 │   ├── PolicyDemo.tsx            # client: illustrative policy choices
 │   ├── DocsPage.tsx              # architecture page (server component)
@@ -83,12 +84,14 @@ src/
 public/assets/                    # TilcAI branding and supplied Codex / Claude mascots
 ```
 
-## Hero and overview
+## Hero: the TilcAI office (full screen)
 
-- The hero section retains the compact headline and holographic composition. `sections/HeroScene.tsx` delegates to `CommerceScene.tsx`; pointer depth is event-driven, with a static presentation when JavaScript is unavailable or reduced motion is requested. The illustration represents roles and permissions, not a live operation or price quote.
-- On mobile the copy comes first and the compact scene follows it. The four decorative flow layers are omitted below 960px to avoid increasing the page height.
-- "Explore how it works" points to `#flow`; the secondary CTA ("Explore for my business") points to `#capabilities`.
-- Copy lives in `hero` and `problem` in `src/lib/i18n/*.ts`. The caption uses `hero.visionNote`; the imported `hero.scene` example data remains available for future content but is not rendered by the current scene.
+- The first screen is a live, local simulation of an isometric office (`src/components/office/`). It fills `100svh`; everything else is reached by scrolling.
+- Rooms are the pieces of TilcAI: Intent hub → Businesses → Policy core → Human approval → Shared budget → Vault · Stellar rail → Receipts, plus a café. The floor plan is data in `office/layout.ts` (rooms, doors, furniture, interaction spots).
+- `office/sim.ts` runs the operations (intent, signed quote, deterministic policy decision, approval, budget hold, x402 settlement, receipts) with integer cents, a seeded RNG and no network or wallet. `office/pathfinding.ts` is A* on a 4-neighbour grid where rooms are entered only through doors. `office/render.ts` draws the 2:1 projection on two canvases (a cached floor and a 60 fps dynamic layer).
+- `office/OfficeHero.tsx` adds the HUD (root budget, settled volume, decisions, ALLOW %, DENY, approvals), the A2A stream, the agent card (tap an agent), the hero copy with the page's only `<h1>`, and commands: valid purchase, prompt injection, duplicate retry, over-threshold approval, pause mandate, kill switch, zoom and pause. The loop stops when the hero is off screen or the tab is hidden; `prefers-reduced-motion` starts it paused.
+- All office copy lives in `src/lib/i18n/office.es.ts` / `office.en.ts` (`office` key). The section `#office` (`sections/OfficeLegendSection.tsx`) explains each room below the hero.
+- Every figure, ID, ledger number and transaction hash in the office is illustrative; the HUD states "Simulation · no funds".
 
 ## Editing content
 
@@ -109,17 +112,12 @@ public/assets/                    # TilcAI branding and supplied Codex / Claude 
 
 ## Styling
 
-The design uses semantic CSS classes in `globals.css` (unlayered, so they take precedence over Tailwind's base layer).
-Tailwind CSS v4 stays available for new components; brand tokens are exposed as utilities (`bg-surface`, `text-teal`, `text-amber`, `font-mono`…).
-Fonts are Geist and Geist Mono via `next/font`, as in the default scaffold.
+The visual system follows thegraph.com (palette, type scale, buttons, gradient); see [docs/redesign-the-graph.md](docs/redesign-the-graph.md) for the extracted tokens and the layout mock-up.
+Tokens live at the top of `globals.css` (`--bg #0C0A1D`, `--pane #1A172F`, `--purple #6F4CFF`, secondary blue/turquoise/green/yellow/red/pink). Semantic CSS classes stay unlayered so they take precedence over Tailwind's base layer; Tailwind v4 remains available (`bg-surface`, `text-purple`, `font-mono`…).
+Fonts: Plus Jakarta Sans (display/UI) and JetBrains Mono (figures) via `next/font/google`. The Graph uses the licensed Euclid Circular A; to switch, load it with `next/font/local` and point `--font-jakarta` at it.
+Brand assets generated from `TilcAI_logo.png` are in `public/brand/` (white logo, cat mark, favicon, apple-touch icon, 512 icon, Open Graph image).
 
-`landing.css` composes the compact hero, holographic scenes and technical disclosures;
-`agents.css` styles the carousel and right-side modal. General sections use 36px
-vertical padding on mobile and 48px on desktop. Technical detail is available on
-demand through native disclosures, retaining the public section anchors.
-Motion uses CSS perspective and event-driven updates; no animation dependency was added.
-See [the visual structure and verification record](docs/visual-structure.md) for
-asset replacement, team extension points and suggested commits.
+`office.css` styles the full-screen hero; `landing.css` the sections, office legend, flow layers and technical disclosures; `agents.css` the carousel and right-side modal.
 
 ## Accessibility
 

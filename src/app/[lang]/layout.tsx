@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import type { ReactNode } from "react";
@@ -8,8 +8,9 @@ import { isLocale, locales } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site";
 import "../globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+// Plus Jakarta Sans stands in for The Graph's licensed Euclid Circular A (see docs/redesign-the-graph.md).
+const display = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
+const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
 
 // Only /en and /es exist; anything else is a 404.
 export const dynamicParams = false;
@@ -21,13 +22,16 @@ export function generateStaticParams() {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   icons: {
-    icon: [{ url: "/assets/favicon-32.png", sizes: "32x32", type: "image/png" }],
-    apple: "/assets/apple-touch-icon.png",
+    icon: [
+      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/brand/apple-touch-icon.png",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0e0f",
+  themeColor: "#0C0A1D",
   colorScheme: "dark",
 };
 
@@ -42,7 +46,7 @@ export default async function RootLayout({
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={`${geistSans.variable} ${geistMono.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} className={`${display.variable} ${mono.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Enables reveal-on-scroll styles only when JavaScript runs; content stays visible without it. */}
         <Script id="tilcai-enhancement" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

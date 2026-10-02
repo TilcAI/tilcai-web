@@ -1,5 +1,6 @@
 // Shape of all visible copy. Both locales must implement every key,
 // so a view never mixes languages.
+import type { EventKind, OfficeStrings, Role, RoomId, TaskKind } from "@/components/office/types";
 
 export type Locale = "en" | "es";
 
@@ -60,6 +61,34 @@ export interface DocsSection {
   html: string;
 }
 
+/** Copy for the full-screen isometric office (hero) and its legend section. */
+export interface OfficeCopy {
+  label: string;
+  description: string;
+  mode: string;
+  network: string;
+  relayer: string;
+  stats: { root: string; volume: string; decisions: string; allow: string; deny: string; approvals: string; period: string };
+  feed: { title: string; live: string; open: string; close: string; empty: string; filters: Record<"all" | "decisions" | "payments" | "a2a", string> };
+  tags: Record<EventKind, string>;
+  commands: {
+    label: string; purchase: string; injection: string; duplicate: string; approval: string;
+    pause: string; resume: string; kill: string; revive: string;
+    zoomIn: string; zoomOut: string; reset: string; play: string; stop: string;
+  };
+  hints: { purchase: string; injection: string; duplicate: string; approval: string; pause: string; kill: string };
+  scroll: string;
+  killBanner: string;
+  pausedBanner: string;
+  reducedMotion: string;
+  agent: { title: string; task: string; room: string; ok: string; denied: string; close: string; corridor: string; hint: string };
+  rooms: Record<RoomId, { name: string; who: string; body: string }>;
+  roles: Record<Role, string>;
+  tasks: Record<TaskKind, string>;
+  legend: { eyebrow: string; title: string; titleDim: string; lead: string; note: string };
+  sim: OfficeStrings;
+}
+
 export interface Copy {
   locale: Locale;
   htmlLang: string;
@@ -69,6 +98,7 @@ export interface Copy {
   stageLabels: Record<Stage, string>;
   integrationLabels: Record<IntegrationStatus, string>;
   environmentLabels: Record<Environment, string>;
+  office: OfficeCopy;
   hero: {
     eyebrow: string;
     title: string;

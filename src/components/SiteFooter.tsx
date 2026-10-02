@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Copy } from "@/lib/i18n";
 import { otherLocale, paths } from "@/lib/site";
@@ -8,9 +9,7 @@ export function SiteFooter({ t, page }: { t: Copy; page: "home" | "docs" }) {
     <footer className="site-footer">
       <div className="container footer-inner">
         <div className="footer-brand">
-          <span className="wordmark">
-            Tilc<span>AI</span>
-          </span>
+          <Image src="/brand/tilcai-logo.webp" width={360} height={138} alt="TilcAI" sizes="74px" />
           <p>{t.footer.status}</p>
         </div>
         <nav className="footer-nav" aria-label={t.a11y.footerNav}>
