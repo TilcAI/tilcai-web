@@ -49,7 +49,7 @@
 /* ---------- Technical disclosures ---------- */
 .technical-section.section { padding: 28px 0; }
 .technical-disclosure { max-width: 1080px; margin: 0 auto; }
-.technical-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; cursor: pointer; list-style: none; }
+.technical-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 44px; cursor: pointer; list-style: none; }
 .technical-disclosure > summary::-webkit-details-marker { display: none; }
 .technical-disclosure > summary h2 { display: grid; grid-template-columns: 1fr 40px; align-items: center; gap: 6px 20px; width: 100%; font-size: clamp(20px, 2.2vw, 26px); font-weight: 500; letter-spacing: -0.02em; }
 .technical-disclosure .eyebrow { grid-column: 1; font-size: 13px; margin: 0; }
