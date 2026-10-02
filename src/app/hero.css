@@ -157,7 +157,7 @@
   .hero-motion-control { padding: 0; width: 36px; justify-content: center; }
   .site-header.is-overlay .brand img { height: 35px; }
   .site-header.is-overlay .lang { padding: 0; }
-  .header-hero-link { width: 39px; height: 39px; font-size: 22px; }
+  .header-hero-link { width: 44px; height: 44px; font-size: 22px; }
   .office-hero { min-height: 680px; }
   .office-hud { top: 16px; }
   .office-feed.is-open { bottom: 76px; }
@@ -189,6 +189,8 @@
   .hero-scene-badge .icon { width: 14px; height: 14px; }
   .hero-city { height: 235px; bottom: 28px; }
 }
+html:not(.js) .brand-hero { margin-top: 0; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-depth { will-change: auto; }
   .hero-motion-control { display: none; }
