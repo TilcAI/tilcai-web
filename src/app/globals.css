@@ -357,13 +357,14 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 .badge-role { font-size: 13.5px; color: var(--muted); }
 
 /* ---------- Roadmap ---------- */
-.timeline { display: grid; gap: 16px; }
-@media (min-width: 900px) { .timeline { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.stage { border: 1px solid var(--border); border-radius: var(--radius); background: var(--pane); padding: 28px; position: relative; overflow: hidden; }
-.stage::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; background: var(--border-strong); }
-.stage.stage-elite::before, .stage.stage-available::before { background: var(--green); }
-.stage.stage-meridian::before, .stage.stage-integration::before { background: var(--yellow); }
-.stage.stage-next::before { background: var(--purple); }
+.roadmap-cols { display: grid; gap: 16px; }
+@media (min-width: 900px) { .roadmap-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.road-col { border: 1px solid var(--border); border-radius: var(--radius); background: var(--pane); padding: 28px; position: relative; min-width: 0; overflow: hidden; }
+.road-col::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; background: var(--border-strong); }
+.road-col.stage-available::before { background: var(--green); }
+.road-col.stage-integration::before { background: var(--yellow); }
+.road-col.stage-next { border-style: dashed; background: transparent; }
+.road-col.stage-next::before { background: var(--purple); }
 
 /* ---------- FAQ ---------- */
 .faq-list { display: grid; gap: 12px; max-width: 1080px; margin: 0 auto; }
@@ -374,14 +375,19 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 .faq-item summary::after { content: "+"; color: var(--purple-300); font-size: 20px; line-height: 1; transition: rotate .2s ease; }
 .faq-item[open] summary::after { rotate: 45deg; }
 .faq-item p { margin-top: 14px; color: var(--text-2); max-width: 80ch; font-size: 15px; }
-.stage > .tag { margin-bottom: 18px; }
+.road-col > .tag { margin-bottom: 18px; }
 .stage-head { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
 .stage-n { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; font-family: var(--mono); font-size: 13px; border: 1px solid var(--border-strong); color: var(--text-2); background: var(--surface-2); }
 .stage-when { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
-.stage h3 { font-size: 20px; }
-.stage-items { display: grid; gap: 10px; margin-top: 20px; }
-.stage-items li { position: relative; padding-left: 20px; color: var(--text-2); font-size: 15px; }
-.stage-items li::before { content: ""; position: absolute; left: 2px; top: 11px; width: 6px; height: 6px; border-radius: 2px; background: var(--purple-400); }
+.road-col h3 { font-size: 20px; }
+.road-items { display: grid; gap: 18px; margin-top: 22px; }
+.road-item { padding-top: 16px; border-top: 1px solid var(--border); }
+.road-item h4 { font-size: 15.5px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.road-item p { color: var(--text-2); font-size: 14.5px; }
+.road-item .road-owner { margin-top: 10px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.road-item .road-owner strong { color: var(--purple-300); font-weight: 500; }
+.road-col > .cap-note { margin-top: 20px; }
+.stack-link { margin-top: 24px; text-align: center; }
 .signature { margin-top: 24px; border: 1px solid rgba(255, 168, 1, .3); border-radius: var(--radius); padding: 28px; background: linear-gradient(180deg, var(--human-soft), transparent 80%), var(--pane); }
 .signature h3 { display: flex; align-items: center; gap: 10px; font-size: 20px; }
 .signature h3 .icon { color: var(--yellow); width: 20px; height: 20px; }
@@ -429,6 +435,7 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 .prose h2 { font-size: 28px; letter-spacing: -0.03em; margin-bottom: 18px; position: relative; }
 .prose .anchor { position: absolute; left: -22px; color: var(--muted); opacity: 0; font-weight: 400; }
 .prose h2:hover .anchor { opacity: 1; }
+.prose h3 { font-size: 18px; margin: 30px 0 10px; color: var(--text); }
 .prose p, .prose li, .prose dd { color: var(--text-2); }
 .prose p + p, .prose p + ul, .prose p + ol, .prose ul + p, .prose ol + p, .prose .table-wrap + p { margin-top: 14px; }
 .prose strong { color: #fff; font-weight: 600; }
