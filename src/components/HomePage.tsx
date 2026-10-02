@@ -2,12 +2,14 @@ import type { Copy } from "@/lib/i18n";
 import { AgentCatalog } from "./AgentCatalog";
 import { FaqSection } from "./FaqSection";
 import { CapabilitiesSection } from "./sections/CapabilitiesSection";
+import { BusinessesSection } from "./sections/BusinessesSection";
 import { CompareSection } from "./sections/CompareSection";
 import { ControlSection } from "./sections/ControlSection";
 import { CtaSection } from "./sections/CtaSection";
 import { DemoSection } from "./sections/DemoSection";
 import { FlowSection } from "./sections/FlowSection";
 import { HeroSection } from "./sections/HeroSection";
+import { OfficeHero } from "./office/OfficeHero";
 import { InterfaceSection } from "./sections/InterfaceSection";
 import { OfficeLegendSection } from "./sections/OfficeLegendSection";
 import { ProductOverview } from "./sections/ProductOverview";
@@ -19,8 +21,10 @@ export function HomePage({ t }: { t: Copy }) {
   return (
     <>
       <HeroSection t={t} />
+      <OfficeHero t={t} />
       <ProductOverview t={t} />
       <OfficeLegendSection t={t} />
+      <BusinessesSection t={t} />
       <FlowSection t={t} />
       <DemoSection t={t} />
       <ControlSection t={t} />

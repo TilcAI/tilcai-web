@@ -17,7 +17,7 @@ export const en: Copy = {
   },
   nav: {
     problem: "What it is", flow: "How it works", demo: "Simulation", capabilities: "Businesses",
-    agents: "Assistants", code: "Contracts", roadmap: "Progress", docs: "Docs", home: "Home",
+    agents: "Agents", code: "Contracts", roadmap: "Progress", docs: "Docs", home: "Home",
   },
   stageLabels: { available: "Available foundation", integration: "Being integrated", next: "Next steps" },
   integrationLabels: { preparation: "In preparation", guide: "Guide available", pilot: "Pilot", enabled: "Enabled" },
@@ -26,8 +26,11 @@ export const en: Copy = {
   hero: {
     eyebrow: "Agent commerce infrastructure · Stellar · In development",
     title: "Your agent buys. Your business responds. You stay in control.",
-    lead: "We are building the connection between agents acting for people and businesses to inquire, book and buy with verifiable terms, limited permissions and payments on Stellar.",
-    ctaPrimary: "Explore how it works", ctaSecondary: "Explore for my business",
+    titleTop: "Your agent buys",
+    titleBottom: "You stay in control",
+    visual: { person: "Person", business: "Business", document: "Document", development: "In development", docs: "Read docs", pause: "Pause animation", resume: "Play animation", scroll: "Explore the simulation" },
+    lead: "Businesses respond with verifiable terms and limited permissions.",
+    ctaPrimary: "Explore now", ctaSecondary: "Explore for my business",
     facts: ["Verifiable terms", "Limited permissions", "Approval per purchase"],
     visionNote: "Your agent interprets the request. The business provides terms and availability. TilcAI coordinates permissions, operations and evidence. The complete purchase flow is enabled in stages.",
     scene: {
@@ -62,7 +65,15 @@ export const en: Copy = {
     eyebrow: "Businesses", title: "Businesses preparing to respond to your agents.",
     lead: "We connect catalogs, terms and business operations so agents can inquire about services and prepare a purchase under clear rules.",
     empty: "We are preparing the first integrations. Explore capabilities for your business; profiles will be published with approval and a verifiable technical status.",
-    actions: { profile: "Meet the business", scenario: "Explore the use case", inquiry: "Inquire about the service", purchase: "Buy", pilot: "Evaluate a pilot for my business" },
+    previewOnly: "DESIGN PREVIEW ONLY", statusLabel: "Relationship and connection",
+    relationships: { participant: "Participant", partner: "Partner" },
+    connections: { planned: "Connection planned", pilot: "Technical pilot", testnet: "On Testnet", live: "Operational" },
+    categories: { digital: "Digital services", booking: "Bookings", commerce: "Commerce", experience: "Experiences" },
+    services: {
+      exampleDigital: "Illustrative inquiry for digital services.",
+      exampleBooking: "Illustrative example with longer text to check that the card reserves space and keeps the same height as the others.",
+    },
+    actions: { profile: "Meet the business", scenario: "Explore the use case", inquiry: "Inquire about the service", purchase: "Buy", pilot: "Explore a pilot for my business" },
   },
   agents: {
     eyebrow: "Assistants", title: "Use the assistant you already work with.",

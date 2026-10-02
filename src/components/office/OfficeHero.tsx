@@ -43,8 +43,9 @@ function useNarrow() {
 }
 
 const fmtClock = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+type FeedEvent = OfficeEvent & { renderKey: number };
 
-/** Full-screen hero: the TilcAI office simulation with HUD, A2A stream and commands. */
+/** Interactive office simulation below the landing hero. */
 export function OfficeHero({ t }: { t: Copy }) {
   const o = t.office;
   const locale = t.locale;
@@ -54,7 +55,8 @@ export function OfficeHero({ t }: { t: Copy }) {
   const simRef = useRef<OfficeSim | null>(null);
   const camRef = useRef<Camera | null>(null);
   const viewRef = useRef({ zoom: 1, panX: 0, panY: 0, staticPanX: 0, staticPanY: 0, dirty: true, visible: true, compact: false });
-  const bufferRef = useRef<OfficeEvent[]>([]);
+  const bufferRef = useRef<FeedEvent[]>([]);
+  const feedKeyRef = useRef(0);
   const selectedRef = useRef<number | null>(null);
   const hoverRef = useRef<number | null>(null);
   const runningRef = useRef(true);
@@ -64,7 +66,7 @@ export function OfficeHero({ t }: { t: Copy }) {
   const [userRunning, setUserRunning] = useState<boolean | null>(null);
   const running = userRunning ?? !reduced;
   const [stats, setStats] = useState<OfficeStats>(INITIAL_STATS);
-  const [feed, setFeed] = useState<OfficeEvent[]>([]);
+  const [feed, setFeed] = useState<FeedEvent[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
   const narrow = useNarrow();
   const [feedPref, setFeedPref] = useState<boolean | null>(null);
@@ -88,7 +90,8 @@ export function OfficeHero({ t }: { t: Copy }) {
 
     const sim = new OfficeSim(o.sim);
     simRef.current = sim;
-    sim.onEvent = (e) => { bufferRef.current.push(e); };
+    bufferRef.current = [];
+    sim.onEvent = (e) => { bufferRef.current.push({ ...e, renderKey: ++feedKeyRef.current }); };
     // Pre-warm so the floor is already busy on first paint.
     for (let i = 0; i < 26 * 20; i++) sim.update(1 / 20);
     bufferRef.current = bufferRef.current.slice(-10);
@@ -148,6 +151,7 @@ export function OfficeHero({ t }: { t: Copy }) {
       window.clearInterval(tick);
       ro.disconnect();
       io.disconnect();
+      sim.onEvent = null;
       simRef.current = null;
     };
   }, [o, labels]);
@@ -241,7 +245,7 @@ export function OfficeHero({ t }: { t: Copy }) {
   ];
 
   return (
-    <section className={`office-hero${stats.frozen ? " is-frozen" : ""}${feedOpen ? " feed-open" : ""}`} aria-labelledby="hero-title">
+    <section id="simulation" data-section-label={t.nav.demo} className={`office-hero${stats.frozen ? " is-frozen" : ""}${feedOpen ? " feed-open" : ""}`} aria-label={o.mode}>
       <div className="office-stage" ref={stageRef}>
         <canvas ref={staticRef} className="office-canvas" aria-hidden="true" />
         <canvas
@@ -328,7 +332,7 @@ export function OfficeHero({ t }: { t: Copy }) {
           <ol className="feed-list" role="log" aria-live="off">
             {visibleFeed.length === 0 && <li className="feed-empty">{o.feed.empty}</li>}
             {visibleFeed.map((e) => (
-              <li key={e.id} className={`feed-item kind-${e.kind}`}>
+              <li key={e.renderKey} className={`feed-item kind-${e.kind}`}>
                 <span className="feed-tag">{o.tags[e.kind]}</span>
                 <span className="feed-text">{e.text}</span>
                 <time className="feed-time">{fmtClock(e.t)}</time>
@@ -337,16 +341,6 @@ export function OfficeHero({ t }: { t: Copy }) {
           </ol>
         </div>
       </aside>
-
-      <div className="office-copy">
-        <p className="status-pill"><span className="dot" aria-hidden="true" />{t.hero.eyebrow}</p>
-        <h1 id="hero-title">{t.hero.title}</h1>
-        <p className="lead">{t.hero.lead}</p>
-        <div className="cta-row">
-          <a className="btn btn-primary" href="#problem">{t.hero.ctaPrimary}<Icon name="arrow" /></a>
-          <a className="btn btn-ghost" href="#capabilities">{t.hero.ctaSecondary}</a>
-        </div>
-      </div>
 
       <div className="office-commands" role="toolbar" aria-label={o.commands.label}>
         <div className="cmd-group">

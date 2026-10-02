@@ -17,7 +17,7 @@ export const es: Copy = {
   },
   nav: {
     problem: "Qué es", flow: "Cómo funciona", demo: "Simulación", capabilities: "Empresas",
-    agents: "Asistentes", code: "Contratos", roadmap: "Avance", docs: "Docs", home: "Inicio",
+    agents: "Agentes", code: "Contratos", roadmap: "Avance", docs: "Docs", home: "Inicio",
   },
   stageLabels: { available: "Base disponible", integration: "En integración", next: "Siguiente evolución" },
   integrationLabels: { preparation: "En preparación", guide: "Guía disponible", pilot: "Piloto", enabled: "Habilitado" },
@@ -26,8 +26,11 @@ export const es: Copy = {
   hero: {
     eyebrow: "Infraestructura de comercio entre agentes · Stellar · En desarrollo",
     title: "Tu agente compra. Tu empresa responde. Tú mantienes el control.",
-    lead: "Construimos la conexión entre agentes de personas y empresas para consultar, reservar y comprar con condiciones verificables, permisos limitados y pagos sobre Stellar.",
-    ctaPrimary: "Explorar cómo funciona", ctaSecondary: "Explorar para mi empresa",
+    titleTop: "Tu agente compra",
+    titleBottom: "Tú mantienes el control",
+    visual: { person: "Persona", business: "Empresa", document: "Documento", development: "En desarrollo", docs: "Ver docs", pause: "Pausar animación", resume: "Activar animación", scroll: "Descubre la simulación" },
+    lead: "La empresa responde con condiciones verificables y permisos limitados.",
+    ctaPrimary: "Explorar ahora", ctaSecondary: "Explorar para mi empresa",
     facts: ["Condiciones verificables", "Permisos limitados", "Aprobación por compra"],
     visionNote: "Tu agente interpreta la solicitud. La empresa aporta condiciones y disponibilidad. TilcAI coordina permisos, operación y evidencia. La compra completa se habilita por etapas.",
     scene: {
@@ -62,7 +65,15 @@ export const es: Copy = {
     eyebrow: "Empresas", title: "Empresas preparándose para atender a tus agentes.",
     lead: "Conectamos catálogo, condiciones y operación comercial para que los agentes puedan consultar servicios y preparar una compra bajo reglas claras.",
     empty: "Estamos preparando las primeras integraciones. Explora las capacidades para tu empresa; los perfiles se publicarán con aprobación y estado técnico verificable.",
-    actions: { profile: "Conocer empresa", scenario: "Explorar caso", inquiry: "Consultar servicio", purchase: "Comprar", pilot: "Evaluar un piloto con mi empresa" },
+    previewOnly: "SOLO VISTA PREVIA", statusLabel: "Relación y conexión",
+    relationships: { participant: "Participante", partner: "Aliada" },
+    connections: { planned: "Conexión prevista", pilot: "Piloto técnico", testnet: "En Testnet", live: "Operativa" },
+    categories: { digital: "Servicios digitales", booking: "Reservas", commerce: "Comercio", experience: "Experiencias" },
+    services: {
+      exampleDigital: "Consulta ilustrativa de servicios digitales.",
+      exampleBooking: "Ejemplo ilustrativo con un texto más largo para comprobar que la card reserva espacio y conserva la misma altura que las demás.",
+    },
+    actions: { profile: "Conocer empresa", scenario: "Explorar caso", inquiry: "Consultar servicio", purchase: "Comprar", pilot: "Explorar un piloto para mi empresa" },
   },
   agents: {
     eyebrow: "Asistentes", title: "Usa el asistente con el que ya trabajas.",

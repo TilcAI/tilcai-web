@@ -23,6 +23,12 @@ pnpm build
 pnpm start
 ```
 
+Tests (no extra dependencies; they use Node's built-in runner, so Node.js 22.18+ is needed):
+
+```bash
+pnpm test         # node --experimental-strip-types --test test/*.test.ts
+```
+
 `package.json` uses `"latest"`, while the committed lockfile records resolved versions. Preserve this project and its lockfile when editing content; dependency upgrades are a separate task.
 
 ## Routes
@@ -100,7 +106,8 @@ public/assets/                    # TilcAI branding and supplied Codex / Claude 
 - The ES/EN message map, CTA destinations and team handoffs are in [docs/messaging-map.md](docs/messaging-map.md).
 - Construction labels (`available`, `integration`, `next`) are defined once in `stageLabels`. Assistant integration labels and environment labels are separate dimensions in `integrationLabels` and `environmentLabels`.
 - `FAQ_IDS` fixes the order of eight questions. Both dictionaries must provide every answer; keep each answer between 40 and 80 words.
-- `businesses` and `control` provide copy for the team's upcoming components. `agents` supplies the catalog and guide panel. Dictionary content does not mean an operational integration is enabled.
+- `businesses` supplies the business grid copy; `control` remains copy for a future component. `agents` supplies the catalog and guide panel. Dictionary content does not mean an operational integration is enabled.
+- The business grid reads typed entries from `src/lib/content/businesses.ts`. It currently shows a pilot exploration invitation because no business has publication approval. See [docs/business-inventory.md](docs/business-inventory.md) before adding a profile; local-only generic cards are at `/en/business-preview` and `/es/business-preview` in development (404 in production). Categories and service summaries are closed keys (`BusinessCategoryKey`, `BusinessServiceKey`), so both dictionaries must translate every one. A card shows media only if `mediaApproved`, and its action is the strongest one that is operational (never "Buy" without a validated flow).
 - Add assistant clients in `src/lib/content/agents.ts`; no component changes are needed. See [docs/agent-catalog.md](docs/agent-catalog.md) for state promotion requirements, surface distinctions and asset handling.
 - Landing snippets receive translated comments from `code.comments`; they are illustrative excerpts, not complete payloads or a public SDK API.
 - CTAs currently explore the flow, capabilities, simulation and docs. A public contact channel/backend is needed before enabling pilot requests.
