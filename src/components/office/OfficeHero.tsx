@@ -253,6 +253,7 @@ export function OfficeHero({ t }: { t: Copy }) {
     const id = agentAt(cam, sim, e.clientX - r.left, e.clientY - r.top);
     selectedRef.current = id;
     setSelected(id === null ? null : sim.agentInfo(id));
+    if (id !== null) setFeedPref(true);
   };
 
   const visibleFeed = FILTERS[filter] ? feed.filter((e) => FILTERS[filter]!.includes(e.kind)) : feed;
@@ -268,7 +269,11 @@ export function OfficeHero({ t }: { t: Copy }) {
   ];
 
   return (
-    <section ref={sectionRef} id="simulation" data-section-label={t.nav.demo} className={`office-hero${stats.frozen ? " is-frozen" : ""}${feedOpen ? " feed-open" : ""}${expanded ? " is-expanded" : ""}`} aria-label={o.mode}>
+    <section ref={sectionRef} id="simulation" data-section-label={t.nav.demo} className={`office-hero office-workspace${stats.frozen ? " is-frozen" : ""}${feedOpen ? " feed-open" : ""}${expanded ? " is-expanded" : ""}`} aria-label={o.mode}>
+      <div className="office-stage-heading">
+        <h2><Icon name="target" />{o.label}</h2>
+        <span>{o.agent.hint}</span>
+      </div>
       <div className="office-stage" ref={stageRef}>
         <canvas ref={staticRef} className="office-canvas" aria-hidden="true" />
         <canvas
@@ -285,7 +290,7 @@ export function OfficeHero({ t }: { t: Copy }) {
             else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
               e.preventDefault(); const sim = simRef.current; if (!sim) return;
               const id = ((selectedRef.current ?? -1) + (e.key === 'ArrowRight' ? 1 : -1) + sim.agents.length) % sim.agents.length;
-              selectedRef.current = id; setSelected(sim.agentInfo(id));
+              selectedRef.current = id; setSelected(sim.agentInfo(id)); setFeedPref(true);
             }
           }}
           onPointerDown={onPointerDown}
@@ -328,30 +333,6 @@ export function OfficeHero({ t }: { t: Copy }) {
         </p>
       )}
 
-      {selected && (
-        <aside className="office-agent" aria-label={o.agent.title}>
-          <div className="office-agent-head">
-            <span className={`agent-dot role-${selected.role}`} aria-hidden="true" />
-            <div>
-              <p className="office-agent-role">{o.roles[selected.role]}</p>
-              <h2 className="office-agent-name">{selected.name}</h2>
-            </div>
-            <button type="button" className="icon-btn" onClick={() => { selectedRef.current = null; setSelected(null); }} aria-label={o.agent.close}>
-              <Icon name="x" />
-            </button>
-          </div>
-          <dl className="office-agent-data">
-            <div><dt>{o.agent.task}</dt><dd>{o.tasks[selected.task]}</dd></div>
-            <div><dt>{o.agent.room}</dt><dd>{selected.room ? o.rooms[selected.room].name : o.agent.corridor}</dd></div>
-            {selected.amountCents !== null && <div><dt>{o.agent.amount}</dt><dd className="num">{formatCents(selected.amountCents, locale)} USDC</dd></div>}
-            {selected.decision && <div><dt>{o.agent.decision}</dt><dd>{selected.decision}</dd></div>}
-            {selected.role === "buyer" && <>
-              <div><dt>{o.agent.ok}</dt><dd className="tone-allow num">{selected.ok}</dd></div>
-              <div><dt>{o.agent.denied}</dt><dd className="tone-deny num">{selected.denied}</dd></div>
-            </>}
-          </dl>
-        </aside>
-      )}
 
       <aside className={`office-feed${feedOpen ? " is-open" : ""}`} aria-label={o.feed.title}>
         <div className="feed-head">
@@ -380,6 +361,30 @@ export function OfficeHero({ t }: { t: Copy }) {
             ))}
           </ol>
         </div>
+        {selected && feedOpen && (
+          <aside className="office-agent" aria-label={o.agent.title}>
+            <div className="office-agent-head">
+              <span className={`agent-dot role-${selected.role}`} aria-hidden="true" />
+              <div>
+                <p className="office-agent-role">{o.roles[selected.role]}</p>
+                <h2 className="office-agent-name">{selected.name}</h2>
+              </div>
+              <button type="button" className="icon-btn" onClick={() => { selectedRef.current = null; setSelected(null); }} aria-label={o.agent.close}>
+                <Icon name="x" />
+              </button>
+            </div>
+            <dl className="office-agent-data">
+              <div><dt>{o.agent.task}</dt><dd>{o.tasks[selected.task]}</dd></div>
+              <div><dt>{o.agent.room}</dt><dd>{selected.room ? o.rooms[selected.room].name : o.agent.corridor}</dd></div>
+              {selected.amountCents !== null && <div><dt>{o.agent.amount}</dt><dd className="num">{formatCents(selected.amountCents, locale)} USDC</dd></div>}
+              {selected.decision && <div><dt>{o.agent.decision}</dt><dd>{selected.decision}</dd></div>}
+              {selected.role === "buyer" && <>
+                <div><dt>{o.agent.ok}</dt><dd className="tone-allow num">{selected.ok}</dd></div>
+                <div><dt>{o.agent.denied}</dt><dd className="tone-deny num">{selected.denied}</dd></div>
+              </>}
+            </dl>
+          </aside>
+        )}
       </aside>
 
       <div className="office-commands" role="toolbar" aria-label={o.commands.label}>
