@@ -165,7 +165,7 @@ export function TilcAIParallax({ id, labelledBy, children }: Props) {
                           : undefined
                       }
                     >
-                      <Image src={l.src} alt="" fill sizes="100vw" quality={85} draggable={false} className={styles.img} />
+                      <Image src={l.src} alt="" fill sizes={l.id === "planet" || l.id === "city" ? "50vw" : "100vw"} quality={85} draggable={false} className={styles.img} />
                     </div>
                   </div>
                 </div>

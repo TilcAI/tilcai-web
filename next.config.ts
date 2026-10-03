@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The parallax scene layers are served at quality 85 (the default allow-list only has 75).
-  images: { qualities: [75, 85] },
+  // Parallax layers use 85; the office tower uses 88.
+  images: { qualities: [75, 85, 88] },
   // English is the default language: "/" goes to "/en".
   async redirects() {
     return [{ source: "/", destination: "/en", permanent: false }];
