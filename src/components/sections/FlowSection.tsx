@@ -1,69 +1,45 @@
-import type { Copy } from "@/lib/i18n";
-import type { FlowStep } from "@/lib/i18n/types";
-import { Icon } from "../Icon";
-import { FlowLayers } from "../CommerceScene";
-import { SectionHead } from "./shared";
+"use client";
 
-function FlowNode({ step, n }: { step: FlowStep; n: number }) {
-  return (
-    <li className={`flow-node tone-${step.tone ?? "neutral"}`}>
-      <span className="flow-n" aria-hidden="true">
-        {String(n).padStart(2, "0")}
-      </span>
-      <span className="flow-label">{step.label}</span>
-      <span className="flow-detail">{step.detail}</span>
-    </li>
-  );
-}
+import { useScrollStep } from "../useScrollStep";
+import type { Copy } from "@/lib/i18n";
+import { narrative } from "@/lib/i18n/narrative";
+import { CommerceIllustration } from "./CommerceIllustration";
+import styles from "./Narrative.module.css";
 
 export function FlowSection({ t }: { t: Copy }) {
+  const c = narrative(t.locale).flow;
+  const { list, active } = useScrollStep<HTMLOListElement>();
+
   return (
-    <section id="flow" className="section section-alt" aria-labelledby="flow-title">
-        <div className="container">
-          <SectionHead id="flow-title" eyebrow={t.flow.eyebrow} title={t.flow.title} lead={t.flow.lead} />
-          <div className="flow-composition">
-          <div className="flow reveal">
-            <ol className="flow-track" role="list">
-              {t.flow.steps.map((s, i) => (
-                <FlowNode key={s.label} step={s} n={i + 1} />
-              ))}
-            </ol>
-            <div className="flow-decide">
-              <span className="flow-n" aria-hidden="true">
-                04
-              </span>
-              <ul className="decisions" role="list">
-                {t.flow.decisions.map((d) => (
-                  <li key={d.label} className={`decision tone-${d.tone}`}>
-                    <code>{d.label}</code>
-                    <span>{d.detail}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <ol className="flow-track flow-after" role="list" start={5}>
-              {t.flow.after.map((s, i) => (
-                <FlowNode key={s.label} step={s} n={i + 5} />
-              ))}
-            </ol>
-            <p className="flow-note">
-              <Icon name="receipt" />
-              {t.flow.receiptNote}
-            </p>
+    <section id="flow" className={styles.journey} aria-labelledby="flow-title">
+      <div className={`${styles.inner} ${styles.journeyGrid}`}>
+        <div className={styles.sticky}>
+          <p className={styles.eyebrow}>{t.nav.flow}</p>
+          <h2 id="flow-title" className={styles.heading}>{c.title}</h2>
+          <p className={styles.lead}>{c.lead}</p>
+          <div className={styles.journeyScene}>
+            <CommerceIllustration id="journey-art" active={active} />
+            <div className={styles.sceneLabels}><span>{c.agent}</span><span>{c.business}</span></div>
           </div>
-          <FlowLayers t={t} />
-          </div>
-          <div className="grid grid-2 scope reveal">
-            <div className="scope-card scope-vision">
-              <p className="scope-kicker">{t.flow.visionTitle}</p>
-              <p>{t.flow.vision}</p>
-            </div>
-            <div className="scope-card scope-first">
-              <p className="scope-kicker">{t.flow.firstCaseTitle}</p>
-              <p>{t.flow.firstCase}</p>
-            </div>
-          </div>
+          <nav className={styles.progress} aria-label={t.flow.eyebrow}>
+            {c.steps.map((step, index) => <a key={step.title} href={`#purchase-step-${index}`} aria-current={active === index ? "step" : undefined} aria-label={`${index + 1}. ${step.title}`}>0{index + 1}</a>)}
+          </nav>
+          <p className={styles.caption}>{c.label}</p>
         </div>
-      </section>
+        <ol ref={list} className={styles.steps}>
+          {c.steps.map((step, index) => <li id={`purchase-step-${index}`} className={styles.step} data-active={index === active} key={step.title}>
+            <div className={styles.stepCard}>
+              <span className={styles.stepNumber}>0{index + 1} / 04</span>
+              <h3>{step.title}</h3><p>{step.body}</p>
+              <div className={styles.artifact}>
+                <div className={styles.artifactHead}><strong>{step.artifact}</strong><span>TilcAI</span></div>
+                <ul>{step.lines.map(line => <li key={line}>{line}</li>)}</ul>
+              </div>
+              <p className={styles.detail}>{step.detail}</p>
+            </div>
+          </li>)}
+        </ol>
+      </div>
+    </section>
   );
 }

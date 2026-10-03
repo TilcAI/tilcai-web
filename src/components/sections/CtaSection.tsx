@@ -1,26 +1,17 @@
-import Link from "next/link";
 import type { Copy } from "@/lib/i18n";
-import { paths } from "@/lib/site";
+import { narrative } from "@/lib/i18n/narrative";
 import { Icon } from "../Icon";
+import styles from "./Narrative.module.css";
 
 export function CtaSection({ t }: { t: Copy }) {
-  return (
-    <section className="section cta" aria-labelledby="cta-title">
-      <div className="container">
-        <div className="cta-card reveal">
-          <h2 id="cta-title">{t.cta.title}</h2>
-          <p>{t.cta.body}</p>
-          <div className="cta-row">
-            <Link className="btn btn-primary" href={paths.docs(t.locale)}>
-              {t.cta.primary}
-              <Icon name="arrow" />
-            </Link>
-            <a className="btn btn-ghost" href="#demo">
-              {t.cta.secondary}
-            </a>
-          </div>
-        </div>
+  const c = narrative(t.locale).cta;
+  return <section className={styles.closing} aria-labelledby="cta-title">
+    <div className={`${styles.inner} ${styles.closingInner}`}>
+      <div><h2 id="cta-title">{c.title}</h2><p>{c.body}</p></div>
+      <div className={styles.actions}>
+        <a className="btn btn-primary" href="#demo">{c.primary}<Icon name="arrow" /></a>
+        <a className="btn btn-ghost" href="#businesses">{c.secondary}<Icon name="store" /></a>
       </div>
-    </section>
-  );
+    </div>
+  </section>;
 }
