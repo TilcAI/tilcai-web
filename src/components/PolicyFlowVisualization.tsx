@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import {
   Handle,
   MarkerType,
   Position,
   ReactFlow,
+  useReactFlow,
   type Edge,
   type Node,
   type NodeProps,
@@ -13,6 +14,7 @@ import {
 import { Icon, type IconName } from "./Icon";
 import type { Decision } from "@/lib/demo/scenarios";
 import type { Copy } from "@/lib/i18n";
+import "@xyflow/react/dist/style.css";
 import styles from "./PolicyFlowVisualization.module.css";
 
 type FlowTone = "neutral" | "policy" | "allow" | "deny" | "approval";
@@ -27,12 +29,14 @@ type FlowNodeData = {
   output?: boolean;
   approved?: boolean;
   compact?: boolean;
+  highlighted?: boolean;
 };
 
 type PolicyFlowNode = Node<FlowNodeData, "tilcaiNode">;
 
 type PolicyFlowVisualizationProps = {
   t: Copy["demo"];
+  activeStep: number;
   scenarioTitle: string;
   businessName: string;
   amount: string;
@@ -45,22 +49,6 @@ type PolicyFlowVisualizationProps = {
   amountOverLimit: boolean;
 };
 
-const mobileQuery = "(max-width: 900px)";
-
-function subscribeToLayout(callback: () => void) {
-  const media = window.matchMedia(mobileQuery);
-  media.addEventListener("change", callback);
-  return () => media.removeEventListener("change", callback);
-}
-
-function getLayoutSnapshot() {
-  return window.matchMedia(mobileQuery).matches;
-}
-
-function getServerLayoutSnapshot() {
-  return false;
-}
-
 function TilcAINode({
   data,
   targetPosition = Position.Left,
@@ -70,6 +58,7 @@ function TilcAINode({
     <div
       className={`${styles.node} ${styles[data.tone]}${data.compact ? ` ${styles.compact}` : ""}`}
       aria-hidden="true"
+      data-highlighted={data.highlighted}
     >
       {data.input && (
         <Handle type="target" position={targetPosition} isConnectable={false} className={styles.handle} />
@@ -102,6 +91,25 @@ function TilcAINode({
 }
 
 const nodeTypes = { tilcaiNode: TilcAINode };
+
+function FitDiagram({ container }: { container: RefObject<HTMLDivElement | null> }) {
+  const { fitBounds, getNodes, getNodesBounds, viewportInitialized } = useReactFlow();
+  useEffect(() => {
+    if (!viewportInitialized || !container.current) return;
+    let frame = 0;
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        void fitBounds(getNodesBounds(getNodes()), { padding: 0.15, duration: 0 });
+      });
+    };
+    const observer = new ResizeObserver(schedule);
+    observer.observe(container.current);
+    schedule();
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, [container, fitBounds, getNodes, getNodesBounds, viewportInitialized]);
+  return null;
+}
 
 const edgeColors: Record<FlowTone, string> = {
   neutral: "var(--turquoise)",
@@ -150,6 +158,7 @@ function createEdge(
 
 export function PolicyFlowVisualization({
   t,
+  activeStep,
   scenarioTitle,
   businessName,
   amount,
@@ -161,7 +170,21 @@ export function PolicyFlowVisualization({
   changedRecipient,
   amountOverLimit,
 }: PolicyFlowVisualizationProps) {
-  const vertical = useSyncExternalStore(subscribeToLayout, getLayoutSnapshot, getServerLayoutSnapshot);
+  const canvas = useRef<HTMLDivElement>(null);
+  const [canvasReady, setCanvasReady] = useState(false);
+
+  useEffect(() => {
+    const element = canvas.current;
+    if (!element) return;
+    const checkSize = () => {
+      if (element.clientWidth > 0 && element.clientHeight > 0) setCanvasReady(true);
+    };
+    const observer = new ResizeObserver(checkSize);
+    observer.observe(element);
+    checkSize();
+    return () => observer.disconnect();
+  }, []);
+
   const isDenied = displayedDecision === "DENY";
   const isPending = needsApproval && !approvalSimulated;
   const isApproved = needsApproval && approvalSimulated;
@@ -169,28 +192,15 @@ export function PolicyFlowVisualization({
   const { nodes, edges } = useMemo(() => {
     const verticalDirection = { targetPosition: Position.Top, sourcePosition: Position.Bottom };
     const horizontalDirection = { targetPosition: Position.Left, sourcePosition: Position.Right };
-    const positions = vertical
-      ? {
-          user: { x: 20, y: 0 },
-          agent: { x: 20, y: 125 },
-          policy: { x: 0, y: 250 },
-          outcome: { x: 20, y: 455 },
-          businessAgent: { x: 20, y: needsApproval ? 605 : 465 },
-          business: { x: 20, y: needsApproval ? 730 : 590 },
-        }
-      : {
-          user: { x: 0, y: 54 },
-          agent: { x: 215, y: 54 },
-          policy: { x: 430, y: 0 },
-          outcome: { x: 450, y: 220 },
-          businessAgent: { x: 790, y: needsApproval ? 220 : 54 },
-          business: { x: 1015, y: needsApproval ? 220 : 54 },
-        };
-    const baseDirection = vertical ? verticalDirection : horizontalDirection;
-    const policyDirection = vertical || isDenied || needsApproval
-      ? verticalDirection
-      : horizontalDirection;
-    const branchDirection = vertical ? verticalDirection : horizontalDirection;
+    // A folded route keeps the original graph readable beside the scroll cards.
+    const positions = {
+      user: { x: 0, y: 0 },
+      agent: { x: 280, y: 0 },
+      policy: { x: 260, y: 145 },
+      outcome: { x: 0, y: 180 },
+      businessAgent: { x: 0, y: needsApproval ? 345 : 180 },
+      business: { x: needsApproval ? 280 : 0, y: 345 },
+    };
 
     const policyFacts: FlowNodeData["facts"] = [
       {
@@ -213,7 +223,7 @@ export function PolicyFlowVisualization({
         initialWidth: 200,
         initialHeight: 96,
         data: { title: t.flow.user, detail: scenarioTitle, tone: "neutral", icon: "target", output: true },
-        ...baseDirection,
+        ...horizontalDirection,
       },
       {
         id: "agent",
@@ -222,7 +232,8 @@ export function PolicyFlowVisualization({
         initialWidth: 200,
         initialHeight: 96,
         data: { title: t.flow.tilcaiAgent, tone: "neutral", icon: "agent", input: true, output: true },
-        ...baseDirection,
+        targetPosition: Position.Left,
+        sourcePosition: Position.Bottom,
       },
       {
         id: "policy",
@@ -231,8 +242,8 @@ export function PolicyFlowVisualization({
         initialWidth: 240,
         initialHeight: 168,
         data: { title: t.flow.policy, facts: policyFacts, tone: "policy", icon: "shield", input: true, output: true },
-        targetPosition: baseDirection.targetPosition,
-        sourcePosition: policyDirection.sourcePosition,
+        targetPosition: Position.Top,
+        sourcePosition: Position.Left,
       },
     ];
 
@@ -256,7 +267,7 @@ export function PolicyFlowVisualization({
           input: true,
           compact: true,
         },
-        ...verticalDirection,
+        targetPosition: Position.Right,
       });
       nextEdges.push(createEdge("policy-blocked", "policy", "blocked", "deny"));
     } else if (needsApproval) {
@@ -275,10 +286,10 @@ export function PolicyFlowVisualization({
           output: isApproved,
           approved: isApproved,
         },
-        targetPosition: Position.Top,
-        sourcePosition: branchDirection.sourcePosition,
+        targetPosition: Position.Right,
+        sourcePosition: Position.Bottom,
       });
-      nextEdges.push(createEdge("policy-review", "policy", "review", "approval", t.flow.reviewRequired));
+      nextEdges.push(createEdge("policy-review", "policy", "review", "approval"));
     }
 
     if (!isDenied && !isPending) {
@@ -290,7 +301,8 @@ export function PolicyFlowVisualization({
           initialWidth: 200,
           initialHeight: 96,
           data: { title: t.flow.businessAgent, tone: "neutral", icon: "agent", input: true, output: true },
-          ...branchDirection,
+          targetPosition: needsApproval ? Position.Top : Position.Right,
+          sourcePosition: needsApproval ? Position.Right : Position.Bottom,
         },
         {
           id: "business",
@@ -299,7 +311,7 @@ export function PolicyFlowVisualization({
           initialWidth: 200,
           initialHeight: 96,
           data: { title: t.flow.business, detail: businessName, tone: "neutral", icon: "store", input: true },
-          ...branchDirection,
+          ...(needsApproval ? horizontalDirection : verticalDirection),
         },
       );
 
@@ -309,15 +321,20 @@ export function PolicyFlowVisualization({
           isApproved ? "review" : "policy",
           "business-agent",
           "allow",
-          t.flow.allowed,
         ),
         createEdge("business-agent-business", "business-agent", "business", "neutral"),
       );
     }
 
-    return { nodes: nextNodes, edges: nextEdges };
+    const highlighted = activeStep === 0 ? ["user", "agent"]
+      : activeStep === 1 ? ["policy"] : ["blocked", "review", "business-agent", "business"];
+    return {
+      nodes: nextNodes.map(node => ({ ...node, data: { ...node.data, highlighted: highlighted.includes(node.id) } })),
+      edges: nextEdges,
+    };
   }, [
     amount,
+    activeStep,
     amountOverLimit,
     businessName,
     changedRecipient,
@@ -329,7 +346,6 @@ export function PolicyFlowVisualization({
     needsApproval,
     scenarioTitle,
     t,
-    vertical,
   ]);
 
   const canvasStateClass = isDenied
@@ -343,16 +359,14 @@ export function PolicyFlowVisualization({
   return (
     <section className={styles.visualization}>
       <p className={styles.label} aria-hidden="true">{t.flow.label}</p>
-      <div className={`${styles.canvas} ${canvasStateClass}`}>
-        <ReactFlow
+      <div ref={canvas} className={`${styles.canvas} ${canvasStateClass}`}>
+        {canvasReady && <ReactFlow
           aria-label={t.flow.label}
-          key={`${vertical ? "vertical" : "horizontal"}-${displayedDecision}-${approvalSimulated}`}
+          key={`${displayedDecision}-${approvalSimulated}`}
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
-          fitView
-          fitViewOptions={{ padding: vertical ? 0.06 : 0.1, minZoom: 0.6, maxZoom: 1 }}
-          minZoom={0.6}
+          minZoom={0.3}
           maxZoom={1}
           nodesDraggable={false}
           nodesConnectable={false}
@@ -367,7 +381,9 @@ export function PolicyFlowVisualization({
           autoPanOnNodeFocus={false}
           preventScrolling={false}
           disableKeyboardA11y
-        />
+        >
+          <FitDiagram container={canvas} />
+        </ReactFlow>}
       </div>
     </section>
   );

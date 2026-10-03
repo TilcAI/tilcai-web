@@ -1,6 +1,8 @@
 import type { Copy } from "@/lib/i18n";
 import { paths } from "@/lib/site";
 import { DocsToc } from "./DocsToc";
+import { InterfaceSection } from "./sections/InterfaceSection";
+import { CompareSection } from "./sections/CompareSection";
 
 /**
  * Proposed-architecture page. Section bodies are HTML strings authored in
@@ -22,7 +24,11 @@ export function DocsPage({ t }: { t: Copy }) {
       </div>
       <div className="container docs-layout">
         <DocsToc
-          items={d.sections.map(({ id, title }) => ({ id, title }))}
+          items={[
+            ...d.sections.map(({ id, title }) => ({ id, title })),
+            { id: "interface", title: t.code.eyebrow },
+            { id: "compare", title: t.compare.eyebrow },
+          ]}
           title={d.tocTitle}
           backHref={paths.home(t.locale)}
           backLabel={d.backHome}
@@ -41,6 +47,8 @@ export function DocsPage({ t }: { t: Copy }) {
           ))}
         </article>
       </div>
+      <InterfaceSection t={t} />
+      <CompareSection t={t} />
     </>
   );
 }

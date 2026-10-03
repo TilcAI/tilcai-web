@@ -1,6 +1,6 @@
 .visualization {
   min-width: 0;
-  padding: clamp(18px, 3vw, 28px);
+  padding: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background:
@@ -22,15 +22,7 @@
   min-width: 0;
 }
 
-.allowCanvas {
-  height: 280px;
-}
-
-.denyCanvas,
-.pendingCanvas,
-.approvedCanvas {
-  height: 370px;
-}
+.allowCanvas, .denyCanvas, .pendingCanvas, .approvedCanvas { height: clamp(280px, 46svh, 440px); }
 
 .canvas :global(.react-flow),
 .canvas :global(.react-flow__renderer),
@@ -284,30 +276,13 @@
   background: var(--human) !important;
 }
 
+.node[data-highlighted=true] { outline: 2px solid var(--purple-400); outline-offset: 5px; }
 @media (max-width: 900px) {
-  .visualization {
-    padding: 16px;
-  }
-
-  .allowCanvas {
-    height: 690px;
-  }
-
-  .denyCanvas,
-  .pendingCanvas {
-    height: 590px;
-  }
-
-  .approvedCanvas {
-    height: 825px;
-  }
+  .allowCanvas, .denyCanvas, .pendingCanvas, .approvedCanvas { height: clamp(310px, 75vw, 450px); }
 }
-
-@media (max-width: 390px) {
-  .visualization {
-    margin-inline: -4px;
-    padding-inline: 10px;
-  }
+@media (max-width: 540px) {
+  .visualization { padding: 10px; }
+  .label { font-size: 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

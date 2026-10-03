@@ -188,7 +188,7 @@ export function TilcAIOfficeParallax({ id, labelledBy, eyebrow, title, titleDim,
                 <div className={styles.mouse}>
                   <div className={styles.fit} style={fit ? { transform: `translate(-50%, -50%) scale(${fit.scale})`, transformOrigin: fit.origin } : undefined}>
                     {l.id === "core" && <span className={styles.coreGlow} />}
-                    <Image src={l.src} alt="" fill sizes="100vw" quality={85} draggable={false} className={`${styles.img} ${l.id === "network" ? styles.pulse : ""}`} />
+                    <Image src={l.src} alt="" fill sizes={l.id === "core" ? "(max-width: 700px) 100vw, 60vw" : "100vw"} quality={85} draggable={false} className={`${styles.img} ${l.id === "network" ? styles.pulse : ""}`} />
                   </div>
                 </div>
               </div>

@@ -42,14 +42,12 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
   const links: [string, string][] = page === "home" ? [
     [t.nav.agents, anchor("agents")],
     [t.nav.capabilities, anchor("businesses")],
-    [t.nav.roadmap, anchor("roadmap")],
   ] : [
     [t.nav.problem, anchor("problem")],
     [t.nav.flow, anchor("flow")],
     [t.nav.demo, anchor("simulation")],
     [t.nav.capabilities, anchor("businesses")],
     [t.nav.agents, anchor("agents")],
-    [t.nav.roadmap, anchor("roadmap")],
   ];
 
   return (

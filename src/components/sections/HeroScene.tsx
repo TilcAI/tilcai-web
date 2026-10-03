@@ -62,7 +62,7 @@ export function HeroScene({ t, active, onSelect }: { t: Copy; active: HeroStep; 
           </a>
         </div>
         <div className="hero-development hero-depth" data-depth=".8">
-          <a href="#roadmap" className="hero-scene-badge hero-float"><Icon name="signal" />{v.development}</a>
+          <a href={`/${t.locale}/docs#status`} className="hero-scene-badge hero-float"><Icon name="signal" />{v.development}</a>
         </div>
         <div className="hero-permissions hero-depth" data-depth="1.9">
           <a href="#control" className="hero-scene-badge badge-cyan hero-float"><Icon name="shield" />{t.hero.facts[1]}</a>

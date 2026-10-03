@@ -50,7 +50,7 @@ const prepared = (entry: Omit<AgentIdentity, "docsCheckedAt" | "environment" | "
 });
 
 // MCP support in the client's docs is not evidence of a TilcAI connection.
-// Add another entry here; the carousel and panel do not depend on client names.
+// Add another entry here; the scroll story and panel do not depend on client names.
 export const agents: readonly AgentClient[] = [
   prepared({
     slug: "codex", name: "Codex", group: "primary", surface: "terminal",

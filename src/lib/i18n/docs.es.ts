@@ -21,7 +21,7 @@ export const docsEs: Copy["docs"] = {
   <li><span class="tag tag-integration">En integración</span> Conector MCP, cotizaciones y órdenes, aprobación por compra, conciliación de pagos y confirmación de entrega.</li>
   <li><span class="tag tag-next">Siguientes pasos</span> Smart accounts con permisos limitados, presupuesto compartido entre agentes y tareas programadas.</li>
 </ul>
-<p>El primer flujo apunta a un negocio, un servicio, un asistente, un usuario y un activo en <code>stellar:testnet</code>. El estado de cada elemento, y quién lo mantiene al día, está en la sección de <a href="/es#roadmap">estado de construcción</a> del resumen.</p>
+<p>El primer flujo apunta a un negocio, un servicio, un asistente, un usuario y un activo en <code>stellar:testnet</code>. Esta documentación distingue la base disponible, los componentes en integración y los siguientes pasos.</p>
 <p class="callout">Que un componente esté disponible no equivale a que el flujo de compra esté habilitado. Nada de esto ha sido auditado y nada opera con fondos reales.</p>`,
     },
     {

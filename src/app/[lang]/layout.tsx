@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import type { ReactNode } from "react";
 import { RevealObserver } from "@/components/RevealObserver";
 import { isLocale, locales } from "@/lib/i18n";
@@ -48,10 +47,6 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} className={`${display.variable} ${mono.variable} ${heroDisplay.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
-      <head>
-        {/* Enables reveal-on-scroll styles only when JavaScript runs; content stays visible without it. */}
-        <Script id="tilcai-enhancement" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-      </head>
       <body>
         {children}
         <RevealObserver />

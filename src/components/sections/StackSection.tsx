@@ -1,30 +1,16 @@
 import Link from "next/link";
 import type { Copy } from "@/lib/i18n";
-import { paths } from "@/lib/site";
+import { narrative } from "@/lib/i18n/narrative";
 import { Icon } from "../Icon";
-import { SectionHead } from "./shared";
+import styles from "./Narrative.module.css";
 
 export function StackSection({ t }: { t: Copy }) {
-  return (
-    <section id="stack" className="section section-alt" aria-labelledby="stack-title">
-      <div className="container">
-        <SectionHead id="stack-title" eyebrow={t.stack.eyebrow} title={t.stack.title} lead={t.stack.lead} />
-        <ul className="badges reveal" role="list">
-          {t.stack.badges.map((b) => (
-            <li className="badge" key={b.name}>
-              <span className="badge-name">{b.name}</span>
-              <span className="badge-role">{b.role}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="disclaimer reveal">{t.stack.disclaimer}</p>
-        <p className="stack-link reveal">
-          <Link className="btn btn-ghost" href={paths.docs(t.locale)}>
-            {t.stack.docsLink}
-            <Icon name="arrow" />
-          </Link>
-        </p>
-      </div>
-    </section>
-  );
+  const c = narrative(t.locale).stack;
+  return <section id="stack" className={styles.stack} aria-labelledby="stack-title">
+    <div className={styles.inner}>
+      <div className={styles.stackHeader}><h2 id="stack-title">{c.title}</h2><Link className={styles.link} href={`/${t.locale}/docs#architecture`}>{t.stack.docsLink}<Icon name="arrow" /></Link></div>
+      <ul className={styles.technologies}>{t.stack.badges.map((badge, index) => <li key={badge.name}><strong>{badge.name}</strong><span>{c.roles[index]}</span></li>)}</ul>
+      <p className={styles.caption}>{c.note}</p>
+    </div>
+  </section>;
 }
