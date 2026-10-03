@@ -1,125 +1,133 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { agents } from "@/lib/content/agents";
 import type { Copy } from "@/lib/i18n";
 import { AgentCard } from "./AgentCard";
 import { AgentGuidePanel } from "./AgentGuidePanel";
 import { Icon } from "./Icon";
 import "@/app/agents.css";
+import styles from "./AgentStory.module.css";
+
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 export function AgentCatalog({ t }: { t: Copy }) {
   const [expanded, setExpanded] = useState(false);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [active, setActive] = useState(0);
-  const track = useRef<HTMLUListElement>(null);
+  const root = useRef<HTMLElement>(null);
+  const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
   const lastTrigger = useRef<HTMLButtonElement | null>(null);
   const selected = agents.find((agent) => agent.slug === selectedSlug);
   const entries = agents.filter((agent) => expanded || agent.group === "primary");
+  const activeIndex = Math.min(active, entries.length - 1);
+  const activeAgent = entries[activeIndex];
 
-  useEffect(() => {
-    const rail = track.current;
-    if (!rail) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!rail.dataset.initialized) {
-      const initial = rail.children.item(rail.clientWidth > 700 ? 1 : 0) as HTMLLIElement | null;
-      if (initial) rail.scrollLeft = initial.offsetLeft - (rail.clientWidth - initial.offsetWidth) / 2;
-      rail.dataset.initialized = "true";
-    }
-    let frame = 0;
-    const paint = () => {
-      frame = 0;
-      const center = rail.scrollLeft + rail.clientWidth / 2;
-      const slides = Array.from(rail.children) as HTMLLIElement[];
-      let nearest = 0;
-      let distance = Infinity;
-      slides.forEach((slide, index) => {
-        const delta = slide.offsetLeft + slide.offsetWidth / 2 - center;
-        if (Math.abs(delta) < distance) { nearest = index; distance = Math.abs(delta); }
-        const depth = reduced.matches ? 0 : Math.max(-1, Math.min(1, delta / rail.clientWidth));
-        slide.style.setProperty("--card-depth", depth.toFixed(3));
+  useIsoLayoutEffect(() => {
+    const section = root.current;
+    if (!section) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const context = gsap.context(() => {
+      stepRefs.current.slice(0, entries.length).forEach((step, index) => {
+        if (!step) return;
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top 55%",
+          end: "bottom 55%",
+          onEnter: () => setActive(index),
+          onEnterBack: () => setActive(index),
+        });
       });
-      setActive(nearest);
-    };
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(paint); };
-    const observer = new ResizeObserver(schedule);
-    observer.observe(rail);
-    rail.addEventListener("scroll", schedule, { passive: true });
-    reduced.addEventListener("change", schedule);
-    paint();
-    return () => {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-      rail.removeEventListener("scroll", schedule);
-      reduced.removeEventListener("change", schedule);
-    };
-  }, [expanded]);
+    }, section);
+    ScrollTrigger.refresh();
+    return () => context.revert();
+  }, [expanded, entries.length]);
 
-  const moveTo = (index: number, focus = false) => {
-    const rail = track.current;
-    const slide = rail?.children.item(index) as HTMLLIElement | null;
-    if (!rail || !slide) return;
-    rail.scrollTo({ left: slide.offsetLeft - (rail.clientWidth - slide.offsetWidth) / 2,
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
-    if (focus) slide.querySelector("button")?.focus({ preventScroll: true });
+  const jumpTo = (index: number) => {
+    stepRefs.current[index]?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      block: "center",
+    });
   };
-  const closePanel = () => {
-    setSelectedSlug(null);
-    // The native dialog restores focus as it leaves the top layer.
+  const openGuide = (slug: string, trigger: HTMLButtonElement) => {
+    lastTrigger.current = trigger;
+    setSelectedSlug(slug);
   };
 
   return (
-    <section id="agents" className="section section-alt" aria-labelledby="agents-title">
-      <div className="container">
-        <div className="catalog-heading">
-          <header className="section-head">
-            <p className="eyebrow">{t.agents.eyebrow}</p>
-            <h2 id="agents-title">{t.agents.title}</h2>
-            <p className="section-lead">{t.agents.lead}</p>
-          </header>
-          <div className="carousel-controls">
-            <button type="button" aria-label={t.agents.carousel.previous} aria-controls="agent-carousel" disabled={active === 0}
-              onClick={() => moveTo(active - 1)}><Icon name="arrow" className="icon flip" /></button>
-            <span aria-hidden="true">{String(active + 1).padStart(2, "0")} / {String(entries.length).padStart(2, "0")}</span>
-            <button type="button" aria-label={t.agents.carousel.next} aria-controls="agent-carousel" disabled={active === entries.length - 1}
-              onClick={() => moveTo(active + 1)}><Icon name="arrow" /></button>
+    <section ref={root} id="agents" className={`section section-alt ${styles.root}`} aria-labelledby="agents-title">
+      <header className={styles.intro}>
+        <p className="eyebrow">{t.agents.eyebrow}</p>
+        <h2 id="agents-title">{t.agents.title}</h2>
+        <p>{t.agents.lead}</p>
+      </header>
+
+      <div className={styles.story}>
+        <div className={styles.visual}>
+          <div className={styles.stage}>
+            <div className={styles.stageTop}>
+              <span>{t.agents.eyebrow}</span>
+              <span>{String(activeIndex + 1).padStart(2, "0")} / {String(entries.length).padStart(2, "0")}</span>
+            </div>
+            <div className={styles.featured} key={activeAgent.slug}>
+              <AgentCard agent={activeAgent} t={t} selected={activeAgent.slug === selectedSlug}
+                onSelect={(trigger) => openGuide(activeAgent.slug, trigger)} />
+            </div>
+            <div className={styles.chapterNav} aria-label={t.agents.carousel.label}>
+              {entries.map((agent, index) => (
+                <button key={agent.slug} type="button" className={activeIndex === index ? styles.current : ""}
+                  aria-label={`${t.agents.carousel.label}: ${agent.name}`}
+                  aria-current={activeIndex === index ? "step" : undefined}
+                  onClick={() => jumpTo(index)}>{String(index + 1).padStart(2, "0")}</button>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="carousel-shell" role="region" aria-label={t.agents.carousel.label}>
-          <ul id="agent-carousel" className="agent-carousel" role="list" ref={track}
-            onKeyDown={(event) => {
-              if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
-              const focused = (event.target as HTMLElement).closest("li");
-              const index = Array.from(track.current?.children ?? []).indexOf(focused as Element);
-              if (index < 0) return;
-              event.preventDefault();
-              moveTo(event.key === "Home" ? 0 : event.key === "End" ? entries.length - 1 :
-                Math.max(0, Math.min(entries.length - 1, index + (event.key === "ArrowRight" ? 1 : -1))), true);
-            }}>
-            {entries.map((agent) => (
-              <li key={agent.slug}>
-                <AgentCard agent={agent} t={t} selected={agent.slug === selectedSlug} onSelect={(trigger) => {
-                  lastTrigger.current = trigger;
-                  setSelectedSlug(agent.slug);
-                }} />
+
+        <div className={styles.right}>
+          <ol id="agent-story-steps" className={styles.steps} aria-label={t.agents.carousel.label}>
+            {entries.map((agent, index) => (
+              <li key={agent.slug} ref={(element) => { stepRefs.current[index] = element; }}
+                className={`${styles.step}${activeIndex === index ? ` ${styles.stepActive}` : ""}`}
+                style={{ "--agent-accent": agent.asset?.accent === "warm" ? "#ffa801" : "#a994ff" } as CSSProperties}>
+                <article className={styles.detail} aria-labelledby={`agent-step-${agent.slug}`}>
+                  <div className={styles.detailTop}>
+                    <span className={styles.surface}>{t.agents.surfaceLabels[agent.surface]}</span>
+                    <span className={styles.index}>{String(index + 1).padStart(2, "0")} / {String(entries.length).padStart(2, "0")}</span>
+                  </div>
+                  <h3 id={`agent-step-${agent.slug}`}>{agent.name}</h3>
+                  <p className={styles.surfaceDetail}>{agent.surfaceDetail[t.locale]}</p>
+                  <p className={styles.summary}>{agent.summary[t.locale]}</p>
+                  <p className={styles.requirement}><span>{t.agents.panel.requirements}</span>{agent.prerequisite[t.locale]}</p>
+                  <div className={styles.detailBottom}>
+                    <span className={`tag integration-${agent.status}`}>{t.integrationLabels[agent.status]}</span>
+                    <button type="button" onClick={(event) => openGuide(agent.slug, event.currentTarget)}
+                      aria-haspopup="dialog" aria-expanded={selectedSlug === agent.slug}>
+                      {t.agents.guide}<Icon name="arrow" />
+                    </button>
+                  </div>
+                  <span className={styles.progress} aria-hidden="true"><i style={{ width: `${(index + 1) / entries.length * 100}%` }} /></span>
+                </article>
               </li>
             ))}
-          </ul>
-        </div>
-        <div className="catalog-footer">
-          <p className="carousel-hint">{t.agents.carousel.hint}</p>
-          <button type="button" className="btn btn-ghost" aria-expanded={expanded} aria-controls="agent-carousel"
-            onClick={() => { setExpanded(!expanded); moveTo(0); }}>
+          </ol>
+          <button type="button" className={`btn btn-ghost ${styles.more}`} aria-expanded={expanded} aria-controls="agent-story-steps"
+            onClick={() => setExpanded(!expanded)}>
             {expanded ? t.agents.fewer : t.agents.more}<Icon name="arrow" />
           </button>
         </div>
+      </div>
+
+      <div className={styles.footer}>
         <p className="agent-permission"><Icon name="shield" />{t.agents.permissionNote}</p>
         <noscript><ul className="agent-static-links" role="list">{agents.map((agent) =>
           <li key={agent.slug}><a href={agent.officialDocs} target="_blank" rel="noopener noreferrer">{agent.name} · {t.agents.panel.officialDocs}</a></li>
         )}</ul></noscript>
-        {selected && <AgentGuidePanel key={selected.slug} agent={selected} t={t} onClose={closePanel} returnFocus={lastTrigger.current} />}
         <p className="disclaimer">{t.agents.thirdPartyNote}</p>
       </div>
+      {selected && <AgentGuidePanel key={selected.slug} agent={selected} t={t} onClose={() => setSelectedSlug(null)} returnFocus={lastTrigger.current} />}
     </section>
   );
 }
