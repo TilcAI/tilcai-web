@@ -4,7 +4,6 @@
  * below (unlayered, so they take precedence over Tailwind's base layer).
  */
 @import "tailwindcss";
-@import "@xyflow/react/dist/style.css";
 @import "./landing.css";
 @import "./office.css";
 @import "./hero.css";

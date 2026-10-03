@@ -16,6 +16,7 @@ export function DocsToc({
   backLabel: string;
 }) {
   const [current, setCurrent] = useState<string | null>(null);
+  const tocIds = items.map(({ id }) => id).join("|");
 
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
@@ -25,9 +26,12 @@ export function DocsToc({
       },
       { rootMargin: "-20% 0px -70% 0px" },
     );
-    document.querySelectorAll(".prose section[id]").forEach((s) => spy.observe(s));
+    tocIds.split("|").forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) spy.observe(section);
+    });
     return () => spy.disconnect();
-  }, []);
+  }, [tocIds]);
 
   return (
     <nav className="docs-toc" aria-labelledby="toc-title">

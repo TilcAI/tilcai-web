@@ -21,7 +21,7 @@ export const docsEn: Copy["docs"] = {
   <li><span class="tag tag-integration">Being integrated</span> MCP connector, quotes and orders, approval per purchase, payment reconciliation and delivery confirmation.</li>
   <li><span class="tag tag-next">Next steps</span> Smart accounts with limited permissions, shared budget across agents and scheduled tasks.</li>
 </ul>
-<p>The first flow targets one business, one service, one assistant, one user and one asset on <code>stellar:testnet</code>. The status of each item, and who keeps it up to date, is on the <a href="/en#roadmap">build status</a> section of the overview.</p>
+<p>The first flow targets one business, one service, one assistant, one user and one asset on <code>stellar:testnet</code>. This documentation distinguishes the available foundation, components being integrated and next steps.</p>
 <p class="callout">A component being available is not the same as a purchase flow being enabled. Nothing here has been audited, and nothing runs with real funds.</p>`,
     },
     {
