@@ -78,3 +78,71 @@
   .office-hero .hud-stat { padding: 7px 8px 8px; }
   .office-hero .office-scroll { white-space: nowrap; font-size: 11px; }
 }
+
+/* Selectors below start with `body` so they win over globals.css, which is imported after this file. */
+/*
+ * Whole-site phone polish (the opening screens above are handled separately).
+ * Tighter vertical rhythm, readable measure for centred copy, 44px touch targets, a clearer menu and a compact docs index.
+ */
+@media (max-width: 1180px) {
+  /* ---------- Menu ---------- */
+  body .main-nav {
+    max-height: calc(100svh - var(--header-h)); overflow-y: auto; overscroll-behavior: contain;
+    padding: 8px 16px 20px; gap: 0; box-shadow: 0 30px 50px -20px rgb(2 2 15 / 0.8);
+  }
+  body .main-nav a { min-height: 52px; padding: 0 12px; font-size: 17px; border-radius: 0; border-bottom: 1px solid var(--border); }
+  body .site-header.is-overlay .main-nav a { border-bottom: 1px solid var(--border); }
+  body .main-nav .nav-docs, body .site-header.is-overlay .main-nav .nav-docs {
+    justify-content: flex-start; margin: 14px 0 0; padding: 0 16px; border: 0.8px solid var(--line); border-radius: 12px; background: #242236; min-height: 52px;
+  }
+  /* Dim the page behind the open menu so it reads as a layer, not as part of the content. */
+  body .site-header.menu-open::after { content: ""; position: fixed; inset: var(--header-h) 0 0; z-index: -1; background: rgb(2 2 15 / 0.62); pointer-events: none; }
+}
+
+@media (max-width: 767px) {
+  /* ---------- Rhythm and type ---------- */
+  body .section { padding: 56px 0; }
+  body .container { padding: 0 18px; }
+  body .section-head { margin-bottom: 30px; }
+  body .section-head h2 { font-size: clamp(26px, 7.2vw, 32px); line-height: 1.14; }
+  body .section-lead { max-width: 38ch; margin-top: 14px; font-size: 15.5px; line-height: 1.65; text-wrap: pretty; }
+  body .eyebrow { font-size: 13.5px; margin-bottom: 10px; }
+  body .card { padding: 22px; }
+  body .card h3 { margin-top: 14px; font-size: 19px; }
+
+  /* ---------- FAQ: one-line questions should not weigh 80px each ---------- */
+  /* The block padding lives on the summary and the answer, so the text sits 18px from the card edge. */
+  body #faq .faq-item { padding: 0; border-radius: 14px; margin-bottom: 10px; }
+  body #faq .faq-item summary { min-height: 52px; padding: 10px 18px; font-size: 16px; line-height: 1.35; }
+  body #faq .faq-item p { margin: 0; padding: 2px 18px 16px; font-size: 15px; line-height: 1.65; }
+
+  /* ---------- Closing call to action ---------- */
+  body .cta-card { padding: 44px 20px 40px; border-radius: 22px; }
+  body .cta-card .cta-row { flex-direction: column; align-items: stretch; gap: 10px; max-width: 340px; margin: 26px auto 0; }
+  body .cta-card .cta-row .btn { width: 100%; height: 52px; }
+
+  /* ---------- Footer ---------- */
+  body .footer-nav { gap: 0 8px; }
+  body .footer-nav a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 10px 0 0; }
+  body .footer-meta { gap: 4px 20px; }
+
+  /* ---------- Small floating controls ---------- */
+  body .hero-scene-badge { min-height: 40px; }
+  body .office-hero .office-scroll { min-height: 40px; }
+}
+
+@media (max-width: 1023px) {
+  /* ---------- Docs: the index becomes one swipeable row instead of a long list above the text ---------- */
+  body .docs-layout { grid-template-columns: minmax(0, 1fr); }
+  body .docs-toc { min-width: 0; max-width: 100%; padding: 14px 0 6px; border: 0; background: none; border-radius: 0; }
+  body .docs-toc .toc-title { margin-bottom: 8px; }
+  body .docs-toc ol {
+    display: flex; gap: 8px; overflow-x: auto; margin: 0 -18px; padding: 2px 18px 10px;
+    scroll-snap-type: x proximity; scroll-padding-inline: 18px; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  body .docs-toc ol::-webkit-scrollbar { display: none; }
+  body .docs-toc ol li { flex: none; scroll-snap-align: start; }
+  body .docs-toc ol a { white-space: nowrap; min-height: 44px; padding: 0 16px; border: 1px solid var(--border-strong); border-left-width: 1px; border-radius: 999px; background: rgb(255 255 255 / 0.03); }
+  body .docs-toc ol a.is-current { border-color: var(--purple-400); background: var(--purple-soft); }
+  body .docs-toc .toc-back { min-height: 44px; display: inline-flex; align-items: center; }
+}

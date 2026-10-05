@@ -117,7 +117,7 @@
   /* A soft dark halo travels with the heading so it stays readable over the bright planet. */
   .head { position: relative; isolation: isolate; margin-bottom: 18px; }
   .head::before {
-    content: ""; position: absolute; z-index: -1; inset: -26px -26px -18px;
+    content: ""; position: absolute; z-index: -1; inset: -26px -16px -18px;
     background: radial-gradient(ellipse 62% 60% at 50% 48%, rgb(2 2 15 / 0.78), rgb(2 2 15 / 0.4) 58%, transparent 100%);
     pointer-events: none;
   }
