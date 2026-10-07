@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useSyncExternalStore } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
 import {
   Handle,
   MarkerType,
@@ -8,6 +8,7 @@ import {
   ReactFlow,
   type Edge,
   type Node,
+  type NodeChange,
   type NodeProps,
 } from "@xyflow/react";
 import { Icon, type IconName } from "./Icon";
@@ -21,26 +22,35 @@ type FlowNodeData = {
   title: string;
   detail?: string;
   facts?: { label: string; value: string; tone?: "allow" | "deny" }[];
+  actionLabel?: string;
+  onAction?: () => void;
   tone: FlowTone;
   icon: IconName;
   input?: boolean;
   output?: boolean;
   approved?: boolean;
   compact?: boolean;
+  blocked?: boolean;
 };
 
 type PolicyFlowNode = Node<FlowNodeData, "tilcaiNode">;
+
+export type PolicyFlowNodeId = "user" | "agent" | "policy" | "review" | "business-agent" | "business";
 
 type PolicyFlowVisualizationProps = {
   t: Copy["demo"];
   scenarioTitle: string;
   businessName: string;
+  requestedRecipient: string;
   amount: string;
   limit: string;
   currency: string;
   displayedDecision: Decision;
   needsApproval: boolean;
   approvalSimulated: boolean;
+  selectedNodeId: PolicyFlowNodeId;
+  onSelectNode: (nodeId: PolicyFlowNodeId) => void;
+  onApprove: () => void;
   changedRecipient: boolean;
   amountOverLimit: boolean;
 };
@@ -63,13 +73,14 @@ function getServerLayoutSnapshot() {
 
 function TilcAINode({
   data,
+  selected,
   targetPosition = Position.Left,
   sourcePosition = Position.Right,
 }: NodeProps<PolicyFlowNode>) {
   return (
     <div
-      className={`${styles.node} ${styles[data.tone]}${data.compact ? ` ${styles.compact}` : ""}`}
-      aria-hidden="true"
+      className={`${styles.node} ${styles[data.tone]}${data.compact ? ` ${styles.compact}` : ""}${data.blocked ? ` ${styles.policyBlocked}` : ""}${selected ? ` ${styles.selected}` : ""}`}
+      aria-hidden={data.onAction && selected ? undefined : true}
     >
       {data.input && (
         <Handle type="target" position={targetPosition} isConnectable={false} className={styles.handle} />
@@ -82,8 +93,10 @@ function TilcAINode({
           {data.title}
           {data.approved && <span className={styles.approvedMark}>✓</span>}
         </strong>
-        {data.detail && <span className={styles.nodeDetail}>{data.detail}</span>}
-        {data.facts && (
+        {(selected || data.compact || data.tone === "approval") && data.detail && (
+          <span className={styles.nodeDetail}>{data.detail}</span>
+        )}
+        {selected && data.facts && (
           <dl className={styles.nodeFacts}>
             {data.facts.map((fact) => (
               <div key={fact.label}>
@@ -92,6 +105,18 @@ function TilcAINode({
               </div>
             ))}
           </dl>
+        )}
+        {selected && data.onAction && (
+          <button
+            type="button"
+            className={`nodrag nopan ${styles.nodeAction}`}
+            onClick={(event) => {
+              event.stopPropagation();
+              data.onAction?.();
+            }}
+          >
+            {data.actionLabel}
+          </button>
         )}
       </span>
       {data.output && (
@@ -152,12 +177,16 @@ export function PolicyFlowVisualization({
   t,
   scenarioTitle,
   businessName,
+  requestedRecipient,
   amount,
   limit,
   currency,
   displayedDecision,
   needsApproval,
   approvalSimulated,
+  selectedNodeId,
+  onSelectNode,
+  onApprove,
   changedRecipient,
   amountOverLimit,
 }: PolicyFlowVisualizationProps) {
@@ -166,17 +195,26 @@ export function PolicyFlowVisualization({
   const isPending = needsApproval && !approvalSimulated;
   const isApproved = needsApproval && approvalSimulated;
 
+  const onNodesChange = useCallback((changes: NodeChange<PolicyFlowNode>[]) => {
+    for (const change of changes) {
+      if (change.type === "select" && change.selected) {
+        onSelectNode(change.id as PolicyFlowNodeId);
+        break;
+      }
+    }
+  }, [onSelectNode]);
+
   const { nodes, edges } = useMemo(() => {
     const verticalDirection = { targetPosition: Position.Top, sourcePosition: Position.Bottom };
     const horizontalDirection = { targetPosition: Position.Left, sourcePosition: Position.Right };
     const positions = vertical
       ? {
           user: { x: 20, y: 0 },
-          agent: { x: 20, y: 125 },
-          policy: { x: 0, y: 250 },
-          outcome: { x: 20, y: 455 },
-          businessAgent: { x: 20, y: needsApproval ? 605 : 465 },
-          business: { x: 20, y: needsApproval ? 730 : 590 },
+          agent: { x: 20, y: 116 },
+          policy: { x: 0, y: 232 },
+          outcome: { x: 20, y: 420 },
+          businessAgent: { x: 20, y: needsApproval ? 540 : 420 },
+          business: { x: 20, y: needsApproval ? 656 : 536 },
         }
       : {
           user: { x: 0, y: 54 },
@@ -191,19 +229,28 @@ export function PolicyFlowVisualization({
       ? verticalDirection
       : horizontalDirection;
     const branchDirection = vertical ? verticalDirection : horizontalDirection;
+    const selectableNode = (id: PolicyFlowNodeId, title: string, containsAction = false) => ({
+      selected: selectedNodeId === id,
+      selectable: true,
+      focusable: true,
+      deletable: false,
+      ariaRole: containsAction ? "group" as const : "button" as const,
+      ariaLabel: `${t.flow.viewDetails}: ${title}${containsAction && selectedNodeId === id ? `. ${t.flow.selected}` : ""}`,
+      domAttributes: {
+        "aria-controls": "demo-result",
+        ...(containsAction ? {} : { "aria-pressed": selectedNodeId === id }),
+      },
+    });
 
-    const policyFacts: FlowNodeData["facts"] = [
-      {
-        label: amountOverLimit ? t.fields.amount : t.fields.limit,
-        value: amountOverLimit ? `${amount} > ${limit} ${currency}` : `${limit} ${currency}`,
-        tone: amountOverLimit ? "deny" : undefined,
-      },
-      {
-        label: t.flow.destination,
-        value: changedRecipient ? t.flow.recipientNotAllowed : t.flow.allowed,
-        tone: changedRecipient ? "deny" : "allow",
-      },
-    ];
+    const policyFacts: FlowNodeData["facts"] = changedRecipient
+      ? [
+          { label: t.flow.requestedDestination, value: requestedRecipient, tone: "deny" },
+          { label: t.flow.allowedDestination, value: businessName },
+        ]
+      : [
+          { label: t.fields.request, value: `${amount} ${currency}`, tone: amountOverLimit ? "deny" : undefined },
+          { label: t.fields.limit, value: `${limit} ${currency}` },
+        ];
 
     const nextNodes: PolicyFlowNode[] = [
       {
@@ -211,8 +258,9 @@ export function PolicyFlowVisualization({
         type: "tilcaiNode",
         position: positions.user,
         initialWidth: 200,
-        initialHeight: 96,
+        initialHeight: selectedNodeId === "user" ? 110 : 96,
         data: { title: t.flow.user, detail: scenarioTitle, tone: "neutral", icon: "target", output: true },
+        ...selectableNode("user", t.flow.user),
         ...baseDirection,
       },
       {
@@ -220,8 +268,9 @@ export function PolicyFlowVisualization({
         type: "tilcaiNode",
         position: positions.agent,
         initialWidth: 200,
-        initialHeight: 96,
-        data: { title: t.flow.tilcaiAgent, tone: "neutral", icon: "agent", input: true, output: true },
+        initialHeight: selectedNodeId === "agent" ? 110 : 96,
+        data: { title: t.flow.tilcaiAgent, detail: t.flow.tilcaiAgentRole, tone: "neutral", icon: "agent", input: true, output: true },
+        ...selectableNode("agent", t.flow.tilcaiAgent),
         ...baseDirection,
       },
       {
@@ -229,8 +278,9 @@ export function PolicyFlowVisualization({
         type: "tilcaiNode",
         position: positions.policy,
         initialWidth: 240,
-        initialHeight: 168,
-        data: { title: t.flow.policy, facts: policyFacts, tone: "policy", icon: "shield", input: true, output: true },
+        initialHeight: selectedNodeId === "policy" ? 168 : 110,
+        data: { title: t.flow.policy, facts: policyFacts, tone: "policy", icon: "shield", input: true, output: true, blocked: isDenied },
+        ...selectableNode("policy", t.flow.policy),
         targetPosition: baseDirection.targetPosition,
         sourcePosition: policyDirection.sourcePosition,
       },
@@ -256,6 +306,9 @@ export function PolicyFlowVisualization({
           input: true,
           compact: true,
         },
+        selectable: false,
+        focusable: false,
+        deletable: false,
         ...verticalDirection,
       });
       nextEdges.push(createEdge("policy-blocked", "policy", "blocked", "deny"));
@@ -265,16 +318,19 @@ export function PolicyFlowVisualization({
         type: "tilcaiNode",
         position: positions.outcome,
         initialWidth: 200,
-        initialHeight: 96,
+        initialHeight: isPending && selectedNodeId === "review" ? 148 : selectedNodeId === "review" ? 110 : 96,
         data: {
-          title: t.flow.humanReview,
-          detail: isApproved ? t.flow.approved : t.flow.pending,
+          title: isApproved ? t.approval.complete : t.flow.humanReview,
+          detail: isApproved ? undefined : t.flow.pending,
           tone: isApproved ? "allow" : "approval",
           icon: "rules",
           input: true,
           output: isApproved,
           approved: isApproved,
+          actionLabel: isPending ? t.approval.action : undefined,
+          onAction: isPending ? onApprove : undefined,
         },
+        ...selectableNode("review", t.flow.humanReview, isPending),
         targetPosition: Position.Top,
         sourcePosition: branchDirection.sourcePosition,
       });
@@ -288,8 +344,9 @@ export function PolicyFlowVisualization({
           type: "tilcaiNode",
           position: positions.businessAgent,
           initialWidth: 200,
-          initialHeight: 96,
-          data: { title: t.flow.businessAgent, tone: "neutral", icon: "agent", input: true, output: true },
+          initialHeight: selectedNodeId === "business-agent" ? 110 : 96,
+          data: { title: t.flow.businessAgent, detail: t.flow.businessAgentRole, tone: "neutral", icon: "agent", input: true, output: true },
+          ...selectableNode("business-agent", t.flow.businessAgent),
           ...branchDirection,
         },
         {
@@ -297,8 +354,9 @@ export function PolicyFlowVisualization({
           type: "tilcaiNode",
           position: positions.business,
           initialWidth: 200,
-          initialHeight: 96,
+          initialHeight: selectedNodeId === "business" ? 110 : 96,
           data: { title: t.flow.business, detail: businessName, tone: "neutral", icon: "store", input: true },
+          ...selectableNode("business", t.flow.business),
           ...branchDirection,
         },
       );
@@ -327,7 +385,10 @@ export function PolicyFlowVisualization({
     isPending,
     limit,
     needsApproval,
+    onApprove,
+    requestedRecipient,
     scenarioTitle,
+    selectedNodeId,
     t,
     vertical,
   ]);
@@ -342,23 +403,24 @@ export function PolicyFlowVisualization({
 
   return (
     <section className={styles.visualization}>
-      <p className={styles.label} aria-hidden="true">{t.flow.label}</p>
       <div className={`${styles.canvas} ${canvasStateClass}`}>
         <ReactFlow
           aria-label={t.flow.label}
+          proOptions={{ hideAttribution: true }}
           key={`${vertical ? "vertical" : "horizontal"}-${displayedDecision}-${approvalSimulated}`}
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          onNodesChange={onNodesChange}
           fitView
           fitViewOptions={{ padding: vertical ? 0.06 : 0.1, minZoom: 0.6, maxZoom: 1 }}
           minZoom={0.6}
           maxZoom={1}
           nodesDraggable={false}
           nodesConnectable={false}
-          nodesFocusable={false}
+          nodesFocusable
           edgesFocusable={false}
-          elementsSelectable={false}
+          elementsSelectable
           panOnDrag={false}
           panOnScroll={false}
           zoomOnScroll={false}
@@ -366,7 +428,11 @@ export function PolicyFlowVisualization({
           zoomOnDoubleClick={false}
           autoPanOnNodeFocus={false}
           preventScrolling={false}
-          disableKeyboardA11y
+          deleteKeyCode={null}
+          ariaLabelConfig={{
+            "node.a11yDescription.default": t.flow.nodeA11yDescription,
+            "node.a11yDescription.keyboardDisabled": t.flow.nodeA11yDescription,
+          }}
         />
       </div>
     </section>

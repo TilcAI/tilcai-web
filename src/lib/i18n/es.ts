@@ -168,8 +168,8 @@ export const es: Copy = {
   demo: {
     eyebrow: "Simulación interactiva · sin movimientos de fondos", title: "Explora decisiones en tres casos comerciales.",
     lead: "Compara destinatario, importe y aprobación.",
-    scenarioPrompt: "Elige un escenario",
-    variantPrompt: "Prueba una condición",
+    scenarioPrompt: "Escenario",
+    variantPrompt: "Condición",
     scenarios: {
       cinema: {
         title: "Cine", summary: "Entradas cotizadas por el negocio.",
@@ -207,11 +207,18 @@ export const es: Copy = {
     },
     outcomes: { ALLOW: "Puede continuar", DENY: "Bloqueado por la política", REQUIRE_APPROVAL: "Revisión humana requerida" },
     flow: {
-      label: "Recorrido simulado de la solicitud",
+      label: "Recorrido",
       user: "Usuario",
       tilcaiAgent: "Agente TilcAI",
       policy: "Política / permiso",
       humanReview: "Revisión humana",
+      viewDetails: "Ver detalle",
+      nodeA11yDescription: "Presiona Enter o Espacio para ver el detalle de este paso.",
+      selected: "Seleccionado",
+      requestedDestination: "Solicitado",
+      allowedDestination: "Permitido",
+      tilcaiAgentRole: "Evalúa la solicitud.",
+      businessAgentRole: "Recibe solicitudes permitidas.",
       pending: "Pendiente",
       approved: "Aprobada",
       destination: "Destino",
@@ -225,7 +232,7 @@ export const es: Copy = {
     },
     approval: {
       title: "Revisión humana",
-      action: "Simular aprobación", pending: "Revisión pendiente.",
+      action: "Registrar aprobación", pending: "Revisión pendiente.",
       complete: "Revisión registrada",
     },
     reset: "Reiniciar demo",

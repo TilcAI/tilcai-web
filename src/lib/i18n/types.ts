@@ -226,6 +226,13 @@ export interface Copy {
       tilcaiAgent: string;
       policy: string;
       humanReview: string;
+      viewDetails: string;
+      nodeA11yDescription: string;
+      selected: string;
+      requestedDestination: string;
+      allowedDestination: string;
+      tilcaiAgentRole: string;
+      businessAgentRole: string;
       pending: string;
       approved: string;
       destination: string;

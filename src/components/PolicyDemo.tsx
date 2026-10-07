@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   demoScenarios,
   initialScenarioId,
@@ -11,13 +11,25 @@ import {
   type VariantId,
 } from "@/lib/demo/scenarios";
 import type { Copy } from "@/lib/i18n";
+import { Icon, type IconName } from "./Icon";
 import styles from "./PolicyDemo.module.css";
-import { PolicyFlowVisualization } from "./PolicyFlowVisualization";
+import { PolicyFlowVisualization, type PolicyFlowNodeId } from "./PolicyFlowVisualization";
+
+const scenarioIcons: Record<ScenarioId, IconName> = {
+  cinema: "play",
+  "digital-service": "panel",
+  "scheduled-purchase": "repeat",
+};
+
+function defaultNodeForDecision(decision: Decision): PolicyFlowNodeId {
+  return decision === "REQUIRE_APPROVAL" ? "review" : "policy";
+}
 
 export function PolicyDemo({ t }: { t: Copy["demo"] }) {
   const [scenarioId, setScenarioId] = useState<ScenarioId>(initialScenarioId);
   const [variantId, setVariantId] = useState<VariantId>(initialVariantId);
   const [approvalSimulated, setApprovalSimulated] = useState(false);
+  const [selectedNodeId, setSelectedNodeId] = useState<PolicyFlowNodeId>("policy");
 
   const scenario = demoScenarios.find((entry) => entry.id === scenarioId) ?? demoScenarios[0];
   const variant = scenario.variants[variantId];
@@ -31,46 +43,53 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
   const amountOverLimit = variantId === "over-limit";
 
   const chooseScenario = (nextScenario: ScenarioId) => {
+    const nextScenarioData = demoScenarios.find((entry) => entry.id === nextScenario) ?? demoScenarios[0];
     setScenarioId(nextScenario);
     setVariantId(initialVariantId);
     setApprovalSimulated(false);
+    setSelectedNodeId(defaultNodeForDecision(nextScenarioData.variants[initialVariantId].decision));
   };
 
   const chooseVariant = (nextVariant: VariantId) => {
     setVariantId(nextVariant);
     setApprovalSimulated(false);
+    setSelectedNodeId(defaultNodeForDecision(scenario.variants[nextVariant].decision));
   };
 
   const reset = () => {
     setScenarioId(initialScenarioId);
     setVariantId(initialVariantId);
     setApprovalSimulated(false);
+    setSelectedNodeId("policy");
   };
 
-  const decisionClass = displayedDecision === "ALLOW"
-    ? "tone-allow"
-    : displayedDecision === "DENY"
-      ? "tone-deny"
-      : styles.approvalOutcome;
-  const decisionBadgeClass = displayedDecision === "ALLOW"
-    ? styles.badgeAllow
-    : displayedDecision === "DENY"
-      ? styles.badgeDeny
-      : styles.badgeApproval;
-  const displayedDecisionLabel = displayedDecision === "ALLOW"
-    ? t.flow.allowed
-    : displayedDecision === "DENY"
-      ? t.flow.blocked
-      : t.flow.reviewRequired;
+  const simulateApproval = useCallback(() => {
+    setApprovalSimulated(true);
+    setSelectedNodeId("review");
+  }, []);
 
   return (
     <div className={`reveal ${styles.explorer}`}>
-      <div className={styles.selectors}>
-        <div className={`demo-choices ${styles.choiceGroup}`} role="group" aria-label={t.scenarioPrompt}>
-          <p className="demo-label">
-            <span className={styles.stepNumber} aria-hidden="true">01</span>
-            {t.scenarioPrompt}
-          </p>
+      <div className={styles.selectorStage}>
+        <div className={`${styles.step} ${styles.stepComplete}`} aria-hidden="true">
+          <span className={styles.stepNumber}>01</span>
+          <span className={styles.stepCopy}>
+            <strong>{t.scenarioPrompt}</strong>
+            <small>{scenarioCopy.title}</small>
+          </span>
+        </div>
+
+        <span className={`${styles.stepRail} ${styles.railOne}`} aria-hidden="true" />
+
+        <div className={`${styles.step} ${styles.stepCurrent}`} aria-hidden="true">
+          <span className={styles.stepNumber}>02</span>
+          <span className={styles.stepCopy}>
+            <strong>{t.variantPrompt}</strong>
+            <small>{variantCopy.label}</small>
+          </span>
+        </div>
+
+        <div className={`demo-choices ${styles.choiceGroup} ${styles.scenarioChoices}`} role="group" aria-label={t.scenarioPrompt}>
           {demoScenarios.map((entry) => (
             <button
               key={entry.id}
@@ -80,17 +99,16 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
               aria-controls="demo-result"
               onClick={() => chooseScenario(entry.id)}
             >
-              <strong>{t.scenarios[entry.id].title}</strong>
+              <strong className={styles.scenarioTitle}>
+                <Icon name={scenarioIcons[entry.id]} className={styles.scenarioIcon} />
+                <span>{t.scenarios[entry.id].title}</span>
+              </strong>
               <span>{t.scenarios[entry.id].summary}</span>
             </button>
           ))}
         </div>
 
-        <div className={`demo-choices ${styles.choiceGroup}`} role="group" aria-label={t.variantPrompt}>
-          <p className="demo-label">
-            <span className={styles.stepNumber} aria-hidden="true">02</span>
-            {t.variantPrompt}
-          </p>
+        <div className={`demo-choices ${styles.choiceGroup} ${styles.variantChoices}`} role="group" aria-label={t.variantPrompt}>
           {variantIds.map((currentId) => {
             const copy = t.variants[currentId];
             return (
@@ -108,63 +126,45 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
             );
           })}
         </div>
+
       </div>
 
-      <PolicyFlowVisualization
-        t={t}
-        scenarioTitle={scenarioCopy.title}
-        businessName={scenarioCopy.recipient}
-        amount={currentAmount}
-        limit={scenario.quote.limit}
-        currency={scenario.quote.currency}
-        displayedDecision={displayedDecision}
-        needsApproval={needsApproval}
-        approvalSimulated={approvalSimulated}
-        changedRecipient={changedRecipient}
-        amountOverLimit={amountOverLimit}
-      />
-
-      <div className={styles.resultGrid}>
-        <div id="demo-result" className="demo-output" role="status" aria-live="polite" aria-atomic="true">
-          <p className={styles.decisionContext}>
-            <span className={styles.stepNumber} aria-hidden="true">03</span>
-            {t.fields.result}
-          </p>
-          <div className={styles.decisionTrace} aria-hidden="true">
-            <span>{variantCopy.label}</span>
-            <span className={styles.traceArrow}>→</span>
-            <span className={`${styles.decisionBadge} ${decisionBadgeClass}`}>{displayedDecisionLabel}</span>
-          </div>
-          <span className="sr-only">{scenarioCopy.title}. {variantCopy.label}. {displayedDecisionLabel}.</span>
-          <span className={`demo-outcome ${decisionClass}`}>{t.outcomes[displayedDecision]}</span>
-          {variantCopy.reason && displayedDecision !== "ALLOW" && <p>{variantCopy.reason}</p>}
-          {displayedDecision === "ALLOW" && <p className={styles.continuationNote}>{t.continuationNote}</p>}
-          {needsApproval && (
-            <span className="sr-only">
-              {approvalSimulated ? t.approval.complete : t.approval.pending}
+      <div className={styles.flowResult}>
+        <div className={styles.flowHeader} aria-hidden="true">
+          <div className={`${styles.step} ${styles.stepResult} ${styles[`result_${displayedDecision.toLowerCase()}`]}`}>
+            <span className={styles.stepNumber}>03</span>
+            <span className={styles.stepCopy}>
+              <strong>{t.flow.label}</strong>
+              <small>{t.outcomes[displayedDecision]}</small>
             </span>
-          )}
+          </div>
         </div>
+        <PolicyFlowVisualization
+          t={t}
+          scenarioTitle={scenarioCopy.title}
+          businessName={scenarioCopy.recipient}
+          requestedRecipient={currentRecipient}
+          amount={currentAmount}
+          limit={scenario.quote.limit}
+          currency={scenario.quote.currency}
+          displayedDecision={displayedDecision}
+          needsApproval={needsApproval}
+          approvalSimulated={approvalSimulated}
+          selectedNodeId={selectedNodeId}
+          onSelectNode={setSelectedNodeId}
+          onApprove={simulateApproval}
+          changedRecipient={changedRecipient}
+          amountOverLimit={amountOverLimit}
+        />
+      </div>
 
+      <div id="demo-result" className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {scenarioCopy.title}. {variantCopy.label}. {t.outcomes[displayedDecision]}.
+        {variantCopy.reason && displayedDecision === "DENY" && ` ${variantCopy.reason}`}
         {needsApproval && (
-          <section className={styles.approvalStep} aria-labelledby="demo-approval-title">
-            <h3 id="demo-approval-title">
-              <span className={styles.stepNumber} aria-hidden="true">04</span>
-              {t.approval.title}
-            </h3>
-            {approvalSimulated ? (
-              <p className={styles.approvalComplete}>{t.approval.complete}</p>
-            ) : (
-              <button
-                type="button"
-                className={`btn ${styles.approvalAction}`}
-                onClick={() => setApprovalSimulated(true)}
-                aria-controls="demo-result"
-              >
-                {t.approval.action}
-              </button>
-            )}
-          </section>
+          <span>
+            {approvalSimulated ? t.approval.complete : t.approval.pending}
+          </span>
         )}
       </div>
 
@@ -174,32 +174,6 @@ export function PolicyDemo({ t }: { t: Copy["demo"] }) {
         </button>
       </div>
 
-      <div className={styles.details}>
-        <section className={styles.detailCard} aria-labelledby="demo-request-title">
-          <h3 id="demo-request-title">{t.fields.request}</h3>
-          <p className={styles.scenarioSummary}>{scenarioCopy.request}</p>
-          <dl className={styles.facts}>
-            <div className={`${styles.primaryFact} ${styles.wideFact}`}><dt>{t.fields.service}</dt><dd>{scenarioCopy.service}</dd></div>
-            <div><dt>{t.fields.quantity}</dt><dd>{scenario.request.quantity}</dd></div>
-            <div><dt>{t.fields.timing}</dt><dd>{scenarioCopy.timing}</dd></div>
-          </dl>
-        </section>
-
-        <section className={styles.detailCard} aria-labelledby="demo-quote-title">
-          <h3 id="demo-quote-title">{t.fields.quote}</h3>
-          <dl className={styles.facts}>
-            <div className={`${styles.primaryFact} ${styles.wideFact}${changedRecipient ? ` ${styles.invalidFact}` : ""}`}>
-              <dt>{t.fields.recipient}</dt><dd>{currentRecipient}</dd>
-            </div>
-            <div className={`${styles.primaryFact}${amountOverLimit ? ` ${styles.invalidFact}` : ""}`}>
-              <dt>{t.fields.amount}</dt><dd>{currentAmount} {scenario.quote.currency}</dd>
-            </div>
-            <div className={amountOverLimit ? styles.invalidFact : undefined}>
-              <dt>{t.fields.limit}</dt><dd>{scenario.quote.limit} {scenario.quote.currency}</dd>
-            </div>
-          </dl>
-        </section>
-      </div>
     </div>
   );
 }
