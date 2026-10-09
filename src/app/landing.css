@@ -31,6 +31,14 @@
 .flow-composition .decision code { font-size: 11.5px; overflow-wrap: anywhere; }
 .flow-composition .decision span { font-size: 12.5px; }
 
+/* ---------- Roadmap: environment chip and the pilot-metrics note ---------- */
+.road-item .road-tags { margin: 0 0 8px; }
+.tag-env { font-family: var(--mono); font-size: 11px; color: var(--rail); border-color: rgba(102, 216, 255, .35); background: var(--rail-soft); }
+.tag-env-simulation { color: var(--purple-200); border-color: rgba(140, 112, 255, .35); background: var(--purple-soft); }
+.road-metrics { margin-top: 24px; padding: 18px 22px; border: 1px dashed var(--border-strong); border-radius: var(--radius); }
+.road-metrics h3 { font-size: 15px; font-weight: 600; color: #fff; margin: 0 0 6px; }
+.road-metrics p { margin: 0; color: var(--text-2); font-size: 14.5px; line-height: 1.65; max-width: 80ch; }
+
 /* ---------- Technical disclosures ---------- */
 .technical-section.section { padding: 28px 0; }
 .technical-disclosure { max-width: 1080px; margin: 0 auto; }

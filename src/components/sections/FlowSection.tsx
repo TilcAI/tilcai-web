@@ -6,9 +6,15 @@ import { narrative } from "@/lib/i18n/narrative";
 import { CommerceIllustration } from "./CommerceIllustration";
 import styles from "./Narrative.module.css";
 
+/**
+ * One operation told in order: request, offer, rules, approval, payment, two receipts. Each card names who acts and
+ * the state it leaves the order in. The states are part of an illustrative journey (the label says so); nothing here
+ * moves because an animation says it did: the active card only follows the scroll position.
+ */
 export function FlowSection({ t }: { t: Copy }) {
   const c = narrative(t.locale).flow;
   const { list, active } = useScrollStep<HTMLOListElement>();
+  const total = `0${c.steps.length}`;
 
   return (
     <section id="flow" className={styles.journey} aria-labelledby="flow-title">
@@ -29,10 +35,10 @@ export function FlowSection({ t }: { t: Copy }) {
         <ol ref={list} className={styles.steps}>
           {c.steps.map((step, index) => <li id={`purchase-step-${index}`} className={styles.step} data-active={index === active} key={step.title}>
             <div className={styles.stepCard}>
-              <span className={styles.stepNumber}>0{index + 1} / 04</span>
+              <span className={styles.stepNumber}>0{index + 1} / {total}<span className={styles.stepActor}> · {c.actor}: {step.actor}</span></span>
               <h3>{step.title}</h3><p>{step.body}</p>
               <div className={styles.artifact}>
-                <div className={styles.artifactHead}><strong>{step.artifact}</strong><span>TilcAI</span></div>
+                <div className={styles.artifactHead}><strong>{step.artifact}</strong><span>{c.state}: {step.state}</span></div>
                 <ul>{step.lines.map(line => <li key={line}>{line}</li>)}</ul>
               </div>
               <p className={styles.detail}>{step.detail}</p>

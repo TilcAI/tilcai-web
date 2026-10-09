@@ -24,3 +24,6 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code: skills, agentes y ajustes locales (no se suben)
+/.claude/

@@ -18,13 +18,13 @@ export type Environment = "simulation" | "testnet" | "production";
 export type BusinessCategoryKey = "digital" | "booking" | "commerce" | "experience";
 export type BusinessServiceKey = "exampleDigital" | "exampleBooking";
 
-export const FAQ_IDS =["assistant", "wallet", "authority", "business", "today", "simulation", "stellar", "fulfillment"] as const;
+export const FAQ_IDS = ["assistant", "wallet", "authority", "business", "today", "networks", "simulation", "stellar", "fulfillment"] as const;
 export type FaqId = typeof FAQ_IDS[number];
 
 export const ROADMAP_IDS = [
-  "rail", "evaluator", "contracts", "site",
-  "connector", "commerce", "approval", "reconciliation",
-  "smartAccounts", "sharedBudget", "scheduled",
+  "cctp", "evaluator", "contracts", "site",
+  "rail", "connector", "commerce", "approval", "reconciliation", "whatsapp", "tenants",
+  "smartAccounts", "sharedBudget", "scheduled", "networks", "fiat",
 ] as const;
 export type RoadmapId = typeof ROADMAP_IDS[number];
 
@@ -95,7 +95,7 @@ export interface OfficeCopy {
   rooms: Record<RoomId, { name: string; who: string; body: string }>;
   roles: Record<Role, string>;
   tasks: Record<TaskKind, string>;
-  legend: { eyebrow: string; title: string; titleDim: string; lead: string; note: string; buildingEyebrow: string; buildingTitle: string; buildingLead: string; jumpToFloor: string };
+  legend: { eyebrow: string; title: string; titleDim: string; lead: string; note: string; buildingEyebrow: string; buildingTitle: string; buildingLead: string; jumpToFloor: string; buildingSelect: string; buildingScroll: string; buildingFloor: string; buildingOverview: string; buildingDetail: string; buildingPrevious: string; buildingNext: string };
   sim: OfficeStrings;
 }
 
@@ -104,7 +104,7 @@ export interface Copy {
   htmlLang: string;
   meta: { title: string; description: string; docsTitle: string; docsDescription: string };
   a11y: { skip: string; langSwitch: string; menu: string; copied: string; copy: string; codeTabs: string; mainNav: string; footerNav: string };
-  nav: { problem: string; flow: string; demo: string; capabilities: string; agents: string; code: string; roadmap: string; docs: string; home: string };
+  nav: { problem: string; flow: string; rails: string; demo: string; capabilities: string; agents: string; code: string; roadmap: string; docs: string; home: string };
   stageLabels: Record<Stage, string>;
   integrationLabels: Record<IntegrationStatus, string>;
   environmentLabels: Record<Environment, string>;
@@ -260,6 +260,8 @@ export interface Copy {
     maintainer: string;
     columns: Record<Stage, { when: string; title: string; note?: string }>;
     items: Record<RoadmapId, { title: string; detail: string }>;
+    /** Honest note about the pilot: no numbers are published until real businesses and users exist. */
+    metrics: { title: string; body: string };
     signatureTitle: string;
     signatureChecks: string[];
     signatureNote: string;

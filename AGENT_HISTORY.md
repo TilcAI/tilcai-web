@@ -52,3 +52,88 @@ Incidencias que el usuario debe conocer:
 - `src/components/monitor/` y `src/app/[lang]/monitor/`: `useMonitorFeed()` y una vista base (alertas, tarjetas de recursos y lista de eventos). El tablero con su diseño queda en la issue #25.
 - `README.md` y `.env.example` documentan las variables y el límite del almacén en memoria (no sirve con varias instancias en Vercel).
 - Pruebas: 29 (11 nuevas), `tsc` y `pnpm build` en verde; vista comprobada en navegador con eventos reales. `pnpm lint` ya fallaba en `main` por la versión de TypeScript y no se tocó.
+
+## 2026-10-09T14:42:01Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** feat/landing-explicacion
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora la seccion de Ocho pisos. Un solo recorrido. ese edificio que se vea bien 
+
+### Salida
+
+Mejoré **“Ocho pisos. Un solo recorrido.”**:
+
+- Edificio ampliado y parallax que enfoca cada piso.
+- Botón para ver el edificio completo.
+- Texto estable y controles grandes en móvil.
+- Recorrido de arriba hacia abajo: **08 → 01**.
+
+Validado con build, TypeScript y 44 pruebas correctas (1 omitida).
+
+![Vista móvil mejorada](C:/Users/[REDACTADO]/.codex/visualizations/2026/10/02/01a0fe1c-722a-7b41-a380-2fc6b2d47eeb/office-building-mobile-final.png)
+
+
+## 2026-10-09T15:00:06Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** feat/landing-explicacion
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> en mi git ignore has que todo lo que esta dentro de mi .claude no se suba
+
+### Salida
+
+Añadí `/.claude/` a `.gitignore` de tilcai-web. Con `git check-ignore` comprobé que quedan ignoradas las skills de Emil Kowalski, la skill `impeccable` y sus 4 agentes, y `git status` solo muestra `.gitignore` modificado. No había nada de `.claude` rastreado, así que no hizo falta tocar el índice. Consecuencia: las skills quedan solo en esta máquina y el equipo no las recibirá al clonar; cualquier `.claude/settings.local.json` también queda ignorado. Sin commit.
+
+## 2026-10-09T15:03:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** feat/landing-explicacion
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> con las skills dadas mejora el stilo visual de lo que es esta seccion Ocho pisos. Un solo recorrido.
+>
+> que no se vea tan IA pero que se vea realmente bien y atractivo para el usrio que tenga animaciones y lo necesario apra mejorar
+
+### Salida
+
+Rediseñé la sección «Ocho pisos. Un solo recorrido.» (`OfficeBuildingSection.tsx` y su CSS) usando `impeccable` (polish/animate) y `emil-design-eng`.
+
+- **Quité lo que se veía a IA genérica:** el planeta con anillo y el cubo flotante, el fondo de ciudad de ciencia ficción (`distant-city.webp`, ya sin uso), los halos de brillo, la etiqueta duplicada sobre el edificio y el contador «04 / 08» que contradecía a «Piso 05».
+- **Foco que sigue a la cámara:** todo lo que no es el piso que se lee se atenúa y una ventana de luz recorre el edificio con el scroll (solo transformaciones). En «Ver edificio completo» la atenuación baja y marca el piso elegido.
+- **Marcas de nivel** en vez de cajas con número, cuadrícula isométrica con paralaje por detrás y luz en el suelo del edificio.
+- **Panel:** lista de los ocho pisos con nombre y un resalte que se desliza de fila en fila; el texto entra en cascada (título, quién, cuerpo) y sale más rápido; barra de progreso continua. En móvil la lista pasa a números en dos filas.
+- **Título** en dos líneas (la segunda atenuada) y sin el tracking apretado de antes.
+- **Movimiento reducido:** conserva el cambio de piso y de color, sin desplazamientos.
+
+Comprobado: `tsc` sin errores, 44 pruebas pasan (1 omitida), detector de Impeccable sin hallazgos, capturas en 1920, 1440, 1280, 1000, 390 y 320 px, ES/EN y movimiento reducido. ESLint no pudo ejecutarse (falla la carga de `eslint-config-next`, ajeno al cambio). Pendiente: `public/office/building/distant-city.webp` quedó sin uso y no lo pude borrar; la imagen de la torre sigue siendo la ilustración original. Sin commit.
+
+Hora del prompt aproximada (no se anotó al recibirlo).
+
+## 2026-10-09T15:15:13Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** feat/landing-explicacion
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para la seccion de Tu negocio, listo para conversar con agentes. quiero que se paresca  a eso pero con las imagenes que estan en la ruta C:\proyectos 2026\tilcAI\tilcai-web\public\assets\img\empresas las iamgenes quiero que me hagas lo siguinte del texto que te copie y que se vea de la mejor manera
+>
+> [adjunto: imagen de referencia de la sección Empresas]
+>
+> [adjunto: texto pegado con especificaciones de diseño y animación parallax]
+
+### Salida
+
+Rediseñé «Tu negocio, listo para conversar con agentes» con las nueve imágenes transparentes existentes: negocio central, agente, búsqueda, catálogo, servicio, disponibilidad, precio, conexiones y cuadrícula. La escena usa una línea de tiempo de GSAP/ScrollTrigger con cuatro fases en escritorio y un recorrido reducido en móvil; reutiliza Lenis y respeta movimiento reducido. Conservé las rutas de incorporación y la aclaración de que la escena es ilustrativa.
+
+Validé escritorio y móvil, `npm run build`, TypeScript y `npm test` (44 correctas, 1 omitida). ESLint quedó bloqueado por la incompatibilidad existente entre `typescript-eslint` y TypeScript 7. Las capturas se guardaron como `businesses-desktop.png` y `businesses-mobile.png` en las visualizaciones de la sesión. Los PNG de `public/assets/img/empresas/` siguen sin seguimiento de Git; no hice commit.

@@ -2,7 +2,7 @@ import type { Copy } from "@/lib/i18n";
 import type { FaqId } from "@/lib/i18n/types";
 import styles from "./sections/Narrative.module.css";
 
-const landingQuestions: FaqId[] = ["today", "authority", "business", "simulation", "fulfillment"];
+const landingQuestions: FaqId[] = ["today", "business", "networks", "authority", "simulation", "fulfillment"];
 
 export function FaqSection({ t }: { t: Copy["faq"] }) {
   return (

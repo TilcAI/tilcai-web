@@ -166,7 +166,7 @@ export const docsEn: Copy["docs"] = {
   <li><strong>Testnet only.</strong> The first flow runs on Stellar Testnet. Testnet and mainnet have separate configuration and are enabled separately.</li>
   <li><strong>Not audited.</strong> Nothing described here has been audited.</li>
 </ul>
-<p>Out of scope for now: an agent marketplace, trading or DeFi, cross-chain bridges, free-form price negotiation, purchases from any business without an adapter, regulated services and unlimited agent autonomy.</p>`,
+<p>Out of scope for now: an agent marketplace, trading or DeFi, wrapped-asset bridges between chains (paying across networks with CCTP, which retires and issues native USDC, is planned and today only Avalanche Fuji to Stellar is verified), free-form price negotiation, purchases from any business without an adapter, regulated services and unlimited agent autonomy.</p>`,
     },
     {
       id: "glossary",

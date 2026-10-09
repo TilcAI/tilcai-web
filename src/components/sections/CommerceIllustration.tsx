@@ -1,6 +1,7 @@
 /** Decorative vector scene. Visible labels and descriptions live in HTML beside it. */
 export function CommerceIllustration({ id, active = 0 }: { id: string; active?: number }) {
-  const accent = ["#57D2F9", "#A47AFF", "#F0C47A", "#72DDB9"][active % 4];
+  const accents = ["#57D2F9", "#A47AFF", "#F0C47A", "#72DDB9", "#F08FB8", "#9BE08A"];
+  const accent = accents[active % accents.length];
   return (
     <svg viewBox="0 0 640 440" fill="none" aria-hidden="true" focusable="false">
       <defs>

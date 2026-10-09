@@ -3,6 +3,10 @@ import { roadmapEntries, roadmapStages } from "@/lib/content/roadmap";
 import { Icon } from "../Icon";
 import { SectionHead, StageTag } from "./shared";
 
+/**
+ * Status of every capability by stage, with where each one has evidence today (simulation or testnet) and who keeps
+ * it accurate. Nothing is dated and nothing says "production": see lib/content/roadmap.ts.
+ */
 export function RoadmapSection({ t }: { t: Copy }) {
   const r = t.roadmap;
   return (
@@ -31,11 +35,18 @@ export function RoadmapSection({ t }: { t: Copy }) {
                       const item = r.items[entry.id];
                       return (
                         <li key={entry.id} className="road-item">
+                          {entry.environment && (
+                            <p className="road-tags">
+                              <span className={`tag tag-env tag-env-${entry.environment}`}>{t.environmentLabels[entry.environment]}</span>
+                            </p>
+                          )}
                           <h4>{item.title}</h4>
                           <p>{item.detail}</p>
-                          <p className="road-owner">
-                            {r.maintainer}: <strong>{entry.maintainer}</strong>
-                          </p>
+                          {entry.maintainer && (
+                            <p className="road-owner">
+                              {r.maintainer}: <strong>{entry.maintainer}</strong>
+                            </p>
+                          )}
                         </li>
                       );
                     })}
@@ -45,6 +56,10 @@ export function RoadmapSection({ t }: { t: Copy }) {
             );
           })}
         </div>
+        <aside className="road-metrics reveal" aria-labelledby="road-metrics-title">
+          <h3 id="road-metrics-title">{r.metrics.title}</h3>
+          <p>{r.metrics.body}</p>
+        </aside>
         <aside className="signature reveal" aria-labelledby="sig-title">
           <h3 id="sig-title">
             <Icon name="shield" />
