@@ -378,3 +378,67 @@ Quedó activado en el despliegue de este servidor, con los contenedores recreado
 Pendiente o sin probar: no se hizo una compra ni un alta de billetera reales por WhatsApp con la configuración nueva (el canal de desarrollo está apagado en ese despliegue); el vault tiene poco saldo (alerta `VAULT_LOW`), así que una compra no se desembolsará hasta recargarlo; mainnet sigue apagado. Copia de la configuración anterior en `~/backups/docker-activacion-sca-20261009/`.
 
 **En este repositorio.** Rama `main`. `Dockerfile` y `.dockerignore` para servir el sitio y el tablero en un contenedor, y su apartado en el `README.md`. La imagen se construyó y es la que corre en el servidor.
+
+## 2026-10-09T18:55:13Z · JHAMILCALI · Antigravity · Gemini 3.7 Flash
+
+- **Sesión:** b1847629-f84d-45aa-ab0e-bf11db221c9f
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> en la seccion rutas de pago has los siguintos cambios y si hay que generar imagenes vas a generar imagenes sin fondo y que se vea de la mejor manera y buena resolucion y has lo siguinte "Quiero REDISEÑAR ÚNICAMENTE la sección “Rutas de pago” de mi landing TilcAI.
+>
+> Adjunto una imagen de referencia visual [adjunto: captura de referencia visual fintech glassmorphic de rutas de pago]. Quiero que la nueva sección conserve la identidad actual de TilcAI, pero se acerque visualmente a esa referencia:
+>
+> - fondo azul casi negro
+> - violetas eléctricos
+> - cyan tecnológico
+> - elementos tipo glass
+> - líneas SVG
+> - rutas conectadas
+> - sensación fintech / agentic commerce
+> - mucho espacio negativo
+> - interfaz premium
+> - estilo Awwwards
+> - sensación de infraestructura real funcionando
+> - no parecer un dashboard empresarial genérico
+>
+> NO rediseñar navbar ni otras secciones.
+> NO cambiar la tipografía global.
+> NO modificar contenido ajeno a “Rutas de pago”."
+
+### Salida
+
+Rediseñé completamente la sección «Rutas de pago» (`RailsSection`) manteniendo el alcance estricto de la sección, la tipografía y los tokens globales del proyecto, alineándola con la referencia visual fintech / agentic commerce de alta gama:
+
+1. **Sección A (Visión General):**
+   - Encabezado con titular `"El negocio cobra en USDC sobre Stellar."` con gradiente tecnológico (`#FFFFFF` → `#9B72FF` → `#6D48FF`) en *Stellar*, subtítulo conciso y los tres indicadores: `⚡ Automático`, `◈ Verificado` y `↗ Sin doble cobro`.
+   - Composición Desktop (65% escena / 35% tarjetas):
+     - **Comprador:** avatar circular con glow, `Paga en USDC` y logotipos de redes (Ethereum, Avalanche, Arbitrum, Base, Solana).
+     - **Inlet con moneda USDC (`$`)** flotante conectando hacia TilcAI.
+     - **TilcAI (Nodo protagonista):** branding de TilcAI, halo púrpura pulsante, HUD `"Elige la mejor ruta"` y líneas reactivas de salida.
+     - **Negocio:** icono de tienda en anillo de cristal, `Recibe USDC en Stellar` e icono oficial de Stellar.
+     - **Rutas SVG nítidas + glow:** curva superior x402 (gradiente ámbar/violeta) con insignia flotante `x402`, y curva inferior CCTP (gradiente cian/azul) con insignia flotante `CCTP`.
+     - **Partículas dinámicas:** partículas SVG sincronizadas recorriendo los trayectos con `MotionPathPlugin` de GSAP.
+   - **Tarjetas derechas (`x402` y `CCTP`):** tarjetas con efecto glass (`rgba(15,12,35,0.75)`), microinteracción hover que ilumina la ruta respectiva y atenúa suavemente la alternativa, ventajas con checks y estados automáticos.
+   - **Línea de tiempo (01–04):** cuatro pasos horizontales (`01 Pagas en USDC`, `02 TilcAI elige`, `03 Se confirma`, `04 El negocio cobra`) con iconos y badges de avance.
+   - **Barra de resultado:** banner horizontal pill glow `"✓ Mismo resultado: el negocio recibe USDC en Stellar"`.
+
+2. **Transición Continua (Sección A → Sección B):**
+   - Malla de rejilla tecnológica en perspectiva 3D (`perspective(500px) rotateX(65deg)`).
+   - Línea cian vertical continua con nodo central de pulso tecnológico que conecta fluidamente hacia el bloque de detalle.
+
+3. **Sección B (Detalle de Ruta · USDC de otra red):**
+   - Badges de cabecera: `CCTP · Crosschain`, `Verificado en testnet` y `⚡ Sin gas para el comprador`.
+   - Panel de 3 columnas de cristal:
+     - **1. Red de origen:** selector interactivo de redes con logotipos vectoriales de alta definición (Avalanche Fuji con estado *Verificado*, Ethereum Sepolia, Arbitrum Sepolia, Base Sepolia, Solana Devnet, Sui Testnet, Arc Testnet) y selección por radio button.
+     - **2. Cómo funciona (Pipeline de 3 pasos):** `01 Burn en origen` (icono fuego), `02 Circle confirma` (icono CCTP con etiqueta `ATTESTATION`) y `03 Mint en Stellar` (icono Stellar nativo), con barra informativa `⚡ TilcAI paga las comisiones. Tú solo envías el USDC`.
+     - **3. Destino:** tarjeta destacada con icono grande de Stellar Testnet y `USDC del negocio`.
+   - **Tarjeta inferior de laboratorio:** acceso a las redes de laboratorio y botón interactivo para consultar el registro verificable de transacciones (`EvidenceLedger` con enlaces reales a Snowtrace y Stellar Expert).
+
+4. **Calidad técnica y compatibilidad:**
+   - GSAP + Lenis integrado mediante `acquireSmoothScroll()`, respetando el ticker compartido sin duplicar instancias.
+   - Soporte total para `prefers-reduced-motion: reduce` y adaptabilidad responsive para tablet y móvil.
+   - Verificado con `next build` (compilación y tipos limpios) y la suite completa de 64 pruebas unitarias pasando al 100%.
+
