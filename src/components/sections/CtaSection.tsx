@@ -11,6 +11,7 @@ export function CtaSection({ t }: { t: Copy }) {
       <div className={styles.actions}>
         <a className="btn btn-primary" href="#demo">{c.primary}<Icon name="arrow" /></a>
         <a className="btn btn-ghost" href="#businesses">{c.secondary}<Icon name="store" /></a>
+        <a className={styles.link} href="#roadmap">{c.tertiary}<Icon name="arrow" /></a>
       </div>
     </div>
   </section>;

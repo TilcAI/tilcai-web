@@ -39,10 +39,11 @@
 .progress a { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #665581; border-radius: 50%; font: 12px var(--mono); color: #a99cbf; }
 .progress a[aria-current=step] { background: #6024e8; color: #fff; border-color: #b693fa; box-shadow: 0 0 24px #6024e830; }
 .steps { list-style: none; margin: 0; padding: 0; }
-.step { min-height: 70svh; display: flex; align-items: center; padding: 50px 0; scroll-margin-top: 26px; }
+.step { min-height: 62svh; display: flex; align-items: center; padding: 40px 0; scroll-margin-top: 26px; }
 .stepCard { width: 100%; border-top: 1px solid #74618c; border-bottom: 1px solid #74618c33; padding: 32px 0; transition: border-color .3s; }
 .step[data-active=true] .stepCard { border-top-color: #ae83fa; }
 .stepNumber { font: 12px var(--mono); letter-spacing: .12em; color: #9f7edf; }
+.stepActor { color: #cdbcf7; letter-spacing: .04em; }
 .step h3 { font-size: clamp(30px, 3vw, 44px); font-weight: 500; letter-spacing: -.03em; margin: 18px 0; color: #eee8f8; }
 .step p { color: #b6adc9; font-size: 16px; line-height: 1.8; }
 .step .artifact { margin: 24px 0; box-shadow: none; }
@@ -68,7 +69,7 @@
 .stack { padding: 38px 0; border-block: 1px solid #a990e51a; background: #09091b; }
 .stackHeader { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
 .stack h2 { color: #d9d1e7; font-size: 21px; font-weight: 500; letter-spacing: -.03em; }
-.technologies { display: grid; grid-template-columns: repeat(6, 1fr); list-style: none; padding: 0; margin-top: 26px; }
+.technologies { display: grid; grid-template-columns: repeat(7, 1fr); list-style: none; padding: 0; margin-top: 26px; }
 .technologies li { padding: 5px 18px; border-left: 1px solid #75608f55; }
 .technologies li:first-child { padding-left: 0; border-left: 0; }
 .technologies strong { display: block; color: #c4b6dc; font-size: 15px; font-weight: 500; }

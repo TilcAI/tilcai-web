@@ -40,8 +40,11 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
 
   const close = () => setOpen(false);
   const links: [string, string][] = page === "home" ? [
-    [t.nav.agents, anchor("agents")],
     [t.nav.capabilities, anchor("businesses")],
+    [t.nav.flow, anchor("flow")],
+    [t.nav.rails, anchor("rails")],
+    [t.nav.roadmap, anchor("roadmap")],
+    [t.nav.agents, anchor("agents")],
   ] : [
     [t.nav.problem, anchor("problem")],
     [t.nav.flow, anchor("flow")],

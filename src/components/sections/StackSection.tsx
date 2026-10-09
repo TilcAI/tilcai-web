@@ -9,7 +9,7 @@ export function StackSection({ t }: { t: Copy }) {
   return <section id="stack" className={styles.stack} aria-labelledby="stack-title">
     <div className={styles.inner}>
       <div className={styles.stackHeader}><h2 id="stack-title">{c.title}</h2><Link className={styles.link} href={`/${t.locale}/docs#architecture`}>{t.stack.docsLink}<Icon name="arrow" /></Link></div>
-      <ul className={styles.technologies}>{t.stack.badges.map((badge, index) => <li key={badge.name}><strong>{badge.name}</strong><span>{c.roles[index]}</span></li>)}</ul>
+      <ul className={styles.technologies}>{t.stack.badges.map(badge => <li key={badge.name}><strong>{badge.name}</strong><span>{badge.role}</span></li>)}</ul>
       <p className={styles.caption}>{c.note}</p>
     </div>
   </section>;

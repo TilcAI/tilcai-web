@@ -9,6 +9,7 @@ import { BusinessGrid } from "../BusinessGrid";
 import { Icon } from "../Icon";
 import { CommerceIllustration } from "./CommerceIllustration";
 import styles from "./Narrative.module.css";
+import explain from "./Explain.module.css";
 import "@/app/businesses.css";
 
 export function BusinessesSection({ t }: { t: Copy }) {
@@ -39,12 +40,48 @@ export function BusinessesSection({ t }: { t: Copy }) {
             <p className={styles.artLabel}>{c.label}</p>
             <CommerceIllustration id="business-art" active={active} />
             <div className={styles.artifact}>
-              <div className={styles.artifactHead}><strong>{selected.artifact}</strong><span>0{active + 1} / 03</span></div>
+              <div className={styles.artifactHead}><strong>{selected.artifact}</strong><span>0{active + 1} / 0{c.tabs.length}</span></div>
               <ul>{selected.lines.map(line => <li key={line}>{line}</li>)}</ul>
             </div>
             <p className={styles.caption}>{t.capabilities.disclaimer}</p>
           </div>
         </div>
+
+        <div id="business-paths" className={explain.paths}>
+          <header className={explain.blockHead}>
+            <p className={styles.eyebrow}>{c.paths.eyebrow}</p>
+            <h3 className={explain.blockTitle}>{c.paths.title}</h3>
+            <p className={explain.blockLead}>{c.paths.lead}</p>
+          </header>
+          <ul className={explain.pathGrid} role="list">
+            {c.paths.items.map((path, index) => (
+              <li key={path.key} className={explain.pathCard} data-first={index === 0}>
+                <span className={explain.pathKey} aria-hidden="true">{path.key}</span>
+                <h4>{path.title}</h4>
+                <p className={explain.pathWho}>{path.who}</p>
+                <p>{path.body}</p>
+                <div className={explain.pathFoot}>
+                  <span className={explain.pill}>{c.paths.status}</span>
+                  {index === 0 && <span className={`${explain.pill} ${explain.pillFirst}`}>{c.paths.first}</span>}
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className={styles.caption}>{c.paths.note}</p>
+        </div>
+
+        <div className={explain.keep} role="group" aria-label={c.keep.title}>
+          <div className={`${explain.keepCol} ${explain.keepYours}`}>
+            <h4>{c.keep.yours.title}</h4>
+            <ul>{c.keep.yours.lines.map(line => <li key={line}>{line}</li>)}</ul>
+          </div>
+          <div className={explain.keepCol}>
+            <h4>{c.keep.ours.title}</h4>
+            <ul>{c.keep.ours.lines.map(line => <li key={line}>{line}</li>)}</ul>
+          </div>
+          <p className={explain.keepNote}>{c.keep.note}</p>
+        </div>
+
         {profiles.length > 0 && <div className={styles.profiles}><BusinessGrid profiles={profiles} t={t} /></div>}
       </div>
     </section>

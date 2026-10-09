@@ -127,3 +127,33 @@ de WEB-15 ni la revisión humana. No se modifica el stack ni el lockfile.
 El PR y la revisión de Jhamil siguen pendientes: GitHub CLI no tiene una sesión
 autenticada disponible en este entorno. Los commits locales permiten revisar
 el entregable sin declarar el issue cerrado.
+
+## Actualización 2026-10-09: de Empresas hacia abajo
+
+Base: contexto oficial (8–9 oct), «Secuencia recomendada de la página» del flujo integrado (§9) y la issue TIL-07
+(web #24). Objetivo: un recorrido comprensible de arriba abajo que distinga lo verificado de lo propuesto.
+
+| Bloque / ancla | Qué explica | Estado que declara |
+| --- | --- | --- |
+| Empresas / `#businesses` | No hace falta agente ni sitio web. Cuatro caminos (consola gestionada, archivo, API o POS, agente propio) y qué conserva cada parte | Propuesta de incorporación · en preparación |
+| Flujo / `#flow` | Una operación en seis pasos (pedido, oferta, reglas, aprobación, pago, dos recibos), cada uno con responsable y estado | Recorrido ilustrativo, importes de prueba |
+| Rutas de pago / `#rails` | Dos rutas alternativas (x402 directo, CCTP desde otra red), mapa de ocho redes, límites y evidencia | Fuji → Stellar «verificado»; seis redes «laboratorio»; x402 «prueba aislada» |
+| Evidencia / `#evidence` | Dos pagos de testnet con enlaces a Snowtrace y Stellar Expert | Pago técnico, no una orden comercial |
+| Avance / `#roadmap` | Estado por capacidad con entorno (simulación/testnet) y responsable cuando existe | Sin fechas; nada en producción; sin métricas del piloto |
+| Entradas del comprador / `#entrances` | WhatsApp, MCP y API como tres puertas a la misma infraestructura | Reportado / contrato definido / disponible en testnet |
+| Tecnología / `#stack` | Añade CCTP y deja de describir Stellar como «riel inicial» | Estado de cada pieza en «Avance» |
+| FAQ / `#faq` | «¿Qué funciona hoy?» actualizada; nueva «¿cualquier dinero o red?» | Coherente con el contexto oficial |
+
+Reglas que se mantienen (y que `test/landing-explain.test.ts` vigila): una sola red «verificada»; ningún texto promete
+«cualquier red» ni conversión de bolivianos; ninguna cifra de adopción; el pago nunca se presenta como entrega; la evidencia
+dice que no es una orden comercial; ningún elemento del avance afirma «producción».
+
+Cómo se explica «crosschain»: `#rails` abre con una definición en lenguaje llano («tienes USDC en una blockchain y el negocio
+lo recibe en otra; no es un cambio de moneda ni un token envuelto»), el término aparece también en la etiqueta de la ruta
+CCTP y cada paso del recorrido (retirar, confirmar, emitir) lleva su término técnico al lado (burn, atestación, mint). La
+página de arquitectura ya no descarta «bridges entre cadenas» en bloque: distingue los puentes de activos envueltos del pago
+entre redes con CCTP.
+
+Decisiones para revisar: el caso del flujo pasa de «reporte digital» a «20 bolsas de cemento» (el caso de la demo oficial); la
+evidencia usa los hashes de la reproducción del 8 de octubre (issue de QA de la fase 1) y puede sustituirse en
+`src/lib/content/rails.ts`; `rails`, `roadmap` y `entrances` se suman a la navegación de la portada.

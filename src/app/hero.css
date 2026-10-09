@@ -112,7 +112,6 @@
 
 @media (min-width: 1181px) {
   .site-header.is-overlay .container.header-inner { padding-inline: 4.3vw; }
-  .site-header.is-overlay .main-nav a:nth-child(3) { order: 2; }
   .site-header.is-overlay .main-nav .nav-docs { order: 1; }
 }
 @media (max-width: 1180px) {
