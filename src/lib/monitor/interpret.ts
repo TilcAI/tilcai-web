@@ -129,7 +129,7 @@ export const EVENT_CATALOG: Record<MonitorEventType, { title: Text; meaning: Tex
 export const ALERT_CATALOG: Record<string, { title: Text; action: Text }> = {
   VAULT_EMPTY: {
     title: { en: "The vault has no USDC", es: "El vault no tiene USDC" },
-    action: { en: "Send Fuji USDC to the vault contract address (not to the relayer account).", es: "Envía USDC de Fuji a la dirección del contrato vault (no a la cuenta del relayer)." },
+    action: { en: "Send USDC of its network (Fuji USDC to the Fuji vault, Stellar USDC to the Stellar one) to the vault contract address (not to the relayer account).", es: "Envía USDC de su red (USDC de Fuji al vault de Fuji, USDC de Stellar al de Stellar) a la dirección del contrato vault (no a la cuenta del relayer)." },
   },
   VAULT_INSUFFICIENT: {
     title: { en: "The vault owes more than it holds", es: "El vault debe más de lo que tiene" },
@@ -153,7 +153,7 @@ export const ALERT_CATALOG: Record<string, { title: Text; action: Text }> = {
   },
   VAULT_UNREADABLE: {
     title: { en: "The vault could not be read", es: "No se pudo leer el vault" },
-    action: { en: "Check the Avalanche RPC.", es: "Revisa el RPC de Avalanche." },
+    action: { en: "Check the RPC of the vault's network (Avalanche or Stellar).", es: "Revisa el RPC de la red del vault (Avalanche o Stellar)." },
   },
   RELAYER_DOWN: {
     title: { en: "The relayer does not answer", es: "El relayer no responde" },
