@@ -1,0 +1,8 @@
+.git
+.next
+node_modules
+output
+qa-screenshots
+tsconfig.tsbuildinfo
+.env*
+Dockerfile

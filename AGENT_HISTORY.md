@@ -356,3 +356,25 @@ Rediseñé «Rutas de pago» con las skills `impeccable` y `emil-design-eng`, GS
 Comprobado: `tsc` limpio, 63 pruebas pasan (1 omitida; 8 nuevas en `test/rails-atlas.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 900 y 390 px, ES/EN, movimiento reducido y cambio de tamaño entre maquetaciones. No probado: Safari ni dispositivos reales, ni fluidez de fotogramas en hardware real. Sin commit.
 
 Hora del prompt aproximada (no se anotó al recibirlo).
+## 2026-10-09T17:44:17Z · SaulChoque · Claude Code (claude-opus-5-5)
+
+- **Sesión:** https://claude.ai/code/session_018g3RyDatWoLTxJc1Ef3L4w
+- **Rama:** `main`
+- **Repositorios:** `tilcai-web` (TilcAI); el resto fue configuración y contenedores, sin archivos versionados
+
+### Prompt
+
+> Si, activa las cuentas SCA en la demo, asi mismo actualiza los contenedores actuales en ejecucion por sus versiones actualizadas con SCA, mock QR y dashboard
+
+### Salida
+
+Quedó activado en el despliegue de este servidor, con los contenedores recreados y probados en vivo:
+
+- **Cuentas de contrato en la demo.** En el TilcAI en uso se creó el tercero «Optipagos» con su clave (`payments`, `accounts:read`, `accounts:write`) y Optipagos arranca con `WALLET_CUSTODY=TILCAI_SCA`: cada billetera nueva del número de demo es una cuenta emitida por TilcAI. Las tres billeteras existentes siguen siendo de clave propia. Prueba en vivo: una cuenta pedida con esa clave quedó `ACTIVE` en Fuji.
+- **Mock de QR Simple.** TilcAI con `QR_MOCK_ENABLED` y Optipagos con `BUY_QR_PROVIDER=tilcai`; el aviso de depósito va de TilcAI a Optipagos en el mismo host. La página «Simular depósito» está en `http://<servidor>:8787/mock/vendis/?key=…`.
+- **Tablero.** Esta cuenta de Vercel no tiene acceso al proyecto de `tilcai-web`, así que el tablero corre como contenedor en el servidor (`tilcai-web`, puerto 3311, eventos guardados en un volumen). TilcAI le envía los eventos firmados y el relayer avisa a TilcAI por webhook firmado: en la prueba llegaron eventos de cuentas, del mock de QR y tres avisos reales del relayer.
+- **Relayer.** Se añadió la notificación `tilcai-monitor` a su `config.json` para los relayers de Fuji y de Stellar y se reinició (unos segundos). Los demás relayers conservan su notificación anterior.
+
+Pendiente o sin probar: no se hizo una compra ni un alta de billetera reales por WhatsApp con la configuración nueva (el canal de desarrollo está apagado en ese despliegue); el vault tiene poco saldo (alerta `VAULT_LOW`), así que una compra no se desembolsará hasta recargarlo; mainnet sigue apagado. Copia de la configuración anterior en `~/backups/docker-activacion-sca-20261009/`.
+
+**En este repositorio.** Rama `main`. `Dockerfile` y `.dockerignore` para servir el sitio y el tablero en un contenedor, y su apartado en el `README.md`. La imagen se construyó y es la que corre en el servidor.
