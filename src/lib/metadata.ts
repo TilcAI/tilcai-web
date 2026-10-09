@@ -9,7 +9,7 @@ export function pageMetadata({
   description,
 }: {
   lang: Locale;
-  page: "home" | "docs";
+  page: "home" | "docs" | "roadmap";
   title: string;
   description: string;
 }): Metadata {

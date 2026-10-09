@@ -7,12 +7,12 @@ import { SectionHead, StageTag } from "./shared";
  * Status of every capability by stage, with where each one has evidence today (simulation or testnet) and who keeps
  * it accurate. Nothing is dated and nothing says "production": see lib/content/roadmap.ts.
  */
-export function RoadmapSection({ t }: { t: Copy }) {
+export function RoadmapSection({ t, hideHeader = false }: { t: Copy; hideHeader?: boolean }) {
   const r = t.roadmap;
   return (
     <section id="roadmap" className="section" aria-labelledby="road-title">
       <div className="container">
-        <SectionHead id="road-title" eyebrow={r.eyebrow} title={r.title} lead={r.lead} />
+        {!hideHeader && <SectionHead id="road-title" eyebrow={r.eyebrow} title={r.title} lead={r.lead} />}
         <div className="roadmap-cols">
           {roadmapStages.map((stage, index) => {
             const column = r.columns[stage];

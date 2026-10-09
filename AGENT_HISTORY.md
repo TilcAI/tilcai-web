@@ -525,3 +525,112 @@ Rediseñé la simulación como un solo panel, en lugar de tres pantallas de scro
 - Dos agentes revisaron el resultado (diseño y movimiento; corrección y accesibilidad) y sus hallazgos confirmados se corrigieron: aprobar antes de que termine el recorrido, el reinicio del recorrido tras remontar el efecto, el anillo de llegada visible desde el principio, el foco al aprobar, un solo anuncio para lector de pantalla, la placa medida sobre el contenedor de la opción y el ancho entre 1100 y 1180 px.
 
 Comprobado: `tsc` limpio, 74 pruebas pasan (1 omitida; 11 nuevas en `test/policy-demo.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 1100, 900 y 390 px, ES/EN y movimiento reducido. No probado: Safari ni dispositivos reales, ni fluidez en hardware real. Sin commit.
+
+## 2026-10-09T21:49:23Z · JHAMILCALI · Codex (GPT-6.1-sol)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero que simule bien y que no sean SVG genera imagens para algunos casos para que quede bien
+
+### Salida
+
+Ahora «Control del usuario» simula la evaluación conjunta de importe, destinatario, vigencia y pausa. Puedes activar cada fallo o combinarlos; el motivo, los datos, el estado y la imagen cambian al instante. El estado válido solo pasa a revisión: no simula autorización ni pago.
+
+Generé con imagegen siete WebP transparentes en [public/office/control](<C:/proyectos 2026/tilcAI/tilcai-web/public/office/control>) (prompts: negocio autorizado, presupuesto protegido, límite excedido, vigencia válida/vencida, destinatario cambiado y pausa). La escena ya no contiene SVG. Verificado en escritorio y móvil; `npm run build`, `npx tsc --noEmit` y `npm test` pasan (80 pruebas, 1 omitida).
+
+## 2026-10-09T22:25:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es esta seccion "Entradas del comprador
+
+> Tres formas de llegar a la misma infraestructura."
+> que se vea viselmente bien y que no se vea como generado por IA usa tus skills para que tenga una bien apariencia
+
+### Salida
+
+Rediseñé «Entradas del comprador» con las skills `impeccable` y `emil-design-eng`. Las tres tarjetas iguales pasaron a ser tres ramas de una misma línea que termina en lo que comparten:
+
+- **Entradas:** tres filas separadas por filetes, cada una con un dibujo propio sin texto (un chat guiado con el enlace seguro, el asistente con las doce herramientas como fichas discontinuas, el backend y la API con una marca de «una sola vez»), su título, su texto y su estado real. El estado se dibuja con la firmeza que tiene: punto lleno si está disponible en testnet, anillo si el contrato está definido, anillo discontinuo si lo reporta el equipo.
+- **Lo que comparten:** la línea baja por el lateral, gira y recorre identidad, cotización, aprobación, pago y recibos. Esas cinco palabras y «La misma infraestructura» son texto nuevo en ES y EN, tomado de la frase del subtítulo («misma identidad, cotización, aprobación, pago y recibos») y del título.
+- **Sin rótulo sobre el título:** «Entradas del comprador» ahora nombra el grupo de entradas, no va encima del titular.
+- **Movimiento:** una sola vez al llegar, un punto de luz dibuja la línea, y cada fila y cada paso aparecen cuando la línea los alcanza. Medido desde la página, así que sigue al texto; en teléfono la línea corre recta por el lateral. Sin movimiento queda dibujada.
+- Quité de `Explain.module.css` lo que dejó de usarse (cuadrícula de tarjetas y píldora).
+
+Comprobado: `tsc` limpio, 80 pruebas pasan (1 omitida; 6 nuevas en `test/buyer-entrances.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 900 y 390 px, ES/EN y movimiento reducido. No probado: Safari ni dispositivos reales. Sin commit.
+
+## 2026-10-09T21:55:55Z · JHAMILCALI · Gemini (gemini-3.8-flash)
+
+- **Sesión:** 0214335e-d304-4b1b-9896-084cb9766be0
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> esta llevala a otro url de la page pero que no este en la landing qu eesta seccion "Estado de construcción
+> Construimos por capacidades, no por promesas."
+
+### Salida
+
+Moví la sección «Estado de construcción / Construimos por capacidades, no por promesas.» fuera de la landing page y la reubiqué en su propia página dedicada en `/[lang]/roadmap` (`/es/roadmap` y `/en/roadmap`):
+
+- **Nueva página dedicada:** Creados [src/app/[lang]/roadmap/page.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/app/[lang]/roadmap/page.tsx) y [src/components/RoadmapPage.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/RoadmapPage.tsx), con metadatos OpenGraph/Twitter e i18n, héroe con enlace de retorno al inicio y visualización limpia de las 3 etapas y tarjetas de avance.
+- **Removida de la landing:** Se retiró `RoadmapSection` de [src/components/HomePage.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/HomePage.tsx).
+- **Rutas y navegación:**
+  - [src/lib/site.ts](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/lib/site.ts) y [src/lib/metadata.ts](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/lib/metadata.ts): Añadida la ruta `paths.roadmap(lang)`.
+  - [src/components/SiteHeader.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/SiteHeader.tsx): El ítem «Avance» (`t.nav.roadmap`) ahora dirige a la nueva ruta y el selector de idioma alterna entre `/es/roadmap` y `/en/roadmap`.
+  - [src/components/SiteFooter.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/SiteFooter.tsx): Incorporado el enlace al roadmap en la navegación del pie de página.
+  - [src/components/sections/CtaSection.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/sections/CtaSection.tsx): El enlace «Ver qué funciona hoy» redirige a la página de roadmap en lugar del ancla `#roadmap`.
+  - [next.config.ts](file:///c:/proyectos%202026/tilcAI/tilcai-web/next.config.ts): Se agregaron redirecciones amigables para `/estado-construccion` y `/:lang/estado-construccion`.
+- **Verificación:** Pruebas unitarias ejecutadas (`npm test` pasando al 100%), compilación estática completada (`npm run build`) y recorrido de interfaz verificado en el navegador con el subagente.
+
+## 2026-10-09T22:10:49Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /emil-design-eng
+
+### Salida
+
+Invocación de la skill de diseño sin una pregunta: no cambió ningún archivo. Mientras el turno seguía abierto llegó el prompt de la entrada siguiente (la sección «Asistentes»), y ese trabajo quedó registrado allí.
+
+## 2026-10-09T22:10:49Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+El prompt llegó durante el turno de la entrada anterior; se registra con la hora de inicio de ese turno.
+
+### Prompt
+
+> esta seccion de lo que es la landing mejoralo Asistentes
+> Usa el asistente con el que ya trabajas.
+> Cada cliente tendrá su guía, superficie y estado de integración con TilcAI. La configuración depende de la aplicación concreta que utilizas.
+
+### Salida
+
+Rediseñé la sección «Asistentes» de la landing. Pasó de unos 4.500 px de scroll pegajoso (seis tarjetas casi iguales con huecos enormes) a una sola pieza de unos 1.270 px:
+
+- **Selector:** los clientes agrupados por superficie (Terminal, Editor / IDE, Aplicación de escritorio), con una placa que se desliza detrás del elegido. En móvil es un carril horizontal; al ampliar, los chips se envuelven para que «Ver más asistentes» se vea.
+- **Ficha del cliente:** una ventana dibujada de su superficie (terminal, editor o chat) con un espacio punteado «tilcai» que indica que no hay nada conectado, la mascota o las iniciales delante, el nombre, el resumen y dos acciones (Ver configuración, que abre el panel de siempre, y Documentación oficial).
+- **Estado de integración en cuatro etapas:** documentación del cliente, transporte y autenticación, herramientas TilcAI y aprobación humana de la compra, con un medidor. Las etapas se derivan de los datos (`integrationStages` en `src/lib/content/agents.ts`): hoy todos los clientes están en preparación, así que solo aparece completa la revisión de la documentación (30 de septiembre de 2026).
+- **Aviso de permisos:** «Seleccionar un asistente o conectar herramientas no concede permiso para gastar» pasó del pie a una nota junto al título.
+- **Movimiento:** cambios de ficha de 240 ms con salida suave, etapas escalonadas 45 ms, mascota que flota, todo con `transform` y opacidad. Con movimiento reducido queda estático.
+- **Teclado:** pestañas con flechas, Inicio y Fin; el foco vuelve al botón al cerrar el panel.
+
+Cambios: `AgentCatalog.tsx` reescrito, nuevos `AgentArt.tsx` y `AgentCatalog.module.css`, eliminados `AgentCard.tsx` y `AgentStory.module.css`, `agents.css` reducido a lo que usa el panel, textos nuevos `agents.stages` en ES y EN, y `test/agent-stages.test.ts`.
+
+Comprobado: `tsc` limpio; 84 pruebas pasan (1 omitida; 4 nuevas); capturas en 1440, 1100, 960, 820 y 390 px en ES y EN; teclado, panel y ampliar/contraer con Playwright sin errores propios. No comprobado: ESLint no arranca en este repositorio (typescript-eslint no admite TypeScript 7, ya ocurría antes); Safari ni dispositivos reales; el movimiento reducido no se capturó. Sin commit.

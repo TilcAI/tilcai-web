@@ -85,6 +85,15 @@ export const es: Copy = {
     surfaceLabels: { terminal: "Terminal", editor: "Editor / IDE", desktop: "Aplicación de escritorio" },
     exploration: "Entorno de exploración",
     thirdPartyNote: "Productos de terceros, sin alianza ni integración TilcAI habilitada. Mascotas e iconos son recursos visuales de esta web.",
+    stages: {
+      title: "Estado de integración", progress: "{done} de {total} etapas", checkedOn: "Documentación revisada el",
+      items: {
+        docs: { label: "Documentación del cliente", done: "Revisada", pending: "Sin revisar" },
+        transport: { label: "Transporte y autenticación", done: "Probados", pending: "Por probar" },
+        tools: { label: "Herramientas TilcAI", done: "Visibles", pending: "Aún no expuestas" },
+        approval: { label: "Aprobación humana de la compra", done: "Validada", pending: "Por validar" },
+      },
+    },
     panel: {
       title: "Conexión con TilcAI", empty: "Elige un cliente para revisar su superficie, documentación y preparación de la integración.",
       close: "Cerrar panel", officialDocs: "Documentación oficial del cliente", reference: "Referencia del cliente",

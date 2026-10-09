@@ -7,7 +7,7 @@ import type { Copy, Locale } from "@/lib/i18n";
 import { paths } from "@/lib/site";
 import { Icon } from "./Icon";
 
-type Page = "home" | "docs";
+type Page = "home" | "docs" | "roadmap";
 
 const subscribeScroll = (cb: () => void) => {
   window.addEventListener("scroll", cb, { passive: true });
@@ -20,7 +20,11 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
   const navRef = useRef<HTMLElement>(null);
   const lang = t.locale;
   const anchor = (id: string) => (page === "home" ? `#${id}` : paths.section(lang, id));
-  const localeHref = (loc: Locale) => (page === "home" ? paths.home(loc) : paths.docs(loc));
+  const localeHref = (loc: Locale) => {
+    if (page === "home") return paths.home(loc);
+    if (page === "docs") return paths.docs(loc);
+    return paths.roadmap(loc);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -43,14 +47,21 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
     [t.nav.capabilities, anchor("businesses")],
     [t.nav.flow, anchor("flow")],
     [t.nav.rails, anchor("rails")],
-    [t.nav.roadmap, anchor("roadmap")],
     [t.nav.agents, anchor("agents")],
+    [t.nav.roadmap, paths.roadmap(lang)],
+  ] : page === "roadmap" ? [
+    [t.nav.home, paths.home(lang)],
+    [t.nav.capabilities, paths.section(lang, "businesses")],
+    [t.nav.flow, paths.section(lang, "flow")],
+    [t.nav.rails, paths.section(lang, "rails")],
+    [t.nav.agents, paths.section(lang, "agents")],
   ] : [
     [t.nav.problem, anchor("problem")],
     [t.nav.flow, anchor("flow")],
     [t.nav.demo, anchor("simulation")],
     [t.nav.capabilities, anchor("businesses")],
     [t.nav.agents, anchor("agents")],
+    [t.nav.roadmap, paths.roadmap(lang)],
   ];
 
   return (
@@ -62,8 +73,19 @@ export function SiteHeader({ t, page }: { t: Copy; page: Page }) {
 
         <nav ref={navRef} className={`main-nav${open ? " is-open" : ""}`} id="main-nav" aria-label={t.a11y.mainNav}>
           {links.map(([label, href]) => (
-            page === "home" ? <a key={href} href={href} onClick={close}>{label}</a> :
-              <Link key={href} href={href} onClick={close}>{label}</Link>
+            href.startsWith("#") ? (
+              <a key={href} href={href} onClick={close}>{label}</a>
+            ) : (
+              <Link
+                key={href}
+                href={href}
+                className={href === paths.roadmap(lang) && page === "roadmap" ? "is-active" : undefined}
+                aria-current={href === paths.roadmap(lang) && page === "roadmap" ? "page" : undefined}
+                onClick={close}
+              >
+                {label}
+              </Link>
+            )
           ))}
           <Link
             className={`nav-docs${page === "docs" ? " is-active" : ""}`}

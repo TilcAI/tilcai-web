@@ -140,6 +140,10 @@ export interface Copy {
     carousel: { previous: string; next: string; hint: string; label: string };
     surfaceLabels: Record<"terminal" | "editor" | "desktop", string>;
     exploration: string; thirdPartyNote: string;
+    stages: {
+      title: string; progress: string; checkedOn: string;
+      items: Record<"docs" | "transport" | "tools" | "approval", { label: string; done: string; pending: string }>;
+    };
     panel: {
       title: string; empty: string; close: string; officialDocs: string;
       reference: string; requirements: string; preparation: string; preparationNote: string;

@@ -39,6 +39,22 @@ type AgentIntegration =
 
 export type AgentClient = Readonly<AgentIdentity & AgentIntegration>;
 
+export type IntegrationStageKey = "docs" | "transport" | "tools" | "approval";
+
+/**
+ * Where a client stands on the road to a TilcAI connection. Derived from the guide data, never
+ * stored, so a stage cannot read as done unless the evidence for it exists on the entry.
+ */
+export function integrationStages(agent: AgentClient): { key: IntegrationStageKey; done: boolean }[] {
+  const validated = agent.guide.kind === "validated" ? agent.guide : null;
+  return [
+    { key: "docs", done: agent.docsCheckedAt.length > 0 },
+    { key: "transport", done: validated !== null },
+    { key: "tools", done: validated !== null && validated.tools.length > 0 },
+    { key: "approval", done: agent.status === "enabled" },
+  ];
+}
+
 const text = (es: string, en: string): LocalizedText => ({ es, en });
 const prepared = (entry: Omit<AgentIdentity, "docsCheckedAt" | "environment" | "asset"> & { asset?: AgentIdentity["asset"] }): AgentClient => ({
   ...entry,

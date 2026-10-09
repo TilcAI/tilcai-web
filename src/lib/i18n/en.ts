@@ -85,6 +85,15 @@ export const en: Copy = {
     surfaceLabels: { terminal: "Terminal", editor: "Editor / IDE", desktop: "Desktop application" },
     exploration: "Exploration environment",
     thirdPartyNote: "Third-party products, without a partnership or an enabled TilcAI integration. Mascots and icons are visual assets for this website.",
+    stages: {
+      title: "Integration status", progress: "{done} of {total} steps", checkedOn: "Documentation reviewed on",
+      items: {
+        docs: { label: "Client documentation", done: "Reviewed", pending: "Not reviewed" },
+        transport: { label: "Transport and authentication", done: "Tested", pending: "To be tested" },
+        tools: { label: "TilcAI tools", done: "Visible", pending: "Not exposed yet" },
+        approval: { label: "Human approval of the purchase", done: "Validated", pending: "To be validated" },
+      },
+    },
     panel: {
       title: "Connection to TilcAI", empty: "Choose a client to review its surface, documentation and integration preparation.",
       close: "Close panel", officialDocs: "Official client documentation", reference: "Client reference",

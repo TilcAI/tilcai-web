@@ -1,14 +1,22 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { Copy } from "@/lib/i18n";
 import { narrative } from "@/lib/i18n/narrative";
-import { Icon, type IconName } from "../Icon";
 import styles from "./ControlExperience.module.css";
 
-const icons: IconName[] = ["rules", "shield", "lock"];
 const LIMIT = 50;
+const ART = {
+  scope: "/office/control/scope.webp",
+  within: "/office/control/within-limit.webp",
+  valid: "/office/control/valid.webp",
+  over: "/office/control/over-limit.webp",
+  paused: "/office/control/paused.webp",
+  recipient: "/office/control/recipient-changed.webp",
+  expired: "/office/control/expired.webp",
+} as const;
 
 export function ControlSection({ t }: { t: Copy }) {
   const c = narrative(t.locale).control;
@@ -17,17 +25,35 @@ export function ControlSection({ t }: { t: Copy }) {
   const [focus, setFocus] = useState(1);
   const [amount, setAmount] = useState(30);
   const [paused, setPaused] = useState(false);
+  const [recipientChanged, setRecipientChanged] = useState(false);
+  const [expired, setExpired] = useState(false);
   const overLimit = amount > LIMIT;
-  const stopped = paused || overLimit;
+  const activeConditions = [overLimit, recipientChanged, expired, paused];
+  const blockers = control.permission.stopConditions.filter((_, index) => activeConditions[index]);
+  const stopped = blockers.length > 0;
   const progress = (amount / 70) * 100;
-  const status = paused
-    ? (isEs ? "Pausado" : "Paused")
-    : overLimit
-      ? (isEs ? "Fuera del límite" : "Over the limit")
-      : (isEs ? "Dentro del límite" : "Within the limit");
+  const status = stopped ? (isEs ? "No continúa" : "Stopped") : (isEs ? "Lista para revisión" : "Ready for review");
+  const scene = paused ? "paused" : expired ? "expired" : recipientChanged ? "recipient" : overLimit ? "over" : focus === 0 ? "scope" : focus === 2 ? "valid" : "within";
+  const sceneLabel = isEs
+    ? { scope: "Destinatario verificado", within: "Dentro del límite", valid: "Vigencia activa", over: "Límite superado", paused: "Permiso pausado", recipient: "Destinatario cambiado", expired: "Vigencia vencida" }[scene]
+    : { scope: "Verified recipient", within: "Within the limit", valid: "Still valid", over: "Limit exceeded", paused: "Permission paused", recipient: "Recipient changed", expired: "Validity expired" }[scene];
   const focusDetails = isEs
     ? ["Solo el servicio y el negocio aprobados.", "Cada compra se compara con tu límite.", "Un cambio, vencimiento o pausa detiene lo siguiente."]
     : ["Only the approved service and business.", "Every purchase is checked against your limit.", "A change, expiry or pause stops what comes next."];
+  function toggleCondition(index: number) {
+    if (index === 0) setAmount((value) => value > LIMIT ? 30 : 60);
+    if (index === 1) setRecipientChanged((value) => !value);
+    if (index === 2) setExpired((value) => !value);
+    if (index === 3) setPaused((value) => !value);
+    setFocus(index === 0 ? 1 : index === 1 ? 0 : 2);
+  }
+  function resetExample() {
+    setAmount(30);
+    setPaused(false);
+    setRecipientChanged(false);
+    setExpired(false);
+    setFocus(1);
+  }
 
   return (
     <section id="control" className={styles.section} aria-labelledby="control-title">
@@ -48,19 +74,21 @@ export function ControlSection({ t }: { t: Copy }) {
                 onClick={() => setFocus(index)}
               >
                 <span className={styles.ruleNumber}>0{index + 1}</span>
-                <span className={styles.ruleIcon}><Icon name={icons[index]} /></span>
+                <span className={styles.ruleIcon}>
+                  <Image src={[ART.scope, ART.within, ART.valid][index]} alt="" width={38} height={38} unoptimized />
+                </span>
                 <span className={styles.ruleText}><strong>{panel.title}</strong><small>{panel.body}</small></span>
-                <Icon name="arrow" />
+                <span className={styles.ruleArrow} aria-hidden="true">→</span>
               </button>
             ))}
           </div>
 
           <div className={styles.walletNote}>
-            <Icon name="lock" />
+            <span className={styles.noteMark} aria-hidden="true">•</span>
             <p>{control.account.body}</p>
           </div>
           <Link href={`/${t.locale}/docs#limits`} className={styles.docsLink}>
-            {c.docs}<Icon name="arrow" />
+            {c.docs}<span aria-hidden="true">→</span>
           </Link>
         </div>
 
@@ -74,14 +102,14 @@ export function ControlSection({ t }: { t: Copy }) {
             <div className={styles.visual} aria-hidden="true">
               <span className={styles.orbitOuter} />
               <span className={styles.orbitInner} />
-              <span className={styles.orbitDot} />
               <span className={styles.visualLine} />
-              <div className={styles.visualCore}><Icon name={stopped ? "lock" : "shield"} /></div>
-              <div className={`${styles.satellite} ${styles.satelliteLeft}`}><Icon name="user" /></div>
-              <div className={`${styles.satellite} ${styles.satelliteRight}`}><Icon name="agent" /></div>
-              <span className={`${styles.visualLabel} ${styles.visualLabelLeft}`}>{isEs ? "TÚ DECIDES" : "YOU DECIDE"}</span>
-              <span className={`${styles.visualLabel} ${styles.visualLabelRight}`}>{isEs ? "AGENTE ACTÚA" : "AGENT ACTS"}</span>
+              {Object.entries(ART).map(([key, src]) => (
+                <div key={key} className={styles.sceneLayer} data-active={scene === key}>
+                  <Image src={src} alt="" fill sizes="(max-width: 560px) 240px, 330px" unoptimized />
+                </div>
+              ))}
             </div>
+            <p className={styles.sceneCaption} aria-live="polite"><span />{sceneLabel}</p>
 
             <div className={styles.readout}>
               <div>
@@ -109,29 +137,35 @@ export function ControlSection({ t }: { t: Copy }) {
               />
               <span className={styles.limitMark} aria-hidden="true" />
             </div>
-            <p className={styles.result} aria-live="polite">
-              <Icon name={stopped ? "lock" : "check"} />
-              {paused
-                ? (isEs ? "La pausa detiene operaciones futuras." : "The pause stops future operations.")
-                : overLimit
-                  ? (isEs ? "Este importe supera el límite permitido." : "This amount exceeds the allowed limit.")
-                  : (isEs ? "Este importe está dentro del límite." : "This amount is within the limit.")}
+            <p className={styles.result} id="control-result" aria-live="polite">
+              <span className={styles.resultMark} aria-hidden="true">{stopped ? "×" : "✓"}</span>
+              {stopped
+                ? `${isEs ? "Se detiene por" : "Stopped by"}: ${blockers.join(", ")}.`
+                : (isEs ? "Las condiciones coinciden. Puede seguir a revisión; aún no autoriza ni paga." : "The conditions match. It can go to review; this does not authorize or pay.")}
             </p>
 
             <div className={styles.detailGrid}>
-              <div className={focus === 0 ? styles.detailActive : ""}><span>{c.recipient}</span><strong>{c.recipientValue}</strong></div>
-              <div className={focus === 2 ? styles.detailActive : ""}><span>{c.expiry}</span><strong>{c.expiryValue}</strong></div>
+              <div className={focus === 0 ? styles.detailActive : ""} data-invalid={recipientChanged}>
+                <span>{c.recipient}</span><strong>{recipientChanged ? (isEs ? "Destino distinto" : "Different recipient") : c.recipientValue}</strong>
+              </div>
+              <div className={focus === 2 ? styles.detailActive : ""} data-invalid={expired}>
+                <span>{c.expiry}</span><strong>{expired ? (isEs ? "Vencida" : "Expired") : c.expiryValue}</strong>
+              </div>
             </div>
             <div className={styles.focusLine} aria-live="polite"><span>0{focus + 1}</span>{focusDetails[focus]}</div>
 
             <div className={styles.previewFooter}>
               <div>
                 <span className={styles.footerLabel}>{control.permission.stopLabel}</span>
-                <div className={styles.conditions}>{control.permission.stopConditions.map((condition) => <span key={condition}>{condition}</span>)}</div>
+                <div className={styles.conditions}>{control.permission.stopConditions.map((condition, index) => (
+                  <button key={condition} type="button" aria-pressed={activeConditions[index]} aria-controls="control-result" onClick={() => toggleCondition(index)}>
+                    {condition}
+                  </button>
+                ))}</div>
               </div>
-              <button className={styles.pauseButton} type="button" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>
-                <Icon name={paused ? "play" : "pause"} />
-                {paused ? (isEs ? "Reanudar ejemplo" : "Resume example") : (isEs ? "Simular pausa" : "Simulate pause")}
+              <button className={styles.pauseButton} type="button" onClick={resetExample}>
+                <span aria-hidden="true">↺</span>
+                {isEs ? "Restablecer" : "Reset"}
               </button>
             </div>
           </div>

@@ -29,6 +29,7 @@ export const siteUrl = resolveSiteUrl();
 export const paths = {
   home: (lang: Locale) => `/${lang}`,
   docs: (lang: Locale) => `/${lang}/docs`,
+  roadmap: (lang: Locale) => `/${lang}/roadmap`,
   section: (lang: Locale, id: string) => `/${lang}#${id}`,
 };
 

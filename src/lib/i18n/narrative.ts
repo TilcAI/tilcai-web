@@ -44,7 +44,8 @@ interface NarrativeCopy {
     eyebrow: string; title: string; lead: string; rows: { id: "gasless" | "external"; label: string; detail: string }[];
     burn: string; mint: string; open: string; note: string; dateLabel: string; amount: string;
   };
-  entrances: { eyebrow: string; title: string; lead: string; items: EntranceCopy[]; footnote: string };
+  /** `shared`: the stretch every entrance ends in, named with the words of the lead ("identity, quote, approval, payment and receipts"). */
+  entrances: { eyebrow: string; title: string; lead: string; items: EntranceCopy[]; shared: { label: string; steps: string[] }; footnote: string };
 }
 
 const es: NarrativeCopy = {
@@ -155,6 +156,7 @@ const es: NarrativeCopy = {
       { id: "mcp", title: "Asistente propio · MCP", body: "Conectas las herramientas de TilcAI a tu asistente: buscar un servicio, pedir una cotización, solicitar aprobación, consultar una orden. Permitir una herramienta no concede permiso de gasto.", status: "Contrato definido", note: "Doce herramientas especificadas; el servidor está pendiente." },
       { id: "api", title: "Aplicación propia · API", body: "Un backend autenticado usa la API REST. Un SDK futuro empaquetaría autenticación, tipos e idempotencia, pero no reemplaza a la API.", status: "Disponible en testnet", note: "Cotizar y pagar de Fuji a Stellar con idempotencia; comercio y órdenes están pendientes." },
     ],
+    shared: { label: "La misma infraestructura", steps: ["Identidad", "Cotización", "Aprobación", "Pago", "Recibos"] },
     footnote: "A2A, la conversación entre agentes de organizaciones distintas, es una evolución prevista y no hace falta para empezar.",
   },
 };
@@ -267,6 +269,7 @@ const en: NarrativeCopy = {
       { id: "mcp", title: "Your own assistant · MCP", body: "You connect TilcAI's tools to your assistant: find a service, ask for a quote, request approval, check an order. Allowing a tool does not grant permission to spend.", status: "Contract defined", note: "Twelve tools specified; the server is pending." },
       { id: "api", title: "Your own application · API", body: "An authenticated backend uses the REST API. A future SDK would package authentication, types and idempotency, but would not replace the API.", status: "Available on testnet", note: "Quote and pay from Fuji to Stellar with idempotency; commerce and orders are pending." },
     ],
+    shared: { label: "The same infrastructure", steps: ["Identity", "Quote", "Approval", "Payment", "Receipts"] },
     footnote: "A2A, conversation between agents from different organizations, is a planned evolution and is not needed to start.",
   },
 };

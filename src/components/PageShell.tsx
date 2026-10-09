@@ -3,7 +3,7 @@ import type { Copy } from "@/lib/i18n";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 
-export function PageShell({ t, page, children }: { t: Copy; page: "home" | "docs"; children: ReactNode }) {
+export function PageShell({ t, page, children }: { t: Copy; page: "home" | "docs" | "roadmap"; children: ReactNode }) {
   return (
     <>
       <a className="skip" href="#main">

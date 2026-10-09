@@ -76,6 +76,8 @@ src/
 │   │   │                         #   + rails.module.css; GSAP/ScrollTrigger on the shared Lenis, reduced-motion path = everything drawn
 │   │   ├── RoadmapSection.tsx    # build status in three stages; environment chip and maintainer per item
 │   │   ├── BuyerEntrances.tsx    # WhatsApp / MCP / API, each with its real state
+│   │   ├── EntranceMap.tsx       # client: the three entrances as branches of one measured line that ends in what they share
+│   │   ├── EntranceArt.tsx       # the three drawings (no text of their own)
 │   │   ├── DemoSection, ControlSection, StackSection, CtaSection
 │   │   │   CapabilitiesSection, InterfaceSection, CompareSection   # earlier content
 │   │   └── shared.tsx            # SectionHead, StageTag
