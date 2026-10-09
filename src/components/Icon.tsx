@@ -85,6 +85,33 @@ const paths: Record<string, ReactNode> = {
     </>
   ),
   check: <path d="M5 12l4 4 10-10" />,
+  bolt: <path d="M13 3L5 13.5h6L10 21l8-10.5h-6z" />,
+  upright: <path d="M7 17L17 7M9 7h8v8" />,
+  user: (
+    <>
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5" />
+    </>
+  ),
+  coin: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M14.7 9.6c-.4-1-1.4-1.6-2.7-1.6-1.4 0-2.5.7-2.5 1.9 0 2.6 5.1 1.2 5.1 3.9 0 1.2-1.1 1.9-2.6 1.9-1.4 0-2.4-.6-2.8-1.7M12 6.4V8m0 8v1.6" />
+    </>
+  ),
+  verified: (
+    <>
+      <path d="M12 3l8 9-8 9-8-9z" />
+      <path d="M8.6 12l2.5 2.5 4.3-4.6" />
+    </>
+  ),
+  route: (
+    <>
+      <circle cx="6" cy="6" r="2" />
+      <circle cx="18" cy="20" r="2" />
+      <path d="M8 6h6.5a3.5 3.5 0 0 1 0 7h-5a3.5 3.5 0 0 0 0 7H16" />
+    </>
+  ),
   x: <path d="M6 6l12 12M18 6L6 18" />,
   play: <path d="M8 5l11 7-11 7z" />,
   pause: <path d="M9 5v14M15 5v14" />,

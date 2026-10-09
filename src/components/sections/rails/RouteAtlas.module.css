@@ -1,0 +1,113 @@
+/* The route map. Wide: two bands (the direct route above, the CCTP route below) running left to right into one tall destination.
+   Narrow: the same story stacked, with one spine down the left. Every dot and line is measured from the DOM, so the layout decides and the SVG follows. */
+.atlas { --ease-out: cubic-bezier(.23, 1, .32, 1); --gap: clamp(36px, 5vw, 72px); --violet: #925ff6; --cyan: #57d2f9; --amber: #e5b66e; --line: #a990e526; margin: clamp(44px, 5vw, 72px) 0 0; }
+.grid { position: relative; display: grid; grid-template-columns: minmax(210px, 240px) minmax(0, 1fr) minmax(170px, 210px); column-gap: var(--gap); grid-template-areas: "h1 h1 ." "l1 l1 dest" "h2 h2 dest" "orig sta dest"; }
+.wires { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.grid > :not(.wires) { position: relative; z-index: 2; }
+.pt { position: absolute; width: 1px; height: 1px; pointer-events: none; visibility: hidden; }
+
+/* ── Route heads: what the route is, where it stands, what is still open ────────────────────────────────── */
+.head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 10px clamp(24px, 4vw, 56px); align-items: start; }
+.head[data-area='h1'] { grid-area: h1; padding-top: 4px; }
+.head[data-area='h2'] { grid-area: h2; padding-top: clamp(36px, 4vw, 56px); }
+.headTop { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 12px; }
+.tagMono { padding: 3px 9px; border: 1px solid #57d2f955; border-radius: 6px; color: #7fdcff; font: 500 12px/1.5 var(--mono); }
+.head h3 { margin: 0; color: #f1edf8; font-size: clamp(22px, 2vw, 28px); font-weight: 500; letter-spacing: -.03em; line-height: 1.12; }
+.head p { margin: 0; color: #b6adc9; font-size: 14.5px; line-height: 1.7; max-width: 60ch; }
+.head .follow { position: relative; margin-top: 10px; padding-left: 28px; color: #a9bfd1; font-size: 13px; line-height: 1.6; }
+.head .follow::before { content: ''; position: absolute; left: 0; top: .85em; width: 16px; height: 1.5px; background: var(--cyan); }
+
+/* ── Band 1: the direct route's line ─────────────────────────────────────────────────────────────────────── */
+.lane { grid-area: l1; position: relative; height: 68px; }
+.lane [data-pt='d0'] { left: 0; top: 40px; }
+.lane [data-pt='d1'] { left: 52%; top: 40px; }
+.laneTag { position: absolute; left: 52%; top: 6px; transform: translateX(-50%); color: #ffd68a; font: 500 12px/1.4 var(--mono); letter-spacing: .04em; }
+.chip { display: none; }
+
+/* ── Band 2: the lab networks, the three stops, the way out ──────────────────────────────────────────────── */
+.colLabel { margin: 0 0 14px; color: #b39af0; font: 500 11px/18px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.origins { grid-area: orig; }
+.origins ul { list-style: none; display: flex; flex-direction: column; margin: 0; padding: 0; }
+.network { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 44px; padding: 0 14px; color: #bdb3d3; font-size: 14px; white-space: nowrap; }
+.labWord { color: #d9b36b; font: 11px/1 var(--mono); letter-spacing: .04em; }
+.network + .network { border-top: 1px solid var(--line); }
+.network[data-status='verified'] { border: 1px solid #4bca81; border-radius: 10px; background: #4bca8114; color: #f1edf8; font-weight: 500; }
+.network[data-status='verified'] + .network { border-top-color: transparent; }
+.network > [data-pt] { right: 0; top: 50%; }
+
+.stations { grid-area: sta; position: relative; min-width: 0; }
+.stations > [data-pt='j'] { left: calc(var(--gap) * -.42); top: 54px; }
+.stops { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(8px, 1.6vw, 24px); margin: 0; padding: 0; }
+.stop { position: relative; padding-top: 44px; text-align: center; }
+.stop > [data-pt] { left: 50%; top: 22px; }
+.stop b { display: block; margin-bottom: 6px; color: #7fdcff; font: 500 11px/1 var(--mono); letter-spacing: .08em; }
+.stop > span { display: block; max-width: 24ch; margin-inline: auto; color: #ddd4ea; font-size: 14px; line-height: 1.5; text-wrap: balance; }
+.term { display: block; margin-top: 4px; color: #7fdcff; font: 11px/1.4 var(--mono); letter-spacing: .04em; }
+.gasless { position: relative; margin: 26px 0 0; padding-left: 28px; max-width: 56ch; color: #a9bfd1; font-size: 13px; line-height: 1.6; }
+.gasless::before { content: ''; position: absolute; left: 0; top: .85em; width: 16px; height: 1.5px; background: var(--cyan); }
+
+/* ── Destination: the only filled shape. Both lines end on its left edge ───────────────────────────────── */
+.dest { grid-area: dest; display: flex; flex-direction: column; justify-content: flex-start; align-self: start; height: calc(var(--vy, 300px) + 150px); gap: 8px; margin-top: 8px; padding: max(28px, calc(var(--vy, 140px) - 40px)) 22px 28px; border: 1px solid #925ff6a6; border-radius: 18px; background: repeating-linear-gradient(0deg, #ffffff07 0 1px, transparent 1px 22px), linear-gradient(180deg, #2b1b69 0%, #160f38 100%); box-shadow: inset 22px 0 36px -26px #7347ffcc, 0 30px 60px -36px #5b32e6; }
+.dest .colLabel { margin: 0; color: #cdbcff; }
+.dest strong { display: block; color: #f6f2ff; font-size: clamp(20px, 1.8vw, 26px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; }
+.dest span { display: block; color: #cdc6dc; font-size: 14px; line-height: 1.5; }
+.dest > [data-pt] { display: none; }
+
+/* ── The drawing ──────────────────────────────────────────────────────────────────────────────────────────── */
+.glow { fill: none; stroke: url(#ra-v); stroke-width: 9; stroke-linecap: round; opacity: .16; filter: blur(4px); }
+.line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.verified { stroke: url(#ra-v); stroke-width: 2.2; }
+.direct { stroke: var(--amber); stroke-width: 1.6; stroke-dasharray: 2 7; opacity: .85; }
+.stub { stroke: #8d7bb0; stroke-width: 1.2; stroke-dasharray: 2 6; opacity: .6; }
+.dot { fill: #0b0a1e; stroke: #8d7bb0; stroke-width: 1.4; }
+.dot[data-kind='verified'] { fill: #f7f5ff; stroke: #a58bff; stroke-width: 2; }
+.dot[data-kind='station'] { fill: #0b0a1e; stroke: var(--cyan); stroke-width: 2; }
+.dot[data-kind='direct'] { stroke: var(--amber); }
+.halo { fill: url(#ra-halo); }
+.packet { fill: #fff; }
+.arrow { fill: none; stroke: var(--cyan); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Caption under the map ───────────────────────────────────────────────────────────────────────────────── */
+.foot { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 36px; margin-top: clamp(28px, 3vw, 44px); padding-top: 18px; border-top: 1px solid var(--line); }
+.foot h3 { margin: 0 0 6px; color: #eee8f8; font-size: 16px; font-weight: 500; letter-spacing: -.01em; }
+.foot p { margin: 0; color: #aaa4bf; font-size: 13.5px; line-height: 1.6; max-width: 62ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.vision { flex-basis: 100%; margin: 0; color: #a39bb8; font-size: 12.5px; line-height: 1.6; }
+
+/* ── Stacked ──────────────────────────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 1099px) {
+  .grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "h1" "l1" "h2" "orig" "sta" "dest"; --gutter: 34px; }
+  .head { grid-template-columns: minmax(0, 1fr); }
+  .head[data-area='h2'] { padding-top: 40px; }
+  .lane { height: auto; padding: 8px 0 0 var(--gutter); min-height: 150px; }
+  .lane [data-pt='d0'] { left: 10px; top: 14px; }
+  .lane [data-pt='d1'] { left: 10px; top: 60px; }
+  .laneTag { left: var(--gutter); top: 50px; transform: none; }
+  .chip { display: block; margin-top: 78px; position: relative; padding: 14px 18px; border: 1px solid #925ff6a6; border-radius: 12px; background: linear-gradient(180deg, #2b1b69, #160f38); }
+  .chip strong { display: block; color: #f6f2ff; font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
+  .chip span { display: block; margin-top: 2px; color: #cdc6dc; font-size: 13px; }
+  .chip > [data-pt] { display: block; left: calc(var(--gutter) * -1 + 10px); top: 50%; }
+  .colLabel { padding-left: var(--gutter); }
+  .origins { margin-top: 26px; }
+  .dest .colLabel { padding-left: 0; }
+  .origins ul { padding-left: 0; }
+  /* The verified origin goes last so the solid line leaves from the bottom of the list, towards the stops. */
+  .network { padding-left: var(--gutter); }
+  .network + .network { border-top: 0; }
+  .network:not([data-status='verified']) { border-bottom: 1px solid var(--line); }
+  .network[data-status='verified'] { order: 99; margin-top: 8px; padding-left: calc(var(--gutter) - 1px); }
+  .network > [data-pt] { right: auto; left: 10px; }
+  .network[data-status='verified'] > [data-pt] { left: 9px; }
+  .stations > [data-pt='j'] { display: none; }
+  .stops { grid-template-columns: minmax(0, 1fr); }
+  .stop { padding: 10px 0 14px var(--gutter); text-align: left; }
+  .stop > [data-pt] { left: 10px; top: 24px; }
+  .stop > span { max-width: none; margin: 0; }
+  .gasless { margin-left: var(--gutter); }
+  .dest { margin: 12px 0 0 var(--gutter); padding: 18px 20px; }
+  .dest { justify-content: center; align-self: auto; height: auto; }
+  .dest > [data-pt] { display: block; left: calc(var(--gutter) * -1 + 9px); top: 28px; }
+}
+@media (min-width: 700px) and (max-width: 1099px) { .head { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } .head[data-area='h1'], .head[data-area='h2'] { column-gap: 32px; } }
+@media (max-width: 520px) { .network { font-size: 13.5px; padding-right: 10px; } }
+@media (prefers-reduced-motion: reduce) { .halo { display: none; } }

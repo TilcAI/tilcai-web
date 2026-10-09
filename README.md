@@ -71,7 +71,9 @@ src/
 │   │   │   ├── OperationSection.tsx  # layout, modes (pinned / flow / static), nav timeline, Lenis, ScrollTrigger lifecycle
 │   │   │   ├── timeline.ts           # the single GSAP timeline (phases in phases.ts); step cards on the right follow it
 │   │   │   └── scene/                # one component per SVG group (Agent, Business, Core, Rules, Approval, Payment, Receipts…)
-│   │   ├── RailsSection.tsx      # payment routes: x402 vs CCTP, the CCTP lab map (Fuji verified, rest lab), evidence
+│   │   ├── RailsSection.tsx      # "Rutas de pago": composes ./rails (server)
+│   │   ├── rails/                # RouteAtlas (one measured SVG map: x402 vs CCTP, Fuji verified, rest lab), EvidenceLedger, RailsHeader
+│   │   │                         #   + rails.module.css; GSAP/ScrollTrigger on the shared Lenis, reduced-motion path = everything drawn
 │   │   ├── RoadmapSection.tsx    # build status in three stages; environment chip and maintainer per item
 │   │   ├── BuyerEntrances.tsx    # WhatsApp / MCP / API, each with its real state
 │   │   ├── DemoSection, ControlSection, StackSection, CtaSection
@@ -84,7 +86,9 @@ src/
 │   ├── CommerceScene.tsx         # four scroll-driven flow layers (FlowLayers)
 │   ├── office/                   # full-screen office: layout, A*, simulation, canvas renderer, OfficeHero
 │   ├── useDepthMotion.ts         # event-driven depth and reduced-motion preference
-│   ├── PolicyDemo.tsx            # client: illustrative policy choices
+│   ├── PolicyDemo.tsx            # client: one panel — case, condition, request, walked path, result
+│   ├── PolicyFlowVisualization.tsx # client: the request path (one GSAP timeline per run; end state drawn from props/CSS)
+│   ├── CaseArt.tsx               # the three case drawings
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy

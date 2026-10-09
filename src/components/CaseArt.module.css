@@ -1,0 +1,66 @@
+.art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--purple-200);
+}
+
+/* Relleno suave que toma el color de la tarjeta; el trazo queda en violeta claro. */
+.body {
+  fill: rgba(var(--accent, 140, 112, 255), 0.14);
+  stroke: currentColor;
+  transition: fill 0.35s var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.mark {
+  stroke: rgb(var(--accent, 140, 112, 255));
+}
+
+.solid {
+  fill: rgba(var(--accent, 140, 112, 255), 0.28);
+}
+
+.dot {
+  fill: rgb(var(--accent, 140, 112, 255));
+  stroke: none;
+}
+
+.perf {
+  opacity: 0.7;
+}
+
+.ticket,
+.pass,
+.calendar,
+.key,
+.loop {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: transform 0.28s var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.ticket { transform: rotate(-6deg); }
+.pass { transform: rotate(0deg); }
+
+/* El estado "activo" lo pone el contenedor (opción seleccionada o con el puntero encima). */
+:global([data-art-live="true"]) .ticket { transform: rotate(2deg) translateY(-1px); }
+:global([data-art-live="true"]) .key { transform: translateX(2.5px) rotate(-8deg); }
+:global([data-art-live="true"]) .loop { transform: rotate(180deg); }
+:global([data-art-live="true"]) .body { fill: rgba(var(--accent, 140, 112, 255), 0.26); }
+
+@media (hover: hover) {
+  :global([data-kind="case"]:hover) .ticket { transform: rotate(2deg) translateY(-1px); }
+  :global([data-kind="case"]:hover) .key { transform: translateX(2.5px) rotate(-8deg); }
+  :global([data-kind="case"]:hover) .loop { transform: rotate(180deg); }
+  :global([data-kind="case"]:hover) .body { fill: rgba(var(--accent, 140, 112, 255), 0.26); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket,
+  .pass,
+  .calendar,
+  .key,
+  .loop,
+  .body { transition: none; }
+}

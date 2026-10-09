@@ -1,0 +1,66 @@
+/* "Rutas de pago": a route map instead of a stack of cards. The header, the limits and the ledger live here; the map is in RouteAtlas.module.css.
+   Rules of this section: one filled shape (the destination), hairlines everywhere else, mono only for data (hashes, ids, terms). */
+.root { --ease-out: cubic-bezier(.23, 1, .32, 1); --ink: #f1edf8; --soft: #b6adc9; --mute: #928aa8; --violet: #925ff6; --cyan: #57d2f9; --amber: #e5b66e; --line: #a990e526; }
+.inner { width: min(1280px, calc(100% - 2 * clamp(20px, 4vw, 64px))); margin-inline: auto; }
+
+/* ── Header: the headline, and the "what is crosschain" note as a margin note, not a box ───────────────────── */
+.header { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: end; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; color: #a98ae9; font: 500 11px/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--violet); }
+.title { margin: 0; color: var(--ink); font-size: clamp(32px, 3.5vw, 52px); line-height: 1.08; letter-spacing: -.045em; font-weight: 500; max-width: 22ch; text-wrap: balance; }
+.lead { margin: 20px 0 0; max-width: 50ch; color: #aaa4bf; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.65; }
+.note { padding-top: 0; }
+.rule { display: block; height: 1px; margin-bottom: 18px; background: var(--line); }
+.noteTerm { display: inline-block; margin-bottom: 12px; color: #7fdcff; font: 500 12px/1.4 var(--mono); letter-spacing: .04em; }
+.note h3 { margin: 0 0 8px; color: var(--ink); font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
+.note p { margin: 0; color: #cdd6e3; font-size: 14.5px; line-height: 1.7; max-width: 58ch; }
+.note .noteNote { margin-top: 10px; color: #a9bfd1; font-size: 13px; line-height: 1.6; }
+
+/* ── What the route does not promise: a plain list, in the amber of a caution ──────────────────────────────── */
+.limits { margin-top: clamp(48px, 6vw, 88px); padding-top: 22px; border-top: 1px solid #c4ae8540; display: grid; grid-template-columns: minmax(180px, 280px) minmax(0, 1fr); gap: 18px clamp(24px, 5vw, 72px); }
+.limits h3 { margin: 0; color: #e8d6a8; font: 500 11px/1.6 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.limits ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px clamp(24px, 4vw, 56px); margin: 0; padding: 0; }
+.limits li { display: flex; gap: 12px; color: #d6cdb9; font-size: 14px; line-height: 1.65; }
+.limits li::before { content: ''; flex: none; width: 12px; height: 1px; margin-top: .85em; background: var(--amber); }
+
+/* ── Ledger: the two test payments, as rows of a statement ────────────────────────────────────────────────── */
+.ledger { margin-top: clamp(56px, 7vw, 104px); }
+.ledgerHead { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px clamp(24px, 6vw, 96px); align-items: end; }
+.ledgerTitle { margin: 0; color: var(--ink); font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; letter-spacing: -.035em; font-weight: 500; text-wrap: balance; }
+.ledgerLead { margin: 0; color: #aaa4bf; font-size: 15px; line-height: 1.65; max-width: 56ch; }
+.entries { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; border-bottom: 1px solid var(--line); }
+.entry { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr); gap: 20px clamp(24px, 4vw, 64px); align-items: center; padding: 26px 0; border-top: 1px solid var(--line); }
+.who h4 { margin: 0; color: #eee8f8; font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
+.who p { margin: 8px 0 0; color: #b0a6c4; font-size: 13.5px; line-height: 1.6; max-width: 38ch; }
+.tx { display: grid; grid-template-columns: minmax(0, 1fr) minmax(48px, 120px) minmax(0, 1fr); align-items: center; gap: 0 14px; min-width: 0; }
+.hash { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; min-height: 56px; padding: 8px 14px; border: 1px solid #9b7bdb40; border-radius: 10px; color: #dccfff; text-decoration: none; transition: border-color .2s, background-color .2s, transform .16s var(--ease-out); -webkit-tap-highlight-color: transparent; }
+.hash small { display: block; margin-bottom: 3px; color: #a79fbd; font: 11px/1.4 var(--font); letter-spacing: 0; }
+.hash code { display: block; font: 500 13.5px/1.3 var(--mono); font-variant-numeric: tabular-nums; letter-spacing: .01em; white-space: nowrap; }
+.hash code i { font-style: normal; }
+.hash :global(.icon) { flex: none; width: 16px; height: 16px; transition: transform .25s var(--ease-out); }
+.hash:active { transform: scale(.98); }
+.hash:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+@media (hover: hover) { .hash:hover { border-color: var(--violet); background: #925ff61c; } .hash:hover :global(.icon) { transform: translateX(3px); } }
+/* The line between burn and mint grows from the burn side when the row arrives; it carries the arrowhead. */
+.span { position: relative; height: 1px; background: linear-gradient(90deg, #925fff, #57d2f9); transform-origin: 0 50%; }
+.span::after { content: ''; position: absolute; right: -1px; top: -3.5px; width: 7px; height: 7px; border-top: 1.5px solid var(--cyan); border-right: 1.5px solid var(--cyan); transform: rotate(45deg); transform-origin: 100% 0; }
+.meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 22px; margin: 18px 0 0; color: #cfc8e6; font: 12px/1.6 var(--mono); }
+.meta span + span::before { content: ''; display: inline-block; width: 1px; height: 11px; margin-right: 22px; vertical-align: -1px; background: #75608f; }
+.caution { position: relative; margin: 20px 0 0; padding-left: 28px; max-width: 78ch; color: #cfc4a8; font-size: 13px; line-height: 1.65; }
+.caution::before { content: ''; position: absolute; left: 0; top: .85em; width: 16px; height: 1.5px; background: var(--amber); }
+
+@media (max-width: 1099px) {
+  .header, .ledgerHead { grid-template-columns: minmax(0, 1fr); }
+  .limits { grid-template-columns: minmax(0, 1fr); }
+  .entry { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .meta { flex-direction: column; gap: 4px; }
+  .meta span + span::before { display: none; }
+  .limits ul { grid-template-columns: minmax(0, 1fr); }
+  .tx { grid-template-columns: minmax(0, 1fr); gap: 10px 0; }
+  .span { width: 1px; height: 28px; margin-left: 24px; background: linear-gradient(180deg, #925fff, #57d2f9); transform-origin: 50% 0; }
+  .span::after { right: auto; left: -3.5px; top: auto; bottom: -1px; transform: rotate(135deg); transform-origin: 50% 0; }
+  .hash code { white-space: normal; overflow-wrap: anywhere; }
+}
+@media (prefers-reduced-motion: reduce) { .hash, .hash :global(.icon) { transition: none; } .hash:active { transform: none; } }
