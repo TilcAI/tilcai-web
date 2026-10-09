@@ -462,3 +462,66 @@ Verifiqué escritorio y móvil. `npm run build` y `npm test` pasan (63 pruebas, 
 
 ![Rutas de pago en escritorio]([REDACTADO]/payment-routes-desktop.jpg)
 ![Rutas de pago en móvil]([REDACTADO]/payment-routes-mobile.jpg)
+
+## 2026-10-09T20:52:16Z · JHAMILCALI · Codex (GPT-6.1-sol)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> que se paresca a esta imagen la seccion de \
+> **DETALLE DE RUTA**  y las imagen estan en C:\proyectos 2026\tilcAI\tilcai-web\public\assets\img\rutas y las imagen que deves de utilizar estan con p2 comejemplo ruta-p2-img1 y haslo de la mejor manera posible y que se vea bien
+>
+> [adjunto: imagen de referencia de Detalle de ruta]
+
+### Salida
+
+Rediseñé «Detalle de ruta» con los ocho assets `ruta-p2-*`: selector de redes, recorrido Burn → Circle → Mint con conexiones luminosas, destino Stellar y franja de comisiones. En móvil los pasos se apilan; al elegir una red de laboratorio, la interfaz deja claro que aún no está verificada. El botón de pagos de prueba conserva la evidencia.
+
+Validación: `npm run build`, `npx tsc --noEmit` y `npm test` (63 aprobadas, 1 omitida). Corregí una anotación de tipos preexistente que bloqueaba TypeScript.
+
+![Detalle de ruta en escritorio]([REDACTADO]/cctp-detail-desktop.jpg)
+![Detalle de ruta en móvil]([REDACTADO]/cctp-detail-mobile.jpg)
+
+## 2026-10-09T21:31:45Z · JHAMILCALI · Codex (GPT-6.1-sol)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es la seccion **Control del usuario**  sorpendeme como mejorarias esta secion qu esea atractivo para el usurio que tenga moviemientos suves y sea llamativo
+>
+> [adjunto: captura de la sección Control del usuario]
+
+### Salida
+
+Rediseñé «Control del usuario» como una vista previa interactiva: se pueden explorar las tres condiciones, ajustar un importe de ejemplo y simular una pausa para ver cuándo se detiene la operación. Añadí profundidad luminosa, movimientos suaves, diseño móvil y soporte para movimiento reducido. El ejemplo sigue identificado como ilustrativo y sin fondos reales.
+
+Verifiqué la sección en escritorio y móvil. `npm run build`, `npx tsc --noEmit` y `npm test` pasan (70 pruebas aprobadas y 1 omitida).
+
+## 2026-10-09T21:49:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es esta secion "Simulación interactiva · sin movimientos de fondos" los casos que se vean bien que se entienda que tenga viasulmente llamativo que tenga animaciones y tarnasione sbuenas usa las skills que tienes de diseño con los agentes para que quede bien esa seccion
+
+### Salida
+
+Rediseñé la simulación como un solo panel, en lugar de tres pantallas de scroll con un diagrama de React Flow:
+
+- **Elegir (01 y 02):** los tres casos (Cine, Servicio digital, Compra programada) con su dibujo propio, importe y límite, y las cuatro condiciones con su glifo y color. Una placa se desliza detrás de la opción elegida.
+- **Recorrido:** Usuario → Agente TilcAI → Política / permiso → Agente del negocio → Negocio, con los mismos personajes que «Rutas de pago». Un paquete de luz recorre la línea; la política resuelve sus tres filas (destinatario, importe contra límite con un medidor, resultado) y la línea sigue en verde, se corta con una marca roja o espera en ámbar a una aprobación simulada. El resultado se atenúa hasta que la política resolvió.
+- **Resultado:** una banda con el veredicto en la fuente de la página, la razón y la nota de que «Puede continuar» no confirma un pago. En pantallas estrechas el resultado acompaña pegado abajo y el orden es caso, solicitud, condición, recorrido.
+- **Sin movimiento:** todo dibujado en su estado final; los textos de ES y EN siguen siendo los de siempre.
+- El aviso «sin movimientos de fondos» pasó de ser un rótulo sobre el título a una píldora sobre el propio simulador.
+- Dos agentes revisaron el resultado (diseño y movimiento; corrección y accesibilidad) y sus hallazgos confirmados se corrigieron: aprobar antes de que termine el recorrido, el reinicio del recorrido tras remontar el efecto, el anillo de llegada visible desde el principio, el foco al aprobar, un solo anuncio para lector de pantalla, la placa medida sobre el contenedor de la opción y el ancho entre 1100 y 1180 px.
+
+Comprobado: `tsc` limpio, 74 pruebas pasan (1 omitida; 11 nuevas en `test/policy-demo.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 1100, 900 y 390 px, ES/EN y movimiento reducido. No probado: Safari ni dispositivos reales, ni fluidez en hardware real. Sin commit.

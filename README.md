@@ -86,7 +86,9 @@ src/
 │   ├── CommerceScene.tsx         # four scroll-driven flow layers (FlowLayers)
 │   ├── office/                   # full-screen office: layout, A*, simulation, canvas renderer, OfficeHero
 │   ├── useDepthMotion.ts         # event-driven depth and reduced-motion preference
-│   ├── PolicyDemo.tsx            # client: illustrative policy choices
+│   ├── PolicyDemo.tsx            # client: one panel — case, condition, request, walked path, result
+│   ├── PolicyFlowVisualization.tsx # client: the request path (one GSAP timeline per run; end state drawn from props/CSS)
+│   ├── CaseArt.tsx               # the three case drawings
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy

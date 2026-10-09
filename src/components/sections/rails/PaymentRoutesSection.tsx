@@ -36,7 +36,7 @@ export function PaymentRoutesSection({ t }: PaymentRoutesSectionProps) {
 
       // Subtle depth entrance for the main blocks
       const heroBlock = el.querySelector("[data-hero]");
-      const detailBlock = el.querySelector(`.${styles.detailSection}`);
+      const detailBlock = el.querySelector("[data-detail]");
 
       if (heroBlock) {
         gsap.fromTo(
