@@ -71,7 +71,9 @@ src/
 │   │   │   ├── OperationSection.tsx  # layout, modes (pinned / flow / static), nav timeline, Lenis, ScrollTrigger lifecycle
 │   │   │   ├── timeline.ts           # the single GSAP timeline (phases in phases.ts); step cards on the right follow it
 │   │   │   └── scene/                # one component per SVG group (Agent, Business, Core, Rules, Approval, Payment, Receipts…)
-│   │   ├── RailsSection.tsx      # payment routes: x402 vs CCTP, the CCTP lab map (Fuji verified, rest lab), evidence
+│   │   ├── RailsSection.tsx      # "Rutas de pago": composes ./rails (server)
+│   │   ├── rails/                # RouteAtlas (one measured SVG map: x402 vs CCTP, Fuji verified, rest lab), EvidenceLedger, RailsHeader
+│   │   │                         #   + rails.module.css; GSAP/ScrollTrigger on the shared Lenis, reduced-motion path = everything drawn
 │   │   ├── RoadmapSection.tsx    # build status in three stages; environment chip and maintainer per item
 │   │   ├── BuyerEntrances.tsx    # WhatsApp / MCP / API, each with its real state
 │   │   ├── DemoSection, ControlSection, StackSection, CtaSection

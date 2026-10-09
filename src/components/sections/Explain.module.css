@@ -1,12 +1,9 @@
-/* Blocks added to explain the lower half of the landing: onboarding paths, payment routes, evidence, buyer entrances.
-   Same palette and surfaces as Narrative.module.css; statuses reuse the global .tag-available / .tag-integration / .tag-next. */
+/* Blocks that explain the lower half of the landing and still live here: what each side keeps (Empresas) and the buyer entrances.
+   The payment-routes section (map, limits, ledger) has its own styles in ./rails; the four onboarding paths are in ConnectionPaths. */
 
-.blockHead { max-width: 64ch; margin-bottom: 28px; }
-.blockTitle { font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; letter-spacing: -.035em; font-weight: 500; color: #f1edf8; margin: 0; text-wrap: balance; }
-.blockLead { color: #aaa4bf; font-size: 15px; line-height: 1.65; margin-top: 12px; max-width: 60ch; }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; border: 1px solid #75608f; color: #c9bddb; font: 500 11px/1.5 var(--mono); max-width: 100%; overflow-wrap: anywhere; }
 
-/* ---- Empresas: what each side keeps (the four paths live in ConnectionPaths) ---- */
+/* ---- Empresas: what each side keeps ---- */
 .keep { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
 .keepCol { padding: 22px 24px; border: 1px solid #9b7bdb40; border-radius: 14px; background: #100e22; }
 .keepCol h4 { margin: 0 0 14px; color: #b39af0; font: 500 11px/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
@@ -16,62 +13,6 @@
 .keepYours li::before { background: #72ddb9; }
 .keepNote { grid-column: 1 / -1; margin: 4px 0 0; color: #b0a6c4; font-size: 13px; line-height: 1.6; }
 
-/* ---- Rutas de pago ---- */
-.explainer { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 18px; margin-top: 28px; padding: 22px 24px; border: 1px solid #57d2f94d; border-radius: 14px; background: linear-gradient(160deg, #10202b, #0f1520); }
-.explainerTerm { padding: 4px 10px; border: 1px solid #57d2f966; border-radius: 6px; color: #7fdcff; font: 500 12px var(--mono); }
-.explainer h3 { margin: 0 0 8px; color: #f1edf8; font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
-.explainer p { margin: 0; color: #cdd6e3; font-size: 15px; line-height: 1.7; max-width: 78ch; }
-.explainer .explainerNote { margin-top: 8px; color: #a9bfd1; font-size: 13.5px; }
-.term { display: block; margin-top: 2px; color: #7fdcff; font: 11px/1.4 var(--mono); letter-spacing: .04em; }
-.routes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
-.route { display: flex; flex-direction: column; gap: 12px; padding: 26px; border: 1px solid #9b7bdb40; border-radius: 16px; background: linear-gradient(160deg, #1d1832, #121024); }
-.route[data-tone="verified"] { border-color: #4bca8166; }
-.routeTop { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.routeTag { padding: 3px 9px; border: 1px solid #57d2f955; border-radius: 6px; color: #7fdcff; font: 500 12px var(--mono); }
-.route h3 { margin: 0; color: #f1edf8; font-size: 22px; font-weight: 500; letter-spacing: -.025em; }
-.route p { margin: 0; color: #b6adc9; font-size: 15px; line-height: 1.7; }
-.routeNote { margin-top: auto; padding-left: 12px; border-left: 2px solid #57d2f9; color: #a9bfd1; font-size: 13px; line-height: 1.6; }
-
-.map { margin-top: 48px; padding: clamp(22px, 3vw, 36px); border: 1px solid #9b7bdb40; border-radius: 20px; background: radial-gradient(at 100% 0, #6024e81f, transparent 60%), #0f0d20; }
-.mapHead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; margin-bottom: 26px; }
-.mapHead .blockHead { margin: 0; }
-.legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.mapGrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, .8fr); align-items: stretch; }
-.col { padding-inline: clamp(14px, 2vw, 28px); min-width: 0; }
-.col:first-child { padding-left: 0; }
-.col:last-child { padding-right: 0; }
-.colLabel { margin: 0 0 14px; color: #b39af0; font: 500 11px/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
-.networks { list-style: none; display: grid; gap: 8px; margin: 0; padding: 0; }
-.network { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border: 1px dashed #7a669a; border-radius: 10px; color: #c3b9d6; font-size: 14px; }
-.network[data-status="verified"] { border: 1px solid #4bca81; background: #4bca8114; color: #f1edf8; font-weight: 500; }
-.pipeline { display: flex; flex-direction: column; justify-content: flex-start; gap: 10px; border-inline: 1px solid #9b7bdb2e; }
-.pipeStep { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid #9b7bdb40; border-radius: 10px; background: #1a1630; color: #ddd4ea; font-size: 14px; }
-.pipeStep b { color: #7fdcff; font: 500 11px var(--mono); }
-.gasless { margin: 6px 0 0; padding-left: 12px; border-left: 2px solid #57d2f9; color: #a9bfd1; font-size: 13px; line-height: 1.6; }
-.dest { display: flex; flex-direction: column; justify-content: flex-start; }
-.destCard { padding: 22px; border: 1px solid #925ff6; border-radius: 14px; background: #6024e81f; }
-.destCard strong { display: block; color: #f1edf8; font-size: 20px; font-weight: 500; letter-spacing: -.02em; }
-.destCard span { display: block; margin-top: 6px; color: #cdc6dc; font-size: 14px; }
-.vision { margin: 22px 0 0; color: #b0a6c4; font: 12px/1.6 var(--mono); }
-
-.limits { margin-top: 28px; padding: 22px 26px; border: 1px solid #c4ae8540; border-radius: 14px; background: #17140f; }
-.limits h3 { margin: 0 0 14px; color: #e8d6a8; font: 500 11px/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
-.limits ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; margin: 0; padding: 0; }
-.limits li { display: flex; gap: 10px; color: #d6cdb9; font-size: 14px; line-height: 1.6; }
-.limits li::before { content: "—"; flex: none; color: #e5b66e; }
-
-.evidence { margin-top: 28px; padding: clamp(22px, 3vw, 34px); border: 1px solid #4bca8159; border-radius: 18px; background: #0f1519; }
-.evidenceGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 22px; }
-.evRow { display: grid; gap: 10px; min-width: 0; padding: 18px; border: 1px solid #9b7bdb33; border-radius: 12px; background: #151126; }
-.evRow h4 { margin: 0; color: #eee8f8; font-size: 16px; font-weight: 500; }
-.evRow > p { margin: 0 0 4px; color: #b0a6c4; font-size: 13px; line-height: 1.6; }
-.evLink { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 8px 12px; border: 1px solid #9b7bdb40; border-radius: 8px; color: #dccfff; font: 13px var(--mono); text-decoration: none; }
-.evLink:hover { border-color: #925ff6; background: #925ff61c; }
-.evLink:focus-visible { outline: 2px solid #57d2f9; outline-offset: 3px; }
-.evLink small { color: #b0a6c4; font: 11px/1.4 var(--font-display, system-ui); }
-.evMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
-.evNote { margin: 18px 0 0; padding-left: 12px; border-left: 2px solid #e5b66e; color: #cfc4a8; font-size: 13px; line-height: 1.65; max-width: 80ch; }
-
 /* ---- Entradas del comprador ---- */
 .entranceGrid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 34px 0 0; padding: 0; }
 .entrance { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 24px; border: 1px solid #9b7bdb40; border-radius: 16px; background: linear-gradient(160deg, #1d1832, #121024); }
@@ -80,18 +21,9 @@
 .entranceFoot { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: auto; padding-top: 6px; }
 .entranceNote { color: #a9bfd1; font-size: 13px; line-height: 1.55; }
 
-@media (max-width: 1100px) {
-  .evidenceGrid { grid-template-columns: 1fr; }
-}
 @media (max-width: 900px) {
-  .routes, .entranceGrid, .keep, .limits ul { grid-template-columns: 1fr; }
-  .mapGrid { grid-template-columns: 1fr; gap: 22px; }
-  .col, .col:first-child, .col:last-child { padding-inline: 0; }
-  .pipeline { padding-block: 22px; border-inline: 0; border-block: 1px solid #9b7bdb2e; }
-  .limits ul { gap: 12px; }
+  .entranceGrid, .keep { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  .explainer { grid-template-columns: 1fr; gap: 12px; padding: 20px; }
-  .route, .entrance { padding: 20px; }
-  .evLink { flex-wrap: wrap; }
+  .entrance { padding: 20px; }
 }

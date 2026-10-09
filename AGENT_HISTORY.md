@@ -331,3 +331,28 @@ Reemplacé la sección «Cómo funciona» por una escena SVG única con una sola
 Comprobado: `tsc` limpio, 55 pruebas pasan (1 omitida; 8 nuevas en `test/operation-scene.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 900 y 390 px, ES/EN, movimiento reducido y cambio de tamaño entre modos sin errores. No probado: Safari ni dispositivos reales, ni rendimiento de fotogramas en hardware real (el navegador de pruebas no tiene GPU). `CommerceIllustration.tsx` ya no se usa y queda sin borrar. Sin commit.
 
 Hora del prompt aproximada (no se anotó al recibirlo).
+
+## 2026-10-09T17:45:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora con las skills la seccion de RUTAS de PAGO mejora esa scion con gsap y lenis y las skils de diseño que tengan animaciones y se vean de la meojo manera que no parsca generado con IA
+
+### Salida
+
+Rediseñé «Rutas de pago» con las skills `impeccable` y `emil-design-eng`, GSAP, ScrollTrigger y el Lenis compartido. La sección dejó de ser una pila de cajas (nota, dos tarjetas, mapa, límites, evidencia) y pasó a ser un mapa de rutas.
+
+- **Mapa de rutas (`RouteAtlas`):** una banda para «Stellar directo · x402» (línea discontinua ámbar: es una prueba aislada) y otra para «USDC de otra red · CCTP». Las siete redes de origen salen de su fila; Fuji (la única verificada) es la línea recta continua que pasa por burn, atestación y mint hasta un único destino, Stellar Testnet; las seis de laboratorio llegan discontinuas a un bus corto. Líneas y puntos se miden desde el DOM y se reconstruyen al cambiar la maquetación o al cargar las fuentes. En pantallas estrechas la misma historia pasa a una columna con una espina a la izquierda.
+- **Movimiento:** una sola timeline atada al scroll (el mapa se dibuja a medida que se descubre, con las paradas apareciendo cuando la línea pasa por ellas); después, un punto de luz recorre solo la línea verificada, solo mientras la sección está en pantalla, y cada parada y el destino laten al pasar. La ruta no verificada no lleva tráfico. El titular sube por líneas desde una máscara, una sola vez.
+- **Evidencia (`EvidenceLedger`):** las dos pruebas como filas de un extracto: retiro en Fuji → línea que crece → emisión en Stellar, con los hashes resolviéndose de izquierda a derecha y enlaces al explorador (el nombre accesible lleva el hash completo).
+- **Sin cajas decorativas:** la nota «crosschain» es una nota al margen; «lo que esta ruta no promete» es una lista; las redes de laboratorio son una palabra, no una píldora; los bordes laterales de color pasaron a guiones cortos.
+- **Sin movimiento:** todo dibujado y estático.
+- Textos intactos (ES/EN). Quité del CSS compartido (`Explain.module.css`) lo que dejó de usarse.
+
+Comprobado: `tsc` limpio, 63 pruebas pasan (1 omitida; 8 nuevas en `test/rails-atlas.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 900 y 390 px, ES/EN, movimiento reducido y cambio de tamaño entre maquetaciones. No probado: Safari ni dispositivos reales, ni fluidez de fotogramas en hardware real. Sin commit.
+
+Hora del prompt aproximada (no se anotó al recibirlo).
