@@ -1,14 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Copy } from "@/lib/i18n";
 import { narrative } from "@/lib/i18n/narrative";
 import { acquireSmoothScroll, scrollPageTo } from "@/lib/smooth-scroll";
-import { Icon } from "../Icon";
+import { Icon, type IconName } from "../Icon";
 import styles from "./BusinessParallax.module.css";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -26,26 +25,37 @@ const layers = [
   { id: "request", src: "/assets/img/empresas/emp-img4.png", depth: 12 },
 ] as const;
 
-const phases = {
+/** The scene has four beats; the icon says who is acting in each, so the caption needs no numbering. */
+type Beat = { icon: IconName; title: string; body: string };
+const phases: Record<"es" | "en", readonly Beat[]> = {
   es: [
-    { kicker: "01 / CATÁLOGO", title: "Publica tus servicios.", body: "Conecta tu catálogo, disponibilidad y condiciones para que los agentes consulten lo que realmente ofreces." },
-    { kicker: "02 / CONSULTA", title: "El agente pregunta.", body: "Una solicitud llega a tu negocio. Tu sistema responde con la información que tú publicaste." },
-    { kicker: "03 / CONDICIONES", title: "Responde con tus reglas.", body: "Precio, disponibilidad y vigencia siguen bajo el control de tu negocio." },
-    { kicker: "04 / RESULTADO", title: "Una respuesta clara.", body: "El agente recibe una cotización ilustrativa para que la persona revise los términos antes de autorizar." },
+    { icon: "layers", title: "Publica tus servicios.", body: "Conecta tu catálogo, disponibilidad y condiciones para que los agentes consulten lo que realmente ofreces." },
+    { icon: "agent", title: "El agente pregunta.", body: "Una solicitud llega a tu negocio. Tu sistema responde con la información que tú publicaste." },
+    { icon: "rules", title: "Responde con tus reglas.", body: "Precio, disponibilidad y vigencia siguen bajo el control de tu negocio." },
+    { icon: "doc", title: "Una respuesta clara.", body: "El agente recibe una cotización ilustrativa para que la persona revise los términos antes de autorizar." },
   ],
   en: [
-    { kicker: "01 / CATALOG", title: "Publish your services.", body: "Connect your catalog, availability and terms so agents can ask about what you actually offer." },
-    { kicker: "02 / REQUEST", title: "The agent asks.", body: "A request reaches your business. Your system responds with the information you published." },
-    { kicker: "03 / TERMS", title: "Answer on your terms.", body: "Price, availability and validity stay under your business's control." },
-    { kicker: "04 / RESULT", title: "A clear response.", body: "The agent receives an illustrative quote so the person can review the terms before authorizing." },
+    { icon: "layers", title: "Publish your services.", body: "Connect your catalog, availability and terms so agents can ask about what you actually offer." },
+    { icon: "agent", title: "The agent asks.", body: "A request reaches your business. Your system responds with the information you published." },
+    { icon: "rules", title: "Answer on your terms.", body: "Price, availability and validity stay under your business's control." },
+    { icon: "doc", title: "A clear response.", body: "The agent receives an illustrative quote so the person can review the terms before authorizing." },
   ],
-} as const;
+};
+
+/** One icon per step of the strip, in the order of `business.tabs`. */
+const stepIcons: readonly IconName[] = ["layers", "doc", "receipt"];
 
 export function BusinessParallax({ t, c }: { t: Copy; c: BusinessCopy }) {
   const track = useRef<HTMLDivElement>(null);
   const phaseRef = useRef(0);
+  const doneRef = useRef(false);
   const [phase, setPhase] = useState(0);
+  const [done, setDone] = useState(false);
   const story = phases[t.locale];
+  // Four beats, three steps: the middle step covers the agent asking and the business answering.
+  const step = phase === 0 ? 0 : phase < 3 ? 1 : 2;
+  const last = c.tabs.length - 1;
+  const stateOf = (index: number) => (index < step || (done && index === last) ? "done" : index === step ? "current" : "todo");
 
   useEffect(() => acquireSmoothScroll(), []);
 
@@ -91,11 +101,16 @@ export function BusinessParallax({ t, c }: { t: Copy; c: BusinessCopy }) {
             end: "bottom bottom",
             scrub: desktop ? 0.85 : 0.45,
             invalidateOnRefresh: true,
+            // The strip's packet only runs while the pinned scene is on screen.
+            onToggle(self) { section.dataset.active = String(self.isActive); },
             onUpdate(self) {
               const next = mobile
                 ? self.progress < 0.42 ? 0 : self.progress < 0.82 ? 2 : 3
                 : self.progress < 0.25 ? 0 : self.progress < 0.55 ? 1 : self.progress < 0.8 ? 2 : 3;
               if (next !== phaseRef.current) { phaseRef.current = next; setPhase(next); }
+              // The last step closes as the scene ends, just before the page takes over again.
+              const finished = self.progress > 0.94;
+              if (finished !== doneRef.current) { doneRef.current = finished; setDone(finished); }
             },
           },
         });
@@ -138,7 +153,7 @@ export function BusinessParallax({ t, c }: { t: Copy; c: BusinessCopy }) {
       });
     }, section);
 
-    return () => ctx.revert();
+    return () => { ctx.revert(); delete section.dataset.active; };
   }, []);
 
   const goToPhase = (index: number) => {
@@ -157,14 +172,15 @@ export function BusinessParallax({ t, c }: { t: Copy; c: BusinessCopy }) {
             <p className={styles.eyebrow}>{t.businesses.eyebrow}</p>
             <h2 id="businesses-title" className={styles.heading}>{c.title}</h2>
             <p className={styles.lead}>{c.lead}</p>
-            <div className={styles.actions}>
-              <Link className="btn btn-primary" href={`/${t.locale}/docs#business`}>{c.pilot}<Icon name="arrow" /></Link>
-              <span className={styles.status}>{c.status}</span>
-            </div>
-            <div className={styles.phaseCopy} key={phase} aria-live="off">
-              <span>{story[phase].kicker}</span>
-              <h3>{story[phase].title}</h3>
-              <p>{story[phase].body}</p>
+            {/* The four beats share one cell: the tallest sets the height, so a change of beat never moves what is below. */}
+            <div className={styles.beats} aria-live="off">
+              {story.map((beat, index) => (
+                <div key={beat.title} className={styles.beat} data-active={phase === index} aria-hidden={phase !== index}>
+                  <span className={styles.beatIcon} aria-hidden="true"><Icon name={beat.icon} /></span>
+                  <h3>{beat.title}</h3>
+                  <p>{beat.body}</p>
+                </div>
+              ))}
             </div>
           </div>
           <div className={styles.visual} role="img" aria-label={t.locale === "es" ? "Un agente consulta un negocio; el negocio responde desde su catálogo con servicio, disponibilidad y precio. Escena ilustrativa." : "An agent asks a business; the business responds from its catalog with a service, availability and price. Illustrative scene."}>
@@ -182,16 +198,33 @@ export function BusinessParallax({ t, c }: { t: Copy; c: BusinessCopy }) {
             </div>
           </div>
         </div>
-        <div id="capabilities" className={styles.steps} role="group" aria-label={t.capabilities.eyebrow}>
-          {c.tabs.map((tab, index) => (
-            <button key={tab.title} type="button" className={styles.step} data-current={(index === 0 && phase === 0) || (index === 1 && (phase === 1 || phase === 2)) || (index === 2 && phase === 3)} aria-current={(index === 0 && phase === 0) || (index === 1 && (phase === 1 || phase === 2)) || (index === 2 && phase === 3) ? "step" : undefined} onClick={() => goToPhase(index)}>
-              <span className={styles.stepNumber}>0{index + 1}</span>
-              <span className={styles.stepText}><strong>{tab.title}</strong><small>{tab.body}</small></span>
-              <span className={styles.stepIcon} aria-hidden="true">{index === 0 ? "◇" : index === 1 ? "▤" : "✓"}</span>
-            </button>
-          ))}
+        {/* The three steps as a small workflow: each node takes the signal in on its left port and sends it on through the right one. */}
+        <div id="capabilities" className={styles.flow} role="group" aria-label={t.capabilities.eyebrow}>
+          {c.tabs.map((tab, index) => {
+            const state = stateOf(index);
+            return (
+              <Fragment key={tab.title}>
+                <button type="button" className={styles.stage} data-state={state} aria-current={state === "current" ? "step" : undefined} onClick={() => goToPhase(index)}>
+                  <span className={styles.stageLit} aria-hidden="true" />
+                  <span className={styles.badge} aria-hidden="true">
+                    <span className={styles.badgeNum}>0{index + 1}</span>
+                    <Icon name="check" className={styles.badgeCheck} />
+                  </span>
+                  <span className={styles.stageText}><strong>{tab.title}</strong><small>{tab.body}</small></span>
+                  <Icon name={stepIcons[index]} className={styles.stageIcon} />
+                  <span className={styles.chip}><Icon name="arrow" className={styles.chipIcon} />{tab.artifact}</span>
+                </button>
+                {index < last && (
+                  <span className={styles.edge} data-state={index < step ? "done" : index === step ? "live" : "idle"} aria-hidden="true">
+                    <span className={styles.edgeFill} />
+                    <span className={styles.edgeRun}><i /></span>
+                    <svg className={styles.edgeHead} viewBox="0 0 8 12" aria-hidden="true"><path d="M1.5 1.5L6 6l-4.5 4.5" /></svg>
+                  </span>
+                )}
+              </Fragment>
+            );
+          })}
         </div>
-        <div className={styles.progress} aria-hidden="true"><span style={{ width: `${(phase + 1) * 25}%` }} /></div>
       </div>
     </div>
   );

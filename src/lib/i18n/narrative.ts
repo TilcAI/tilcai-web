@@ -7,9 +7,13 @@ interface RouteCopy { id: "direct" | "cctp"; title: string; tag: string; body: s
 
 interface NarrativeCopy {
   business: {
-    title: string; lead: string; label: string; status: string; pilot: string;
+    title: string; lead: string; label: string;
     tabs: { title: string; body: string; artifact: string; lines: string[] }[];
-    paths: { eyebrow: string; title: string; lead: string; status: string; first: string; note: string; items: PathCopy[] };
+    paths: {
+      eyebrow: string; title: string; lead: string; status: string; first: string; note: string; items: PathCopy[];
+      /** The three floating notes around the TilcAI node, and its accessible name. */
+      hud: { connected: string; identity: string; data: string }; node: string;
+    };
     keep: { title: string; yours: { title: string; lines: string[] }; ours: { title: string; lines: string[] }; note: string };
   };
   flow: { title: string; lead: string; label: string; agent: string; business: string; actor: string; state: string; steps: FlowStepCopy[] };
@@ -37,7 +41,7 @@ const es: NarrativeCopy = {
   business: {
     title: "Tu negocio, listo para conversar con agentes.",
     lead: "No necesitas un agente de IA ni un sitio web para empezar. Tú sigues decidiendo precio, disponibilidad, destino de cobro y entrega.",
-    label: "Así se conectaría tu negocio", status: "Propuesta de incorporación · en preparación", pilot: "Explorar un piloto",
+    label: "Así se conectaría tu negocio",
     tabs: [
       { title: "Publica tus servicios", body: "Conecta tu catálogo y disponibilidad para que un agente pueda consultar lo que realmente ofreces.", artifact: "Catálogo", lines: ["Servicios y disponibilidad", "Condiciones de tu negocio", "Datos desde tu sistema"] },
       { title: "Responde con condiciones", body: "Cada solicitud recibe una cotización con precio, destinatario y vigencia. La persona decide si autoriza.", artifact: "Cotización", lines: ["Importe y destinatario", "Vigencia de la oferta", "Aprobación por compra"] },
@@ -48,6 +52,8 @@ const es: NarrativeCopy = {
       title: "Empieza por donde estés hoy.",
       lead: "Un mismo negocio puede pasar de un camino a otro sin perder su identidad, su historial de órdenes ni su destino de cobro.",
       status: "En preparación", first: "Primer camino del piloto",
+      hud: { connected: "Tu negocio siempre conectado", identity: "Misma identidad en todos los caminos", data: "Datos, órdenes y pagos unificados" },
+      node: "Núcleo de TilcAI: los cuatro caminos terminan aquí",
       note: "Son propuestas de incorporación, no productos lanzados. Cada conector sirve para un sistema concreto y versionado: no existe un conector universal para cualquier POS.",
       items: [
         { key: "A", title: "Consola gestionada", who: "Sin software ni agente", body: "Un portal privado para publicar un catálogo pequeño, confirmar disponibilidad, recibir solicitudes, cotizar y ver órdenes y pagos." },
@@ -140,7 +146,7 @@ const en: NarrativeCopy = {
   business: {
     title: "Your business, ready to talk to agents.",
     lead: "You do not need an AI agent or a website to start. You keep deciding price, availability, payout destination and delivery.",
-    label: "How your business would connect", status: "Onboarding proposal · in preparation", pilot: "Explore a pilot",
+    label: "How your business would connect",
     tabs: [
       { title: "Publish your services", body: "Connect your catalog and availability so an agent can inquire about what you actually offer.", artifact: "Catalog", lines: ["Services and availability", "Your business terms", "Data from your system"] },
       { title: "Respond with terms", body: "Each request receives a quote with a price, payee and expiry. The person decides whether to authorize it.", artifact: "Quote", lines: ["Amount and payee", "Offer validity", "Approval per purchase"] },
@@ -151,6 +157,8 @@ const en: NarrativeCopy = {
       title: "Start from where you are today.",
       lead: "The same business can move from one path to another without losing its identity, its order history or its payout destination.",
       status: "In preparation", first: "First path of the pilot",
+      hud: { connected: "Your business, always connected", identity: "Same identity on every path", data: "Data, orders and payments unified" },
+      node: "TilcAI core: the four paths end here",
       note: "These are onboarding proposals, not launched products. Each connector serves one specific, versioned system: there is no universal connector for any POS.",
       items: [
         { key: "A", title: "Managed console", who: "No software and no agent", body: "A private portal to publish a small catalog, confirm availability, receive requests, quote, and see orders and payments." },

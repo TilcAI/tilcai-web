@@ -228,3 +228,33 @@ Reanuda el trabajo de los prompts de las 07:57:54Z y 08:00:23Z, que se había de
 Las cinco ramas de la fase SCA se fusionaron en `main` y se subieron: tilcai-infrastructure (PR #24), tilcai-web (#27), documentation (#2), optipagos-backend (#1) y optipagos-frontend (#4). Antes de cada push se probó el resultado de la fusión: 160 pruebas unitarias y 38 de contratos en tilcai-infrastructure; 45 pruebas, `tsc` y build en tilcai-web (su `main` había avanzado; la fusión fue limpia); 373 pruebas, lint, typecheck y build en optipagos-backend; `tsc` y lint en optipagos-frontend. No hubo nada que corregir en el código. La PR #23 de tilcai-infrastructure sigue abierta en GitHub aunque sus commits ya están en `main`.
 
 **En este repositorio.** Rama `main`. Fusión de `feat/monitor-cuentas` sobre el `main` que había avanzado.
+
+## 2026-10-09T16:02:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> esa secion de la pagina "Cuatro caminos para conectarte"  realiza con las siguinte sintruciones
+
+[adjunto: captura de referencia de la sección «Empieza por donde estés hoy.» con el nodo TilcAI arriba a la derecha, tres notas flotantes, cuatro cards A–D abajo y cuatro rutas luminosas que las unen al nodo]
+
+[texto pegado de unas 700 líneas con el encargo de diseño. Pide rediseñar solo esa sección con la composición de la referencia: título arriba a la izquierda, nodo TilcAI hacia el 66 % horizontal, notas flotantes, cuatro cards HTML (A Consola gestionada, B Archivo o planilla, C API o conector de POS, D Agente propio) y cuatro conexiones que sean un SVG real y responsive, no imágenes. Las rutas se calculan en JavaScript a partir de la posición real de los puertos (getBoundingClientRect, ResizeObserver y resize con debounce), con doble trazo (brillo y línea nítida), degradado violeta→cian, dibujo de tarjeta a nodo con stroke-dashoffset, puntos luminosos que recorren cada ruta con duraciones distintas (4,4 / 3,8 / 4,1 / 4,8 s), pulso del nodo al llegar, flujo inverso ocasional (≈30 %), chevrons, nodo flotante con anillos, notas con deriva lenta, hover por card y por nodo, parallax de scroll y de cursor con topes en píxeles, partículas de fondo con opacidad baja, animación de entrada con GSAP y ScrollTrigger (sin pin largo) y Lenis. Además: 4 columnas en escritorio, 2×2 en tableta y una columna en móvil con conexiones simplificadas, rendimiento (transform, opacity, máximo 8 partículas SVG), una rama prefers-reduced-motion con todo dibujado y sin movimiento, y uso de las imágenes PNG transparentes ya creadas (nodo, consola, XLS, API, agente, dos notas y partículas) sin fondo negro.]
+
+### Salida
+
+Reemplacé las cuatro cards de «Cuatro caminos para conectarte» por un componente nuevo, `ConnectionPaths` (`ConnectionPaths.tsx` y su CSS), conectado desde `BusinessesSection`. Las cards, el nodo y los textos son HTML; las rutas son un SVG que se reconstruye a partir de los puertos reales del DOM y se recalcula al cambiar el tamaño.
+
+- **Rutas:** cuatro curvas Bézier distintas, de card a nodo, con trazo de brillo y línea nítida, degradado violeta→cian, puertos en las cards y cuatro entradas en el nodo, chevrons que avanzan hacia el nodo y un punto luminoso por ruta con su propio ritmo. Al llegar, el nodo pulsa; de vez en cuando vuelve un punto cian.
+- **Entrada:** título, cards, nodo, dibujo de las rutas de card a nodo y, al terminar, el tráfico y el nodo activo (anillos, brillos y tres puntos en órbita). Medí la secuencia en el tiempo y respeta el orden.
+- **Interacción:** al pasar por una card (o enfocarla) su ruta se enciende, las demás bajan y su punto acelera; al pasar por el nodo se encienden las cuatro. Parallax de cursor medido: ≤ 10 px; de scroll: ≤ 18 px.
+- **Responsive:** 4 columnas, 2×2 (las rutas de la segunda fila suben por el pasillo entre columnas) y una columna con un tronco central. Movimiento reducido: todo dibujado y nada se mueve.
+- **Textos de las notas:** en español uso las imágenes; en inglés, notas en HTML con el mismo aspecto, porque las imágenes traen el texto en español.
+
+Decisiones: el SVG y los puertos no llevan parallax para que las uniones no se despeguen; las partículas siguen el trazado con `getPointAtLength` en lugar de MotionPathPlugin, para no recrear las animaciones al redimensionar; el nodo es más grande que 180–230 px porque la imagen trae mucho brillo alrededor y la ficha visible mide unos 120 px, como en la referencia. El texto con degradado de «hoy.» es intencional (lo pide el encargo); el detector de Impeccable lo marca como único hallazgo.
+
+Comprobado: `tsc` limpio, 47 pruebas pasan (1 omitida; 3 nuevas), capturas en 1920, 1440, 1120, 900 y 390 px, ES/EN y movimiento reducido. No probado: Safari ni dispositivos reales. Quité del CSS las reglas de las cards antiguas. Imágenes en `public/assets/img/caminos conect/` (la carpeta lleva un espacio). Sin commit.
+
+Hora del prompt aproximada (no se anotó al recibirlo).

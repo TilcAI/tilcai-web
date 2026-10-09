@@ -172,3 +172,34 @@ for (const locale of ["es", "en"] as const) {
     assert.ok(!/bridges entre cadenas|cross-chain bridges/.test(outOfScope), "the blanket claim is gone");
   });
 }
+
+// ── "Cuatro caminos": the routes are an SVG built from the page, and its illustrations exist ─────────────────
+
+const pathsSource = readFileSync(new URL("../src/components/sections/ConnectionPaths.tsx", import.meta.url), "utf8");
+
+test("four ways to connect: every illustration the section names exists on disk, with real transparency", () => {
+  const files = [...pathsSource.matchAll(/file: "(cam-img\d+\.png)"/g)].map((m) => m[1]);
+  assert.equal(new Set(files).size, 8, "node, four cards, two notes and the dust");
+  const dir = new URL("../public/assets/img/caminos conect/", import.meta.url);
+  for (const name of files) {
+    const bytes = readFileSync(new URL(name, dir));
+    assert.equal(bytes.subarray(1, 4).toString(), "PNG", name);
+    assert.equal(bytes[25], 6, `${name} must be RGBA so no black box sits behind it`);
+  }
+});
+
+test("four ways to connect: routes follow the DOM instead of fixed coordinates, and a reduced-motion path exists", () => {
+  assert.match(pathsSource, /getBoundingClientRect/, "endpoints are read from the ports");
+  assert.match(pathsSource, /new ResizeObserver/, "routes are rebuilt when the scene changes size");
+  assert.match(pathsSource, /prefers-reduced-motion: reduce/, "a branch with everything drawn and nothing moving");
+  assert.ok(!/viewBox="0 0 1[0-9]{3}/.test(pathsSource), "no 1920-wide viewBox baked in");
+  assert.equal((pathsSource.match(/FLOW_SECONDS = \[/g) ?? []).length, 1);
+});
+
+test("four ways to connect: the notes around the node are real text in both languages", () => {
+  for (const c of [es, en]) {
+    for (const key of ["connected", "identity", "data"] as const) assert.ok(c.business.paths.hud[key].length > 8, key);
+    assert.ok(c.business.paths.node.length > 8);
+  }
+  assert.notEqual(es.business.paths.hud.identity, en.business.paths.hud.identity);
+});

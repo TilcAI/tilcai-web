@@ -5,18 +5,8 @@
 .blockTitle { font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; letter-spacing: -.035em; font-weight: 500; color: #f1edf8; margin: 0; text-wrap: balance; }
 .blockLead { color: #aaa4bf; font-size: 15px; line-height: 1.65; margin-top: 12px; max-width: 60ch; }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; border: 1px solid #75608f; color: #c9bddb; font: 500 11px/1.5 var(--mono); max-width: 100%; overflow-wrap: anywhere; }
-.pillFirst { border-color: #925ff6; color: #e6dbff; background: #6024e82b; }
 
-/* ---- Empresas: four paths and what each side keeps ---- */
-.paths { margin-top: clamp(44px, 5vw, 72px); padding-top: clamp(36px, 4vw, 56px); border-top: 1px solid #a990e51a; }
-.pathGrid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.pathCard { display: flex; flex-direction: column; gap: 10px; min-width: 0; padding: 22px 20px 20px; border: 1px solid #9b7bdb40; border-radius: 14px; background: linear-gradient(160deg, #1d1832, #121024); }
-.pathCard[data-first="true"] { border-color: #925ff6; box-shadow: 0 0 0 1px #925ff633, 0 18px 40px #05031055; }
-.pathKey { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; border: 1px solid #75608f; color: #d3c3ff; font: 500 13px var(--mono); }
-.pathCard h4 { margin: 0; font-size: 18px; font-weight: 500; letter-spacing: -.02em; color: #eee8f8; }
-.pathWho { margin: 0; color: #b39af0; font: 500 11px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
-.pathCard p:not(.pathWho) { margin: 0; color: #b6adc9; font-size: 14px; line-height: 1.65; }
-.pathFoot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px; }
+/* ---- Empresas: what each side keeps (the four paths live in ConnectionPaths) ---- */
 .keep { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
 .keepCol { padding: 22px 24px; border: 1px solid #9b7bdb40; border-radius: 14px; background: #100e22; }
 .keepCol h4 { margin: 0 0 14px; color: #b39af0; font: 500 11px/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
@@ -91,7 +81,6 @@
 .entranceNote { color: #a9bfd1; font-size: 13px; line-height: 1.55; }
 
 @media (max-width: 1100px) {
-  .pathGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .evidenceGrid { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {
@@ -103,7 +92,6 @@
 }
 @media (max-width: 600px) {
   .explainer { grid-template-columns: 1fr; gap: 12px; padding: 20px; }
-  .pathGrid { grid-template-columns: 1fr; }
   .route, .entrance { padding: 20px; }
   .evLink { flex-wrap: wrap; }
 }
