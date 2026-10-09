@@ -195,3 +195,17 @@ Limits to know before relying on it:
 ## Deployment
 
 The team publishes the landing at `https://tilcai.vercel.app/en`. This is a website deployment, not a deployed TilcAI payment service. It also works on any Next.js host or as a Node server with `pnpm build && pnpm start`.
+
+### En un contenedor
+
+`Dockerfile` construye el sitio completo. Con una sola instancia y `MONITOR_STORE_FILE` en un
+volumen, el tablero conserva los eventos entre reinicios (lo que un despliegue serverless con
+el almacén en memoria no puede):
+
+```sh
+docker build -t tilcai/tilcai-web:local .
+docker run -d --name tilcai-web --restart unless-stopped -p 3311:3000 \
+  -e MONITOR_INGEST_SECRET=… -e MONITOR_DASHBOARD_TOKEN=… \
+  -e MONITOR_STORE_FILE=/data/monitor-events.json -v tilcai-web-data:/data tilcai/tilcai-web:local
+# en el backend: MONITOR_WEB_URL=http://<host>:3311/api/monitor/events y MONITOR_WEB_SECRET = MONITOR_INGEST_SECRET
+```
