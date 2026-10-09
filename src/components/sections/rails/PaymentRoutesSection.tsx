@@ -35,7 +35,7 @@ export function PaymentRoutesSection({ t }: PaymentRoutesSectionProps) {
       if (prefersReducedMotion) return;
 
       // Subtle depth entrance for the main blocks
-      const heroBlock = el.querySelector(`.${styles.heroBlock}`);
+      const heroBlock = el.querySelector("[data-hero]");
       const detailBlock = el.querySelector(`.${styles.detailSection}`);
 
       if (heroBlock) {
