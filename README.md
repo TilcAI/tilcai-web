@@ -196,16 +196,16 @@ Limits to know before relying on it:
 
 The team publishes the landing at `https://tilcai.vercel.app/en`. This is a website deployment, not a deployed TilcAI payment service. It also works on any Next.js host or as a Node server with `pnpm build && pnpm start`.
 
-### En un contenedor
+### In a container
 
-`Dockerfile` construye el sitio completo. Con una sola instancia y `MONITOR_STORE_FILE` en un
-volumen, el tablero conserva los eventos entre reinicios (lo que un despliegue serverless con
-el almacén en memoria no puede):
+`Dockerfile` builds the whole site. With a single instance and `MONITOR_STORE_FILE` on a
+volume, the dashboard keeps its events across restarts, which a serverless deployment with the
+in-memory store cannot do:
 
 ```sh
 docker build -t tilcai/tilcai-web:local .
 docker run -d --name tilcai-web --restart unless-stopped -p 3311:3000 \
   -e MONITOR_INGEST_SECRET=… -e MONITOR_DASHBOARD_TOKEN=… \
   -e MONITOR_STORE_FILE=/data/monitor-events.json -v tilcai-web-data:/data tilcai/tilcai-web:local
-# en el backend: MONITOR_WEB_URL=http://<host>:3311/api/monitor/events y MONITOR_WEB_SECRET = MONITOR_INGEST_SECRET
+# backend: MONITOR_WEB_URL=http://<host>:3311/api/monitor/events, MONITOR_WEB_SECRET = MONITOR_INGEST_SECRET
 ```
