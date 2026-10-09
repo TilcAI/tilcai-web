@@ -298,6 +298,7 @@ export const es: Copy = {
     eyebrow: "Estado de construcción", title: "Construimos por capacidades, no por promesas.",
     lead: "Diferenciamos lo que ya se puede comprobar, lo que estamos integrando y lo que viene después. Cada elemento indica dónde tiene evidencia hoy (simulación o testnet; nada corre en producción) y quién mantiene su estado al día. No publicamos fechas rígidas.",
     maintainer: "Mantiene",
+    breadcrumb: "Ruta de navegación",
     columns: {
       available: { when: "Componentes comprobables", title: "Base técnica y exploración", note: "Un componente disponible no es un flujo de compra habilitado. Un pago técnico verificado no es una compra comercial." },
       integration: { when: "Validación del flujo", title: "Consulta y compra con aprobación", note: "El piloto se declara validado cuando funciona el recorrido completo en su entorno indicado." },

@@ -58,14 +58,6 @@
 .rules h3 { color: #ddd4e9; font-size: 15px; }
 .rules p { color: #a39ab3; margin-top: 3px; font-size: 13px; }
 .note { color: #a698b4; font-size: 12px; line-height: 1.7; margin-top: 20px; }
-.stack { padding: 38px 0; border-block: 1px solid #a990e51a; background: #09091b; }
-.stackHeader { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
-.stack h2 { color: #d9d1e7; font-size: 21px; font-weight: 500; letter-spacing: -.03em; }
-.technologies { display: grid; grid-template-columns: repeat(7, 1fr); list-style: none; padding: 0; margin-top: 26px; }
-.technologies li { padding: 5px 18px; border-left: 1px solid #75608f55; }
-.technologies li:first-child { padding-left: 0; border-left: 0; }
-.technologies strong { display: block; color: #c4b6dc; font-size: 15px; font-weight: 500; }
-.technologies span { display: block; font-size: 11px; margin-top: 5px; color: #9185a5; }
 .closing { padding: 64px 0; background: radial-gradient(ellipse at 80% 100%, #6024e825, transparent 60%), #0b0a1e; }
 .closingInner { display: flex; justify-content: space-between; gap: 36px; align-items: center; }
 .closing h2 { font-size: clamp(28px, 3vw, 42px); font-weight: 500; line-height: 1.15; letter-spacing: -.04em; max-width: 20ch; }
@@ -94,8 +86,6 @@
   .sticky { position: static; }
   .progress { display: none; }
   .step { min-height: 0; padding: 16px 0; }
-  .technologies { grid-template-columns: repeat(3, 1fr); gap: 20px 0; }
-  .technologies li:nth-child(4) { border-left: 0; padding-left: 0; }
   .closingInner { align-items: start; }
   .faqLayout { grid-template-columns: 1fr; gap: 25px; }
 }
@@ -106,10 +96,7 @@
   .description { min-height: 106px; font-size: 14px; }
   .artifact { margin-left: 10%; padding: 18px; }
   .artLabel { font-size: 9px; }
-  .stackHeader, .closingInner { flex-direction: column; align-items: flex-start; gap: 18px; }
-  .technologies { grid-template-columns: repeat(2, 1fr); }
-  .technologies li:nth-child(odd) { padding-left: 0; border-left: 0; }
-  .technologies li:nth-child(even) { padding-left: 18px; border-left: 1px solid #75608f55; }
+  .closingInner { flex-direction: column; align-items: flex-start; gap: 18px; }
   .closing .actions { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {

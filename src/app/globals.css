@@ -362,16 +362,6 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 .badge-name { font-family: var(--mono); font-size: 14.5px; color: #fff; }
 .badge-role { font-size: 13.5px; color: var(--muted); }
 
-/* ---------- Roadmap ---------- */
-.roadmap-cols { display: grid; gap: 16px; }
-@media (min-width: 900px) { .roadmap-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.road-col { border: 1px solid var(--border); border-radius: var(--radius); background: var(--pane); padding: 28px; position: relative; min-width: 0; overflow: hidden; }
-.road-col::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; background: var(--border-strong); }
-.road-col.stage-available::before { background: var(--green); }
-.road-col.stage-integration::before { background: var(--yellow); }
-.road-col.stage-next { border-style: dashed; background: transparent; }
-.road-col.stage-next::before { background: var(--purple); }
-
 /* ---------- FAQ ---------- */
 .faq-list { display: grid; gap: 12px; max-width: 1080px; margin: 0 auto; }
 .faq-item { padding: 18px 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--pane); transition: border-color .2s ease; }
@@ -381,25 +371,7 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 .faq-item summary::after { content: "+"; color: var(--purple-300); font-size: 20px; line-height: 1; transition: rotate .2s ease; }
 .faq-item[open] summary::after { rotate: 45deg; }
 .faq-item p { margin-top: 14px; color: var(--text-2); max-width: 80ch; font-size: 15px; }
-.road-col > .tag { margin-bottom: 18px; }
-.stage-head { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
-.stage-n { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; font-family: var(--mono); font-size: 13px; border: 1px solid var(--border-strong); color: var(--text-2); background: var(--surface-2); }
-.stage-when { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
-.road-col h3 { font-size: 20px; }
-.road-items { display: grid; gap: 18px; margin-top: 22px; }
-.road-item { padding-top: 16px; border-top: 1px solid var(--border); }
-.road-item h4 { font-size: 15.5px; font-weight: 600; color: #fff; margin-bottom: 6px; }
-.road-item p { color: var(--text-2); font-size: 14.5px; }
-.road-item .road-owner { margin-top: 10px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
-.road-item .road-owner strong { color: var(--purple-300); font-weight: 500; }
-.road-col > .cap-note { margin-top: 20px; }
 .stack-link { margin-top: 24px; text-align: center; }
-.signature { margin-top: 24px; border: 1px solid rgba(255, 168, 1, .3); border-radius: var(--radius); padding: 28px; background: linear-gradient(180deg, var(--human-soft), transparent 80%), var(--pane); }
-.signature h3 { display: flex; align-items: center; gap: 10px; font-size: 20px; }
-.signature h3 .icon { color: var(--yellow); width: 20px; height: 20px; }
-.sig-checks { list-style: decimal; margin: 16px 0 0 20px; display: grid; gap: 8px; color: var(--text-2); }
-.sig-checks li::marker { color: var(--yellow); font-family: var(--mono); }
-.sig-note { margin-top: 16px; color: var(--muted); font-size: 14px; }
 
 /* ---------- CTA ---------- */
 .cta-card { position: relative; overflow: hidden; text-align: center; border: 1px solid var(--border-strong); border-radius: 24px; padding: 64px 24px; background: var(--grad-night), var(--pane); isolation: isolate; }

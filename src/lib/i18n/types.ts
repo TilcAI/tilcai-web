@@ -262,6 +262,8 @@ export interface Copy {
     title: string;
     lead: string;
     maintainer: string;
+    /** Accessible name of the breadcrumb above the page heading. */
+    breadcrumb: string;
     columns: Record<Stage, { when: string; title: string; note?: string }>;
     items: Record<RoadmapId, { title: string; detail: string }>;
     /** Honest note about the pilot: no numbers are published until real businesses and users exist. */

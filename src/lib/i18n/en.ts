@@ -298,6 +298,7 @@ export const en: Copy = {
     eyebrow: "Build status", title: "We build around capabilities, not promises.",
     lead: "We distinguish what can already be checked, what we are integrating and what follows. Each item says where it has evidence today (simulation or testnet; nothing runs in production) and who keeps its status accurate. We publish no fixed dates.",
     maintainer: "Maintained by",
+    breadcrumb: "Breadcrumb",
     columns: {
       available: { when: "Verifiable components", title: "Technical foundation and exploration", note: "An available component is not an enabled purchase flow. A verified technical payment is not a commercial purchase." },
       integration: { when: "Validating the flow", title: "Inquiry and purchase with approval", note: "A pilot is declared validated once the complete journey works in its stated environment." },

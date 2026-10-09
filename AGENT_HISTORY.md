@@ -656,3 +656,72 @@ Rediseñé la sección «Asistentes» de la landing. Pasó de unos 4.500 px de s
 Cambios: `AgentCatalog.tsx` reescrito, nuevos `AgentArt.tsx` y `AgentCatalog.module.css`, eliminados `AgentCard.tsx` y `AgentStory.module.css`, `agents.css` reducido a lo que usa el panel, textos nuevos `agents.stages` en ES y EN, y `test/agent-stages.test.ts`.
 
 Comprobado: `tsc` limpio; 84 pruebas pasan (1 omitida; 4 nuevas); capturas en 1440, 1100, 960, 820 y 390 px en ES y EN; teclado, panel y ampliar/contraer con Playwright sin errores propios. No comprobado: ESLint no arranca en este repositorio (typescript-eslint no admite TypeScript 7, ya ocurría antes); Safari ni dispositivos reales; el movimiento reducido no se capturó. Sin commit.
+
+## 2026-10-09T23:30:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /impeccable
+
+### Salida
+
+Invocación sin argumento. Cargué el contexto de Impeccable: el proyecto no tiene `PRODUCT.md` ni `DESIGN.md` (hay implementación visual existente), así que la recomendación de cabecera habría sido `/impeccable init`. No ejecuté ningún comando del menú. Antes de responder llegó la petición siguiente, que se registra en la entrada de abajo. Sin cambios de archivos en este prompt.
+
+## 2026-10-09T23:40:13Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para este apratdado mejora la UI/UX que se vean mas profesional que es de esta apartado https://tilcai.vercel.app/es/roadmap lo que es el roadmap
+
+### Salida
+
+Rediseñé la página del roadmap (`/es/roadmap`) como un informe de estado por etapas, sin tocar sus textos.
+
+- Etapas apiladas en lugar de tres columnas de 4, 7 y 5 elementos con huecos: cada etapa tiene su encabezado a la izquierda y sus elementos como filas con líneas finas, a ~66 caracteres de medida.
+- El encabezado de etapa (número, estado, título y su advertencia) queda fijo desde 1024 px mientras pasan sus elementos.
+- La insignia de evidencia (Testnet / Simulación) y «Mantiene …» van en una columna alineada a la derecha, en la misma línea en todas las filas; en móvil pasan bajo el texto.
+- «Inicio» y «Estado de construcción» chocaban en la cabecera: ahora son una ruta de navegación y el título se parte en dos líneas equilibradas.
+- Cierre alineado con la misma rejilla (métricas del piloto y comprobaciones numeradas). Un único movimiento: la línea de color de cada etapa se dibuja al aparecer; con movimiento reducido no se anima.
+
+Archivos: reescritos `RoadmapPage.tsx` y `sections/RoadmapSection.tsx`; nuevos `RoadmapPage.module.css` y `sections/RoadmapSection.module.css`; retiradas las reglas antiguas de `globals.css` y `landing.css`; nueva clave `roadmap.breadcrumb` en `types.ts`, `es.ts` y `en.ts` (único texto nuevo, el nombre accesible de la ruta de navegación).
+
+Comprobado: `tsc` limpio; 85 pruebas pasan (1 omitida); el detector de Impeccable no devolvió hallazgos; capturas en 1440, 1100, 820 y 390 px (ES y EN) sin desbordes horizontales; encabezado fijo medido a 108 px; foco visible en la ruta de navegación; revelado al hacer scroll y movimiento reducido. No comprobado: `npm run build` (compartiría `.next` con el servidor de desarrollo), Safari y dispositivos reales, y la URL desplegada (solo se vio en local).
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada. El rediseño de «Asistentes» de la entrada anterior ya quedó dentro del commit 80862a8 que hizo el usuario.
+
+## 2026-10-09T23:44:11Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 9325b9d0-c75d-495a-a084-ed7788faaff7
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> utiliza lo que es /emil-design-eng para la seccion  de "Las piezas detrás de cada operación." mejora ese aparatdo
+
+### Salida
+
+Rediseñé la sección «Las piezas detrás de cada operación» (`#stack`) aplicando los criterios de Emil Kowalski, sin tocar ningún texto.
+
+- De tira de texto a piezas: cada tecnología es una tarjeta con marca, nombre (mono, como el resto de nombres de protocolo del sitio) y su rol a 12,5 px con contraste legible (antes 11 px en gris tenue). Las marcas son iconos genéricos del set propio por función (MCP → asistente, Soroban → reglas, CCTP → ruta…), no logotipos: nombrar una tecnología no es respaldo.
+- Rejilla responsiva: 7 en fila desde 1180 px, 4 + 3 desde 640 px, 2 columnas en móvil con la última pieza ocupando el ancho (7 es impar) en vez de dejar un hueco.
+- Una sola entrada, al llegar con el scroll: las piezas aparecen escalonadas (45 ms entre cada una, 500 ms, ease-out `cubic-bezier(0.23, 1, 0.32, 1)`, 10 px de desplazamiento, nunca desde `scale(0)`) y una línea con el degradado de marca se dibuja en el borde superior de cada una. Solo `opacity` y `transform`.
+- La transición vive en el estado revelado: ocultar es instantáneo, así que un enlace directo a `#stack` no muestra las piezas desvaneciéndose antes de entrar. Sin JS todo es visible; con movimiento reducido no hay movimiento.
+- Las piezas no son enlaces, por eso no llevan hover. El único elemento interactivo, «Leer la arquitectura completa», gana feedback de pulsación (`scale(.97)`), flecha que se desplaza 3 px (solo con `hover: hover` y puntero fino) y objetivo táctil de 44 px.
+- Estilos propios en `StackSection.module.css`; retiradas de `Narrative.module.css` las reglas huérfanas (`.stack`, `.stackHeader`, `.technologies`).
+
+Archivos: `StackSection.tsx` (reescrito), `StackSection.module.css` (nuevo), `Narrative.module.css` (reglas retiradas). No toqué `en.ts`, `es.ts` ni `types.ts`.
+
+Comprobado: `tsc` limpio; 85 pruebas pasan (1 omitida); con la API de animaciones, el estado oculto no crea animaciones y la entrada crea 7 transiciones escalonadas a 45 ms con la curva indicada; sin desborde horizontal dentro de la sección a 640 px; ningún nombre se parte a mitad de palabra. No comprobado: el aspecto visual (el panel del navegador estaba oculto, `innerHeight` 0, las capturas agotaron el tiempo y el `IntersectionObserver` no disparó), ni 1280 px, ni Safari ni dispositivos reales. ESLint no corre en el repo por una incompatibilidad previa (typescript-eslint no soporta TS 7.0).
+
+Pendiente de decisión: la sección no muestra `t.stack.disclaimer` («Mencionar tecnologías no implica patrocinio…»), que ya existe en es/en y encajaría aquí porque se nombran Circle y OpenZeppelin.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada. Creé `.claude/launch.json` (ignorado por git) para intentar la vista previa.
