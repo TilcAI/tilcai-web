@@ -1,0 +1,90 @@
+/* Base view of the backend monitor. Site tokens only (globals.css); dark surface. */
+.page { max-width: var(--container); margin: 0 auto; padding: 32px 16px 96px; display: grid; gap: 28px; }
+
+.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; }
+.kicker { font-size: 14px; font-weight: 500; color: var(--purple-300); }
+.title { font-size: clamp(28px, 4vw, 36px); letter-spacing: -0.03em; }
+.lead { color: var(--text-2); font-size: 15px; max-width: 60ch; }
+.links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; font-size: 14px; }
+
+.note { color: var(--text-2); font-size: 15px; }
+.meta { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.code { font-family: var(--mono); font-size: 12.5px; color: var(--text-2); overflow-wrap: anywhere; }
+.originHead h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+.env { font-size: 12px; font-weight: 500; padding: 2px 8px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--text-2); vertical-align: middle; }
+
+.notice, .origin, .feed { border: 1px solid var(--border); border-radius: var(--radius); background: var(--pane); padding: 20px; }
+.notice { display: grid; gap: 10px; max-width: 640px; }
+.notice h2, .origin h2, .feed h2 { font-size: 20px; }
+.notice p { color: var(--text-2); font-size: 15px; line-height: 1.6; }
+
+.form { display: grid; gap: 8px; max-width: 360px; font-size: 14px; }
+.form input, .filters input, .filters select {
+  height: 40px; padding: 0 12px; border-radius: var(--radius-sm); border: 1px solid var(--line);
+  background: var(--surface); color: var(--text); font: inherit; font-size: 14px;
+}
+.form [role="alert"] { color: var(--text); }
+.button {
+  height: 40px; padding: 0 16px; border-radius: var(--radius-sm); border: 1px solid var(--purple-400);
+  background: var(--purple); color: #fff; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; justify-self: start;
+}
+.button:disabled { opacity: 0.6; cursor: progress; }
+
+/* Status: a shape and a word; colour only reinforces them. The label keeps the text colour. */
+.mark { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text); white-space: nowrap; }
+.mark svg { flex: none; }
+.ok svg { color: var(--green); }
+.warning svg { color: var(--yellow); }
+.error svg { color: var(--red); }
+.unknown svg { color: var(--muted); }
+
+.origin { display: grid; gap: 20px; }
+.originHead { display: grid; gap: 4px; }
+.alerts { display: grid; gap: 10px; }
+.alerts h3, .feedHead h2 { font-size: 16px; }
+.alerts ul { display: grid; gap: 10px; }
+.alert { display: grid; grid-template-columns: auto 1fr; gap: 12px; padding: 12px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); font-size: 14px; line-height: 1.55; }
+.alertTitle { font-weight: 600; color: var(--text-bright); }
+
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.tile { display: grid; align-content: start; gap: 6px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); min-width: 0; }
+.tileHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.tileLabel { font-size: 13px; color: var(--text-2); overflow-wrap: anywhere; }
+/* Proportional figures: tabular digits look loose at this size. */
+.value { font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; color: var(--text-bright); }
+.unit { font-size: 14px; font-weight: 500; color: var(--text-2); letter-spacing: 0; }
+.tileBody { display: grid; gap: 6px; font-size: 13px; line-height: 1.5; color: var(--text-2); }
+
+.meter { height: 6px; border-radius: 3px; background: var(--purple-900); overflow: hidden; margin-bottom: 6px; }
+.meter span { display: block; height: 100%; border-radius: 3px; background: var(--purple-300); }
+
+.feed { display: grid; gap: 16px; }
+.feedHead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
+.feedHead h2 .meta { font-weight: 400; margin-left: 6px; }
+.filters { display: flex; flex-wrap: wrap; gap: 12px; }
+.filters label { display: grid; gap: 4px; font-size: 13px; color: var(--text-2); }
+
+.rows { display: grid; }
+.rows > li + li { border-top: 1px solid var(--border); }
+.row summary {
+  display: grid; grid-template-columns: 148px 96px minmax(0, 1fr) auto; align-items: baseline; gap: 4px 16px;
+  padding: 10px 4px; cursor: pointer; list-style: none; font-size: 14px; line-height: 1.5;
+}
+.row summary::-webkit-details-marker { display: none; }
+.row summary:hover, .row[open] summary { background: var(--surface); }
+.when { font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--text-2); }
+.what { display: grid; min-width: 0; }
+.what strong { font-weight: 600; color: var(--text-bright); }
+.what span { color: var(--text-2); overflow-wrap: anywhere; }
+.kind { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.detail { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px; margin: 0; padding: 4px 4px 16px; font-size: 13.5px; line-height: 1.55; }
+.detail dt { color: var(--muted); }
+.detail dd { margin: 0; min-width: 0; }
+.detail pre { margin: 0; padding: 12px; border-radius: var(--radius-sm); background: var(--bg-deep); font-size: 12.5px; line-height: 1.5; overflow: auto; max-height: 320px; }
+
+@media (max-width: 720px) {
+  .row summary { grid-template-columns: 1fr auto; }
+  .what { grid-column: 1 / -1; }
+  .kind { display: none; }
+  .detail { grid-template-columns: 1fr; }
+}
