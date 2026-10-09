@@ -8,13 +8,14 @@ import type { MonitorEventType } from "./contract.ts";
 export type Lang = "en" | "es";
 type Text = Record<Lang, string>;
 
-export const MONITOR_CATEGORIES = ["alert", "vault", "crosschain", "qr", "relayer", "api", "resources", "system"] as const;
+export const MONITOR_CATEGORIES = ["alert", "vault", "crosschain", "account", "qr", "relayer", "api", "resources", "system"] as const;
 export type MonitorCategory = (typeof MONITOR_CATEGORIES)[number];
 
 export const CATEGORY_LABELS: Record<MonitorCategory, Text> = {
   alert: { en: "Alerts", es: "Alertas" },
   vault: { en: "Vault payouts", es: "Desembolsos del vault" },
   crosschain: { en: "Crosschain payments", es: "Pagos crosschain" },
+  account: { en: "Smart accounts", es: "Cuentas de contrato" },
   qr: { en: "QR Simple (mock)", es: "QR Simple (mock)" },
   relayer: { en: "Relayer", es: "Relayer" },
   api: { en: "API", es: "API" },
@@ -59,6 +60,20 @@ export const EVENT_CATALOG: Record<MonitorEventType, { title: Text; meaning: Tex
   "crosschain.payment.uncertain": {
     title: { en: "Crosschain payment uncertain", es: "Pago crosschain incierto" },
     meaning: { en: "The backend cannot yet prove what happened on-chain. It keeps reconciling; it is neither failed nor settled.", es: "El backend aún no puede probar qué pasó en la cadena. Sigue conciliando; no está fallido ni liquidado." },
+  },
+  "account.transition": {
+    title: { en: "Smart account moved", es: "Cuenta de contrato avanzó" },
+    meaning: {
+      en: "TilcAI issued a smart account for a tenant, or it changed state (`from` → `to`; `from` is null when issued). DEPLOYING: the address is final and can receive funds. ACTIVE: the contract is on-chain and its owner's passkey can sign.",
+      es: "TilcAI emitió una cuenta de contrato para un tercero, o cambió de estado (`from` → `to`; `from` es null al emitirse). DEPLOYING: la dirección es definitiva y puede recibir fondos. ACTIVE: el contrato está en la cadena y la passkey de su dueño puede firmar.",
+    },
+  },
+  "account.deploy_delayed": {
+    title: { en: "Account deployment delayed", es: "Despliegue de cuenta demorado" },
+    meaning: {
+      en: "The relayer refused or lost the deployment of an account several times (`lastError`). The account is still retried and its address does not change; check the relayer's balance and status.",
+      es: "El relayer rechazó o perdió varias veces el despliegue de una cuenta (`lastError`). La cuenta se sigue reintentando y su dirección no cambia; revisa el saldo y el estado del relayer.",
+    },
   },
   "vault.disbursement.transition": {
     title: { en: "Vault payout moved", es: "Desembolso avanzó" },
