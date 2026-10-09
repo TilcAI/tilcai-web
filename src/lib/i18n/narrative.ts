@@ -10,7 +10,7 @@ interface NarrativeCopy {
     title: string; lead: string; label: string;
     tabs: { title: string; body: string; artifact: string; lines: string[] }[];
     paths: {
-      eyebrow: string; title: string; lead: string; status: string; first: string; note: string; items: PathCopy[];
+      eyebrow: string; title: string; lead: string; items: PathCopy[];
       /** The three floating notes around the TilcAI node, and its accessible name. */
       hud: { connected: string; identity: string; data: string }; node: string;
     };
@@ -51,10 +51,8 @@ const es: NarrativeCopy = {
       eyebrow: "Cuatro caminos para conectarte",
       title: "Empieza por donde estés hoy.",
       lead: "Un mismo negocio puede pasar de un camino a otro sin perder su identidad, su historial de órdenes ni su destino de cobro.",
-      status: "En preparación", first: "Primer camino del piloto",
       hud: { connected: "Tu negocio siempre conectado", identity: "Misma identidad en todos los caminos", data: "Datos, órdenes y pagos unificados" },
       node: "Núcleo de TilcAI: los cuatro caminos terminan aquí",
-      note: "Son propuestas de incorporación, no productos lanzados. Cada conector sirve para un sistema concreto y versionado: no existe un conector universal para cualquier POS.",
       items: [
         { key: "A", title: "Consola gestionada", who: "Sin software ni agente", body: "Un portal privado para publicar un catálogo pequeño, confirmar disponibilidad, recibir solicitudes, cotizar y ver órdenes y pagos." },
         { key: "B", title: "Archivo o planilla", who: "Con una hoja de cálculo o un sistema cerrado", body: "Importas tu catálogo desde un archivo; se valida y se publica con versión. El stock depende de que lo actualices o lo confirmes." },
@@ -156,10 +154,8 @@ const en: NarrativeCopy = {
       eyebrow: "Four ways to connect",
       title: "Start from where you are today.",
       lead: "The same business can move from one path to another without losing its identity, its order history or its payout destination.",
-      status: "In preparation", first: "First path of the pilot",
       hud: { connected: "Your business, always connected", identity: "Same identity on every path", data: "Data, orders and payments unified" },
       node: "TilcAI core: the four paths end here",
-      note: "These are onboarding proposals, not launched products. Each connector serves one specific, versioned system: there is no universal connector for any POS.",
       items: [
         { key: "A", title: "Managed console", who: "No software and no agent", body: "A private portal to publish a small catalog, confirm availability, receive requests, quote, and see orders and payments." },
         { key: "B", title: "File or spreadsheet", who: "With a spreadsheet or a closed system", body: "You import your catalog from a file; it is validated and published with a version. Stock depends on you updating or confirming it." },

@@ -258,3 +258,49 @@ Decisiones: el SVG y los puertos no llevan parallax para que las uniones no se d
 Comprobado: `tsc` limpio, 47 pruebas pasan (1 omitida; 3 nuevas), capturas en 1920, 1440, 1120, 900 y 390 px, ES/EN y movimiento reducido. No probado: Safari ni dispositivos reales. Quité del CSS las reglas de las cards antiguas. Imágenes en `public/assets/img/caminos conect/` (la carpeta lleva un espacio). Sin commit.
 
 Hora del prompt aproximada (no se anotó al recibirlo).
+
+## 2026-10-09T16:01:59Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 49e13974-4406-4160-818f-4afe7a15940e
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de la seccion de "Empresas" quitale esto "Explorar un piloto
+> Propuesta de incorporación · en preparación" y que  el texto de abajo se vea bien qu eno se vea generico con IA y que las cards de abajo se paresca a un workflow su animacion pero simpre respetando estilo y qie se vea bien y tambien con las skills que tienes adentro tenga unas buenas animaciones y se vean bien
+
+### Salida
+
+Cambié solo la parte de arriba de Empresas (el hero con scroll, `BusinessParallax`); el bloque de «Cuatro caminos» lo rehacía otra sesión en paralelo (`ConnectionPaths`) y no lo toqué.
+
+- **Quitado:** el botón «Explorar un piloto» y la etiqueta «Propuesta de incorporación · en preparación». También los textos `status` y `pilot` de `narrative.ts` (ES y EN), que quedaron sin uso, y ajusté la fila de Empresas de `docs/messaging-map.md`.
+- **El texto de abajo:** sin el kicker en mono («03 / CONDICIONES») ni la barra violeta lateral. Ahora es un icono que dice quién actúa (catálogo, agente, reglas, respuesta) más título y cuerpo, con los mismos textos de antes. Desaparece el desajuste «03» frente a la card activa «02». El cambio de momento usa el patrón de «Ocho pisos»: sube con un poco de desenfoque (título, luego cuerpo) y sale más rápido.
+- **Las cards como workflow:** cada card es un nodo con puertos en los bordes y un conector con flecha entre nodos. Al pasar de paso, el número del anterior se vuelve un check que se dibuja, el conector se llena (violeta a cian), el siguiente nodo se enciende y un destello corre por el conector que sale de él (solo mientras la escena está en pantalla). El último nodo se cierra al terminar la escena. En móvil queda como un riel de tres círculos unidos con el título debajo. Cada nodo muestra lo que produce (Catálogo, Cotización, Orden: copy que ya existía). Quité la barra de progreso inferior, que los conectores sustituyen.
+- **Movimiento reducido:** mismos estados con fundidos simples, sin desplazamientos ni destello; los clics en los nodos siguen funcionando.
+
+Comprobado: `tsc` limpio, 47 pruebas OK (1 omitida), detector de Impeccable sin hallazgos, capturas de 1920 a 360 px en ES y EN, avance por scroll, clic en cada nodo, movimiento reducido y que nada se recorta desde 1280×600 hasta 820×1180. No probé Safari ni dispositivos reales, ni `next build`. El commit `d90a867` en `main` (no lo hice yo) ya incluye estos archivos junto con `ConnectionPaths`; de mi parte quedan sin commit la fila de `messaging-map.md` y esta entrada. No hice commit ni push.
+
+## 2026-10-09T16:33:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de lo que estaba strabajando quitale lo que es en preparacion y lo que es Primer camino del piloto y que ya sea vea mejor que entre bien en la pantalla 16:9
+
+[adjunto: captura de las cuatro cards A–D de «Cuatro caminos para conectarte», con la etiqueta «En preparación» en cada una y el botón «Primer camino del piloto» en la A]
+
+### Salida
+
+Quité de las cuatro cards la etiqueta «En preparación» y el botón «Primer camino del piloto», y también esas dos cadenas de los textos (español e inglés). Ajusté la sección para que quepa en una pantalla 16:9: sin pie en las cards, banda del título más baja, ilustraciones con altura según la pantalla, márgenes según la altura y contenido centrado en el espacio bajo el menú.
+
+Medí la sección con la ventana a la altura que queda en pantallas 16:9: cabe entera en 1920×950, 1536×740, 1440×700 y 1366×650; no cabe en 1280×610 (579 px frente a 530). En pantallas bajas las ilustraciones se ven completas y algo más pequeñas; en altas llenan el ancho de la card. Tableta y móvil no cambian de estructura.
+
+Aviso: mientras trabajaba, alguien borró en `narrative.ts` la nota en español «Son propuestas de incorporación, no productos lanzados…» (no fui yo; el archivo cambió a las 12:41). Terminé esa edición para que compile y los dos idiomas coincidan: quité también la nota en inglés, el campo del tipo y el párrafo del componente. Resultado: esta sección ya no dice en ningún sitio que los caminos son propuestas, y la card A sigue resaltada. Si se quiere recuperar, se restaura la nota.
+
+Comprobado: `tsc` limpio, 47 pruebas pasan (1 omitida), capturas en 1920, 1536, 1440, 1366, 900 y 390 px, ES/EN. El detector de Impeccable solo marca el texto con degradado de «hoy.», que es intencional. Sin commit.
+
+Hora del prompt aproximada (no se anotó al recibirlo).

@@ -135,7 +135,7 @@ Base: contexto oficial (8–9 oct), «Secuencia recomendada de la página» del 
 
 | Bloque / ancla | Qué explica | Estado que declara |
 | --- | --- | --- |
-| Empresas / `#businesses` | No hace falta agente ni sitio web. Cuatro caminos (consola gestionada, archivo, API o POS, agente propio) y qué conserva cada parte | Propuesta de incorporación · en preparación |
+| Empresas / `#businesses` | No hace falta agente ni sitio web. Cuatro caminos (consola gestionada, archivo, API o POS, agente propio) y qué conserva cada parte | Propuestas de incorporación, no productos lanzados: «En preparación» en cada camino y en la nota que los cierra (el encabezado ya no lleva etiqueta de estado) |
 | Flujo / `#flow` | Una operación en seis pasos (pedido, oferta, reglas, aprobación, pago, dos recibos), cada uno con responsable y estado | Recorrido ilustrativo, importes de prueba |
 | Rutas de pago / `#rails` | Dos rutas alternativas (x402 directo, CCTP desde otra red), mapa de ocho redes, límites y evidencia | Fuji → Stellar «verificado»; seis redes «laboratorio»; x402 «prueba aislada» |
 | Evidencia / `#evidence` | Dos pagos de testnet con enlaces a Snowtrace y Stellar Expert | Pago técnico, no una orden comercial |

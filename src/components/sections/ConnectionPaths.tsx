@@ -460,17 +460,12 @@ export function ConnectionPaths({ t }: { t: Copy }) {
                   <h4>{item.title}</h4>
                   <p className={styles.who}>{item.who}</p>
                   <p className={styles.body}>{item.body}</p>
-                  <div className={styles.foot}>
-                    <span className={styles.status}>{c.status}</span>
-                    {i === 0 && <a className={styles.cta} href="#roadmap">{c.first}<Icon name="arrow" /></a>}
-                  </div>
                 </article></div></div>
               </li>
             );
           })}
         </ul>
       </div>
-      <p className={styles.note}>{c.note}</p>
     </section>
   );
 }
