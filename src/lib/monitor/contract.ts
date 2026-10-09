@@ -25,6 +25,8 @@ export const MONITOR_EVENT_TYPES = [
   "vault.disbursement.transition",
   "vault.disbursement.uncertain",
   "vault.disbursement.rejected",
+  "account.transition",
+  "account.deploy_delayed",
   "relayer.transaction_update",
   "relayer.state_update",
   "relayer.notification",
