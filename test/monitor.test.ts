@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { readAccess, refuse, SESSION_COOKIE } from "../src/lib/monitor/access.ts";
-import { MONITOR_EVENT_TYPES, MONITOR_SCHEMA, parseDelivery, type MonitorDelivery, type MonitorEvent } from "../src/lib/monitor/contract.ts";
+import { MONITOR_EVENT_TYPES, MONITOR_SCHEMA, parseDelivery, type MonitorDelivery, type MonitorEvent, type ResourceSnapshot } from "../src/lib/monitor/contract.ts";
 import { ALERT_CATALOG, categoryOf, CATEGORY_LABELS, EVENT_CATALOG, explainAlert, explainEvent, MONITOR_CATEGORIES } from "../src/lib/monitor/interpret.ts";
 import { sessionValue, signDelivery, verifyDelivery } from "../src/lib/monitor/signature.ts";
 import { MonitorStore } from "../src/lib/monitor/store.ts";
@@ -241,4 +241,29 @@ test("contract: event types and alert codes match the backend's", { skip: !exist
   const codes = new Set([...resources.matchAll(/add\((?:"|`)([A-Z_]+)/g)].map((m) => m[1]!));
   assert.ok(codes.size >= 10);
   for (const code of codes) assert.ok(ALERT_CATALOG[code], `alert ${code} has no explanation`);
+});
+
+test("vaults: one per network, the original vault from an older backend, and alerts told apart by network", async () => {
+  const { vaultsOf, vaultLevel, networkName } = await import("../src/lib/monitor/vaults.ts");
+  const view = { address: "0x841d", paused: false, operatorIsRelayer: true, balance: "250", pending: "0", maxPerDisbursement: "100", dailyLimit: "1000", availableToday: "1000" };
+  const base = { takenAt: "t", alerts: [] } as unknown as ResourceSnapshot;
+
+  // A backend that predates `vaults` sends only `vault`.
+  assert.deepEqual(vaultsOf({ ...base, vault: view }), [{ network: "eip155:43113", vault: view }]);
+  assert.deepEqual(vaultsOf({ ...base, vault: null, vaultError: "timeout" }), [{ network: "eip155:43113", vault: null, error: "timeout" }]);
+  assert.deepEqual(vaultsOf({ ...base, vault: null }), []);
+  const both = [{ network: "eip155:43113", vault: view }, { network: "stellar:testnet", vault: { ...view, address: "CDQ5", balance: "4.65" } }];
+  assert.deepEqual(vaultsOf({ ...base, vault: view, vaults: both }), both);
+
+  const alerts = [
+    { code: "VAULT_LOW:stellar:testnet", severity: "warning" as const },
+    { code: "VAULT_EMPTY", severity: "error" as const },
+    { code: "RELAYER_LOW_GAS:stellar-example", severity: "warning" as const },
+  ];
+  assert.equal(vaultLevel(alerts, "eip155:43113"), "error");
+  assert.equal(vaultLevel(alerts, "stellar:testnet"), "warning");
+  assert.equal(vaultLevel([], "stellar:testnet"), "ok");
+  assert.equal(vaultLevel([{ code: "VAULT_EMPTY:stellar:testnet", severity: "error" }], "eip155:43113"), "ok", "another network's alert is not the primary's");
+  assert.equal(networkName("stellar:testnet"), "Stellar Testnet");
+  assert.equal(networkName("eip155:1"), "eip155:1");
 });

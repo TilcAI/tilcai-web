@@ -69,6 +69,26 @@ export interface MonitorDelivery {
   events: MonitorEvent[];
 }
 
+/** What one vault holds and has left to pay today, in USDC. */
+export interface VaultView {
+  address: string;
+  paused: boolean;
+  operatorIsRelayer: boolean;
+  balance: string;
+  pending: string;
+  maxPerDisbursement: string;
+  dailyLimit: string;
+  availableToday: string;
+}
+
+/** One network's vault in a snapshot: what it holds, or why it could not be read. */
+export interface VaultEntry {
+  /** CAIP-2 id of the network: `eip155:43113`, `stellar:testnet`. */
+  network: string;
+  vault: VaultView | null;
+  error?: string;
+}
+
 /** `data` of a `resources.snapshot` event. */
 export interface ResourceSnapshot {
   takenAt: string;
@@ -110,17 +130,11 @@ export interface ResourceSnapshot {
       error?: string;
     }>;
   };
-  vault: {
-    address: string;
-    paused: boolean;
-    operatorIsRelayer: boolean;
-    balance: string;
-    pending: string;
-    maxPerDisbursement: string;
-    dailyLimit: string;
-    availableToday: string;
-  } | null;
+  /** The primary vault (Avalanche Fuji's). Older backends send only this one. */
+  vault: VaultView | null;
   vaultError?: string;
+  /** Every vault the backend has configured, the primary first (Fuji, Stellar). Absent from older backends. */
+  vaults?: VaultEntry[];
   monitor: { head: number; sinks: Array<{ name: string; lastSeq: number; lag: number; attempts: number; lastError: string | null; lastDeliveredAt: string | null }> };
   alerts: Array<{ code: string; severity: "warning" | "error"; message: string }>;
 }

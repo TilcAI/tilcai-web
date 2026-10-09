@@ -379,6 +379,9 @@ Pendiente o sin probar: no se hizo una compra ni un alta de billetera reales por
 
 **En este repositorio.** Rama `main`. `Dockerfile` y `.dockerignore` para servir el sitio y el tablero en un contenedor, y su apartado en el `README.md`. La imagen se construyó y es la que corre en el servidor.
 
+## 2026-10-09T18:24:44Z · saulchoque123 · Claude Code (Sonnet 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01XXALddBkW59xRAowuFKvD7
 ## 2026-10-09T18:55:13Z · JHAMILCALI · Antigravity · Gemini 3.7 Flash
 
 - **Sesión:** b1847629-f84d-45aa-ab0e-bf11db221c9f
@@ -387,6 +390,25 @@ Pendiente o sin probar: no se hizo una compra ni un alta de billetera reales por
 
 ### Prompt
 
+> Estoy intentanto acceder al dashboard desde otro equipo de la red de tailscale y el token MONITOR_DASHBOARD_TOKEN de .env.docker.local no me funciona. `/api/monitor/session` responde `{"ok":true}` pero `/api/monitor/summary` responde `{error: "unauthorized", message: "Present the dashboard token."}`
+
+### Salida
+
+Causa: `/api/monitor/session` ponía la cookie con `secure: true` (NODE_ENV=production) y el navegador descarta una cookie Secure recibida por `http://100.111.32.67:3311`, así que el token era válido pero la sesión nunca quedaba. Cambio en `src/app/api/monitor/session/route.ts`: `secure` sigue ahora el protocolo real de la petición (`x-forwarded-proto` o la URL). Falta reconstruir el contenedor `tilcai-web`. Mientras tanto, los scripts pueden usar `Authorization: Bearer <token>`.
+
+## 2026-10-09T21:50:01Z · SaulChoque · Claude Code (Sonnet 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01XXALddBkW59xRAowuFKvD7
+- **Rama:** `feat/monitor-vault-stellar`
+- **Repositorios:** `tilcai-infrastructure`, `tilcai-web`, `documentation`
+
+### Prompt
+
+> actualiza el tablero y haz push y actualiza el docker
+
+### Salida
+
+**En este repositorio.** El tablero muestra una tarjeta de vault por red (Avalanche Fuji, Stellar Testnet) con su nivel de alerta propio; un backend anterior, que solo envía \`vault\`, se ve igual que antes. Incluye también la cookie de sesión que ya no exige HTTPS cuando se entra por http (corrección de las 18:24Z, que se había reconstruido en el contenedor sin commit). 57 pruebas y \`tsc\` limpios; \`eslint\` no arranca en este entorno (error al cargar \`eslint-config-next\`). El contenedor \`tilcai-web\` se recreó con la imagen nueva (\`healthy\`, mismo volumen y variables); la anterior queda como \`tilcai/tilcai-web:pre-vault-stellar\`.
 > en la seccion rutas de pago has los siguintos cambios y si hay que generar imagenes vas a generar imagenes sin fondo y que se vea de la mejor manera y buena resolucion y has lo siguinte "Quiero REDISEÑAR ÚNICAMENTE la sección “Rutas de pago” de mi landing TilcAI.
 >
 > Adjunto una imagen de referencia visual [adjunto: captura de referencia visual fintech glassmorphic de rutas de pago]. Quiero que la nueva sección conserve la identidad actual de TilcAI, pero se acerque visualmente a esa referencia:

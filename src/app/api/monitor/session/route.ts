@@ -13,7 +13,9 @@ export async function POST(request: Request): Promise<Response> {
   (await cookies()).set(SESSION_COOKIE, sessionValue(token), {
     httpOnly: true,
     sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
+    // A Secure cookie set over plain http (a tailnet IP, no TLS) is dropped by the browser, so the
+    // session would answer ok and never stick. Secure follows how the request actually arrived.
+    secure: (request.headers.get("x-forwarded-proto") ?? new URL(request.url).protocol.replace(":", "")) === "https",
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,
   });
