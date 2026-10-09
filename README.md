@@ -38,6 +38,8 @@ pnpm test         # node --experimental-strip-types --test test/*.test.ts
 | `/` | Redirects to `/en` (see `next.config.ts`) |
 | `/en`, `/es` | Landing |
 | `/en/docs`, `/es/docs` | Proposed design: architecture, business integration, MCP and assistants, permissions and payments, planned extensions |
+| `/en/monitor`, `/es/monitor` | Backend monitor: resources, alerts and events reported by TilcAI's backend (see [Backend monitor](#backend-monitor)). Not linked from the site and not indexed |
+| `/api/monitor/*` | The monitor's API: `events` (ingest and feed), `summary`, `stream` (Server-Sent Events) and `session` |
 
 Both languages are generated statically (`generateStaticParams`); any other language segment returns 404.
 The landing's `#demo` section shows three fixed policy scenarios. It does not call `tilcai-core` or a payment network.
@@ -52,6 +54,7 @@ src/
 │       ├── layout.tsx            # root layout: <html lang>, fonts, metadata base
 │       ├── page.tsx              # landing
 │       ├── docs/page.tsx         # proposed architecture
+│       ├── monitor/page.tsx      # backend monitor (static shell; data comes from /api/monitor)
 │       └── not-found.tsx
 ├── components/
 │   ├── PageShell.tsx             # skip link + header + main + footer
@@ -135,6 +138,49 @@ Skip link, visible focus, keyboard-operable menu (Esc closes) and code tabs (arr
 The production build and TypeScript check pass. Dictionary parity, eight FAQ answers per language (40–80 words), desktop/mobile copy, FAQ keyboard operation and the mobile menu after language switching were checked locally. See [the verification record](docs/messaging-map.md#verificación-local--2026-09-30) for scope and pending team review.
 
 Lint remains blocked before source analysis: the installed `typescript-eslint` rejects TypeScript 7.0.2. Resolve the tooling compatibility in a dependency task; do not work around it by rebuilding this project from a scaffold. This content update preserves `package.json` and `pnpm-lock.yaml`.
+
+## Backend monitor
+
+`tilcai-infrastructure` pushes its events to this site, which keeps the latest ones and shows
+them with their interpretation. The full explanation of both sides is in
+[`documentation/2-ARQUITECTURA/TILCAI_MONITORIZACION_EVENTOS_BACKEND_FRONTEND_2026-10-09.md`](https://github.com/TilcAI/documentation/blob/main/2-ARQUITECTURA/TILCAI_MONITORIZACION_EVENTOS_BACKEND_FRONTEND_2026-10-09.md).
+
+```text
+backend ── POST /api/monitor/events (signed) ──▶ MonitorStore (memory) ──▶ GET /api/monitor/summary
+                                                       │                    GET /api/monitor/events?after=<cursor>
+                                                       └──────────────────▶ GET /api/monitor/stream (SSE) ──▶ /[lang]/monitor
+```
+
+| Piece | Where | What it does |
+| --- | --- | --- |
+| Contract | `src/lib/monitor/contract.ts` | Types of `tilcai-monitor-v1` and the validation of a delivery. Mirrors the backend's `src/modules/monitor/domain.ts` |
+| Signature | `src/lib/monitor/signature.ts` | `X-Tilcai-Signature: v1=HMAC-SHA256(secret, "<X-Tilcai-Timestamp>.<body>")`, refused when older than 5 minutes |
+| Store | `src/lib/monitor/store.ts` | The last 2000 events, each backend's last resource snapshot and its active alerts. A cache of the backend's log, not the log |
+| Interpretation | `src/lib/monitor/interpret.ts` | What every event type and alert code means, and what to do about an alert, in English and Spanish |
+| Access | `src/lib/monitor/access.ts` | Who may read: the dashboard token (session cookie or `Authorization: Bearer`) |
+| Hook and view | `src/components/monitor/` | `useMonitorFeed()` (summary + events + live stream) and `MonitorBoard`, a plain base view |
+
+Configuration (`.env.local`, or the host's environment variables):
+
+| Variable | Purpose |
+| --- | --- |
+| `MONITOR_INGEST_SECRET` | Shared with the backend (`MONITOR_WEB_SECRET` there). Without it the site accepts no events (`503`) |
+| `MONITOR_DASHBOARD_TOKEN` | What a person presents to open `/[lang]/monitor`. Without it the monitor is open in development and closed in production (`503`): it shows balances, addresses and operation ids |
+| `MONITOR_STORE_FILE` | Optional JSON-lines file so a single long-lived server keeps the feed across restarts |
+
+On the backend: `MONITOR_WEB_URL=<this site>/api/monitor/events` and `MONITOR_WEB_SECRET`.
+
+Limits to know before relying on it:
+
+- **The store is in memory.** It starts empty with every server process, and on serverless
+  hosting (Vercel) each instance has its own: an event received by one instance is not seen
+  by a reader served by another. It is correct for `pnpm start` on one host and for local
+  development; a deployment with more than one instance needs a durable store behind the
+  same `MonitorStore` interface first.
+- The backend keeps the complete log (`GET /v1/monitor/events` there) and sends again whatever
+  this site did not acknowledge, so a restart loses history on screen, not events.
+- `MonitorBoard` is the base the designed dashboard builds on: tiles, a feed and filters, no
+  charts or history yet.
 
 ## Deployment
 
