@@ -52,3 +52,41 @@ Incidencias que el usuario debe conocer:
 - `src/components/monitor/` y `src/app/[lang]/monitor/`: `useMonitorFeed()` y una vista base (alertas, tarjetas de recursos y lista de eventos). El tablero con su diseño queda en la issue #25.
 - `README.md` y `.env.example` documentan las variables y el límite del almacén en memoria (no sirve con varias instancias en Vercel).
 - Pruebas: 29 (11 nuevas), `tsc` y `pnpm build` en verde; vista comprobada en navegador con eventos reales. `pnpm lint` ya fallaba en `main` por la versión de TypeScript y no se tocó.
+
+## 2026-10-09T14:42:01Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** feat/landing-explicacion
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora la seccion de Ocho pisos. Un solo recorrido. ese edificio que se vea bien 
+
+### Salida
+
+Mejoré **“Ocho pisos. Un solo recorrido.”**:
+
+- Edificio ampliado y parallax que enfoca cada piso.
+- Botón para ver el edificio completo.
+- Texto estable y controles grandes en móvil.
+- Recorrido de arriba hacia abajo: **08 → 01**.
+
+Validado con build, TypeScript y 44 pruebas correctas (1 omitida).
+
+![Vista móvil mejorada](C:/Users/[REDACTADO]/.codex/visualizations/2026/10/02/01a0fe1c-722a-7b41-a380-2fc6b2d47eeb/office-building-mobile-final.png)
+
+
+## 2026-10-09T15:00:06Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** feat/landing-explicacion
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> en mi git ignore has que todo lo que esta dentro de mi .claude no se suba
+
+### Salida
+
+Añadí `/.claude/` a `.gitignore` de tilcai-web. Con `git check-ignore` comprobé que quedan ignoradas las skills de Emil Kowalski, la skill `impeccable` y sus 4 agentes, y `git status` solo muestra `.gitignore` modificado. No había nada de `.claude` rastreado, así que no hizo falta tocar el índice. Consecuencia: las skills quedan solo en esta máquina y el equipo no las recibirá al clonar; cualquier `.claude/settings.local.json` también queda ignorado. Sin commit.

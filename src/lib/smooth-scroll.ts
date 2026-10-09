@@ -11,6 +11,13 @@ let lenis: Lenis | null = null;
 let tick: ((time: number) => void) | null = null;
 let holders = 0;
 
+/** Navigation and wheel input use the same controller. */
+export function scrollPageTo(top: number) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (lenis) lenis.scrollTo(top, { immediate: reduced, duration: .8 });
+  else window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
+}
+
 export function acquireSmoothScroll(): () => void {
   gsap.registerPlugin(ScrollTrigger);
 

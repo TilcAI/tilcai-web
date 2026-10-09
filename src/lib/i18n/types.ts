@@ -95,7 +95,7 @@ export interface OfficeCopy {
   rooms: Record<RoomId, { name: string; who: string; body: string }>;
   roles: Record<Role, string>;
   tasks: Record<TaskKind, string>;
-  legend: { eyebrow: string; title: string; titleDim: string; lead: string; note: string; buildingEyebrow: string; buildingTitle: string; buildingLead: string; jumpToFloor: string };
+  legend: { eyebrow: string; title: string; titleDim: string; lead: string; note: string; buildingEyebrow: string; buildingTitle: string; buildingLead: string; jumpToFloor: string; buildingSelect: string; buildingScroll: string; buildingFloor: string; buildingOverview: string; buildingDetail: string; buildingPrevious: string; buildingNext: string };
   sim: OfficeStrings;
 }
 
