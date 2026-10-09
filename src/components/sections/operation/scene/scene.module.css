@@ -1,0 +1,25 @@
+/* Text and idle motion inside the operation scene. Everything the timeline moves is addressed by data-k, never by these classes. */
+.mono { font-family: var(--mono); letter-spacing: .06em; fill: #cfc8e6; font-size: 13.5px; font-weight: 500; }
+.small { font-size: 12px; letter-spacing: .08em; fill: #a6a0b8; }
+.value { font-family: var(--font); fill: #f7f5ff; font-size: 19px; font-weight: 500; letter-spacing: -.01em; }
+.label { font-family: var(--mono); fill: #bfb4e0; font-size: 14.5px; letter-spacing: .14em; }
+.cyan { fill: #60e4ff; }
+.violet { fill: #ac76ff; }
+.white { fill: #f7f5ff; }
+.title { font-family: var(--font); fill: #f7f5ff; font-size: 20px; font-weight: 500; letter-spacing: -.02em; }
+.center { text-anchor: middle; }
+.end { text-anchor: end; }
+
+/* Idle: slow, small, and only while the scene is on screen. */
+.ring { transform-box: fill-box; transform-origin: center; animation: spin 70s linear infinite; }
+.ringBack { animation-direction: reverse; animation-duration: 95s; }
+.float { animation: bob 5.5s ease-in-out infinite alternate; }
+.floatLate { animation-duration: 7s; animation-delay: -2.2s; }
+.breathe { animation: breathe 4.6s ease-in-out infinite alternate; }
+.twinkle { animation: twinkle 6s ease-in-out infinite alternate; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bob { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
+@keyframes breathe { from { opacity: .55; } to { opacity: .95; } }
+@keyframes twinkle { from { opacity: .35; } to { opacity: .9; } }
+:global([data-live='false']) .ring, :global([data-live='false']) .float, :global([data-live='false']) .breathe, :global([data-live='false']) .twinkle { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .ring, .float, .breathe, .twinkle { animation: none; } }

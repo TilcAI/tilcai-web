@@ -66,7 +66,11 @@ src/
 │   │   ├── OfficeLegendSection.tsx # "How to read the office": one card per room
 │   │   ├── ProductOverview.tsx   # "What TilcAI is" (copy key `problem`): your agent / TilcAI / the business
 │   │   ├── BusinessesSection.tsx # client: capabilities tabs, the four ways to connect a business, what each side keeps
-│   │   ├── FlowSection.tsx       # client: one operation in six steps with owner and state (copy in i18n/narrative.ts)
+│   │   ├── FlowSection.tsx       # "Cómo funciona": mounts operation/ (copy in i18n/narrative.ts, `flow`)
+│   │   ├── operation/            # one SVG scene + one scroll timeline: agent → business → TilcAI → approval → payment → two receipts
+│   │   │   ├── OperationSection.tsx  # layout, modes (pinned / flow / static), nav timeline, Lenis, ScrollTrigger lifecycle
+│   │   │   ├── timeline.ts           # the single GSAP timeline (phases in phases.ts); step cards on the right follow it
+│   │   │   └── scene/                # one component per SVG group (Agent, Business, Core, Rules, Approval, Payment, Receipts…)
 │   │   ├── RailsSection.tsx      # payment routes: x402 vs CCTP, the CCTP lab map (Fuji verified, rest lab), evidence
 │   │   ├── RoadmapSection.tsx    # build status in three stages; environment chip and maintainer per item
 │   │   ├── BuyerEntrances.tsx    # WhatsApp / MCP / API, each with its real state

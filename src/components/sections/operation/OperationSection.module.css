@@ -1,0 +1,94 @@
+/* "Cómo funciona": one operation told by one scene. Three modes, chosen in JS and written to data-mode:
+   · pinned  desktop/tablet with motion: the scene stays on screen while the scroll tells the operation (sticky, ~600vh)
+   · flow    phone with motion: the scene stays at the top and the cards scroll under it, each as long as its phase
+   · static  no motion (or no script): the scene shows its final state and the six cards read as a normal list */
+.root { --accent: #925fff; position: relative; background: #080819; border-block: 1px solid #a990e51a; scroll-margin-top: 16px; color: #eee8f8; }
+.root[data-mode='pinned'] { height: calc(var(--span, 6) * 100svh); }
+
+.sticky { width: min(1280px, calc(100% - 2 * clamp(20px, 4vw, 64px))); margin-inline: auto; padding-block: clamp(48px, 6vw, 80px); display: grid; grid-template-columns: minmax(0, 47fr) minmax(0, 53fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+.root[data-mode='pinned'] .sticky { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); padding-block: clamp(12px, 2.2svh, 26px); overflow: hidden; align-items: stretch; }
+
+/* ── Left: heading, scene, timeline ──────────────────────────────────────────────────────────────────── */
+.left { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.head { flex: none; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 clamp(8px, 1.4svh, 16px); color: #a98ae9; font: 500 11px/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #925ff6; }
+.title { margin: 0; color: #f1edf8; font-size: clamp(26px, min(2.7vw, 4.6svh), 42px); line-height: 1.1; letter-spacing: -.04em; font-weight: 500; }
+.title span { display: inline-block; white-space: nowrap; margin-right: .2em; }
+.lead { margin: clamp(8px, 1.4svh, 14px) 0 0; max-width: 48ch; color: #a6a0b8; font-size: clamp(13px, min(1.05vw, 2.1svh), 15px); line-height: 1.6; }
+.stage { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; margin-top: clamp(6px, 1.2svh, 14px); }
+.sceneBox { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; visibility: hidden; }
+.root[data-ready='true'] .sceneBox { visibility: visible; }
+.sceneBox :global(.operation-scene) { width: 100%; height: 100%; max-height: 100%; display: block; overflow: hidden; }
+/* Without the pin (no motion, or a phone) the box has no height to share out, so it keeps the drawing's own proportions. */
+.root:not([data-mode='pinned']) .sceneBox { flex: none; aspect-ratio: 960 / 668; }
+@media (min-width: 768px) {
+  .root[data-mode='static'] .left { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; }
+  .root[data-mode='static'] .sticky { align-items: start; }
+}
+
+.timeline { position: relative; flex: none; margin-top: clamp(4px, 1svh, 12px); }
+.timeline ol { position: relative; display: flex; justify-content: space-between; margin: 0; padding: 0; list-style: none; }
+.line { position: absolute; left: 20px; right: 20px; top: 20px; height: 2px; border-radius: 2px; background: #2e2548; overflow: hidden; }
+.line i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #925fff, #48d9ff); transform-origin: 0 50%; transform: scaleX(0); }
+.mark { position: relative; z-index: 1; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #665581; border-radius: 50%; background: #080819; color: #a99cbf; font: 12px var(--mono); transition: background-color .35s, border-color .35s, color .35s; }
+.mark svg { position: absolute; width: 16px; height: 16px; opacity: 0; transition: opacity .3s; }
+.mark span { transition: opacity .3s; }
+.item[data-state='active'] .mark { background: #6024e8; border-color: #b693fa; color: #fff; }
+.item[data-state='done'] .mark { border-color: #48d9ff; color: #48d9ff; }
+.item[data-state='done'] .mark svg { opacity: 1; }
+.item[data-state='done'] .mark span { opacity: 0; }
+.mark:focus-visible { outline: 2px solid #57d2f9; outline-offset: 4px; }
+.caption { flex: none; margin: clamp(4px, 1svh, 12px) 0 0; color: #93899f; font: 10px/1.6 var(--mono); }
+
+/* ── Right: the step that is happening ─────────────────────────────────────────────────────────────────── */
+.right { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.stack { position: relative; }
+.bar { display: none; position: absolute; z-index: 2; top: 0; left: 0; right: 0; height: 2px; background: #2a2142; overflow: hidden; }
+.bar i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #925fff, #48d9ff); transform-origin: 0 50%; }
+.root[data-mode='pinned'] .bar { display: block; }
+.steps { list-style: none; margin: 0; padding: 0; }
+.root[data-mode='pinned'] .steps { display: grid; align-items: start; }
+.step { min-width: 0; padding: 28px 0; }
+.root[data-mode='pinned'] .step { grid-area: 1 / 1; padding: 0; }
+.root[data-mode='pinned'] .step[data-active='false'] { pointer-events: none; }
+.stepCard { border-top: 1px solid #74618c; border-bottom: 1px solid #74618c33; padding: clamp(18px, 3.2svh, 32px) 0; }
+.root[data-mode='pinned'] .stepCard { border-top-color: #ae83fa; }
+.stepNumber { font: 12px var(--mono); letter-spacing: .12em; color: #9f7edf; }
+.stepActor { color: #cdbcf7; letter-spacing: .04em; }
+.stepCard h3 { margin: clamp(10px, 2svh, 18px) 0; color: #eee8f8; font-size: clamp(28px, min(3vw, 5.4svh), 46px); font-weight: 500; letter-spacing: -.03em; line-height: 1.08; }
+.stepCard p { margin: 0; color: #b6adc9; font-size: clamp(14px, min(1.15vw, 2.3svh), 16px); line-height: 1.7; max-width: 56ch; }
+.artifact { margin: clamp(14px, 2.6svh, 24px) 0; padding: clamp(14px, 2.4svh, 20px) 22px; border: 1px solid #9b7bdb55; border-radius: 14px; background: linear-gradient(135deg, #26203b, #141126); }
+.artifactHead { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 12px; color: #d8c6ff; font-size: 16px; }
+.artifactHead strong { font-weight: 500; }
+.artifactHead span { color: #9a8fb2; font: 10px var(--mono); }
+.artifact ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.artifact li { display: flex; align-items: center; gap: 9px; color: #b8b1c8; font-size: 13px; }
+.artifact li::before { content: ''; flex: none; width: 5px; height: 5px; border: 1px solid #57d2f9; border-radius: 1px; }
+/* The closing line is marked by a short cyan dash, not a side border. */
+.stepCard p.detail { position: relative; padding-left: 28px; color: #a0b6c9; font-size: 13px; line-height: 1.6; }
+.stepCard p.detail::before { content: ''; position: absolute; left: 0; top: .8em; width: 16px; height: 1.5px; border-radius: 1px; background: #57d2f9; }
+
+/* ── Phone: the scene stays at the top, the cards scroll under it ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  .sticky { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: 40px 56px; }
+  .left { display: contents; }
+  .head { padding-bottom: 6px; }
+  .title { font-size: clamp(26px, 8vw, 34px); }
+  .stage { position: relative; margin-top: 0; padding: 6px 0 8px; background: #080819; }
+  .root[data-mode='flow'] .stage { position: sticky; top: calc(var(--header-h) + 4px); z-index: 3; box-shadow: 0 14px 20px -8px #080819; }
+  .sceneBox { flex: none; aspect-ratio: 960 / 668; max-height: 34svh; width: 100%; justify-self: center; }
+  .caption { margin: 6px 0 0; font-size: 9.5px; line-height: 1.4; }
+  .root[data-mode='flow'] .step { min-height: calc(var(--len, .16) * 380svh); display: flex; align-items: center; padding: 18px 0; }
+  .root[data-mode='flow'] .stepCard { width: 100%; }
+  .mark { width: 34px; height: 34px; }
+  .line { left: 17px; right: 17px; top: 17px; }
+}
+/* Tablet: the same pinned scene, stacked */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .sticky { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1.25fr) minmax(0, 1fr); gap: 10px; }
+  .root[data-mode='pinned'] .right { justify-content: flex-start; padding-top: 8px; }
+  .lead { display: none; }
+}
+@media (max-height: 640px) and (min-width: 1100px) { .lead { display: none; } .artifactHead { font-size: 14px; } .artifact li { font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .mark, .mark svg, .mark span { transition: none; } }

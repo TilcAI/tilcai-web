@@ -3,6 +3,16 @@ import type { Locale } from "./types";
 interface FlowStepCopy { title: string; actor: string; state: string; body: string; detail: string; artifact: string; lines: string[] }
 interface PathCopy { key: string; title: string; who: string; body: string }
 interface EntranceCopy { id: "whatsapp" | "mcp" | "api"; title: string; body: string; status: string; note: string }
+/** Short labels drawn inside the animated scene. Decorative: every fact is also in the step cards beside it. */
+interface FlowSceneCopy {
+  agents: { claude: string; codex: string; own: string };
+  request: string;
+  offer: { price: string; priceValue: string; stock: string; stockValue: string; validity: string; validityValue: string; quote: string };
+  core: string; checks: string[]; requires: string; approvedTag: string;
+  review: { title: string; you: string; rows: string[]; reject: string; approve: string; approved: string; authorization: string };
+  rail: string; stops: string[]; settled: string;
+  receipts: { payment: string; delivery: string; paid: string; pending: string; confirmed: string; sameOrder: string; notDelivery: string };
+}
 interface RouteCopy { id: "direct" | "cctp"; title: string; tag: string; body: string; status: string; tone: "verified" | "lab"; note: string }
 
 interface NarrativeCopy {
@@ -16,7 +26,7 @@ interface NarrativeCopy {
     };
     keep: { title: string; yours: { title: string; lines: string[] }; ours: { title: string; lines: string[] }; note: string };
   };
-  flow: { title: string; lead: string; label: string; agent: string; business: string; actor: string; state: string; steps: FlowStepCopy[] };
+  flow: { title: string; lead: string; label: string; agent: string; business: string; actor: string; state: string; steps: FlowStepCopy[]; scene: FlowSceneCopy };
   control: { title: string; lead: string; recipient: string; recipientValue: string; expiry: string; expiryValue: string; review: string; docs: string };
   stack: { title: string; note: string };
   cta: { title: string; body: string; primary: string; secondary: string; tertiary: string };
@@ -78,6 +88,15 @@ const es: NarrativeCopy = {
       { title: "Pago", actor: "Riel de pago", state: "Liquidado", body: "TilcAI crea una orden con clave de idempotencia y ejecuta un solo intento por la ruta elegida. Después comprueba en la red el activo, el importe, el destinatario y el resultado.", detail: "Un resultado incierto se concilia; el pago no se repite a ciegas.", artifact: "Intento de pago", lines: ["Una orden · un intento", "Ruta: USDC de Fuji a Stellar (CCTP)", "Evidencia: hash de origen y de destino"] },
       { title: "Dos recibos", actor: "Negocio y TilcAI", state: "Cerrada o en seguimiento", body: "Comprador y negocio ven el mismo estado de la orden. El recibo de pago llega al liquidarse; la confirmación del retiro la registra el negocio aparte.", detail: "Pagado no significa entregado.", artifact: "Evidencias de la operación", lines: ["Recibo de pago con enlaces de testnet", "Confirmación de retiro del negocio", "El mismo orderId para ambos"] },
     ],
+    scene: {
+      agents: { claude: "Claude", codex: "Codex", own: "Agente propio" },
+      request: "SOLICITUD",
+      offer: { price: "PRECIO", priceValue: "0,10 USDC", stock: "STOCK", stockValue: "20 unidades", validity: "VIGENCIA", validityValue: "15 min", quote: "COTIZACIÓN" },
+      core: "TilcAI", checks: ["IDENTIDAD", "OFERTA", "DESTINO", "PRESUPUESTO", "ACTIVO", "RED"], requires: "REQUIERE APROBACIÓN", approvedTag: "APROBADO",
+      review: { title: "REVISIÓN DE COMPRA", you: "TÚ", rows: ["20 bolsas", "0,10 USDC", "Ferretería verificada", "15 min"], reject: "RECHAZAR", approve: "APROBAR", approved: "APROBADO", authorization: "AUTORIZACIÓN" },
+      rail: "RIEL DE PAGO", stops: ["ORDEN", "FIRMA", "RED", "LIQUIDACIÓN"], settled: "LIQUIDADO",
+      receipts: { payment: "RECIBO DE PAGO", delivery: "RECIBO DE ENTREGA", paid: "Liquidado", pending: "Pendiente", confirmed: "Confirmado", sameOrder: "MISMO orderId", notDelivery: "PAGO ≠ ENTREGA" },
+    },
   },
   control: { title: "Una tarea concreta. Un permiso limitado.", lead: "Tú decides qué se autoriza, cuánto puede gastar y cuándo deja de ser válido.", recipient: "Destinatario", recipientValue: "Negocio autorizado", expiry: "Vigencia", expiryValue: "Solo esta compra", review: "Condiciones para revisar", docs: "Entender los permisos" },
   stack: { title: "Las piezas detrás de cada operación.", note: "Componentes y protocolos del diseño · el estado de cada capacidad está en «Avance»" },
@@ -181,6 +200,15 @@ const en: NarrativeCopy = {
       { title: "Payment", actor: "Payment rail", state: "Settled", body: "TilcAI creates an order with an idempotency key and runs a single attempt over the chosen route. Then it checks the asset, amount, payee and result on the network.", detail: "An uncertain result is reconciled; the payment is not blindly repeated.", artifact: "Payment attempt", lines: ["One order · one attempt", "Route: USDC from Fuji to Stellar (CCTP)", "Evidence: source and destination hash"] },
       { title: "Two receipts", actor: "Business and TilcAI", state: "Closed or being followed", body: "Buyer and business see the same order state. The payment receipt arrives when it settles; the business records the pick-up confirmation separately.", detail: "Paid does not mean delivered.", artifact: "Operation evidence", lines: ["Payment receipt with testnet links", "Pick-up confirmation from the business", "The same orderId for both"] },
     ],
+    scene: {
+      agents: { claude: "Claude", codex: "Codex", own: "Your own agent" },
+      request: "REQUEST",
+      offer: { price: "PRICE", priceValue: "0.10 USDC", stock: "STOCK", stockValue: "20 units", validity: "VALIDITY", validityValue: "15 min", quote: "QUOTE" },
+      core: "TilcAI", checks: ["IDENTITY", "OFFER", "DESTINATION", "BUDGET", "ASSET", "NETWORK"], requires: "APPROVAL REQUIRED", approvedTag: "APPROVED",
+      review: { title: "PURCHASE REVIEW", you: "YOU", rows: ["20 bags", "0.10 USDC", "Hardware store verified", "15 min"], reject: "REJECT", approve: "APPROVE", approved: "APPROVED", authorization: "AUTHORIZATION" },
+      rail: "PAYMENT RAIL", stops: ["ORDER", "SIGN", "NETWORK", "SETTLEMENT"], settled: "SETTLED",
+      receipts: { payment: "PAYMENT RECEIPT", delivery: "DELIVERY RECEIPT", paid: "Settled", pending: "Pending", confirmed: "Confirmed", sameOrder: "SAME orderId", notDelivery: "PAID ≠ DELIVERED" },
+    },
   },
   control: { title: "A specific task. A limited permission.", lead: "You decide what is authorized, how much it can spend and when it expires.", recipient: "Payee", recipientValue: "Authorized business", expiry: "Validity", expiryValue: "This purchase only", review: "Terms to review", docs: "Understand permissions" },
   stack: { title: "The pieces behind each operation.", note: "Design components and protocols · the status of each capability is under “Progress”" },

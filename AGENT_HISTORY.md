@@ -304,3 +304,30 @@ Aviso: mientras trabajaba, alguien borró en `narrative.ts` la nota en español 
 Comprobado: `tsc` limpio, 47 pruebas pasan (1 omitida), capturas en 1920, 1536, 1440, 1366, 900 y 390 px, ES/EN. El detector de Impeccable solo marca el texto con degradado de «hoy.», que es intencional. Sin commit.
 
 Hora del prompt aproximada (no se anotó al recibirlo).
+
+## 2026-10-09T16:55:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> en la seccion de "Cómo funciona" quiero que realices lo siguinte "
+
+[texto pegado de unas 1000 líneas con el encargo de diseño y animación de «Cómo funciona · Una operación. Seis pasos. Dos recibos.». Pide una única escena SVG viva (no seis imágenes) que se acumule paso a paso: 01 Pedido (agente → documento → negocio), 02 Oferta (tres paneles que se funden en una cotización), 03 Reglas (nodo TilcAI con seis comprobaciones y «requiere aprobación»), 04 Aprobación (panel de revisión, botón APROBAR, token de autorización), 05 Pago (riel con cuatro puntos de control y un token), 06 Dos recibos (recibo de pago y recibo de entrega unidos por el mismo orderId). Usa GSAP con una sola timeline y ScrollTrigger (≈600vh), Lenis, cámara SVG con zoom 1→1,10→1,02, parallax de profundidad y de cursor con topes en píxeles, insignias genéricas Claude / Codex / Agente propio, parpadeo y flotación del agente, luz de la tienda según la fase, navegación 01–06 como línea de tiempo que se rellena, panel derecho sincronizado con salida hacia arriba y entrada desde abajo, hasta 12 partículas, filtros #glow-purple y #glow-cyan, versión de tableta (≈500vh) y móvil (≈400vh, una columna), rendimiento (transform, opacity, strokeDashoffset), rama de movimiento reducido sin pin ni partículas, textos existentes intactos y limpieza de ScrollTrigger al desmontar.]
+
+### Salida
+
+Reemplacé la sección «Cómo funciona» por una escena SVG única con una sola timeline de scroll. `FlowSection` ahora monta `operation/` (`OperationSection`, `OperationScene`, `timeline.ts`, `phases.ts` y un componente por grupo SVG en `scene/`: Agent, AgentBadges, Business, Connection, Request, Offer, Core, Rules, Approval, Payment, Receipts, Particles, Grid, Defs).
+
+- **Una escena que se acumula:** los objetos no se cambian entre pasos; cada fase añade a lo anterior y la escena nunca se reinicia. Fases 0–16–32–49–66–83–100 % de una timeline de longitud 1 controlada por un único ScrollTrigger por modo.
+- **Pasos:** insignias Claude/Codex/Agente propio que se pliegan en el agente; documento y punto que viajan por la ruta curva; tres paneles que se funden en la cotización; cubo TilcAI con seis comprobaciones que dibujan su marca y «requiere aprobación»; panel de revisión con botón APROBAR, marca dibujada y token de autorización que llega al núcleo; riel con cuatro puntos de control y una ficha; dos recibos unidos por «MISMO orderId» y «PAGO ≠ ENTREGA».
+- **Cámara y parallax:** zoom 1 → 1,02 → 1,05 → 1,10 → 1,06 → 1,02; parallax de cursor con topes de unos 1–6 px por capa (solo escritorio con puntero fino); reposo lento (parpadeo, cabeceo, respiración de halos) solo mientras la sección está en pantalla.
+- **Panel derecho y navegación:** cada tarjeta sale hacia arriba y la siguiente entra desde abajo (título, texto, tarjeta, frase con revelado por clip-path); barra superior y línea de tiempo 01–06 con marcas que pasan de violeta a cian con ✓.
+- **Modos:** escritorio fijado con sticky (≈600vh), tableta (≈500vh), móvil con la escena arriba y las tarjetas debajo (≈4,5 pantallas), y sin movimiento: escena en su estado final y lista de seis tarjetas, sin pin.
+- **Textos:** se mantienen los existentes; se añadieron etiquetas cortas de la escena (`flow.scene`) en español e inglés. Quité del CSS compartido las reglas del antiguo `journey`.
+
+Comprobado: `tsc` limpio, 55 pruebas pasan (1 omitida; 8 nuevas en `test/operation-scene.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 900 y 390 px, ES/EN, movimiento reducido y cambio de tamaño entre modos sin errores. No probado: Safari ni dispositivos reales, ni rendimiento de fotogramas en hardware real (el navegador de pruebas no tiene GPU). `CommerceIllustration.tsx` ya no se usa y queda sin borrar. Sin commit.
+
+Hora del prompt aproximada (no se anotó al recibirlo).
