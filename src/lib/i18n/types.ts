@@ -8,7 +8,7 @@ export type Locale = "en" | "es";
 
 export type Stage = "available" | "integration" | "next";
 export type IntegrationStatus = "preparation" | "guide" | "pilot" | "enabled";
-export type Environment = "simulation" | "testnet" | "production";
+export type Environment = "simulation" | "testnet" | "mainnet" | "production";
 
 /**
  * Closed keys for the business grid. A profile can only name a category or service summary that
@@ -22,7 +22,7 @@ export const FAQ_IDS = ["assistant", "wallet", "authority", "business", "today",
 export type FaqId = typeof FAQ_IDS[number];
 
 export const ROADMAP_IDS = [
-  "cctp", "evaluator", "contracts", "site",
+  "cctp", "vault", "evaluator", "contracts", "monitor", "site",
   "rail", "connector", "commerce", "approval", "reconciliation", "whatsapp", "tenants",
   "smartAccounts", "sharedBudget", "scheduled", "networks", "fiat",
 ] as const;

@@ -5,8 +5,8 @@ import { networkLogos } from "../content/network-logos.ts";
 // dangerouslySetInnerHTML. Never interpolate form data, URL parameters or any
 // user-supplied value.
 //
-// Source: the team's official context (cut of 8 and 9 October 2026) and the code of
-// tilcai-core, tilcai-infrastructure and tilcai-cctp-engine. If an older document claims
+// Source: the team's official context (cut of 8 to 10 October 2026), the 10 October document on mainnet and
+// testnet running together and the code of tilcai-core, tilcai-infrastructure and tilcai-cctp-engine. If an older document claims
 // another status, the code and its tests decide. Keep aligned with src/lib/content/roadmap.ts.
 export const docsEn: Copy["docs"] = {
   status: "Proposed architecture · in development · subject to change",
@@ -15,9 +15,9 @@ export const docsEn: Copy["docs"] = {
     "How the infrastructure is designed, what can be checked today and what is still being integrated. It is written for builders and reviewers: it is not the reference of a public API.",
   breadcrumb: "Breadcrumb",
   meta: [
-    { label: "Updated", value: "9 October 2026" },
-    { label: "Environment", value: "Testnet only" },
-    { label: "Funds and audit", value: "No real funds · not audited" },
+    { label: "Updated", value: "10 October 2026" },
+    { label: "Environment", value: "Testnet and mainnet" },
+    { label: "Funds and audit", value: "Mainnet with 0.01 USDC payments · not audited" },
   ],
   pathsTitle: "Start where it applies to you",
   paths: [
@@ -36,11 +36,11 @@ export const docsEn: Copy["docs"] = {
 <p class="lede">TilcAI is commerce infrastructure between agents: the assistant of a person or organization inquires, quotes and buys from a business with limited authority, verifiable terms and payments on Stellar.</p>
 <p>It receives a purchase or booking intent, gets from the business an offer with a verifiable price, availability and payout destination, applies identity, limits and approval, coordinates a payment over a supported rail and links the financial result to the order and to the commercial confirmation. It is being built in stages and names may change. <strong>The complete purchase flow is not enabled.</strong></p>
 <ul class="checklist">
-  <li><span class="tag tag-available">Available foundation</span> A technical USDC payment from Avalanche Fuji to Stellar Testnet with CCTP, also gasless for the buyer; an x402 rail with an OpenZeppelin Relayer tested in isolation; a deterministic policy evaluator and versioned shared contracts.</li>
-  <li><span class="tag tag-integration">Being integrated</span> MCP connector, quotes and orders, approval per purchase, linking order, payment and delivery, the WhatsApp channel and account issuance.</li>
+  <li><span class="tag tag-available">Available foundation</span> Technical USDC payments from Avalanche to Stellar with CCTP, also gasless for the buyer: verified on testnet and, on 10 October, with two real 0.01 USDC payments on mainnet; a disbursement vault and a simulated QR charge, tested with Optipagos on testnet; contract accounts with a passkey on Avalanche Fuji and Stellar Testnet; an MCP server published on npm (<code>tilcai-mcp</code>) with cross-network payment tools; an x402 rail with an OpenZeppelin Relayer tested in isolation; a deterministic policy evaluator and versioned shared contracts.</li>
+  <li><span class="tag tag-integration">Being integrated</span> Commercial MCP tools (catalog, quote, approval and order), quotes and orders, approval per purchase, linking order, payment and delivery, the WhatsApp channel, delegating payments to agents and accounts, vault and x402 on mainnet.</li>
   <li><span class="tag tag-next">Next steps</span> Smart accounts with limited permissions, shared budget across agents, scheduled tasks and more CCTP routes.</li>
 </ul>
-<p class="callout">A component being available is not the same as a purchase flow being enabled. Nothing here has been audited, and nothing runs with real funds. Every capability, with its evidence and who maintains it, is on the <a href="/en/roadmap">build status</a> page.</p>
+<p class="callout">A component being available is not the same as a purchase flow being enabled. Nothing here has been audited. Testnet has no real funds; on mainnet only the Avalanche → Stellar corridor was tested, with two 0.01 USDC payments. Every capability, with its evidence and who maintains it, is on the <a href="/en/roadmap">build status</a> page.</p>
 <h3>What TilcAI builds and what is external</h3>
 <div class="table-wrap"><table>
 <caption>Boundaries of the infrastructure</caption>
@@ -86,7 +86,7 @@ export const docsEn: Copy["docs"] = {
   <li>
     <h3>Reconciliation</h3>
     <p>TilcAI checks the on-chain evidence and links <code>orderId</code>, <code>quoteId</code>, <code>paymentAttemptId</code>, source hash, attestation and destination hash. A timeout is <code>UNCERTAIN</code> until reconciled: it is not permission to repeat the payment.</p>
-    <dl class="doc-meta"><div><dt>State</dt><dd>Settled</dd></div><div><dt>Evidence</dt><dd>Financial receipt with testnet links</dd></div></dl>
+    <dl class="doc-meta"><div><dt>State</dt><dd>Settled</dd></div><div><dt>Evidence</dt><dd>Financial receipt with links to the network's explorer</dd></div></dl>
   </li>
   <li>
     <h3>Fulfillment</h3>
@@ -187,11 +187,27 @@ export const docsEn: Copy["docs"] = {
 <thead><tr><th scope="col">Way in</th><th scope="col">For whom</th><th scope="col">How it works</th><th scope="col">Status</th></tr></thead>
 <tbody>
 <tr><td>Guided WhatsApp</td><td>A person with no agent or wallet</td><td>A conversation and a secure web link for identity and signing. It never asks for seed phrases or keys in the chat</td><td><span class="tag tag-integration">Being integrated</span> The team gave an external demonstration; the own integration is missing</td></tr>
-<tr><td>Assistant with MCP</td><td>Someone who already uses a compatible assistant</td><td>Sets up TilcAI's MCP server and authenticates with limited permissions</td><td><span class="tag tag-integration">Being integrated</span> A 12-tool contract is defined; the server is pending</td></tr>
-<tr><td>API and future SDK</td><td>An app or a backend of their own</td><td>Authenticated REST API. The SDK, when it exists, packages authentication, types, idempotency and errors</td><td><span class="tag tag-integration">Being integrated</span> The cross-network payments API is verified on testnet; the commercial API is pending</td></tr>
+<tr><td>Assistant with MCP</td><td>Someone who already uses a compatible assistant</td><td>Installs TilcAI's MCP server (<code>tilcai-mcp</code>) and authenticates with an API key</td><td><span class="tag tag-integration">Being integrated</span> The package is already on npm with six cross-network payment tools; the 12 commercial tools are still pending</td></tr>
+<tr><td>API and future SDK</td><td>An app or a backend of their own</td><td>Authenticated REST API. The SDK, when it exists, packages authentication, types, idempotency and errors</td><td><span class="tag tag-integration">Being integrated</span> The cross-network payments API is verified on testnet and with real test payments on mainnet; the commercial API is pending</td></tr>
 </tbody></table></div>
 <h3>MCP tools</h3>
-<p><strong>MCP</strong> (Model Context Protocol) is the tool interface for compatible assistants. TilcAI is designed to publish an MCP server with specific operations, authenticated following the MCP authorization specification. <strong>No MCP server is exposed yet.</strong> The names below are the contract designed in <code>tilcai-core</code>, not a published package.</p>
+<p><strong>MCP</strong> (Model Context Protocol) is the tool interface for compatible assistants. TilcAI already publishes an MCP server, <a href="https://www.npmjs.com/package/tilcai-mcp" rel="noopener"><code>tilcai-mcp</code></a>, but only with cross-network payment tools. The commercial tools, with catalog, quote, approval and order, are still a contract designed in <code>tilcai-core</code>, with no server yet.</p>
+<h3>The tilcai-mcp package</h3>
+<p>It is a stdio MCP server, MIT-licensed, at version 0.2.0 on npm. It lets an agent with an EVM wallet pay USDC to a Stellar address through TilcAI's API (CCTP V2). To sign, the agent uses a separate EVM wallet server: <code>tilcai-mcp</code> only talks to the API, tells the agent what to sign and never handles private keys.</p>
+<div class="table-wrap"><table>
+<caption>The six published tools</caption>
+<thead><tr><th scope="col">Tool</th><th scope="col">What it does</th></tr></thead>
+<tbody>
+<tr><td><code>tilcai_status</code></td><td>Health of TilcAI and the relayer, routes and the configured network</td></tr>
+<tr><td><code>tilcai_quote</code></td><td>Quotes a USDC amount to a Stellar address and checks the trustline</td></tr>
+<tr><td><code>tilcai_create_payment</code></td><td>Creates the payment. Gasless (the default) returns what the agent must sign; in <code>external</code> mode it returns the <code>approve</code> and burn calls</td></tr>
+<tr><td><code>tilcai_submit_authorization</code></td><td>Gasless: submits the agent's signature; the relayer pays the gas on both networks</td></tr>
+<tr><td><code>tilcai_submit_burn</code></td><td><code>external</code> mode: reports the burn hash</td></tr>
+<tr><td><code>tilcai_payment_status</code></td><td>Status up to <code>SETTLED</code>; it can force a reconciliation step</td></tr>
+</tbody></table></div>
+<p>There are two environments, one per process, chosen with <code>TILCAI_NETWORK</code>: testnet (Avalanche Fuji → Stellar Testnet, the default) or mainnet (Avalanche C-Chain → Stellar Public Network). Mainnet moves real USDC and uses its own API keys, different from testnet's. Before creating a payment, the tool checks that the API belongs to the configured environment and is not read-only.</p>
+<p class="callout is-note">It is a technical payment tool. The destination travels as quote data, and the package includes no catalog, signed offer or approval by a person: whoever connects it decides which agent and which wallet sign. It is not the purchase flow with exact approval that this page describes, and it is not audited.</p>
+<h3>Designed commercial tools</h3>
 <div class="table-wrap"><table>
 <caption>Designed tool surface</caption>
 <thead><tr><th scope="col">Tool</th><th scope="col">Function</th><th scope="col">Permission</th></tr></thead>
@@ -209,7 +225,7 @@ export const docsEn: Copy["docs"] = {
 <tr><td><code>get_budget_status</code></td><td>Read limits and holds</td><td><code>budgets:read</code></td></tr>
 <tr><td><code>get_receipts</code></td><td>Read the receipts of an order</td><td><code>receipts:read</code></td></tr>
 </tbody></table></div>
-<p>The model works with quote, intent and order IDs. There is no unrestricted tool to send money to an arbitrary address. Price, recipient, quantity, network and asset travel as versioned data; the conversation explains that data but does not redefine it.</p>
+<p>The model works with quote, intent and order IDs. In this designed contract there is no unrestricted tool to send money to an arbitrary address; <code>tilcai-mcp</code>, described above, is a technical payment tool separate from this contract. Price, recipient, quantity, network and asset travel as versioned data; the conversation explains that data but does not redefine it.</p>
 <ul class="plain">
   <li><strong>Connecting is not spending.</strong> Connection, data access and purchase authority are separate. Selecting an assistant or allowing a tool never grants permission to spend.</li>
   <li><strong>A skill is guidance, not permission.</strong> It explains how to inquire, clarify, prepare and report states. The server enforces the rules even if an agent ignores the skill.</li>
@@ -272,7 +288,7 @@ export const docsEn: Copy["docs"] = {
 <tr>
 <th scope="row">Status today</th>
 <td><span class="tag tag-integration">Isolated test</span> A payment was confirmed on Stellar Testnet with the native asset, altered payloads were rejected before any funds moved, and repeating a settled one did not pay twice.</td>
-<td><span class="tag tag-available">Verified on testnet</span> Real transfers from Avalanche Fuji to Stellar Testnet, with a gasless mode: the payer signs an exact authorization and the Relayer pays the gas on both networks.</td>
+<td><span class="tag tag-available">Verified on testnet and mainnet</span> Real transfers from Avalanche Fuji to Stellar Testnet and, on mainnet, two 0.01 USDC payments from Avalanche C-Chain to Stellar. With a gasless mode: the payer signs an exact authorization and the Relayer pays the gas on both networks.</td>
 </tr>
 <tr>
 <th scope="row">Missing</th>
@@ -297,7 +313,7 @@ export const docsEn: Copy["docs"] = {
   <li><strong>Uncertainty is reconciled.</strong> A burn that is not found or an attestation that does not match goes to <code>UNCERTAIN</code> and is not minted; it is never marked failed without evidence.</li>
 </ul>
 <h3>Network coverage</h3>
-<p>The <code>tilcai-cctp-engine</code> lab models eight test networks. TilcAI's backend vouches for a single complete corridor.</p>
+<p>The <code>tilcai-cctp-engine</code> lab models eight test networks. TilcAI's backend vouches for a single complete corridor, Avalanche → Stellar, which runs on testnet (Fuji) and on mainnet (C-Chain).</p>
 <ul class="doc-nets" role="list">
   <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["avalanche-fuji"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Avalanche Fuji</span></span><span class="tag tag-available">Verified in TilcAI</span></li>
   <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["ethereum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Ethereum Sepolia</span></span><span class="tag tag-available">Verified in TilcAI</span></li>
@@ -309,6 +325,23 @@ export const docsEn: Copy["docs"] = {
   <li data-state="destination"><span class="doc-net-label"><img src="${networkLogos["stellar-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Stellar Testnet</span></span><span class="tag tag-dest">Destination · the business's USDC</span></li>
 </ul>
 <p>"Lab" means code, a route matrix and contract verification; each route still lacks its end-to-end transfer and reconciliation. Circle supporting a network does not enable it in TilcAI: networks are enabled one by one, when each passes its test. CCTP moves native USDC: it does not convert bolivianos or other tokens, and someone who already holds USDC on Stellar does not need it.</p>
+<h3>Mainnet</h3>
+<p>Testnet and mainnet run as two instances of the same image, each with its own database, keys, port and monitoring secret. One process never serves both networks, and mainnet refuses to start with development keys, local signing or the QR simulator.</p>
+<div class="table-wrap"><table>
+<caption>The backend's two environments</caption>
+<thead><tr><th scope="col">Aspect</th><th scope="col">Testnet</th><th scope="col">Mainnet</th></tr></thead>
+<tbody>
+<tr><td>Networks</td><td>Avalanche Fuji → Stellar Testnet</td><td>Avalanche C-Chain → Stellar Public Network</td></tr>
+<tr><td>Own contracts</td><td>Router, vault, account factory and router v2 on Fuji; account factory and vault on Stellar Testnet</td><td>Only <code>TilcaiCctpRouter</code>, with no owner and no upgrade</td></tr>
+<tr><td>Accounts, vault and x402</td><td>On</td><td>Off until their contracts are deployed and verified</td></tr>
+<tr><td>Sending funds</td><td>Always, with test funds</td><td>Only when explicitly enabled; otherwise the instance quotes and reads, and creates no payments</td></tr>
+</tbody></table></div>
+<p>On 10 October 2026 the Avalanche → Stellar route settled two real payments of 0.01 USDC:</p>
+<ul class="plain">
+  <li><strong>First payment,</strong> gasless for the payer, in about 27 seconds and with a CCTP fee of 0. Burn <a href="https://snowtrace.io/tx/0x3bfdc1021f1d1277e7ae05065b157c7346a4f8e072fea4c03ab430ee0b739056" rel="noopener"><code>0x3bfdc1…739056</code></a> and mint <a href="https://stellar.expert/explorer/public/tx/cead8c23f46687dc90feba1242a20382756454366fc287f7b66b11ffe10ebbc0" rel="noopener"><code>cead8c23…0ebbc0</code></a>.</li>
+  <li><strong>Second payment,</strong> against the mainnet instance and through its API, with the end-to-end test, in 1 min 45 s. Burn <a href="https://snowtrace.io/tx/0xcfb8bb2d8aa214d09d93ce6ecdb3d2a0883c7a92f8f05ad523173431051c4413" rel="noopener"><code>0xcfb8bb…1c4413</code></a> and mint <a href="https://stellar.expert/explorer/public/tx/43c32917b08c685abeca884188302531eca6a2caad63bdf9a25e81b2bd124821" rel="noopener"><code>43c32917…124821</code></a>.</li>
+</ul>
+<p class="callout is-note">These are two technical payments of a minimal amount, and none of TilcAI's own contracts has an independent audit. Larger amounts, concurrency and failures were not tested on mainnet. The relayer shares its signer with testnet and has no allow-list of receivers, and its webhook notices do not yet reach the mainnet instance: payments advance by polling.</p>
 <p>The technical detail, payloads and error contract of the x402 rail are in the <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-environment.md" rel="noopener">payment rail documentation</a> of the open <code>tilcai-core</code> repository.</p>`,
     },
     {
@@ -317,7 +350,14 @@ export const docsEn: Copy["docs"] = {
       group: "payments",
       html: `
 <p class="lede">The account belongs to the person or the organization; it is not a "bot's wallet". The agent is software authorized to request actions; it does not own the funds.</p>
-<p class="callout is-note">Account issuance is in preparation: there is a plan, base contracts and defined ports. The API that issues accounts, tested recovery and deployments are still pending.</p>
+<p class="callout is-note">Account issuance is implemented and verified on testnet: accounts with a passkey on Avalanche Fuji (with their factory and a router of TilcAI's own) and on Stellar Testnet (account factory and vault). On mainnet it is off until its contracts are deployed and verified. Still missing are delegation to agents with limits, tested recovery and an audit.</p>
+<h3>Payments made by an agent or a third party</h3>
+<ul class="plain">
+  <li><strong>Each third party has its own key and scope.</strong> The keys TilcAI issues carry permissions (<code>payments</code>, <code>accounts:read</code>, <code>accounts:write</code>) and a daily quota. They see only their own accounts and payments, and never reach the vault, the event log or the relayer.</li>
+  <li><strong>An agent's backend pays through the same API.</strong> It quotes, creates the payment with an idempotency key and TilcAI reconciles the result on the chain. The backends of Optipagos and of its agent (<code>optus-agentBE</code>) already call this API.</li>
+  <li><strong>The passkey signs; the agent asks.</strong> In <code>account</code> mode the owner's passkey signs the same exact authorization and the Relayer pays the gas. The agent is software authorized to ask for actions, not the owner of the funds.</li>
+  <li><strong>Delegation does not exist yet.</strong> A rule signed by the owner that lets an agent pay within a limit has base contracts but is not deployed or tested. An agent's x402 payment for an HTTP resource is still an isolated test and is off on mainnet.</li>
+</ul>
 <h3>Creating an account from a chat</h3>
 <p>The chat only starts the process and shows states. A secure web screen, tied to a short session, is the boundary for identity, credentials and signatures.</p>
 <ol class="numbered">
@@ -372,7 +412,7 @@ export const docsEn: Copy["docs"] = {
   <li><strong>No secrets in events.</strong> They do carry public addresses, balances, amounts and hashes, which is why reading requires a credential.</li>
   <li><strong>The browser never talks to the backend</strong> nor knows its address.</li>
 </ul>
-<p class="callout is-note">The full path is implemented and verified locally against testnet services. The <code>/en/monitor</code> view is a working base without its final design. Still missing are the dashboard, a durable store on the site (today it is memory and does not work with several instances) and pointing the real relayer at TilcAI.</p>`,
+<p class="callout is-note">The full path is implemented and verified against testnet services. The <code>/en/monitor</code> view shows one block per backend, mainnet first and labelled as real funds, and each environment delivers its signed events with its own secret: one cannot report as the other. Still missing are a durable store on the site (today it is memory and does not work with several instances) and the mainnet relayer's notices reaching TilcAI.</p>`,
     },
     {
       id: "limits",
@@ -383,7 +423,7 @@ export const docsEn: Copy["docs"] = {
   <li><strong>The model proposes; rules decide.</strong> Model output is never trusted for price, recipient or approval. An unverifiable condition blocks the operation or asks for human review.</li>
   <li><strong>The signer is a separate boundary.</strong> Keys stay away from the model and from business data. This website stores no private keys, financial tokens or spending mandates.</li>
   <li><strong>Facilitator and Relayer dependency.</strong> Settlement relies on an x402 facilitator and an OpenZeppelin Relayer. If they are unavailable, payments stop.</li>
-  <li><strong>Testnet only.</strong> The backend rejects any environment other than testnet, and testnet and mainnet will be configured and enabled separately. There are no real funds.</li>
+  <li><strong>Limited mainnet.</strong> Testnet and mainnet are two separate instances, and one process never serves both. On mainnet only the cross-network payment router exists, tested with two 0.01 USDC payments; accounts, vault and x402 stay off there. Testnet has no real funds.</li>
   <li><strong>A lab is not a product.</strong> Eight modeled networks are not eight commercial corridors: today four are verified.</li>
   <li><strong>Not audited.</strong> Nothing described here has been audited.</li>
 </ul>
@@ -423,7 +463,7 @@ export const docsEn: Copy["docs"] = {
   <dt>Smart account</dt><dd>A programmable account whose rules, signers and limits are defined by a contract.</dd>
   <dt>Idempotency</dt><dd>Repeating an operation with the same key yields the same result and does not run it twice.</dd>
   <dt>Tenant</dt><dd>The isolated space of a business or integrator, with its identity, quotas and roles.</dd>
-  <dt>Vault</dt><dd>A TilcAI contract on Avalanche Fuji that executes disbursements subject to a budget, a per-payment limit and a pause.</dd>
+  <dt>Vault</dt><dd>A TilcAI contract on Avalanche Fuji that executes disbursements subject to a budget, a per-payment limit and a pause. It is not yet deployed on mainnet.</dd>
   <dt>Reconciliation</dt><dd>Establishing the real result of a payment attempt, including when a call failed midway.</dd>
   <dt>Reason code</dt><dd>A machine-readable explanation of a decision.</dd>
 </dl>`,
@@ -433,18 +473,20 @@ export const docsEn: Copy["docs"] = {
       title: "Sources and updates",
       group: "reference",
       html: `
-<p class="lede">This page summarizes the team's official context, cut at 8 and 9 October 2026, and the code of the repositories. The code and its tests determine what is implemented; a testnet run proves the route that was reproduced, not every planned route.</p>
+<p class="lede">This page summarizes the team's official context, cut from 8 to 10 October 2026, and the code of the repositories. The code and its tests determine what is implemented; a testnet run proves the route that was reproduced, not every planned route.</p>
 <div class="table-wrap"><table>
 <caption>Where each claim comes from</caption>
 <thead><tr><th scope="col">Repository</th><th scope="col">What it holds</th></tr></thead>
 <tbody>
 <tr><td><code>tilcai-core</code></td><td>Shared contracts, MCP tools, the policy evaluator and the reproducible x402 rail guide</td></tr>
+<tr><td><code>tilcai-mcp</code></td><td>The MCP server published on npm: cross-network USDC payment tools on top of TilcAI's API</td></tr>
 <tr><td><code>tilcai-infrastructure</code></td><td>The backend: cross-network payments API and worker, vault, monitoring and contracts</td></tr>
 <tr><td><code>tilcai-cctp-engine</code></td><td>The eight-network lab: route matrix, contract verification and test transfers</td></tr>
 <tr><td><code>tilcai-web</code></td><td>This site, its simulations and the monitoring view</td></tr>
 </tbody></table></div>
 <ul class="plain">
   <li>From the open <code>tilcai-core</code> repository: <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/shared-contracts.md" rel="noopener">shared contracts</a>, <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/mcp-intent-mandate.md" rel="noopener">MCP tools, intent and mandate</a>, <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-environment.md" rel="noopener">payment rail on testnet</a> and <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-reproducibility.md" rel="noopener">rail reproducibility</a>.</li>
+  <li>Published package: <a href="https://www.npmjs.com/package/tilcai-mcp" rel="noopener"><code>tilcai-mcp</code> on npm</a>.</li>
   <li>External references: <a href="https://docs.openzeppelin.com/relayer/quickstart" rel="noopener">OpenZeppelin Relayer</a>, <a href="https://docs.openzeppelin.com/stellar-contracts/accounts/smart-account" rel="noopener">smart accounts on Stellar</a>, <a href="https://developers.circle.com/cctp/concepts/supported-chains-and-domains" rel="noopener">CCTP networks and domains</a> and <a href="https://modelcontextprotocol.io/specification/latest/server/tools" rel="noopener">MCP tools</a>.</li>
 </ul>`,
     },

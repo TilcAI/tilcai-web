@@ -121,13 +121,15 @@ test("every roadmap item appears exactly once, in a known stage, and nothing cla
   assert.equal(new Set(ids).size, ids.length);
   for (const e of roadmapEntries) {
     assert.ok(roadmapStages.includes(e.stage), e.id);
-    assert.ok(e.environment === undefined || e.environment === "simulation" || e.environment === "testnet", `${e.id} claims an environment it cannot have`);
+    assert.ok(e.environment === undefined || e.environment === "simulation" || e.environment === "testnet" || e.environment === "mainnet", `${e.id} claims an environment it cannot have`);
   }
 });
 
-test("only the verified testnet items carry the testnet label, and nothing in 'next' has an environment", () => {
+test("only the verified testnet and mainnet items carry those labels, and nothing in 'next' has an environment", () => {
   const testnet = roadmapEntries.filter((e) => e.environment === "testnet").map((e) => e.id).sort();
-  assert.deepEqual(testnet, ["cctp", "rail"], "promoting an item to testnet needs evidence and a change here");
+  assert.deepEqual(testnet, ["monitor", "rail", "tenants", "vault"], "promoting an item to testnet needs evidence and a change here");
+  const mainnet = roadmapEntries.filter((e) => e.environment === "mainnet").map((e) => e.id);
+  assert.deepEqual(mainnet, ["cctp"], "only the Avalanche to Stellar corridor has been paid for real on mainnet");
   assert.ok(roadmapEntries.filter((e) => e.stage === "next").every((e) => e.environment === undefined));
   assert.equal(roadmapEntries.find((e) => e.id === "cctp")?.stage, "available");
   assert.equal(roadmapEntries.find((e) => e.id === "fiat")?.maintainer, undefined, "no owner is invented for what nobody has been assigned");

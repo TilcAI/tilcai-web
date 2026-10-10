@@ -4,11 +4,11 @@ import { Icon } from "../Icon";
 import { SectionHead, StageTag } from "./shared";
 import styles from "./RoadmapSection.module.css";
 
-const ENVIRONMENT_CLASS = { testnet: styles.envTestnet, simulation: styles.envSimulation } as const;
+const ENVIRONMENT_CLASS = { testnet: styles.envTestnet, mainnet: styles.envMainnet, simulation: styles.envSimulation } as const;
 
 /**
- * Status of every capability by stage, with where each one has evidence today (simulation or testnet) and who keeps
- * it accurate. Nothing is dated and nothing says "production": see lib/content/roadmap.ts.
+ * Status of every capability by stage, with where each one has evidence today (simulation, testnet or mainnet) and
+ * who keeps it accurate. Nothing is dated and nothing says "production": see lib/content/roadmap.ts.
  */
 export function RoadmapSection({ t, hideHeader = false }: { t: Copy; hideHeader?: boolean }) {
   const r = t.roadmap;

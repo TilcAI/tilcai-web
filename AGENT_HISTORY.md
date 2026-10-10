@@ -1318,3 +1318,52 @@ Desplegado y probado. La persona ejecutó el despliegue: `tilcai-mainnet` (`127.
 En `tilcai-web` los cambios se pasaron de `feat/monitor-vault-stellar`, que estaba 18 commits detrás, a una rama sobre `origin/main` (`feat/monitor-mainnet`), con un conflicto resuelto en `src/lib/monitor/copy.ts`; 106 pruebas pasan y `tsc` no reporta errores. Incluye la limpieza de «mock/demo» que estaba sin commit de una sesión anterior. El contenedor del tablero en marcha se construyó antes de ese cambio de base.
 
 Commit y push a `main` en los tres repositorios, sin archivos `.env` con secretos. Pendiente: auditoría, relayer propio de mainnet con lista de receptores y webhooks, y los demás contratos.
+
+## 2026-10-10T13:26:42Z · JHAMILCALI · Claude Code (Sonnet 5.5)
+
+- **Sesión:** n/d
+- **Rama:** `main`
+- **Repositorios:** `tilcai-web`
+
+### Prompt
+
+> soluciona este error que me sale de nest " [error «Hydration failed because the server rendered HTML didn't match the client» en `AgentCatalog`: el servidor pintó `aria-label="1 de 4 etapas"` y el cliente `"4 de 4 etapas"`, con `data-on` y `data-done` distintos] "
+
+### Salida
+
+Sin cambios en el código. La causa no está en `AgentCatalog.tsx`: `integrationStages()` es determinista y, desde el commit `7d22fc3` (`teamVerified: true` en `prepared()` de `src/lib/content/agents.ts`), las cuatro etapas salen hechas («4 de 4»). El «1 de 4» del servidor corresponde a la versión anterior de `agents.ts`: el HTML lo generó un módulo de servidor desactualizado mientras el cliente ya tenía el código nuevo (típico tras traer el merge `cb68272` con el servidor de desarrollo abierto). El servidor actual en `localhost:3000` entrega `/es` con «4 de 4 etapas», igual que el cliente. Remedio: recargar la pestaña con Ctrl+Shift+R y, si reaparece, reiniciar `next dev` y borrar `.next/dev`. Sin verificar en navegador; el commit y el servidor del usuario no se tocaron.
+
+## 2026-10-10T04:20:00Z · Documentación: mainnet probado, pagos de agentes y cambios de tilcai-infrastructure
+
+**Prompt:** actualizar la documentación (ya no es solo testnet: hay pruebas en mainnet y pagos agénticos) con los cambios de tilcai-infrastructure.
+
+- **Fuentes:** `documentation/2-ARQUITECTURA/TILCAI_MAINNET_Y_TESTNET_SIMULTANEOS_2026-10-10.md`, el README y `deploy/MAINNET_DEPLOYMENT.md` de `origin/main` de tilcai-infrastructure (tras `git fetch`, solo lectura) y el contexto oficial.
+- **Mainnet:** cabecera («Testnet y mainnet», actualizada el 10 de octubre), resumen de estado, tabla de rieles, nueva subsección «Mainnet» (dos entornos, dos pagos reales de 0.01 USDC con enlaces a Snowtrace y Stellar Expert, riesgos aceptados), modelo de seguridad y glosario del vault.
+- **Pagos de agentes y terceros:** subsección en «Cuentas y fondos» (claves por tercero con permisos y cuota, backend de agente por la misma API, modo `account` con passkey, delegación aún inexistente, x402 en prueba aislada). La emisión de cuentas pasa de «en preparación» a «implementada y verificada en testnet».
+- **Monitorización:** nota actualizada (bloque por backend, mainnet primero, secreto por entorno).
+- **No tocado:** hoja de ruta (/avance), textos de la portada y documentos de `documentation/`; siguen con el estado anterior y conviene alinearlos.
+
+Comprobado: `tsc` limpio; 106 pruebas, 105 pasan, 1 omitida; capturas de la documentación en ES a 1440 y 390 px. Sin commit.
+
+## 2026-10-10T04:50:00Z · Avance (/roadmap) alineado con lo que ya existe
+
+**Prompt:** ¿actualizaste también `/es/roadmap` con lo que ya se tiene?
+
+- **No, hasta este punto:** la entrada anterior solo cubrió la documentación. Se actualiza ahora.
+- **Entorno nuevo:** `mainnet` en el tipo `Environment`, su etiqueta (ES/EN) y su estilo (ámbar, fondos reales). `production` sigue sin usarse.
+- **Cambios:** CCTP pasa a «Mainnet» (testnet verificado y dos pagos reales de 0.01 USDC, sin auditoría); nuevo «Vault de desembolsos y cobro con QR simulado» y nueva «Monitorización del backend» (testnet); «Terceros y cuentas» pasa de integración a base disponible (testnet, con passkey; mainnet apagado); WhatsApp, x402, smart accounts, más rutas CCTP y bolivianos con el texto al día.
+- **Sin inventar dueño:** la monitorización queda sin responsable, porque nadie la tiene asignada en el backlog.
+- **Pruebas:** `landing-explain.test.ts` espera ahora `cctp` en mainnet y `monitor`, `rail`, `tenants`, `vault` en testnet.
+
+Comprobado: `tsc` limpio; 106 pruebas, 105 pasan, 1 omitida; capturas ES a 1440 px y EN a 390 px. Sin commit.
+
+## 2026-10-10T05:20:00Z · Documentación y Avance: el paquete tilcai-mcp en npm
+
+**Prompt:** ya existe una librería MCP de TilcAI (npmjs.com/package/tilcai-mcp); actualizar también la documentación con eso.
+
+- **Fuente:** metadatos y README del paquete en el registro de npm (solo lectura): versión 0.2.0, publicada el 2026-10-10, MIT, servidor stdio, seis herramientas, testnet y mainnet por `TILCAI_NETWORK`, sin manejo de claves privadas. No copié su URL de túnel ni la IP interna que aparecen en el README.
+- **Documentación (ES/EN):** nueva subsección «El paquete tilcai-mcp» con las seis herramientas, los dos entornos y una nota de honestidad (herramienta técnica de pago, sin catálogo, oferta firmada ni aprobación de una persona, sin auditar); las doce herramientas comerciales pasan a «diseñadas», sin servidor. Se corrigieron la puerta «Asistente con MCP», el resumen de estado, la frase de «no existe una herramienta irrestricta», la tabla de repositorios y las fuentes (enlace a npm).
+- **Avance:** el ítem del conector pasa a «Servidor MCP y guías de asistentes» con el paquete publicado; sigue en integración porque las herramientas comerciales no tienen servidor.
+- **Sin tocar:** el texto del vault que se pegó en el mensaje (ya está igual en Avance).
+
+Comprobado: `tsc` limpio; 106 pruebas, 105 pasan, 1 omitida; capturas de la sección a 1440 px (ES) y 390 px (EN). Sin commit.

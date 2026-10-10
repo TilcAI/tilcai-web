@@ -5,8 +5,8 @@ import { networkLogos } from "../content/network-logos.ts";
 // se renderiza con dangerouslySetInnerHTML. Nunca interpolar datos de formularios,
 // parámetros de URL ni ningún valor aportado por usuarios.
 //
-// Fuente: el contexto oficial del equipo (corte del 8 y 9 de octubre de 2026) y el código de
-// tilcai-core, tilcai-infrastructure y tilcai-cctp-engine. Si un documento anterior afirma otro
+// Fuente: el contexto oficial del equipo (corte del 8 al 10 de octubre de 2026), el documento de mainnet y
+// testnet simultáneos del 10 de octubre y el código de tilcai-core, tilcai-infrastructure y tilcai-cctp-engine. Si un documento anterior afirma otro
 // estado, mandan el código y sus pruebas. Mantener alineado con src/lib/content/roadmap.ts.
 export const docsEs: Copy["docs"] = {
   status: "Arquitectura propuesta · en desarrollo · sujeta a cambios",
@@ -15,9 +15,9 @@ export const docsEs: Copy["docs"] = {
     "Cómo está diseñada la infraestructura, qué se puede comprobar hoy y qué sigue en integración. Está escrita para quienes construyen y revisan: no es la referencia de una API pública.",
   breadcrumb: "Ruta de navegación",
   meta: [
-    { label: "Actualizada", value: "9 de octubre de 2026" },
-    { label: "Entorno", value: "Solo testnet" },
-    { label: "Fondos y auditoría", value: "Sin fondos reales · sin auditar" },
+    { label: "Actualizada", value: "10 de octubre de 2026" },
+    { label: "Entorno", value: "Testnet y mainnet" },
+    { label: "Fondos y auditoría", value: "Mainnet con pagos de 0.01 USDC · sin auditar" },
   ],
   pathsTitle: "Empieza por donde te corresponda",
   paths: [
@@ -36,11 +36,11 @@ export const docsEs: Copy["docs"] = {
 <p class="lede">TilcAI es infraestructura de comercio entre agentes: el asistente de una persona u organización consulta, cotiza y compra a un negocio con autoridad limitada, condiciones verificables y pagos sobre Stellar.</p>
 <p>Recibe una intención de compra o reserva, obtiene del negocio una oferta con precio, disponibilidad y destino de cobro verificables, aplica identidad, límites y aprobación, coordina un pago por un riel soportado y vincula el resultado financiero con la orden y con la confirmación comercial. Se construye por etapas y los nombres pueden cambiar. <strong>El flujo de compra completo no está habilitado.</strong></p>
 <ul class="checklist">
-  <li><span class="tag tag-available">Base disponible</span> Un pago técnico de USDC de Avalanche Fuji a Stellar Testnet con CCTP, también sin gas para el comprador; un riel x402 con OpenZeppelin Relayer probado de forma aislada; un evaluador determinista de políticas y contratos compartidos versionados.</li>
-  <li><span class="tag tag-integration">En integración</span> Conector MCP, cotizaciones y órdenes, aprobación por compra, unión de orden, pago y entrega, canal de WhatsApp y emisión de cuentas.</li>
+  <li><span class="tag tag-available">Base disponible</span> Pagos técnicos de USDC de Avalanche a Stellar con CCTP, también sin gas para el comprador: verificados en testnet y, el 10 de octubre, con dos pagos reales de 0.01 USDC en mainnet; un vault de desembolsos y un cobro con QR simulado, probados con Optipagos en testnet; cuentas de contrato con passkey en Avalanche Fuji y en Stellar Testnet; un servidor MCP publicado en npm (<code>tilcai-mcp</code>) con herramientas de pago entre redes; un riel x402 con OpenZeppelin Relayer probado de forma aislada; un evaluador determinista de políticas y contratos compartidos versionados.</li>
+  <li><span class="tag tag-integration">En integración</span> Herramientas MCP comerciales (catálogo, cotización, aprobación y orden), cotizaciones y órdenes, aprobación por compra, unión de orden, pago y entrega, canal de WhatsApp, delegación de pagos a agentes y cuentas, vault y x402 en mainnet.</li>
   <li><span class="tag tag-next">Siguientes pasos</span> Smart accounts con permisos limitados, presupuesto compartido entre agentes, tareas programadas y más rutas de CCTP.</li>
 </ul>
-<p class="callout">Que un componente esté disponible no equivale a que el flujo de compra esté habilitado. Nada de esto ha sido auditado y nada opera con fondos reales. Cada capacidad, con su evidencia y quién la mantiene, está en el <a href="/es/roadmap">estado de construcción</a>.</p>
+<p class="callout">Que un componente esté disponible no equivale a que el flujo de compra esté habilitado. Nada de esto ha sido auditado. En testnet no hay fondos reales; en mainnet solo se probó el corredor Avalanche → Stellar, con dos pagos de 0.01 USDC. Cada capacidad, con su evidencia y quién la mantiene, está en el <a href="/es/roadmap">estado de construcción</a>.</p>
 <h3>Qué construye TilcAI y qué es externo</h3>
 <div class="table-wrap"><table>
 <caption>Límites de la infraestructura</caption>
@@ -86,7 +86,7 @@ export const docsEs: Copy["docs"] = {
   <li>
     <h3>Conciliación</h3>
     <p>TilcAI comprueba la evidencia en la cadena y relaciona <code>orderId</code>, <code>quoteId</code>, <code>paymentAttemptId</code>, hash de origen, atestación y hash de destino. Un tiempo agotado es <code>UNCERTAIN</code> hasta conciliar: no es permiso para repetir el pago.</p>
-    <dl class="doc-meta"><div><dt>Estado</dt><dd>Liquidada</dd></div><div><dt>Evidencia</dt><dd>Recibo financiero con enlaces de testnet</dd></div></dl>
+    <dl class="doc-meta"><div><dt>Estado</dt><dd>Liquidada</dd></div><div><dt>Evidencia</dt><dd>Recibo financiero con enlaces al explorador de la red</dd></div></dl>
   </li>
   <li>
     <h3>Cumplimiento</h3>
@@ -187,11 +187,27 @@ export const docsEs: Copy["docs"] = {
 <thead><tr><th scope="col">Puerta</th><th scope="col">Para quién</th><th scope="col">Cómo entra</th><th scope="col">Estado</th></tr></thead>
 <tbody>
 <tr><td>WhatsApp guiado</td><td>Una persona sin agente ni wallet</td><td>Una conversación y un enlace web seguro para identidad y firma. Nunca pide frases semilla ni claves por chat</td><td><span class="tag tag-integration">En integración</span> El equipo hizo una demostración externa; falta la integración propia</td></tr>
-<tr><td>Asistente con MCP</td><td>Quien ya usa un asistente compatible</td><td>Configura el servidor MCP de TilcAI y se autentica con permisos limitados</td><td><span class="tag tag-integration">En integración</span> Contrato de 12 herramientas definido; el servidor está pendiente</td></tr>
-<tr><td>API y SDK futuro</td><td>Una aplicación o un backend propio</td><td>API REST autenticada. El SDK, cuando exista, empaqueta autenticación, tipos, idempotencia y errores</td><td><span class="tag tag-integration">En integración</span> La API de pagos entre redes está verificada en testnet; la API comercial está pendiente</td></tr>
+<tr><td>Asistente con MCP</td><td>Quien ya usa un asistente compatible</td><td>Instala el servidor MCP de TilcAI (<code>tilcai-mcp</code>) y se autentica con una clave de API</td><td><span class="tag tag-integration">En integración</span> El paquete ya está en npm con seis herramientas de pago entre redes; las 12 herramientas comerciales siguen pendientes</td></tr>
+<tr><td>API y SDK futuro</td><td>Una aplicación o un backend propio</td><td>API REST autenticada. El SDK, cuando exista, empaqueta autenticación, tipos, idempotencia y errores</td><td><span class="tag tag-integration">En integración</span> La API de pagos entre redes está verificada en testnet y con pagos reales de prueba en mainnet; la API comercial está pendiente</td></tr>
 </tbody></table></div>
 <h3>Herramientas MCP</h3>
-<p><strong>MCP</strong> (Model Context Protocol) es la interfaz de herramientas para asistentes compatibles. TilcAI está diseñado para publicar un servidor MCP con operaciones específicas, autenticado según la especificación de autorización de MCP. <strong>Todavía no hay un servidor MCP expuesto.</strong> Los nombres siguientes son el contrato diseñado en <code>tilcai-core</code>, no un paquete publicado.</p>
+<p><strong>MCP</strong> (Model Context Protocol) es la interfaz de herramientas para asistentes compatibles. TilcAI ya publica un servidor MCP, <a href="https://www.npmjs.com/package/tilcai-mcp" rel="noopener"><code>tilcai-mcp</code></a>, pero solo con herramientas de pago entre redes. Las herramientas comerciales, con catálogo, cotización, aprobación y orden, siguen siendo un contrato diseñado en <code>tilcai-core</code>, todavía sin servidor.</p>
+<h3>El paquete tilcai-mcp</h3>
+<p>Es un servidor MCP por stdio, con licencia MIT y versión 0.2.0 en npm. Permite a un agente con una wallet EVM pagar USDC a una dirección Stellar a través de la API de TilcAI (CCTP V2). Para firmar, el agente usa un servidor de wallet EVM aparte: <code>tilcai-mcp</code> solo habla con la API, le indica qué firmar y nunca maneja claves privadas.</p>
+<div class="table-wrap"><table>
+<caption>Las seis herramientas publicadas</caption>
+<thead><tr><th scope="col">Herramienta</th><th scope="col">Qué hace</th></tr></thead>
+<tbody>
+<tr><td><code>tilcai_status</code></td><td>Salud de TilcAI y del relayer, rutas y red configurada</td></tr>
+<tr><td><code>tilcai_quote</code></td><td>Cotiza un importe de USDC hacia una dirección Stellar y comprueba la trustline</td></tr>
+<tr><td><code>tilcai_create_payment</code></td><td>Crea el pago. Sin gas (por defecto) devuelve lo que el agente debe firmar; en modo <code>external</code> devuelve las llamadas <code>approve</code> y de burn</td></tr>
+<tr><td><code>tilcai_submit_authorization</code></td><td>Sin gas: envía la firma del agente; el relayer paga el gas en las dos redes</td></tr>
+<tr><td><code>tilcai_submit_burn</code></td><td>Modo <code>external</code>: informa el hash del burn</td></tr>
+<tr><td><code>tilcai_payment_status</code></td><td>Estado hasta <code>SETTLED</code>; puede forzar un paso de conciliación</td></tr>
+</tbody></table></div>
+<p>Hay dos entornos, uno por proceso, según <code>TILCAI_NETWORK</code>: testnet (Avalanche Fuji → Stellar Testnet, por defecto) o mainnet (Avalanche C-Chain → Stellar Public Network). Mainnet mueve USDC real y usa claves de API propias, distintas de las de testnet. Antes de crear un pago, la herramienta comprueba que la API sea del entorno configurado y que no esté en solo lectura.</p>
+<p class="callout is-note">Es una herramienta técnica de pago. El destino viaja como dato de la cotización y el paquete no incorpora catálogo, oferta firmada ni aprobación de una persona: quien lo conecta decide qué agente y qué wallet firman. No es el flujo de compra con aprobación exacta que describe esta página, y no está auditado.</p>
+<h3>Herramientas comerciales diseñadas</h3>
 <div class="table-wrap"><table>
 <caption>Superficie de herramientas diseñada</caption>
 <thead><tr><th scope="col">Herramienta</th><th scope="col">Función</th><th scope="col">Permiso</th></tr></thead>
@@ -209,7 +225,7 @@ export const docsEs: Copy["docs"] = {
 <tr><td><code>get_budget_status</code></td><td>Consultar límites y retenciones</td><td><code>budgets:read</code></td></tr>
 <tr><td><code>get_receipts</code></td><td>Consultar los recibos de una orden</td><td><code>receipts:read</code></td></tr>
 </tbody></table></div>
-<p>El modelo trabaja con identificadores de cotización, intención y orden. No existe una herramienta irrestricta para enviar dinero a una dirección cualquiera. Precio, destinatario, cantidad, red y activo viajan como datos versionados; la conversación explica esos datos pero no los redefine.</p>
+<p>El modelo trabaja con identificadores de cotización, intención y orden. En este contrato diseñado no existe una herramienta irrestricta para enviar dinero a una dirección cualquiera; <code>tilcai-mcp</code>, descrito arriba, es una herramienta técnica de pago aparte de este contrato. Precio, destinatario, cantidad, red y activo viajan como datos versionados; la conversación explica esos datos pero no los redefine.</p>
 <ul class="plain">
   <li><strong>Conectar no es gastar.</strong> Conexión, acceso a datos y autoridad de compra son cosas distintas. Seleccionar un asistente o permitir una herramienta nunca concede permiso de gasto.</li>
   <li><strong>Una skill es guía, no permiso.</strong> Explica cómo consultar, aclarar, preparar y comunicar estados. El servidor aplica las reglas aunque un agente ignore la skill.</li>
@@ -272,7 +288,7 @@ export const docsEs: Copy["docs"] = {
 <tr>
 <th scope="row">Estado hoy</th>
 <td><span class="tag tag-integration">Prueba aislada</span> Se confirmó un pago en Stellar Testnet con el activo nativo, se rechazaron payloads alterados antes de mover fondos y repetir uno ya liquidado no pagó dos veces.</td>
-<td><span class="tag tag-available">Verificado en testnet</span> Transferencias reales de Avalanche Fuji a Stellar Testnet, con un modo sin gas: el pagador firma una autorización exacta y el Relayer paga el gas de las dos redes.</td>
+<td><span class="tag tag-available">Verificado en testnet y en mainnet</span> Transferencias reales de Avalanche Fuji a Stellar Testnet y, en mainnet, dos pagos de 0.01 USDC de Avalanche C-Chain a Stellar. Con un modo sin gas: el pagador firma una autorización exacta y el Relayer paga el gas de las dos redes.</td>
 </tr>
 <tr>
 <th scope="row">Falta</th>
@@ -297,7 +313,7 @@ export const docsEs: Copy["docs"] = {
   <li><strong>La incertidumbre se concilia.</strong> Un burn no encontrado o una atestación que no coincide pasan a <code>UNCERTAIN</code> y no se emiten; nunca se marcan como fallidos sin evidencia.</li>
 </ul>
 <h3>Cobertura de redes</h3>
-<p>El laboratorio <code>tilcai-cctp-engine</code> modela ocho redes de prueba. El backend de TilcAI acredita un solo corredor completo.</p>
+<p>El laboratorio <code>tilcai-cctp-engine</code> modela ocho redes de prueba. El backend de TilcAI acredita un solo corredor completo, Avalanche → Stellar, que corre en testnet (Fuji) y en mainnet (C-Chain).</p>
 <ul class="doc-nets" role="list">
   <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["avalanche-fuji"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Avalanche Fuji</span></span><span class="tag tag-available">Verificado en TilcAI</span></li>
   <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["ethereum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Ethereum Sepolia</span></span><span class="tag tag-available">Verificado en TilcAI</span></li>
@@ -309,6 +325,23 @@ export const docsEs: Copy["docs"] = {
   <li data-state="destination"><span class="doc-net-label"><img src="${networkLogos["stellar-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Stellar Testnet</span></span><span class="tag tag-dest">Destino · USDC del negocio</span></li>
 </ul>
 <p>«Laboratorio» significa código, matriz de rutas y verificación de contratos; falta la transferencia y la conciliación de punta a punta de cada ruta. Que Circle admita una red no la habilita en TilcAI: se habilita una por una, cuando supera su prueba. CCTP mueve USDC nativo: no convierte bolivianos ni otros tokens, y quien ya tiene USDC en Stellar no lo necesita.</p>
+<h3>Mainnet</h3>
+<p>Testnet y mainnet corren como dos instancias de la misma imagen, cada una con su base, sus claves, su puerto y su secreto de monitorización. Un proceso nunca atiende las dos redes, y mainnet se niega a arrancar con claves de desarrollo, firma local o el simulador de QR.</p>
+<div class="table-wrap"><table>
+<caption>Los dos entornos del backend</caption>
+<thead><tr><th scope="col">Aspecto</th><th scope="col">Testnet</th><th scope="col">Mainnet</th></tr></thead>
+<tbody>
+<tr><td>Redes</td><td>Avalanche Fuji → Stellar Testnet</td><td>Avalanche C-Chain → Stellar Public Network</td></tr>
+<tr><td>Contratos propios</td><td>Router, vault, fábrica de cuentas y router v2 en Fuji; fábrica de cuentas y vault en Stellar Testnet</td><td>Solo <code>TilcaiCctpRouter</code>, sin propietario ni mejora posible</td></tr>
+<tr><td>Cuentas, vault y x402</td><td>Encendidos</td><td>Apagados hasta desplegar y verificar sus contratos</td></tr>
+<tr><td>Envío de fondos</td><td>Siempre, con fondos de prueba</td><td>Solo con la habilitación explícita; sin ella la instancia cotiza y consulta, y no crea pagos</td></tr>
+</tbody></table></div>
+<p>El 10 de octubre de 2026 la ruta Avalanche → Stellar liquidó dos pagos reales de 0.01 USDC:</p>
+<ul class="plain">
+  <li><strong>Primer pago,</strong> sin gas para quien paga, en unos 27 segundos y con comisión de CCTP 0. Burn <a href="https://snowtrace.io/tx/0x3bfdc1021f1d1277e7ae05065b157c7346a4f8e072fea4c03ab430ee0b739056" rel="noopener"><code>0x3bfdc1…739056</code></a> y mint <a href="https://stellar.expert/explorer/public/tx/cead8c23f46687dc90feba1242a20382756454366fc287f7b66b11ffe10ebbc0" rel="noopener"><code>cead8c23…0ebbc0</code></a>.</li>
+  <li><strong>Segundo pago,</strong> contra la instancia de mainnet y por su API, con la prueba de extremo a extremo, en 1 min 45 s. Burn <a href="https://snowtrace.io/tx/0xcfb8bb2d8aa214d09d93ce6ecdb3d2a0883c7a92f8f05ad523173431051c4413" rel="noopener"><code>0xcfb8bb…1c4413</code></a> y mint <a href="https://stellar.expert/explorer/public/tx/43c32917b08c685abeca884188302531eca6a2caad63bdf9a25e81b2bd124821" rel="noopener"><code>43c32917…124821</code></a>.</li>
+</ul>
+<p class="callout is-note">Son dos pagos técnicos de importe mínimo y ningún contrato propio tiene auditoría independiente. No se probaron montos mayores, concurrencia ni fallos en mainnet. El relayer comparte firmante con testnet y no tiene lista de receptores permitidos, y sus avisos por webhook todavía no llegan a la instancia de mainnet: los pagos avanzan por sondeo.</p>
 <p>El detalle técnico, los payloads y el contrato de errores del riel x402 están en la <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-environment.md" rel="noopener">documentación del riel de pago</a> del repositorio abierto <code>tilcai-core</code>.</p>`,
     },
     {
@@ -317,7 +350,14 @@ export const docsEs: Copy["docs"] = {
       group: "payments",
       html: `
 <p class="lede">La cuenta es de la persona o de la organización, no una «wallet del bot». El agente es software autorizado para pedir acciones; no es dueño de los fondos.</p>
-<p class="callout is-note">La emisión de cuentas está en preparación: hay plan, contratos base y puertos definidos. La API que emite cuentas, la recuperación probada y los despliegues siguen pendientes.</p>
+<p class="callout is-note">La emisión de cuentas está implementada y verificada en testnet: cuentas con passkey en Avalanche Fuji (con su fábrica y un router de pago propio) y en Stellar Testnet (fábrica de cuentas y vault). En mainnet está apagada hasta desplegar y verificar sus contratos. Faltan la delegación a agentes con límites, la recuperación probada y la auditoría.</p>
+<h3>Pagos hechos por un agente o por un tercero</h3>
+<ul class="plain">
+  <li><strong>Cada tercero tiene su clave y su alcance.</strong> Las claves que emite TilcAI llevan permisos (<code>payments</code>, <code>accounts:read</code>, <code>accounts:write</code>) y una cuota diaria. Solo ven sus propias cuentas y pagos, y nunca alcanzan el vault, el registro de eventos ni el relayer.</li>
+  <li><strong>El backend de un agente paga por la misma API.</strong> Cotiza, crea el pago con una clave de idempotencia y TilcAI concilia el resultado en la cadena. Los backends de Optipagos y de su agente (<code>optus-agentBE</code>) ya llaman a esta API.</li>
+  <li><strong>La passkey firma; el agente pide.</strong> En el modo <code>account</code> la passkey del dueño firma la misma autorización exacta y el Relayer paga el gas. El agente es software autorizado para pedir acciones, no dueño de los fondos.</li>
+  <li><strong>La delegación todavía no existe.</strong> Una regla firmada por el dueño que deje a un agente pagar dentro de un límite tiene contratos base, pero no está desplegada ni probada. El pago x402 de un agente por un recurso HTTP sigue en prueba aislada y apagado en mainnet.</li>
+</ul>
 <h3>Crear una cuenta desde un chat</h3>
 <p>El chat solo inicia el proceso y muestra estados. Una pantalla web segura, ligada a una sesión corta, es la frontera para identidad, credenciales y firmas.</p>
 <ol class="numbered">
@@ -372,7 +412,7 @@ export const docsEs: Copy["docs"] = {
   <li><strong>Sin secretos en los eventos.</strong> Sí llevan direcciones públicas, saldos, montos y hashes, y por eso la lectura exige credencial.</li>
   <li><strong>El navegador nunca habla con el backend</strong> ni conoce su dirección.</li>
 </ul>
-<p class="callout is-note">El recorrido completo está implementado y verificado en local contra servicios de testnet. La vista <code>/es/monitor</code> es una base funcional sin diseño final. Faltan el tablero, un almacén duradero en el sitio (hoy es memoria y no sirve con varias instancias) y apuntar el relayer real a TilcAI.</p>`,
+<p class="callout is-note">El recorrido completo está implementado y verificado contra servicios de testnet. La vista <code>/es/monitor</code> muestra un bloque por backend, con mainnet primero y rotulado como fondos reales, y cada entorno entrega sus eventos firmados con su propio secreto: uno no puede reportar como el otro. Faltan un almacén duradero en el sitio (hoy es memoria y no sirve con varias instancias) y que los avisos del relayer de mainnet lleguen a TilcAI.</p>`,
     },
     {
       id: "limits",
@@ -383,7 +423,7 @@ export const docsEs: Copy["docs"] = {
   <li><strong>El modelo propone; las reglas deciden.</strong> La salida del modelo nunca se acepta para precio, destinatario ni aprobación. Una condición que no se puede verificar bloquea la operación o pide revisión humana.</li>
   <li><strong>El firmante es una frontera separada.</strong> Las claves quedan fuera del alcance del modelo y de los datos del negocio. Este sitio web no almacena claves privadas, tokens financieros ni mandatos de gasto.</li>
   <li><strong>Dependencia del facilitador y del Relayer.</strong> La liquidación depende de un facilitador x402 y de un OpenZeppelin Relayer. Si no están disponibles, los pagos se detienen.</li>
-  <li><strong>Solo testnet.</strong> El backend rechaza cualquier entorno distinto de testnet, y testnet y mainnet tendrán configuración y habilitación separadas. No hay fondos reales.</li>
+  <li><strong>Mainnet limitado.</strong> Testnet y mainnet son dos instancias separadas y un proceso nunca atiende las dos. En mainnet solo existe el router de pago entre redes, probado con dos pagos de 0.01 USDC; cuentas, vault y x402 siguen apagados allí. En testnet no hay fondos reales.</li>
   <li><strong>Laboratorio no es producto.</strong> Ocho redes modeladas no son ocho corredores comerciales: hoy cuatro están verificadas.</li>
   <li><strong>Sin auditar.</strong> Nada de lo descrito aquí ha sido auditado.</li>
 </ul>
@@ -423,7 +463,7 @@ export const docsEs: Copy["docs"] = {
   <dt>Smart account</dt><dd>Una cuenta programable cuyas reglas, firmantes y límites los define un contrato.</dd>
   <dt>Idempotencia</dt><dd>Repetir una operación con la misma clave produce el mismo resultado y no la ejecuta dos veces.</dd>
   <dt>Tenant</dt><dd>El espacio aislado de un negocio o integrador, con su identidad, sus cuotas y sus roles.</dd>
-  <dt>Vault</dt><dd>Contrato de TilcAI en Avalanche Fuji que ejecuta desembolsos sujetos a presupuesto, límite por pago y pausa.</dd>
+  <dt>Vault</dt><dd>Contrato de TilcAI en Avalanche Fuji que ejecuta desembolsos sujetos a presupuesto, límite por pago y pausa. En mainnet todavía no está desplegado.</dd>
   <dt>Conciliación</dt><dd>Establecer el resultado real de un intento de pago, incluso cuando una llamada falló a mitad de camino.</dd>
   <dt>Código de motivo</dt><dd>Una explicación legible por máquina de una decisión.</dd>
 </dl>`,
@@ -433,18 +473,20 @@ export const docsEs: Copy["docs"] = {
       title: "Fuentes y actualización",
       group: "reference",
       html: `
-<p class="lede">Esta página resume el contexto oficial del equipo, con corte al 8 y 9 de octubre de 2026, y el código de los repositorios. El código y sus pruebas determinan qué está implementado; una prueba en testnet acredita la ruta reproducida, no todas las rutas previstas.</p>
+<p class="lede">Esta página resume el contexto oficial del equipo, con corte del 8 al 10 de octubre de 2026, y el código de los repositorios. El código y sus pruebas determinan qué está implementado; una prueba en testnet acredita la ruta reproducida, no todas las rutas previstas.</p>
 <div class="table-wrap"><table>
 <caption>De dónde sale cada afirmación</caption>
 <thead><tr><th scope="col">Repositorio</th><th scope="col">Qué contiene</th></tr></thead>
 <tbody>
 <tr><td><code>tilcai-core</code></td><td>Contratos compartidos, herramientas MCP, evaluador de políticas y la guía reproducible del riel x402</td></tr>
+<tr><td><code>tilcai-mcp</code></td><td>El servidor MCP publicado en npm: herramientas de pago de USDC entre redes sobre la API de TilcAI</td></tr>
 <tr><td><code>tilcai-infrastructure</code></td><td>El backend: API y worker de pagos entre redes, vault, monitorización y contratos</td></tr>
 <tr><td><code>tilcai-cctp-engine</code></td><td>El laboratorio de ocho redes: matriz de rutas, verificación de contratos y transferencias de prueba</td></tr>
 <tr><td><code>tilcai-web</code></td><td>Este sitio, sus simulaciones y la vista de monitorización</td></tr>
 </tbody></table></div>
 <ul class="plain">
   <li>Del repositorio abierto <code>tilcai-core</code>: <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/shared-contracts.md" rel="noopener">contratos compartidos</a>, <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/mcp-intent-mandate.md" rel="noopener">herramientas MCP, intención y mandato</a>, <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-environment.md" rel="noopener">riel de pago en testnet</a> y <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-reproducibility.md" rel="noopener">reproducibilidad del riel</a>.</li>
+  <li>Paquete publicado: <a href="https://www.npmjs.com/package/tilcai-mcp" rel="noopener"><code>tilcai-mcp</code> en npm</a>.</li>
   <li>Referencias externas: <a href="https://docs.openzeppelin.com/relayer/quickstart" rel="noopener">OpenZeppelin Relayer</a>, <a href="https://docs.openzeppelin.com/stellar-contracts/accounts/smart-account" rel="noopener">smart accounts en Stellar</a>, <a href="https://developers.circle.com/cctp/concepts/supported-chains-and-domains" rel="noopener">redes y dominios de CCTP</a> y <a href="https://modelcontextprotocol.io/specification/latest/server/tools" rel="noopener">herramientas de MCP</a>.</li>
 </ul>`,
     },

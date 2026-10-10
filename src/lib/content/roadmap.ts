@@ -18,14 +18,18 @@ export interface RoadmapEntry {
 }
 
 /**
- * Build status by capability, as of the official context of 2026-10-08/09 (documentation/0-OFICIAL).
+ * Build status by capability, as of the official context of 2026-10-08/09 (documentation/0-OFICIAL) and the
+ * 2026-10-10 document on mainnet and testnet running together (documentation/2-ARQUITECTURA).
  * Moving an item between stages requires evidence in its own environment; there are no public dates on purpose.
  * Order within a stage is the display order.
  */
 export const roadmapEntries: readonly RoadmapEntry[] = [
-  { id: "cctp", stage: "available", maintainer: "Saul", environment: "testnet" },
+  { id: "cctp", stage: "available", maintainer: "Saul", environment: "mainnet" },
+  { id: "vault", stage: "available", maintainer: "Saul", environment: "testnet" },
+  { id: "tenants", stage: "available", maintainer: "Jhamil", environment: "testnet" },
   { id: "evaluator", stage: "available", maintainer: "Omar", environment: "simulation" },
   { id: "contracts", stage: "available", maintainer: "Omar" },
+  { id: "monitor", stage: "available", environment: "testnet" },
   { id: "site", stage: "available", maintainer: "Jhamil", environment: "simulation" },
   { id: "rail", stage: "integration", maintainer: "Saul", environment: "testnet" },
   { id: "commerce", stage: "integration", maintainer: "Jhamil" },
@@ -33,7 +37,6 @@ export const roadmapEntries: readonly RoadmapEntry[] = [
   { id: "reconciliation", stage: "integration", maintainer: "Saul" },
   { id: "connector", stage: "integration", maintainer: "Omar" },
   { id: "whatsapp", stage: "integration", maintainer: "Saul" },
-  { id: "tenants", stage: "integration", maintainer: "Jhamil" },
   { id: "smartAccounts", stage: "next", maintainer: "Jose" },
   { id: "sharedBudget", stage: "next", maintainer: "Jhamil" },
   { id: "scheduled", stage: "next", maintainer: "Omar" },
