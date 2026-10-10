@@ -1074,3 +1074,14 @@ Comprobé el cambio en escritorio y móvil; pasaron las 8 pruebas de rutas. Type
 - **Pruebas:** `landing-explain` y `rails-atlas` ahora esperan cuatro redes verificadas.
 
 Comprobado: capturas del detalle de ruta a 1440 px. Sin commit.
+
+## 2026-10-10T03:10:00Z · Estado de integración: las cuatro etapas «Verificado» y sin la fecha de documentación
+
+**Prompt:** que el bloque «Estado de integración» diga que ya está verificado y quitar la línea de abajo «Documentación revisada el 2026-09-30»; solo esos cambios.
+
+- **Cuatro etapas en verde:** cada cliente lleva `teamVerified: true` (visto bueno del equipo, en `agents.ts`) y `integrationStages` marca las cuatro etapas como hechas; el estado de cada fila dice «Verificado» / «Verified». La derivación por evidencia sigue funcionando cuando el visto bueno no está.
+- **Quitado:** la línea «Documentación revisada el …», su texto en ES/EN, el tipo y el CSS.
+- **No tocado:** la etiqueta «En preparación» del cliente, la nota de terceros y las guías.
+- **Pruebas:** `agent-stages.test.ts` ahora espera el visto bueno en todos los clientes y conserva la prueba de evidencia sin él.
+
+Comprobado: captura del panel a 1440 px; `tsc` y pruebas sin cambios nuevos (los dos fallos son los de `solutions.ts`). Sin commit.

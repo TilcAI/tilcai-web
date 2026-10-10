@@ -86,12 +86,12 @@ export const es: Copy = {
     exploration: "Entorno de exploración",
     thirdPartyNote: "Productos de terceros, sin alianza ni integración TilcAI habilitada. Mascotas e iconos son recursos visuales de esta web.",
     stages: {
-      title: "Estado de integración", progress: "{done} de {total} etapas", checkedOn: "Documentación revisada el",
+      title: "Estado de integración", progress: "{done} de {total} etapas",
       items: {
-        docs: { label: "Documentación del cliente", done: "Revisada", pending: "Sin revisar" },
-        transport: { label: "Transporte y autenticación", done: "Probados", pending: "Por probar" },
-        tools: { label: "Herramientas TilcAI", done: "Visibles", pending: "Aún no expuestas" },
-        approval: { label: "Aprobación humana de la compra", done: "Validada", pending: "Por validar" },
+        docs: { label: "Documentación del cliente", done: "Verificado", pending: "Sin revisar" },
+        transport: { label: "Transporte y autenticación", done: "Verificado", pending: "Por probar" },
+        tools: { label: "Herramientas TilcAI", done: "Verificado", pending: "Aún no expuestas" },
+        approval: { label: "Aprobación humana de la compra", done: "Verificado", pending: "Por validar" },
       },
     },
     panel: {

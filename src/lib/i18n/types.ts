@@ -145,7 +145,7 @@ export interface Copy {
     surfaceLabels: Record<"terminal" | "editor" | "desktop", string>;
     exploration: string; thirdPartyNote: string;
     stages: {
-      title: string; progress: string; checkedOn: string;
+      title: string; progress: string;
       items: Record<"docs" | "transport" | "tools" | "approval", { label: string; done: string; pending: string }>;
     };
     panel: {

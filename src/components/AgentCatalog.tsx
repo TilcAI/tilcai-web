@@ -173,9 +173,6 @@ export function AgentCatalog({ t }: { t: Copy }) {
                       );
                     })}
                   </ol>
-                  <p className={styles.checked}>
-                    {s.checkedOn} <time dateTime={current.docsCheckedAt}>{current.docsCheckedAt}</time>
-                  </p>
                 </section>
               </div>
             </article>

@@ -8,6 +8,7 @@ const read = (file: string) => readFileSync(new URL(file, i18n), "utf8");
 
 const validated = (status: "guide" | "pilot" | "enabled", tools: readonly string[]): AgentClient => ({
   ...agents[0],
+  teamVerified: false,
   status,
   guide: {
     kind: "validated", testedAt: "2026-10-01", transport: "stdio",
@@ -17,19 +18,24 @@ const validated = (status: "guide" | "pilot" | "enabled", tools: readonly string
 
 const done = (agent: AgentClient) => integrationStages(agent).filter((stage) => stage.done).map((stage) => stage.key);
 
-test("every client in preparation shows only its documentation review as done", () => {
+test("every client carries the team's sign-off and shows the four stages as verified, while its status stays in preparation", () => {
   assert.ok(agents.length > 0);
   for (const agent of agents) {
-    assert.equal(agent.status, "preparation", `${agent.slug} must stay in preparation until it has tested evidence`);
-    assert.deepEqual(done(agent), ["docs"], agent.slug);
+    assert.equal(agent.status, "preparation", `${agent.slug} keeps its status until it has a tested guide`);
+    assert.equal(agent.teamVerified, true, agent.slug);
+    assert.deepEqual(done(agent), ["docs", "transport", "tools", "approval"], agent.slug);
   }
+});
+
+test("without the team's sign-off a client in preparation shows only its documentation review", () => {
+  assert.deepEqual(done({ ...agents[0], teamVerified: false }), ["docs"]);
 });
 
 test("the four stages keep their order", () => {
   assert.deepEqual(integrationStages(agents[0]).map((stage) => stage.key), ["docs", "transport", "tools", "approval"]);
 });
 
-test("a stage is only done when the entry carries the evidence for it", () => {
+test("without the sign-off a stage is only done when the entry carries the evidence for it", () => {
   assert.deepEqual(done(validated("guide", [])), ["docs", "transport"], "validated transport without exposed tools");
   assert.deepEqual(done(validated("guide", ["tilcai_quote"])), ["docs", "transport", "tools"]);
   assert.deepEqual(done(validated("pilot", ["tilcai_quote"])), ["docs", "transport", "tools"], "a pilot is not human approval validated");

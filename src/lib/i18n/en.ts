@@ -86,12 +86,12 @@ export const en: Copy = {
     exploration: "Exploration environment",
     thirdPartyNote: "Third-party products, without a partnership or an enabled TilcAI integration. Mascots and icons are visual assets for this website.",
     stages: {
-      title: "Integration status", progress: "{done} of {total} steps", checkedOn: "Documentation reviewed on",
+      title: "Integration status", progress: "{done} of {total} steps",
       items: {
-        docs: { label: "Client documentation", done: "Reviewed", pending: "Not reviewed" },
-        transport: { label: "Transport and authentication", done: "Tested", pending: "To be tested" },
-        tools: { label: "TilcAI tools", done: "Visible", pending: "Not exposed yet" },
-        approval: { label: "Human approval of the purchase", done: "Validated", pending: "To be validated" },
+        docs: { label: "Client documentation", done: "Verified", pending: "Not reviewed" },
+        transport: { label: "Transport and authentication", done: "Verified", pending: "To be tested" },
+        tools: { label: "TilcAI tools", done: "Verified", pending: "Not exposed yet" },
+        approval: { label: "Human approval of the purchase", done: "Verified", pending: "To be validated" },
       },
     },
     panel: {
