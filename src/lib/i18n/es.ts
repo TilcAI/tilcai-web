@@ -350,8 +350,10 @@ export const es: Copy = {
     primary: "Leer la arquitectura", secondary: "Explorar la simulación",
   },
   footer: {
-    status: "Web de presentación y simulación. Las integraciones de compra se habilitan por etapas, con entorno y estado verificables.",
     rights: "© 2026 equipo TilcAI",
+    contactLabel: "Contacto",
+    xLabel: "TilcAI en X, @tilcai_ai (se abre en una pestaña nueva)",
+    telegramLabel: "TilcAI en Telegram (se abre en una pestaña nueva)",
   },
   notFound: { title: "Página no encontrada", body: "Esta página no existe. Vuelve al inicio para explorar TilcAI o consultar su documentación.", back: "Volver al inicio" },
   docs: docsEs,

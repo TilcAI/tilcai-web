@@ -277,7 +277,7 @@ export interface Copy {
     signatureNote: string;
   };
   cta: { title: string; body: string; primary: string; secondary: string };
-  footer: { status: string; rights: string };
+  footer: { rights: string; contactLabel: string; xLabel: string; telegramLabel: string };
   notFound: { title: string; body: string; back: string };
   docs: {
     status: string;

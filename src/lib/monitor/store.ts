@@ -8,7 +8,15 @@ export interface StoredEvent extends MonitorEvent {
   cursor: number;
   /** The backend instance that sent it. */
   origin: string;
+  /** The environment of that backend: `testnet` or `mainnet`. */
+  env: string;
 }
+
+/**
+ * What tells two backends apart. The instance alone is not enough: a testnet and a mainnet
+ * backend on the same host report the same one.
+ */
+export const originKey = (o: MonitorOrigin): string => `${o.env}\n${o.instance}`;
 
 export interface OriginState extends MonitorOrigin {
   /** Newest position the backend reported, and the newest one received from it. */
@@ -72,9 +80,9 @@ export class MonitorStore {
     origin.lastDeliveryAt = delivery.sentAt;
     let accepted = 0;
     for (const event of delivery.events) {
-      const key = `${origin.instance}\n${event.id}`;
+      const key = `${originKey(origin)}\n${event.id}`;
       if (this.seen.has(key)) continue;
-      const stored: StoredEvent = { ...event, cursor: ++this.cursor, origin: origin.instance };
+      const stored: StoredEvent = { ...event, cursor: ++this.cursor, origin: origin.instance, env: origin.env };
       this.add(stored, key);
       this.apply(origin, stored);
       if (this.file) this.persist(stored, delivery.origin);
@@ -114,12 +122,11 @@ export class MonitorStore {
   }
 
   private originOf(o: MonitorOrigin): OriginState {
-    let origin = this.origins.get(o.instance);
+    let origin = this.origins.get(originKey(o));
     if (!origin) {
-      origin = { ...o, head: 0, lastSeq: 0, lastDeliveryAt: "", resources: null, resourcesAt: null, alerts: [] };
-      this.origins.set(o.instance, origin);
+      origin = { env: o.env, instance: o.instance, head: 0, lastSeq: 0, lastDeliveryAt: "", resources: null, resourcesAt: null, alerts: [] };
+      this.origins.set(originKey(o), origin);
     }
-    origin.env = o.env;
     return origin;
   }
 
@@ -128,7 +135,7 @@ export class MonitorStore {
     this.seen.add(key);
     if (this.events.length > this.capacity) {
       const dropped = this.events.splice(0, this.events.length - this.capacity);
-      for (const e of dropped) this.seen.delete(`${e.origin}\n${e.id}`);
+      for (const e of dropped) this.seen.delete(`${originKey({ env: e.env, instance: e.origin })}\n${e.id}`);
     }
   }
 
@@ -151,7 +158,7 @@ export class MonitorStore {
 
   private persist(e: StoredEvent, origin: MonitorOrigin): void {
     try {
-      appendFileSync(this.file!, `${JSON.stringify({ origin, event: { ...e, cursor: undefined, origin: undefined } })}\n`);
+      appendFileSync(this.file!, `${JSON.stringify({ origin, event: { ...e, cursor: undefined, origin: undefined, env: undefined } })}\n`);
     } catch {
       // The feed keeps working from memory; the next start simply has less history.
     }
@@ -165,8 +172,8 @@ export class MonitorStore {
       for (const line of lines) {
         const { origin, event } = JSON.parse(line) as { origin: MonitorOrigin; event: MonitorEvent };
         const state = this.originOf(origin);
-        const stored: StoredEvent = { ...event, cursor: ++this.cursor, origin: origin.instance };
-        this.add(stored, `${origin.instance}\n${event.id}`);
+        const stored: StoredEvent = { ...event, cursor: ++this.cursor, origin: origin.instance, env: origin.env };
+        this.add(stored, `${originKey(origin)}\n${event.id}`);
         this.apply(state, stored);
         state.head = Math.max(state.head, event.seq);
         state.lastDeliveryAt = event.at;

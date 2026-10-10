@@ -16,7 +16,7 @@ export const CATEGORY_LABELS: Record<MonitorCategory, Text> = {
   vault: { en: "Vault payouts", es: "Desembolsos del vault" },
   crosschain: { en: "Crosschain payments", es: "Pagos crosschain" },
   account: { en: "Smart accounts", es: "Cuentas de contrato" },
-  qr: { en: "QR Simple (mock)", es: "QR Simple (mock)" },
+  qr: { en: "QR Simple", es: "QR Simple" },
   relayer: { en: "Relayer", es: "Relayer" },
   api: { en: "API", es: "API" },
   resources: { en: "Resources", es: "Recursos" },
@@ -100,12 +100,12 @@ export const EVENT_CATALOG: Record<MonitorEventType, { title: Text; meaning: Tex
     meaning: { en: "Any other webhook from the relayer, kept as it came.", es: "Cualquier otro aviso del relayer, tal como llegó." },
   },
   "qr.token_issued": {
-    title: { en: "QR mock: login", es: "QR mock: inicio de sesión" },
-    meaning: { en: "A caller logged in to the QR Simple mock and got a token.", es: "Alguien inició sesión en el mock de QR Simple y obtuvo un token." },
+    title: { en: "QR Simple: login", es: "QR Simple: inicio de sesión" },
+    meaning: { en: "A caller logged in to QR Simple and got a token.", es: "Alguien inició sesión en QR Simple y obtuvo un token." },
   },
   "qr.created": {
     title: { en: "QR generated", es: "QR generado" },
-    meaning: { en: "The mock issued a bank QR (amount in bolivianos, description, expiry).", es: "El mock emitió un QR bancario (monto en bolivianos, glosa, vencimiento)." },
+    meaning: { en: "QR Simple issued a bank QR (amount in bolivianos, description, expiry).", es: "QR Simple emitió un QR bancario (monto en bolivianos, glosa, vencimiento)." },
   },
   "qr.paid": {
     title: { en: "Deposit simulated", es: "Depósito simulado" },
@@ -206,4 +206,12 @@ export function explainAlert(code: string, lang: Lang): { title: string; action:
   const target = rest.length ? rest.join(":") : null;
   if (known) return { title: known.title[lang], action: known.action[lang], target };
   return { title: code, action: "", target };
+}
+
+/**
+ * Events stored before the backend dropped the words "mock" and "demo" from its texts still carry
+ * them. They are removed when shown, so the feed reads the same for old and new events.
+ */
+export function cleanEventText(text: string): string {
+  return text.replace(/\s*\((?:mock|demo)\)/gi, "").replace(/BANCO MOCK/g, "BANCO NO INFORMADO");
 }

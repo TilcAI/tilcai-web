@@ -3,7 +3,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import type { MonitorSeverity, ResourceSnapshot } from "@/lib/monitor/contract";
 import { MONITOR_COPY, type MonitorCopy } from "@/lib/monitor/copy";
-import { CATEGORY_LABELS, categoryOf, explainAlert, explainEvent, MONITOR_CATEGORIES, type Lang, type MonitorCategory } from "@/lib/monitor/interpret";
+import { CATEGORY_LABELS, categoryOf, cleanEventText, explainAlert, explainEvent, MONITOR_CATEGORIES, type Lang, type MonitorCategory } from "@/lib/monitor/interpret";
 import type { OriginState, StoredEvent } from "@/lib/monitor/store";
 import { networkName, vaultLevel, vaultsOf } from "@/lib/monitor/vaults";
 import styles from "./MonitorBoard.module.css";
@@ -50,9 +50,12 @@ export function MonitorBoard({ lang }: { lang: Lang }) {
       {feed.state === "ready" && feed.summary && (
         <>
           {!feed.summary.receiving && <Notice title={t.empty.title} body={t.empty.body} />}
-          {feed.summary.origins.map((origin) => (
-            <Origin key={origin.instance} origin={origin} lang={lang} t={t} />
-          ))}
+          {/* Mainnet first: it is the one that moves real money. */}
+          {[...feed.summary.origins]
+            .sort((a, b) => Number(b.env === "mainnet") - Number(a.env === "mainnet"))
+            .map((origin) => (
+              <Origin key={`${origin.env}/${origin.instance}`} origin={origin} lang={lang} t={t} />
+            ))}
           <Feed events={feed.events} lang={lang} t={t} />
         </>
       )}
@@ -76,6 +79,12 @@ function Mark({ level, t, label }: { level: Level; t: MonitorCopy; label?: strin
       <span>{label ?? t.status[level]}</span>
     </span>
   );
+}
+
+/** The environment of a backend, in words. One this build does not know is shown as it came. */
+function EnvTag({ env, t }: { env: string; t: MonitorCopy }) {
+  const label = env === "mainnet" ? t.env.mainnet : env === "testnet" ? t.env.testnet : env;
+  return <span className={env === "mainnet" ? `${styles.env} ${styles.envMainnet}` : styles.env}>{label}</span>;
 }
 
 function Connection({ state, t }: { state: "live" | "reconnecting" | "offline"; t: MonitorCopy }) {
@@ -154,13 +163,15 @@ function Origin({ origin, lang, t }: { origin: OriginState; lang: Lang; t: Monit
   const time = useMemo(() => new Intl.DateTimeFormat(lang, { dateStyle: "short", timeStyle: "medium" }), [lang]);
   const r: ResourceSnapshot | null = origin.resources;
   const lag = Math.max(origin.head - origin.lastSeq, 0);
-  const vaultTiles = r ? vaultsOf(r) : [];
+  const vaultTiles = r ? vaultsOf(r, origin.env) : [];
+  // A testnet and a mainnet backend on one host share the instance: the environment tells them apart.
+  const headingId = `origin-${origin.env}-${origin.instance}`.replace(/[^A-Za-z0-9_-]/g, "-");
 
   return (
-    <section className={styles.origin} aria-labelledby={`origin-${origin.instance}`}>
+    <section className={styles.origin} aria-labelledby={headingId}>
       <header className={styles.originHead}>
-        <h2 id={`origin-${origin.instance}`}>
-          {t.origin.title} <span className={styles.code}>{origin.instance}</span> <span className={styles.env}>{origin.env}</span>
+        <h2 id={headingId}>
+          {t.origin.title} <span className={styles.code}>{origin.instance}</span> <EnvTag env={origin.env} t={t} />
         </h2>
         <p className={styles.meta}>
           {origin.lastDeliveryAt && `${t.origin.lastDelivery}: ${time.format(new Date(origin.lastDeliveryAt))} · `}
@@ -210,7 +221,7 @@ function Origin({ origin, lang, t }: { origin: OriginState; lang: Lang; t: Monit
         <div className={styles.tiles}>
           {vaultTiles.length > 0 ? (
             vaultTiles.map(({ network, vault, error }) => {
-              const level = vaultLevel(origin.alerts, network);
+              const level = vaultLevel(origin.alerts, network, origin.env);
               const label = vaultTiles.length > 1 ? `${t.tiles.vault} · ${networkName(network)}` : t.tiles.vault;
               return vault ? (
                 <Tile key={network} label={label} value={number.format(Number(vault.balance))} unit="USDC" level={level} t={t}>
@@ -320,17 +331,22 @@ function Feed({ events, lang, t }: { events: StoredEvent[]; lang: Lang; t: Monit
   const [category, setCategory] = useState<MonitorCategory | "all">("all");
   const [severity, setSeverity] = useState<"all" | "warning" | "error">("all");
   const [query, setQuery] = useState("");
+  const [env, setEnv] = useState("all");
+  // The environment is only worth a filter and a tag when more than one is reporting.
+  const envs = useMemo(() => [...new Set(events.map((e) => e.env).filter(Boolean))].sort(), [events]);
+  const manyEnvs = envs.length > 1;
   const time = useMemo(() => new Intl.DateTimeFormat(lang, { dateStyle: "short", timeStyle: "medium" }), [lang]);
 
   const shown = useMemo(() => {
     const text = query.trim().toLowerCase();
     return events
+      .filter((e) => !manyEnvs || env === "all" || e.env === env)
       // The periodic snapshots are what the tiles above show; in the feed they would bury the rest.
       .filter((e) => (category === "all" ? e.type !== "resources.snapshot" : categoryOf(e.type) === category))
       .filter((e) => severity === "all" || e.severity === "error" || (severity === "warning" && e.severity === "warning"))
-      .filter((e) => !text || `${e.type} ${e.summary} ${e.subject ?? ""}`.toLowerCase().includes(text))
+      .filter((e) => !text || `${e.type} ${cleanEventText(e.summary)} ${e.subject ?? ""}`.toLowerCase().includes(text))
       .reverse();
-  }, [events, category, severity, query]);
+  }, [events, category, severity, query, env, manyEnvs]);
 
   return (
     <section className={styles.feed} aria-labelledby="monitor-feed">
@@ -339,6 +355,19 @@ function Feed({ events, lang, t }: { events: StoredEvent[]; lang: Lang; t: Monit
           {t.feed.title} <span className={styles.meta}>{t.feed.count(shown.length, events.length)}</span>
         </h2>
         <div className={styles.filters}>
+          {manyEnvs && (
+            <label>
+              {t.env.filter}
+              <select value={env} onChange={(e) => setEnv(e.target.value)}>
+                <option value="all">{t.env.all}</option>
+                {envs.map((name) => (
+                  <option key={name} value={name}>
+                    {name === "mainnet" ? t.env.mainnet : name === "testnet" ? t.env.testnet : name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           <label>
             {t.feed.category}
             <select value={category} onChange={(e) => setCategory(e.target.value as MonitorCategory | "all")}>
@@ -382,14 +411,16 @@ function Feed({ events, lang, t }: { events: StoredEvent[]; lang: Lang; t: Monit
                     <Mark level={LEVEL_OF[e.severity]} t={t} />
                     <span className={styles.what}>
                       <strong>{info.title}</strong>
-                      <span>{e.summary}</span>
+                      <span>{cleanEventText(e.summary)}</span>
                     </span>
-                    <span className={styles.kind}>{kind === "other" ? e.type : CATEGORY_LABELS[kind][lang]}</span>
+                    <span className={styles.kind}>
+                      {manyEnvs && <EnvTag env={e.env} t={t} />} {kind === "other" ? e.type : CATEGORY_LABELS[kind][lang]}
+                    </span>
                   </summary>
                   <dl className={styles.detail}>
                     <dt>{t.feed.event}</dt>
                     <dd className={styles.code}>
-                      {e.type} · {e.source} · #{e.seq} · {e.origin}
+                      {e.type} · {e.source} · #{e.seq} · {e.origin} · {e.env}
                     </dd>
                     {e.subject && (
                       <>
@@ -401,7 +432,7 @@ function Feed({ events, lang, t }: { events: StoredEvent[]; lang: Lang; t: Monit
                     <dd>{info.meaning}</dd>
                     <dt>{t.feed.data}</dt>
                     <dd>
-                      <pre>{JSON.stringify(e.data, null, 2)}</pre>
+                      <pre>{cleanEventText(JSON.stringify(e.data, null, 2))}</pre>
                     </dd>
                   </dl>
                 </details>

@@ -351,8 +351,10 @@ export const en: Copy = {
     primary: "Read the architecture", secondary: "Explore the simulation",
   },
   footer: {
-    status: "Presentation and simulation website. Purchase integrations are enabled in stages, with a verifiable environment and status.",
     rights: "© 2026 TilcAI team",
+    contactLabel: "Contact",
+    xLabel: "TilcAI on X, @tilcai_ai (opens in a new tab)",
+    telegramLabel: "TilcAI on Telegram (opens in a new tab)",
   },
   notFound: { title: "Page not found", body: "This page does not exist. Return to the home page to explore TilcAI or read its documentation.", back: "Back to home" },
   docs: docsEn,

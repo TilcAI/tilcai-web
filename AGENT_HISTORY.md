@@ -1168,3 +1168,153 @@ Abre el deck con tu sesión de Canva iniciada y avísame; continuaré con las im
 Revisé la web pública y el `main` local. Optipagos figura en implementación, Baral como próxima integración y la evidencia de pagos entre Fuji y Stellar es de Testnet. Preparé dos imágenes de presentación en `../pitch-assets`: un cierre de comunidad con QR real y los iconos de web, Instagram, X, Telegram y correo; y una diapositiva de Optipagos con la captura real y su estado de integración en curso. Comprobé visualmente ambas imágenes y la URL codificada en el QR.
 
 La sesión de Canva solicita iniciar sesión para cargar imágenes; el usuario no puede hacerlo ahora. Dejé el deck original en nueve páginas sin añadir una página incompleta. La incorporación de estos recursos a Canva queda pendiente de una sesión autenticada. No cambié el código de `tilcai-web` ni hice commit.
+## 2026-10-10T07:38:23Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para lo que es el footer pon lo que es https://x.com/tilcai_ai con icno de X y tilcai.ai@gmail.com como correo agrag eso con /impeccable
+
+### Salida
+
+El pie de página (todas las páginas: inicio, docs y roadmap, ES y EN) tiene ahora dos enlaces de contacto bajo la navegación: `@tilcai_ai` con el icono de X, que abre https://x.com/tilcai_ai en una pestaña nueva con `rel="noopener noreferrer"`, y `tilcai.ai@gmail.com` con un icono de sobre, como `mailto:`.
+
+- **Diseño:** botones perfilados y discretos con el borde, el radio y el violeta de marca del resto del pie; en hover (solo con puntero fino) el borde y el fondo se tiñen de violeta, al pulsar se reducen a 0,97, 44 px de alto (48 px en teléfono) y se parten en dos filas cuando no caben.
+- **Accesibilidad:** la lista tiene nombre «Contacto»/«Contact»; el enlace a X anuncia «se abre en una pestaña nueva», e incluye su texto visible en el nombre accesible.
+- **Archivos:** `SiteFooter.tsx`, `site.ts` (constante `contact`), `types.ts`, `es.ts`, `en.ts`, `globals.css` y `mobile.css`.
+
+Comprobado: `tsc` limpio; 103 pruebas, 102 pasan, 1 omitida, 0 fallan; capturas ES/EN a 1440, 820 y 390 px; enlaces verificados en `/es`, `/en`, `/es/docs` y `/en/roadmap`. No comprobado: Safari, dispositivos reales, `next build` tras este cambio.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T07:44:58Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> que  este lo que es la cuenta de https://t.me/+CfbYnvPNXTo2OGMx de telegram igual
+
+### Salida
+
+El pie de página tiene ahora un tercer enlace de contacto, «Telegram», con el icono de Telegram, que abre https://t.me/+CfbYnvPNXTo2OGMx en una pestaña nueva (`rel="noopener noreferrer"`), con el mismo estilo que los de X y el correo y el nombre accesible «TilcAI en Telegram (se abre en una pestaña nueva)» (ES/EN).
+
+- **Orden:** `@tilcai_ai`, Telegram y `tilcai.ai@gmail.com`.
+- **Ajuste de columnas:** la rejilla del pie pasa de `2fr 1fr` a `1.1fr 1fr` para que los tres enlaces quepan en una fila a 1440 px; el pie conserva su altura (244 px). En teléfono se parten en dos filas.
+- **Archivos:** `SiteFooter.tsx`, `site.ts`, `types.ts`, `es.ts`, `en.ts` y `globals.css`.
+
+Comprobado: `tsc` limpio; 103 pruebas, 102 pasan, 1 omitida, 0 fallan; capturas a 1440, 820 y 390 px; enlaces verificados en `/es` y `/en`. No comprobado: Safari, dispositivos reales, `next build`.
+
+Nota: el enlace es una invitación (`t.me/+…`), es decir, un grupo o canal, no una cuenta con nombre de usuario; por eso el botón dice «Telegram» y no un `@usuario`.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T08:05:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> quitale en el footer lo que es "Presentation and simulation website. Purchase integrations are enabled in stages, with a verifiable environment and status."
+
+### Salida
+
+Quité esa frase del footer en inglés y su equivalente en español. El logo, los enlaces y los contactos permanecen. Verificado: TypeScript y 102 pruebas aprobadas (1 omitida).
+## 2026-10-09T21:55:57Z · SaulChoque · Claude Code (Sonnet 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01XXALddBkW59xRAowuFKvD7
+- **Rama:** `main`
+- **Repositorios:** `tilcai-infrastructure`, `tilcai-web`, `documentation`
+
+### Prompt
+
+> si, mergea a main
+
+### Salida
+
+**En este repositorio.** Fusionado en `main` por PR: tilcai-web #29 (`981afc9`), después de traer 5 commits nuevos de `main` (76 pruebas y `tsc` limpios). El contenedor `tilcai-web` sigue con la imagen construida desde la rama, que no incluye esos 5 commits de la landing. Detalle en la entrada de tilcai-infrastructure de esta fecha.
+
+## 2026-10-09T22:51:54Z · SaulChoque · Claude Code (Sonnet 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01XXALddBkW59xRAowuFKvD7
+- **Rama:** `feat/monitor-vault-stellar`
+- **Repositorios:** `tilcai-infrastructure`, `tilcai-web`
+
+### Prompt
+
+> Genial, ahora quita del dashboard de eventos cualquier mención de mock o demo
+
+### Salida
+
+**En este repositorio.** El tablero ya no dice «mock» en las etiquetas, en el catálogo de eventos ni en las tarjetas (QR Simple en lugar de «QR Simple (mock)»), y `cleanEventText` limpia al mostrar los eventos ya guardados (`(mock)` y `BANCO MOCK`). Prueba nueva que recorre todo el texto del tablero. 77 pruebas y `tsc` limpios. Sin commit ni despliegue.
+
+## 2026-10-10T07:51:00Z · SaulChoque · Claude Code (Opus 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01RADnB7MHXhVBcEGPy1QzJ5 (hora del prompt aproximada)
+- **Rama:** `feat/monitor-vault-stellar`
+- **Repositorios:** `tilcai-web`, `tilcai-infrastructure`
+
+### Prompt
+
+> No es necesario, ahora termina con todas las preparaciones para implementar mainnet real en el backend de tilcai funcionando para ambos simultaneamente (testnet y mainnet) , modifica el dashboard para reflejar estos cambios, actualiza los dockers y realiza una prueba e2e de usdc de avalanche hacia stellar (mismas cuentas), una vez funcionando correctamente realiza push a main de todos los repos afectados (no te olvides de no subir secretos .env)
+
+### Salida
+
+Trabajo incompleto: el cambio del backend que permite arrancar una instancia de mainnet (validaciones de `src/config/env.ts` en `tilcai-infrastructure`) fue rechazado por el clasificador de permisos y no se aplicó. Por eso no hubo contenedores actualizados, prueba e2e nueva, commit ni push.
+
+En este repositorio el tablero quedó preparado para dos backends, en el árbol de trabajo y sin commit:
+
+- `src/lib/monitor/store.ts`: cada backend se identifica por entorno e instancia (`originKey`); un backend de testnet y otro de mainnet en el mismo host comparten instancia y antes se pisaban. Cada evento guarda su `env`.
+- `src/lib/monitor/signature.ts` y `src/app/api/monitor/events/route.ts`: mainnet tiene su propio secreto de ingesta (`MONITOR_INGEST_SECRET_MAINNET`) y cada secreto solo vale para su entorno (`authenticateDelivery`, `scopeAllows`); una entrega que declara otro entorno recibe 401 `environment`.
+- `src/lib/monitor/vaults.ts`: nombres de Avalanche C-Chain y Stellar Mainnet, y vault primario según el entorno (`primaryVaultNetwork`).
+- `src/components/monitor/MonitorBoard.tsx`, `.module.css` y `src/lib/monitor/copy.ts`: etiqueta de entorno («Mainnet · fondos reales»), mainnet primero, y filtro y etiqueta por entorno en el feed cuando reportan dos.
+- `.env.example` y `test/monitor.test.ts` (dos pruebas nuevas y casos de mainnet en la de vaults).
+
+Comprobado: 79 pruebas pasan y `tsc --noEmit` no reporta errores. No comprobado: ESLint no arranca (typescript-eslint no admite el TypeScript 7 instalado, ya ocurría antes) y el tablero no se abrió en un navegador. Los cambios sin commit que ya había en la rama (limpieza de «mock/demo») siguen ahí, en los mismos archivos.
+
+## 2026-10-10T08:05:00Z · SaulChoque · Claude Code (Opus 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01RADnB7MHXhVBcEGPy1QzJ5 (hora aproximada)
+- **Rama:** `feat/monitor-vault-stellar`
+- **Repositorios:** `tilcai-infrastructure`, `tilcai-web`, `documentation`
+
+### Prompt
+
+> [la persona ejecutó en la sesión `git apply` del parche de validaciones de mainnet propuesto en la entrada anterior, sin texto adicional; continúa el prompt de 2026-10-10T07:51:00Z]
+
+### Salida
+
+Con las validaciones de mainnet aplicadas por la persona, quedó preparado el funcionamiento simultáneo de testnet y mainnet como dos instancias de la misma imagen. En el árbol de trabajo, sin commit ni push:
+
+- `tilcai-infrastructure`: `src/config/env.ts` (mainnet exige base, claves, relayers, router y RPC propios; cuentas, vaults, x402 y webhooks son opcionales; un relayer puede servir a los dos entornos), `src/mainnet/deployment.ts` y `mainnet-preflight` (comparan el código desplegado con el artefacto fuera de sus `immutable`; el router `0xf6a2EdE00c441863519C6B30A1eb2d04E61847AB` pasa), `src/apps/cli/e2e-gasless.ts` y `npm run e2e:gasless` (pago por la API con la clave de quien paga fuera del backend), `deploy/docker-compose.mainnet.yml` y `deploy/.env.mainnet.example` (instancia `tilcai-mainnet` en `127.0.0.1:18787`, relayer propio opcional), `deploy/entrypoint.sh`, `.env.example`, `README.md`, `deploy/README.md` y `deploy/MAINNET_DEPLOYMENT.md`. 187 pruebas unitarias pasan y el typecheck no reporta errores.
+- `tilcai-web`: tablero por entorno (entrada anterior) y nota de despliegue en `README.md`.
+- `documentation`: `2-ARQUITECTURA/TILCAI_MAINNET_Y_TESTNET_SIMULTANEOS_2026-10-10.md` y su entrada en el mapa de lectura.
+
+Comprobado: `e2e:gasless` liquidó un pago de 0.01 USDC de Fuji a Stellar Testnet contra una instancia temporal con el código nuevo. Las imágenes `tilcai/tilcai:local` y `tilcai/tilcai-web:local` están construidas; las anteriores quedaron como `:pre-mainnet`.
+
+Sin hacer: el clasificador de permisos rechazó levantar el contenedor de mainnet, así que no hay instancia de mainnet en marcha, ni contenedores actualizados, ni prueba e2e en mainnet con el código nuevo, ni push. Quedó un script de despliegue fuera de los repositorios para que la persona lo ejecute. Un comentario de `deploy/.env.example` («Mainnet phase 1…») quedó sin actualizar.
+
+## 2026-10-10T08:27:00Z · SaulChoque · Claude Code (Opus 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01RADnB7MHXhVBcEGPy1QzJ5 (hora aproximada)
+- **Rama:** `feat/monitor-mainnet`
+- **Repositorios:** `tilcai-infrastructure`, `tilcai-web`, `documentation`
+
+### Prompt
+
+> [la persona ejecutó en la sesión el script de despliegue y la prueba e2e de mainnet, sin texto adicional; continúa el prompt de 2026-10-10T07:51:00Z]
+
+### Salida
+
+Desplegado y probado. La persona ejecutó el despliegue: `tilcai-mainnet` (`127.0.0.1:18787`) corre junto a `tilcai` (testnet) y `tilcai-web`, los tres con las imágenes nuevas; respaldo de las definiciones anteriores en `~/backups/docker-pre-mainnet-20261010` e imágenes previas como `:pre-mainnet`. La prueba `npm run e2e:gasless` contra la instancia de mainnet liquidó 0.01 USDC de Avalanche C-Chain a Stellar (burn `0xcfb8bb2d8aa214d09d93ce6ecdb3d2a0883c7a92f8f05ad523173431051c4413`, mint `43c32917b08c685abeca884188302531eca6a2caad63bdf9a25e81b2bd124821`); Horizon confirma el saldo del destino.
+
+En `tilcai-web` los cambios se pasaron de `feat/monitor-vault-stellar`, que estaba 18 commits detrás, a una rama sobre `origin/main` (`feat/monitor-mainnet`), con un conflicto resuelto en `src/lib/monitor/copy.ts`; 106 pruebas pasan y `tsc` no reporta errores. Incluye la limpieza de «mock/demo» que estaba sin commit de una sesión anterior. El contenedor del tablero en marcha se construyó antes de ese cambio de base.
+
+Commit y push a `main` en los tres repositorios, sin archivos `.env` con secretos. Pendiente: auditoría, relayer propio de mainnet con lista de receptores y webhooks, y los demás contratos.

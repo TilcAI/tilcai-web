@@ -215,3 +215,8 @@ docker run -d --name tilcai-web --restart unless-stopped -p 3311:3000 \
   -e MONITOR_STORE_FILE=/data/monitor-events.json -v tilcai-web-data:/data tilcai/tilcai-web:local
 # backend: MONITOR_WEB_URL=http://<host>:3311/api/monitor/events, MONITOR_WEB_SECRET = MONITOR_INGEST_SECRET
 ```
+
+A mainnet backend reports to the same endpoint with its own secret: add
+`-e MONITOR_INGEST_SECRET_MAINNET=…` here and set `MONITOR_WEB_URL_MAINNET` and
+`MONITOR_WEB_SECRET_MAINNET` there. Each secret is accepted for its environment only, so the two
+must differ. The dashboard shows one block per backend, mainnet first and labelled as real funds.

@@ -34,4 +34,13 @@ export const paths = {
   section: (lang: Locale, id: string) => `/${lang}#${id}`,
 };
 
+/** The team's public channels, shown in the footer. */
+export const contact = {
+  xUrl: "https://x.com/tilcai_ai",
+  xHandle: "@tilcai_ai",
+  email: "tilcai.ai@gmail.com",
+  telegramUrl: "https://t.me/+CfbYnvPNXTo2OGMx",
+  telegramName: "Telegram",
+} as const;
+
 export const otherLocale = (lang: Locale): Locale => (lang === "en" ? "es" : "en");
