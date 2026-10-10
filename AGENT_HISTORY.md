@@ -791,3 +791,45 @@ Comprobado: 87 pruebas pasan (1 omitida); el detector de Impeccable no devolvió
 Pendiente: el mismo defecto de `backdrop-filter` afecta a `.pill`, `.office-banner` y las tarjetas de ConnectionPaths (dejado como tarea aparte); el proyecto no tiene `PRODUCT.md` (`/impeccable init` lo crearía). El botón morado ahora aparece en todas las páginas y lleva a `/#simulation`.
 
 Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-09T23:55:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para lo que es el monitoreo http://localhost:3000/es/monitor tienes que relizar lo siguinte ya esta lo que es .env el MONITOR_INGEST_SECRET,MONITOR_DASHBOARD_TOKEN y MONITOR_STORE_FILE la cual tenemos que realizar [pegado: resumen de otra sesión sobre los túneles ngrok de Optipagos y TilcAI y un comando ssh para traer los .env del servidor]
+
+### Salida
+
+Dejé lista y verifiqué la parte local del monitor; no hay eventos todavía porque el backend no tiene a dónde enviarlos.
+
+- `.env`: `MONITOR_STORE_FILE` apuntaba a `/data/monitor-events.json` (ruta de contenedor; en Windows es la raíz del disco). Ahora es `.data/monitor-events.json`, dentro del proyecto. Los dos secretos no se tocaron.
+- `.gitignore`: `.env` estaba sin versionar y sin ignorar (un `git add .` lo habría subido con sus secretos); ahora se ignora, igual que `/.data/`. `.dockerignore` ya excluía `.env*`.
+- `.env.example`: aclara la ruta local y la de contenedor.
+- Verificado contra el sitio en marcha, sin guardar nada: sin token 401; con el token del tablero 200; firma equivocada 401; firma correcta con un cuerpo que no es una entrega 400 (el secreto firma bien); `/es/monitor` 200; `receiving: false, stored: 0`.
+- No ejecuté el comando ssh pegado: traería todos los `.env` de TilcAI y de la infraestructura (claves del vault y de los relayers) a esta máquina, y para el monitor basta con que `MONITOR_WEB_SECRET` del backend sea igual a `MONITOR_INGEST_SECRET` de este `.env`.
+- Pendiente: el servidor de desarrollo conserva la ruta anterior hasta reiniciarse, y falta que el backend alcance este sitio (hoy es localhost).
+
+## 2026-10-10T00:49:54Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ay un error de depoy que salio lo siguinte Vercel - Deployment has failed — run this Vercel CLI command: npx vercel inspect dpl_2L6jW89cvprqk5xcrCtVyU2Qqy4t --logs
+
+### Salida
+
+Causa encontrada y corregida en el árbol de trabajo; sin commit ni push.
+
+- No pude leer los registros de Vercel: la CLI no tiene sesión en esta máquina (`vercel whoami` devuelve «Logged out»). Reproduje la compilación de producción en local (`npm run build`, Next 16.3.8 con Turbopack) y falla en la fase de TypeScript: `Property 'note' is missing` en `src/lib/i18n/narrative.ts` (`keep.note`, español) y en `src/lib/i18n/office.es.ts` (`legend.note`).
+- Origen: el commit `ee7eccb` (el más reciente) borró esas dos líneas en español, pero los tipos las siguen exigiendo y el inglés las conserva. No viene del rediseño del roadmap.
+- Arreglo: restituí las dos líneas tal como estaban («Ningún modelo de IA fija por sí solo un precio, un stock o un destino de cobro.» y «Simulación visual en tu navegador. Las cifras, los IDs y los bloques de ledger son ilustrativos.»).
+- Comprobado: `npm run build` termina bien (16 páginas estáticas, incluidas `/es/roadmap` y `/en/roadmap`); `npm test`: 89 pruebas, 88 pasan, 1 omitida, 0 fallan. No confirmé que el error del despliegue `dpl_2L6jW89cvprqk5xcrCtVyU2Qqy4t` sea este mismo, porque no pude ver su registro.
+- Corrección: antes dije que `npm run build` chocaría con el servidor de desarrollo; en Next 16 `next dev` escribe en `.next/dev`, así que no chocan.
+- Pendiente: commit y push de `narrative.ts` y `office.es.ts`. Si el borrado fue intencional, la alternativa es hacer `note` opcional en los tipos y quitarlo del inglés.

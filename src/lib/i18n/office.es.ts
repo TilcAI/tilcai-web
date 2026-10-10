@@ -61,6 +61,7 @@ export const officeEs: OfficeCopy = {
     title: "Cada sala es una pieza de TilcAI.",
     titleDim: "Los agentes recorren el camino completo de una compra.",
     lead: "La simulación de arriba sigue el mismo orden que el producto: intención, cotización, política, aprobación, pago y recibo. Los colores de cada sala se repiten en el stream y en las decisiones.",
+    note: "Simulación visual en tu navegador. Las cifras, los IDs y los bloques de ledger son ilustrativos.",
   },
   sim: {
     locale: "es",
