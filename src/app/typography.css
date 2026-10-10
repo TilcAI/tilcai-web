@@ -1,0 +1,69 @@
+/*
+ * Type system for the landing, from "El edificio TilcAI" to the footer.
+ *
+ * Two faces, both already loaded: Plus Jakarta Sans for reading and headings (400, 500, 600, 700), JetBrains Mono for
+ * labels, numbers and anything that is data (400, 500, 600). Weights that are not loaded (550, 650, 750) are not used.
+ *
+ * Roles
+ *   display   chapter statements (the building, control, assistants): 500, tight but never below -0.035em
+ *   title     section titles: 500
+ *   h3        card and step titles: 600 below ~36px, 500 above
+ *   lead      the paragraph under a title: 16 to 19px, 1.6
+ *   body      15 to 16px, 1.6 to 1.7
+ *   label     mono, uppercase, 12px, +0.14em: eyebrows and field names
+ *   floor     nothing is set below 11px
+ *
+ * Sizes inside a pinned or scaled scene stay with the scene (they are tuned to fit a viewport); what is shared here is
+ * what does not depend on the scene: weight, tracking, word spacing, leading, wrapping and the minimum size.
+ */
+:root {
+  --type-display: clamp(2.25rem, 1.2rem + 3.4vw, 4.25rem);
+  --type-title: clamp(2rem, 1.15rem + 2.4vw, 3.25rem);
+  --type-section: clamp(1.75rem, 1.15rem + 1.7vw, 2.5rem);
+  --type-h3: clamp(1.25rem, 1.1rem + 0.55vw, 1.625rem);
+  --type-lead: clamp(1rem, 0.92rem + 0.3vw, 1.1875rem);
+  --type-body: 1rem;
+  --type-small: 0.9375rem;
+  --type-caption: 0.8125rem;
+  --type-label: 0.75rem;
+  --type-floor: 0.6875rem;
+
+  --weight-display: 500;
+  --weight-title: 600;
+  --lh-lead: 1.6;
+  --lh-body: 1.65;
+  --track-display: -0.035em;
+  --track-label: 0.14em;
+}
+
+/* The page sets 1.75 on the body: right for paragraphs, too loose for the small UI text of these sections. */
+:is(#office-rooms, #businesses, #flow, #rails, #demo, #control, #entrances, #agents, #stack, #faq) {
+  line-height: var(--lh-body);
+  font-kerning: normal;
+}
+:is(#office-rooms, #businesses, #flow, #rails, #demo, #control, #entrances, #agents, #stack, #faq) :is(p, li, dd) {
+  text-wrap: pretty;
+}
+
+/*
+ * Section titles. Every one of them has an id, so this rule decides tracking, weight and word spacing for all of them
+ * at once: two of them collapsed their word gaps at -0.055em and -0.06em, and three used 600 or 700 where the system is 500.
+ */
+:is(#office-building-title, #businesses-title, #flow-title, #rails-title, #demo-title, #control-title, #entrances-title, #agents-title, #stack-title, #faq-title, #cta-title) {
+  font-weight: var(--weight-display);
+  letter-spacing: var(--track-display);
+  word-spacing: 0.05em;
+  text-wrap: balance;
+}
+
+/* Sections that use the shared head (demo, assistants, stack, faq): the same label and lead as the sections with their own. */
+:is(#demo, #agents, #stack, #faq) .eyebrow {
+  font: 500 var(--type-label) / 1.4 var(--mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+:is(#demo, #stack, #faq) .section-lead {
+  max-width: 58ch;
+  font-size: var(--type-lead);
+  line-height: var(--lh-lead);
+}

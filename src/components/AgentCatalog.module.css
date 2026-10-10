@@ -39,9 +39,9 @@
   margin: 0;
   color: #f5f1fc;
   font-size: clamp(38px, 5vw, 70px);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.05;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
@@ -49,8 +49,8 @@
   max-width: 58ch;
   margin: 20px 0 0;
   color: #aaa8bc;
-  font-size: clamp(15px, 1.3vw, 18px);
-  line-height: 1.6;
+  font-size: var(--type-lead);
+  line-height: var(--lh-lead);
 }
 
 .permission {
@@ -300,7 +300,7 @@
   border-radius: 6px;
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   color: var(--accent);
-  font: 600 10px/1 var(--mono);
+  font: 600 11px/1 var(--mono);
   letter-spacing: 0.04em;
 }
 
@@ -316,7 +316,7 @@
 .typed span { white-space: pre; }
 .tool { color: #cfc8e6; }
 .toolLabel { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.detail { margin-left: auto; color: #b9aee0; font-size: 10.5px; white-space: nowrap; }
+.detail { margin-left: auto; color: #b9aee0; font-size: 11px; white-space: nowrap; }
 .mark { position: relative; flex: none; width: 14px; height: 14px; }
 .mark::before { content: ""; position: absolute; inset: 1px; border-radius: 50%; }
 .mark[data-state="idle"]::before { opacity: 0; }
@@ -326,8 +326,8 @@
 .waiting { color: #ffbf5a; }
 .waiting b { color: #ffbf5a; }
 
-.chromeTitle { margin-left: 8px; color: #cfc8e6; font: 600 10px/1 var(--mono); letter-spacing: 0.02em; }
-.chromeBadge { margin-left: auto; padding: 3px 7px; border: 1px dashed color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 5px; color: color-mix(in srgb, var(--accent) 75%, #fff); font: 600 9px/1 var(--mono); white-space: nowrap; }
+.chromeTitle { margin-left: 8px; color: #cfc8e6; font: 600 11px/1 var(--mono); letter-spacing: 0.02em; }
+.chromeBadge { margin-left: auto; padding: 3px 7px; border: 1px dashed color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 5px; color: color-mix(in srgb, var(--accent) 75%, #fff); font: 600 11px/1 var(--mono); white-space: nowrap; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -341,7 +341,7 @@
 .code { display: grid; align-content: start; gap: 8px; }
 .code i[style*="--d"] { margin-left: calc(var(--d) * 12px); }
 .side { display: grid; align-content: start; gap: 8px; padding-left: 8px; border-left: 1px solid #ffffff12; }
-.side .slot { margin-top: 6px; font-size: 9px; padding-inline: 6px; }
+.side .slot { margin-top: 6px; font-size: 11px; padding-inline: 6px; }
 
 .chat { display: grid; align-content: start; gap: 8px; height: 100%; }
 .chat i { height: 14px; border-radius: 8px; }
@@ -423,9 +423,9 @@
   margin: 18px 0 0;
   color: #fff;
   font-size: clamp(30px, 2.8vw, 38px);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.08;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.035em;
   overflow-wrap: anywhere;
 }
 
@@ -583,7 +583,7 @@ li[data-done] .stageState { color: #7fdca6; }
   .art { min-height: 214px; padding: 24px 14px 20px; }
   .window { width: 64%; height: 158px; }
   .art[data-surface="terminal"] .window { width: 72%; height: 190px; }
-  .term { font-size: 10px; gap: 5px; }
+  .term { font-size: 11px; gap: 5px; }
   .chromeBadge { display: none; }
   .detail { display: none; }
   .mascot { width: 30%; margin-left: -22px; }

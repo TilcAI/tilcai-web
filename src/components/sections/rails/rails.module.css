@@ -5,10 +5,10 @@
 
 /* ── Header: the headline, and the "what is crosschain" note as a margin note, not a box ───────────────────── */
 .header { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: end; }
-.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; color: #a98ae9; font: 500 11px/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; color: #a98ae9; font: 500 12px/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
 .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--violet); }
-.title { margin: 0; color: var(--ink); font-size: clamp(32px, 3.5vw, 52px); line-height: 1.08; letter-spacing: -.045em; font-weight: 500; max-width: 22ch; text-wrap: balance; }
-.lead { margin: 20px 0 0; max-width: 50ch; color: #aaa4bf; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.65; }
+.title { margin: 0; color: var(--ink); font-size: clamp(32px, 3.5vw, 52px); line-height: 1.08; letter-spacing: -0.035em; font-weight: 500; max-width: 22ch; text-wrap: balance; }
+.lead { margin: 20px 0 0; max-width: 50ch; color: #aaa4bf; font-size: var(--type-lead); line-height: var(--lh-lead); }
 .note { padding-top: 0; }
 .rule { display: block; height: 1px; margin-bottom: 18px; background: var(--line); }
 .noteTerm { display: inline-block; margin-bottom: 12px; color: #7fdcff; font: 500 12px/1.4 var(--mono); letter-spacing: .04em; }

@@ -34,8 +34,8 @@
   gap: 9px;
   margin: 0 0 14px;
   color: var(--violet);
-  font: 600 12px/1 var(--font-mono-stack, monospace);
-  letter-spacing: 0.16em;
+  font: 500 12px/1 var(--font-mono-stack, monospace);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -51,7 +51,7 @@
   margin: 0 0 14px;
   color: #fff;
   font-size: clamp(32px, 3.5vw, 54px);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.04;
   letter-spacing: -0.035em;
   text-wrap: balance;
@@ -331,7 +331,7 @@
   backdrop-filter: blur(10px);
   box-shadow: 0 14px 26px -16px rgba(0, 0, 0, 0.9);
   color: #e6e0ff;
-  font-size: clamp(10.5px, 0.85vw, 12.5px);
+  font-size: clamp(11px, 0.85vw, 12.5px);
   font-weight: 500;
   line-height: 1;
   white-space: nowrap;
@@ -739,7 +739,7 @@
   margin: 8px 0 0;
   color: #fff;
   font-size: clamp(17px, 1.5vw, 21px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
   text-wrap: balance;

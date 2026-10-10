@@ -46,7 +46,7 @@
   color: var(--panel-accent, var(--purple-200));
   background: color-mix(in srgb, var(--panel-accent, var(--purple)) 12%, transparent);
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: .02em;
 }
 
@@ -182,7 +182,7 @@
 .permissionFields dt {
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
 }
@@ -300,7 +300,7 @@
   border: 1px solid var(--human);
   border-radius: 50%;
   color: var(--human);
-  font: 700 8px/1 var(--mono);
+  font: 700 11px/1 var(--mono);
 }
 
 .explainer {
@@ -507,7 +507,7 @@
 
   .exampleLabel {
     margin-bottom: 16px;
-    font-size: 9.5px;
+    font-size: 11px;
   }
 
   .budget {

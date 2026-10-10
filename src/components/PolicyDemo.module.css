@@ -143,7 +143,7 @@
   border: 1px solid color-mix(in srgb, var(--purple-400) 40%, transparent);
   background: var(--purple-soft);
   color: var(--turquoise);
-  font: 10px/1 var(--mono);
+  font: 11px/1 var(--mono);
   letter-spacing: 0.02em;
 }
 

@@ -48,8 +48,8 @@
   align-items: center;
   gap: 8px;
   color: var(--violet);
-  font: 600 12px/1 var(--font-mono-stack, monospace);
-  letter-spacing: 0.15em;
+  font: 500 12px/1 var(--font-mono-stack, monospace);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 16px;
 }
@@ -70,7 +70,7 @@
 
 .title {
   font-size: clamp(36px, 4.2vw, 62px);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.08;
   letter-spacing: -0.04em;
   color: #FFFFFF;
@@ -741,7 +741,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 13px;
   flex-shrink: 0;
 }
@@ -829,7 +829,7 @@
 
 .detailTitle {
   font-size: clamp(32px, 3.8vw, 54px);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.04em;
   color: #FFFFFF;
   margin: 0;
@@ -955,7 +955,7 @@
 
 .networkTag {
   font-family: var(--font-mono-stack, monospace);
-  font-size: 10.5px;
+  font-size: 11px;
   padding: 2px 7px;
   border-radius: 6px;
 }
@@ -1081,7 +1081,7 @@
   position: absolute;
   top: -24px;
   font-family: var(--font-mono-stack, monospace);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   padding: 2px 8px;
@@ -1146,7 +1146,7 @@
 
 .destTitle {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   color: #FFFFFF;
   margin: 0 0 4px 0;
 }

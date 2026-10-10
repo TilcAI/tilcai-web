@@ -913,3 +913,27 @@ Archivos: `OperationSection.tsx`, `OperationSection.module.css` y, en `scene/`, 
 Comprobado: `tsc` limpio; las 8 pruebas de la escena pasan; el detector de Impeccable no devolvió hallazgos; capturas en 1100, 1440 y 1920 px (anclado), 820 px (tablet), 390 px (teléfono), movimiento reducido y en inglés, sin errores en consola. No comprobado: Safari ni dispositivos reales, ni la sensación del scroll con el nuevo reparto de columnas. No recorté el `viewBox` porque la cámara se acerca en la aprobación y cortaría la base del agente.
 
 Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T03:17:12Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de la landing mejora lo que es el apratado de tipografia para todos que se vean bien desde esta seccion /impeccable que mejore ese apartado desde "El edificio TilcAI" hasta abajo que se mejore solo la tipografia
+
+### Salida
+
+Mejoré solo la tipografía de la landing desde «El edificio TilcAI» hasta el pie, con un sistema común y sin tocar textos, colores, espaciado ni layout.
+
+- **Auditoría (1440 y 390 px):** los títulos de sección usaban 8 tamaños, 3 pesos (500, 600, 700) y un tracking de -0,03 a -0,06 em; con -0,055 y -0,06 em los espacios entre palabras se cerraban («Tunegocio», «Unpermiso»). Había texto de 8 a 10 px en 12 hojas de estilo, pesos que no se cargan (550, 650, 750), seis variantes de la etiqueta superior (0,08 a 0,25 em) y 1,75 de interlineado heredado en el texto pequeño de interfaz.
+- **Sistema:** nuevo `src/app/typography.css` con tokens de roles (display, título, h3, lead, cuerpo, etiqueta, suelo) y reglas por `id` de cada `h2`: peso 500, tracking -0,035 em, espaciado de palabras y `text-wrap: balance`. Interlineado de 1,65 y `text-wrap: pretty` en esas secciones.
+- **Normalización mecánica:** 43 tamaños por debajo de 11 px pasan a 11 px, 9 trackings por debajo de -0,04 em pasan a -0,035 em y 11 pesos no cargados pasan a un peso cargado.
+- **Roles:** etiquetas superiores unificadas (mono, 12 px, 500, 0,14 em, mayúsculas) en 10 hojas; los `lead` usan `--type-lead` (16 a 19 px, 1,6); títulos de tarjeta a 600 por debajo de ~36 px y a 500 por encima; en teléfono, el `lead` de «Empresas» pasa de 12 a 14 px y el texto de los pasos de 11 a 12,5 px.
+- **Archivos:** `typography.css`, `globals.css` y las hojas de OfficeBuilding, BusinessParallax, Narrative, ControlSection, ControlExperience, EntranceMap, ConnectionPaths, rails (4), PolicyDemo, AgentCatalog, OperationSection y `agents.css`.
+
+Comprobado: `tsc` limpio; 97 pruebas, 96 pasan, 1 omitida, 0 fallan; el detector de tipografía no devolvió hallazgos; nueva auditoría en 1440 y 390 px sin texto bajo 11 px ni tracking bajo -0,04 em; capturas de las 11 secciones en ES (1440 y 390) y EN (1440), y de «Empresas» anclada en 1440, 1366 y teléfono. Efecto visible: el título de «Empresas» pasa de 2 a 3 líneas en 1440 px por el tracking más abierto y sigue cabiendo en 1366×768. No comprobado: Safari ni dispositivos reales; ni la tipografía del hero, la oficina y la presentación del producto, que quedaron fuera de alcance.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.

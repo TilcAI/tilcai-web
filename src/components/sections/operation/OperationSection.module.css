@@ -12,7 +12,7 @@
 .left { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
 .head { flex: none; }
 .headline { min-width: 0; }
-.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 clamp(8px, 1.4svh, 16px); color: #a98ae9; font: 500 11px/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 clamp(8px, 1.4svh, 16px); color: #a98ae9; font: 500 12px/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
 .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #925ff6; }
 .title { margin: 0; color: #f1edf8; font-size: clamp(26px, min(2.7vw, 4.6svh), 42px); line-height: 1.1; letter-spacing: -.04em; font-weight: 500; }
 .title span { display: inline-block; white-space: nowrap; margin-right: .2em; }
@@ -73,7 +73,7 @@
 .artifact { margin: clamp(14px, 2.6svh, 24px) 0; padding: clamp(14px, 2.4svh, 20px) 22px; border: 1px solid #9b7bdb55; border-radius: 14px; background: linear-gradient(135deg, #26203b, #141126); }
 .artifactHead { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 12px; color: #d8c6ff; font-size: 16px; }
 .artifactHead strong { font-weight: 500; }
-.artifactHead span { color: #9a8fb2; font: 10px var(--mono); }
+.artifactHead span { color: #9a8fb2; font: 11px var(--mono); }
 .artifact ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .artifact li { display: flex; align-items: center; gap: 9px; color: #b8b1c8; font-size: 13px; }
 .artifact li::before { content: ''; flex: none; width: 5px; height: 5px; border: 1px solid #57d2f9; border-radius: 1px; }
@@ -112,7 +112,7 @@
   .stage { position: relative; margin-top: 0; padding: 6px 0 8px; background: #080819; }
   .root[data-mode='flow'] .stage { position: sticky; top: calc(var(--header-h) + 4px); z-index: 3; box-shadow: 0 14px 20px -8px #080819; }
   .sceneBox { flex: none; aspect-ratio: 960 / 668; max-height: 34svh; width: 100%; justify-self: center; }
-  .caption { margin: 6px 0 0; font-size: 9.5px; line-height: 1.4; }
+  .caption { margin: 6px 0 0; font-size: 11px; line-height: 1.4; }
   .root[data-mode='flow'] .step { min-height: calc(var(--len, .16) * 380svh); display: flex; align-items: center; padding: 18px 0; }
   .root[data-mode='flow'] .stepCard { width: 100%; }
   .mark { width: 34px; height: 34px; }
