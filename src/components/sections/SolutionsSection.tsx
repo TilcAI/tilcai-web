@@ -104,8 +104,6 @@ export function SolutionsSection({ t }: { t: Copy }) {
             </Link>
           </aside>
         </div>
-
-        <p className={styles.footnote}>{c.footnote}</p>
       </div>
     </section>
   );

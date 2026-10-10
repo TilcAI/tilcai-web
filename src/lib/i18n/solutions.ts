@@ -35,7 +35,6 @@ interface SolutionsCopy {
     journey: { label: string; steps: string[] };
   };
   invite: { title: string; body: string; link: string };
-  footnote: string;
 }
 
 const es: SolutionsCopy = {
@@ -128,7 +127,6 @@ const en: SolutionsCopy = {
     body: "Start with a single case: an order with a price, an approval and a receipt. You keep deciding price, payout destination and delivery.",
     link: "See how it connects",
   },
-  footnote: "Everything runs on a test network: no real funds and no audit. The team confirms each business's status before it is published.",
 };
 
 export function solutions(locale: Locale): SolutionsCopy {

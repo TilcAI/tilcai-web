@@ -30,7 +30,6 @@ test("Optipagos is being implemented and Baral is next: no status is stronger th
     // Nothing here may read as live, audited or real money: everything is on a test network.
     const claims = leaves(c).map(([, text]) => text).join(" ").toLowerCase();
     assert.doesNotMatch(claims, /mainnet|en producción|in production|auditad[oa] por|audited by|dinero real disponible/);
-    assert.match(c.footnote.toLowerCase(), /pruebas|test network/);
   }
 });
 

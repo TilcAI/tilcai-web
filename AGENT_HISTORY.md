@@ -1085,3 +1085,23 @@ Comprobado: capturas del detalle de ruta a 1440 px. Sin commit.
 - **Pruebas:** `agent-stages.test.ts` ahora espera el visto bueno en todos los clientes y conserva la prueba de evidencia sin él.
 
 Comprobado: captura del panel a 1440 px; `tsc` y pruebas sin cambios nuevos (los dos fallos son los de `solutions.ts`). Sin commit.
+
+## 2026-10-10T07:13:13Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> soluciona lo que es este error "- Deployment has failed — run this Vercel CLI command: npx vercel inspect dpl_HVTVoQdQjNjR6tizGieZiWt8o7p5 --logs"
+
+### Salida
+
+Causa: el commit `fbfb4d1` quitó `footnote` del texto en español de «Soluciones para empresas» pero el tipo `SolutionsCopy` lo seguía exigiendo, y `next build` fallaba en TypeScript (`solutions.ts(41,7): Property 'footnote' is missing`).
+
+Arreglo: se elimina `footnote` por completo, en línea con el cambio que ya había hecho el equipo: del tipo y del texto en inglés (`solutions.ts`), de su render (`SolutionsSection.tsx`), de su regla CSS (`.footnote`) y de la aserción que lo exigía en `test/solutions-section.test.ts`.
+
+Comprobado: la CLI de Vercel no tenía sesión (no pude leer el log), así que reproduje el build local del último commit y obtuve el error; tras el arreglo, `tsc` limpio, `next build` correcto y 103 pruebas, 102 pasan, 1 omitida, 0 fallan.
+
+Pendiente: commit y push (los 4 archivos modificados quedan en el árbol de trabajo).

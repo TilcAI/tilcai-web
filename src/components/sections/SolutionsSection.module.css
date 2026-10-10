@@ -182,7 +182,6 @@
   .action:hover :global(.icon) { transform: translateX(3px); }
 }
 
-.footnote { margin: clamp(22px, 3vw, 36px) 0 0; max-width: 78ch; color: #8d84a6; font-size: 13px; line-height: 1.6; }
 
 @media (max-width: 480px) {
   /* Four labels do not fit in a row on a phone: two by two, without the connecting line. */
