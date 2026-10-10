@@ -6,8 +6,9 @@ import { join } from "node:path";
 import test from "node:test";
 import { readAccess, refuse, SESSION_COOKIE } from "../src/lib/monitor/access.ts";
 import { MONITOR_EVENT_TYPES, MONITOR_SCHEMA, parseDelivery, type MonitorDelivery, type MonitorEvent, type ResourceSnapshot } from "../src/lib/monitor/contract.ts";
-import { ALERT_CATALOG, categoryOf, CATEGORY_LABELS, EVENT_CATALOG, explainAlert, explainEvent, MONITOR_CATEGORIES } from "../src/lib/monitor/interpret.ts";
-import { sessionValue, signDelivery, verifyDelivery } from "../src/lib/monitor/signature.ts";
+import { ALERT_CATALOG, categoryOf, CATEGORY_LABELS, cleanEventText, EVENT_CATALOG, explainAlert, explainEvent, MONITOR_CATEGORIES } from "../src/lib/monitor/interpret.ts";
+import { authenticateDelivery, scopeAllows, sessionValue, signDelivery, verifyDelivery } from "../src/lib/monitor/signature.ts";
+import { MONITOR_COPY } from "../src/lib/monitor/copy.ts";
 import { MonitorStore } from "../src/lib/monitor/store.ts";
 
 let n = 0;
@@ -117,6 +118,36 @@ test("store: two backends are told apart, even when their event ids collide", ()
   assert.equal(store.ingest(delivery([e], { origin: { env: "testnet", instance: "host-b" }, head: 7 })).accepted, 1);
   const origins = store.summary().origins;
   assert.deepEqual(origins.map((o) => [o.instance, o.head, o.lastSeq]), [["host-a", 40, e.seq], ["host-b", 7, e.seq]]);
+});
+
+test("store: a testnet and a mainnet backend on the same host are two backends", () => {
+  const store = new MonitorStore();
+  const e = event();
+  store.ingest(delivery([e], { head: 40 }));
+  assert.equal(store.ingest(delivery([e], { origin: { env: "mainnet", instance: "host-a" }, head: 3 })).accepted, 1, "same instance and event id, another environment");
+  assert.equal(store.ingest(delivery([e], { origin: { env: "mainnet", instance: "host-a" }, head: 3 })).duplicates, 1);
+  assert.deepEqual(store.summary().origins.map((o) => [o.env, o.instance, o.head]), [["testnet", "host-a", 40], ["mainnet", "host-a", 3]]);
+  assert.deepEqual(store.list().map((x) => [x.origin, x.env]), [["host-a", "testnet"], ["host-a", "mainnet"]]);
+});
+
+test("signature: mainnet has its own secret, and each secret is good for its environment only", () => {
+  const nowMs = 1_800_000_000_000;
+  const timestamp = String(nowMs / 1000);
+  const body = JSON.stringify({ hola: 1 });
+  const secrets = { other: "secreto-de-testnet-0123456789", mainnet: "secreto-de-mainnet-0123456789" };
+  const signedWith = (secret: string, using: { other?: string; mainnet?: string } = secrets) => authenticateDelivery({ secrets: using, timestamp, signature: signDelivery(secret, timestamp, body), body, nowMs });
+
+  assert.deepEqual(signedWith(secrets.other), { ok: true, scope: "other" });
+  assert.deepEqual(signedWith(secrets.mainnet), { ok: true, scope: "mainnet" });
+  assert.deepEqual(signedWith("otro-secreto-cualquiera-0123"), { ok: false, reason: "mismatch" });
+  assert.deepEqual(signedWith(secrets.mainnet, { other: secrets.other }), { ok: false, reason: "mismatch" }, "without a mainnet secret nothing signs as mainnet");
+  assert.deepEqual(signedWith(secrets.other, { other: secrets.other, mainnet: secrets.other }), { ok: true, scope: "other" }, "a repeated secret is not a mainnet secret");
+  assert.deepEqual(authenticateDelivery({ secrets, timestamp: null, signature: null, body, nowMs }), { ok: false, reason: "missing" });
+
+  assert.equal(scopeAllows("mainnet", "mainnet"), true);
+  assert.equal(scopeAllows("other", "testnet"), true);
+  assert.equal(scopeAllows("other", "mainnet"), false, "the testnet secret cannot report as mainnet");
+  assert.equal(scopeAllows("mainnet", "testnet"), false);
 });
 
 test("store: holds the last events only, and a dropped one can come back", () => {
@@ -265,5 +296,23 @@ test("vaults: one per network, the original vault from an older backend, and ale
   assert.equal(vaultLevel([], "stellar:testnet"), "ok");
   assert.equal(vaultLevel([{ code: "VAULT_EMPTY:stellar:testnet", severity: "error" }], "eip155:43113"), "ok", "another network's alert is not the primary's");
   assert.equal(networkName("stellar:testnet"), "Stellar Testnet");
+  assert.equal(networkName("eip155:43114"), "Avalanche C-Chain");
+  assert.equal(networkName("stellar:pubnet"), "Stellar Mainnet");
+
+  // A mainnet backend: its primary vault is Avalanche C-Chain's, and its alerts follow the same rule.
+  assert.deepEqual(vaultsOf({ ...base, vault: view }, "mainnet"), [{ network: "eip155:43114", vault: view }]);
+  assert.equal(vaultLevel([{ code: "VAULT_EMPTY", severity: "error" }], "eip155:43114", "mainnet"), "error");
+  assert.equal(vaultLevel([{ code: "VAULT_LOW:stellar:pubnet", severity: "warning" }], "eip155:43114", "mainnet"), "ok");
+  assert.equal(vaultLevel([{ code: "VAULT_LOW:stellar:pubnet", severity: "warning" }], "stellar:pubnet", "mainnet"), "warning");
   assert.equal(networkName("eip155:1"), "eip155:1");
+});
+
+test("the dashboard does not call anything a mock or a demo, and old events are cleaned when shown", () => {
+  const texts = JSON.stringify([ALERT_CATALOG, EVENT_CATALOG, CATEGORY_LABELS, MONITOR_COPY]);
+  assert.doesNotMatch(texts, /\b(mock|demo)\b/i);
+
+  assert.equal(cleanEventText("QR Simple (mock) #12 por Bs 10.00 — compra"), "QR Simple #12 por Bs 10.00 — compra");
+  assert.equal(cleanEventText("QR Simple (Mock): token emitido"), "QR Simple: token emitido");
+  assert.equal(cleanEventText('{"payerBank":"BANCO MOCK"}'), '{"payerBank":"BANCO NO INFORMADO"}');
+  assert.equal(cleanEventText("Desembolso de 10 USDC CONFIRMED"), "Desembolso de 10 USDC CONFIRMED");
 });

@@ -24,5 +24,28 @@ export function verifyDelivery(p: { secret: string; timestamp: string | null; si
   return sameSecret(p.signature, signDelivery(p.secret, p.timestamp, p.body)) ? { ok: true } : { ok: false, reason: "mismatch" };
 }
 
+/** Which backends a signature vouches for: the mainnet one, or the rest (testnet, development). */
+export type DeliveryScope = "mainnet" | "other";
+
+/**
+ * Finds the secret that signed a delivery. Mainnet has its own (MONITOR_INGEST_SECRET_MAINNET), so
+ * a testnet backend, or whoever holds its secret, cannot report as mainnet. A mainnet secret equal
+ * to the other one is not a separate secret and is ignored.
+ */
+export function authenticateDelivery(p: { secrets: { other?: string; mainnet?: string }; timestamp: string | null; signature: string | null; body: string; nowMs?: number }): { ok: true; scope: DeliveryScope } | { ok: false; reason: "missing" | "stale" | "mismatch" } {
+  const candidates: Array<[DeliveryScope, string | undefined]> = [["other", p.secrets.other], ["mainnet", p.secrets.mainnet && p.secrets.mainnet !== p.secrets.other ? p.secrets.mainnet : undefined]];
+  let reason: "missing" | "stale" | "mismatch" = "missing";
+  for (const [scope, secret] of candidates) {
+    if (!secret) continue;
+    const checked = verifyDelivery({ secret, timestamp: p.timestamp, signature: p.signature, body: p.body, ...(p.nowMs === undefined ? {} : { nowMs: p.nowMs }) });
+    if (checked.ok) return { ok: true, scope };
+    reason = checked.reason;
+  }
+  return { ok: false, reason };
+}
+
+/** A delivery is accepted only when the environment it declares is the one its secret is for. */
+export const scopeAllows = (scope: DeliveryScope, env: string): boolean => (env === "mainnet") === (scope === "mainnet");
+
 /** What the browser keeps after presenting the dashboard token: a value derived from it. */
 export const sessionValue = (token: string): string => createHash("sha256").update(`tilcai-monitor-session:${token}`).digest("hex");

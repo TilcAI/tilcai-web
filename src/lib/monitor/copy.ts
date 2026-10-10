@@ -16,6 +16,8 @@ export interface MonitorCopy {
   status: { ok: string; warning: string; error: string; unknown: string };
   alerts: { title: string; none: string; since: string; action: string };
   origin: { title: string; lastDelivery: string; snapshot: string; noSnapshot: string; lag: string; upToDate: string };
+  /** The environment of a backend. Mainnet is spelled out: what it shows is real money. */
+  env: { testnet: string; mainnet: string; filter: string; all: string };
   tiles: {
     vault: string;
     vaultNone: string;
@@ -61,16 +63,17 @@ export interface MonitorCopy {
 export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
   en: {
     title: "Backend monitor",
-    lead: "Resources and events of TilcAI's backend, as it reports them. Testnet only.",
+    lead: "Resources and events of each TilcAI backend, testnet and mainnet, as it reports them.",
     connection: { live: "Live", reconnecting: "Reconnecting…", offline: "Offline" },
     locked: { title: "This page needs the dashboard token", body: "Whoever runs the site has it (MONITOR_DASHBOARD_TOKEN).", label: "Dashboard token", submit: "Open", wrong: "That token is not valid." },
-    unconfigured: { title: "The monitor is not configured", body: "Set MONITOR_DASHBOARD_TOKEN and MONITOR_INGEST_SECRET on this site, and MONITOR_WEB_URL and MONITOR_WEB_SECRET on the backend." },
+    unconfigured: { title: "The monitor is not configured", body: "Set MONITOR_DASHBOARD_TOKEN and MONITOR_INGEST_SECRET on this site, and MONITOR_WEB_URL and MONITOR_WEB_SECRET on the backend. A mainnet backend has its own pair: MONITOR_INGEST_SECRET_MAINNET here and MONITOR_WEB_SECRET_MAINNET there." },
     empty: { title: "Nothing received yet", body: "No backend has delivered events since this server started. Check MONITOR_WEB_URL on the backend and the shared secret." },
     failed: "The monitor could not be loaded.",
     retry: "Try again",
     status: { ok: "OK", warning: "Attention", error: "Error", unknown: "No data" },
     alerts: { title: "Active alerts", none: "No active alerts.", since: "since", action: "What to do" },
     origin: { title: "Backend", lastDelivery: "Last delivery", snapshot: "Resources as of", noSnapshot: "No resource snapshot yet.", lag: "events still to arrive", upToDate: "Up to date" },
+    env: { testnet: "Testnet · test funds", mainnet: "Mainnet · real funds", filter: "Environment", all: "All" },
     tiles: {
       vault: "Vault balance",
       vaultNone: "No vault configured",
@@ -87,7 +90,7 @@ export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
       database: "Database",
       payments: "Crosschain payments",
       payouts: "Vault payouts",
-      qr: "QR codes (mock)",
+      qr: "QR codes",
       inFlight: "in progress",
       settled: "finished",
       pendingCallbacks: "notifications pending",
@@ -114,16 +117,17 @@ export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
   },
   es: {
     title: "Monitor del backend",
-    lead: "Recursos y eventos del backend de TilcAI, tal como los reporta. Solo testnet.",
+    lead: "Recursos y eventos de cada backend de TilcAI, testnet y mainnet, tal como los reporta.",
     connection: { live: "En vivo", reconnecting: "Reconectando…", offline: "Sin conexión" },
     locked: { title: "Esta página pide el token del tablero", body: "Lo tiene quien administra el sitio (MONITOR_DASHBOARD_TOKEN).", label: "Token del tablero", submit: "Abrir", wrong: "Ese token no es válido." },
-    unconfigured: { title: "El monitor no está configurado", body: "Define MONITOR_DASHBOARD_TOKEN y MONITOR_INGEST_SECRET en este sitio, y MONITOR_WEB_URL y MONITOR_WEB_SECRET en el backend." },
+    unconfigured: { title: "El monitor no está configurado", body: "Define MONITOR_DASHBOARD_TOKEN y MONITOR_INGEST_SECRET en este sitio, y MONITOR_WEB_URL y MONITOR_WEB_SECRET en el backend. Un backend de mainnet tiene su propio par: MONITOR_INGEST_SECRET_MAINNET aquí y MONITOR_WEB_SECRET_MAINNET allá." },
     empty: { title: "Todavía no llegó nada", body: "Ningún backend entregó eventos desde que arrancó este servidor. Revisa MONITOR_WEB_URL en el backend y el secreto compartido." },
     failed: "No se pudo cargar el monitor.",
     retry: "Reintentar",
     status: { ok: "Bien", warning: "Atención", error: "Error", unknown: "Sin datos" },
     alerts: { title: "Alertas activas", none: "Sin alertas activas.", since: "desde", action: "Qué hacer" },
     origin: { title: "Backend", lastDelivery: "Última entrega", snapshot: "Recursos al", noSnapshot: "Aún no hay foto de recursos.", lag: "eventos por llegar", upToDate: "Al día" },
+    env: { testnet: "Testnet · fondos de prueba", mainnet: "Mainnet · fondos reales", filter: "Entorno", all: "Todos" },
     tiles: {
       vault: "Saldo del vault",
       vaultNone: "Sin vault configurado",
@@ -140,7 +144,7 @@ export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
       database: "Base de datos",
       payments: "Pagos crosschain",
       payouts: "Desembolsos del vault",
-      qr: "Códigos QR (mock)",
+      qr: "Códigos QR",
       inFlight: "en curso",
       settled: "terminados",
       pendingCallbacks: "avisos pendientes",
