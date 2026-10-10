@@ -11,7 +11,6 @@ export function SiteFooter({ t, page }: { t: Copy; page: "home" | "docs" | "road
       <div className="container footer-inner">
         <div className="footer-brand">
           <Image src="/brand/tilcai-logo.webp" width={360} height={138} alt="TilcAI" sizes="74px" />
-          <p>{t.footer.status}</p>
         </div>
         <div className="footer-side">
           <nav className="footer-nav" aria-label={t.a11y.footerNav}>

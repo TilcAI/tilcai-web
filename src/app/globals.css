@@ -331,7 +331,6 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 .footer-inner { display: grid; gap: 28px; }
 @media (min-width: 900px) { .footer-inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } .footer-meta { grid-column: 1 / -1; } }
 .footer-brand img { height: 28px; width: auto; }
-.footer-brand p { margin-top: 14px; max-width: 60ch; }
 .footer-nav { display: flex; flex-wrap: wrap; gap: 8px 24px; align-content: start; }
 .footer-nav a { color: var(--text-2); font-weight: 500; }
 .footer-nav a:hover { color: #fff; }

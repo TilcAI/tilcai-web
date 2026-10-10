@@ -1151,3 +1151,17 @@ Comprobado: `tsc` limpio; 103 pruebas, 102 pasan, 1 omitida, 0 fallan; capturas 
 Nota: el enlace es una invitación (`t.me/+…`), es decir, un grupo o canal, no una cuenta con nombre de usuario; por eso el botón dice «Telegram» y no un `@usuario`.
 
 Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T08:05:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> quitale en el footer lo que es "Presentation and simulation website. Purchase integrations are enabled in stages, with a verifiable environment and status."
+
+### Salida
+
+Quité esa frase del footer en inglés y su equivalente en español. El logo, los enlaces y los contactos permanecen. Verificado: TypeScript y 102 pruebas aprobadas (1 omitida).
