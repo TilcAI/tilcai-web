@@ -1123,3 +1123,48 @@ Arreglo: se elimina `footnote` por completo, en línea con el cambio que ya hab�
 Comprobado: la CLI de Vercel no tenía sesión (no pude leer el log), así que reproduje el build local del último commit y obtuve el error; tras el arreglo, `tsc` limpio, `next build` correcto y 103 pruebas, 102 pasan, 1 omitida, 0 fallan.
 
 Pendiente: commit y push (los 4 archivos modificados quedan en el árbol de trabajo).
+
+## 2026-10-10T07:41:07Z · Omar · Codex · GPT-6
+
+- **Sesión:** n/d
+- **Rama:** `main`
+- **Repositorios:** `tilcai-web`
+
+### Prompt
+
+> [@Canva](plugin://computer-use@openai-bundled?app=com.canva.CanvaDesktop)&#x20;
+> [https://www.canva.com/design/DAHXkxpZIZM/ewdgKMUts0qIzUirW-05QA/edit](https://www.canva.com/design/DAHXkxpZIZM/ewdgKMUts0qIzUirW-05QA/edit)
+> Agregamos nuevas secciones/animaciones/imagenes/etc en la página web: [tilcai-web](1_PROYECTO/IDEA-PROJECT/TilcAI/tilcai-web/)&#x20;
+> Actualiza, mejora, agrega las nuevas imagenes (selecciona las necesarias) rescata lo necesario e importante de la página para la presentación
+
+### Salida
+
+Actualicé la diapositiva 7 del [deck de Canva](https://www.canva.com/design/DAHXkxpZIZM/ewdgKMUts0qIzUirW-05QA/edit): ahora distingue la ruta directa x402 en Stellar de la ruta CCTP Fuji → Stellar y señala que Mainnet sigue pendiente de validación. Conservé las 9 diapositivas.
+
+Seleccioné dos imágenes nuevas de la web para incorporarlas: [arte x402](<C:/Users/OMAR/Documents/OMAR/2026 ACTIVIDADES/23. STELLAR-ELITE/1_PROYECTO/IDEA-PROJECT/TilcAI/tilcai-web/public/assets/img/rutas/ruta-p1-img4.png>) y [arte CCTP](<C:/Users/OMAR/Documents/OMAR/2026 ACTIVIDADES/23. STELLAR-ELITE/1_PROYECTO/IDEA-PROJECT/TilcAI/tilcai-web/public/assets/img/rutas/ruta-p1-img5.png>). La carga quedó pendiente: esta sesión de Canva pidió iniciar sesión y el control de Chrome se detuvo porque no pudo verificar con seguridad la URL activa. Tampoco pude comprobar el guardado tras recargar.
+
+Abre el deck con tu sesión de Canva iniciada y avísame; continuaré con las imágenes y la revisión visual. No cambié el código de `tilcai-web`.
+
+## 2026-10-10T08:18:02Z · Omar · Codex · GPT-6
+
+- **Sesión:** n/d
+- **Rama:** `main`
+- **Repositorios:** `tilcai-web`; recursos de presentación en `../pitch-assets`
+
+### Prompt
+
+> [@Canva](plugin://computer-use@openai-bundled?app=com.canva.CanvaDesktop)&#x20;
+> Olvidé traer los cambios de main, ahora si ya están.
+> Vuelve a revisar los recursos de la pagina web.
+>
+> [http://www.tilcai.xyz/](http://www.tilcai.xyz/)
+> [https://www.instagram.com/tilcai/](https://www.instagram.com/tilcai/)
+> [https://x.com/tilcai_ai](https://x.com/tilcai_ai)
+> Grupo de la comunidad de Tilcai (telegram): [REDACTADO] (podrías generar un QR para este y agregarlo en la diapositiva final + iconos de las redes que ya contamos)
+> [REDACTADO]
+
+### Salida
+
+Revisé la web pública y el `main` local. Optipagos figura en implementación, Baral como próxima integración y la evidencia de pagos entre Fuji y Stellar es de Testnet. Preparé dos imágenes de presentación en `../pitch-assets`: un cierre de comunidad con QR real y los iconos de web, Instagram, X, Telegram y correo; y una diapositiva de Optipagos con la captura real y su estado de integración en curso. Comprobé visualmente ambas imágenes y la URL codificada en el QR.
+
+La sesión de Canva solicita iniciar sesión para cargar imágenes; el usuario no puede hacerlo ahora. Dejé el deck original en nueve páginas sin añadir una página incompleta. La incorporación de estos recursos a Canva queda pendiente de una sesión autenticada. No cambié el código de `tilcai-web` ni hice commit.
