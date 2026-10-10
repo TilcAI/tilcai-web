@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { gsap } from "gsap";
 import type { AgentClient } from "@/lib/content/agents";
+import type { TerminalScene } from "@/lib/content/terminal-scene";
 import { Icon } from "./Icon";
 import { useReducedMotion } from "./useDepthMotion";
 import styles from "./AgentCatalog.module.css";
@@ -37,14 +39,79 @@ function Slot() {
   return <span className={styles.slot}><i />tilcai</span>;
 }
 
-function TerminalScreen() {
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+/**
+ * A terminal client in the middle of a session with TilcAI: the request is typed, three tools answer in turn, and the
+ * last one stops to wait for a person. It is an illustration (the title bar says so) and it only runs while it is on
+ * screen; without motion, or before it runs, it shows its last frame, so nothing is hidden waiting for a script.
+ */
+function TerminalScreen({ scene }: { scene: TerminalScene }) {
+  const root = useRef<HTMLDivElement>(null);
+  const last = scene.tools.length - 1;
+
+  useIsoLayoutEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const all = (selector: string) => Array.from(el.querySelectorAll<HTMLElement>(selector));
+      const chars = all("[data-ch]");
+      const tools = all("[data-tool]");
+      const details = all("[data-detail]");
+      const marks = all("[data-mark]");
+      const wait = el.querySelector<HTMLElement>("[data-wait]");
+      const setMark = (index: number, state: string) => () => marks[index]?.setAttribute("data-state", state);
+
+      const tl = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 0.5 });
+      // every pass starts from an empty session
+      tl.set(chars, { opacity: 0 }, 0);
+      tl.set([...tools, ...(wait ? [wait] : [])], { opacity: 0, y: 5 }, 0);
+      tl.set(details, { opacity: 0 }, 0);
+      tl.add(() => marks.forEach((mark) => mark.setAttribute("data-state", "idle")), 0);
+
+      tl.to(chars, { opacity: 1, duration: 0.01, stagger: 0.032, ease: "none" }, 0.4);
+      let at = 0.4 + chars.length * 0.032 + 0.35;
+      tools.forEach((tool, i) => {
+        tl.to(tool, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, at);
+        tl.add(setMark(i, "run"), at);
+        const settle = at + (i === 0 ? 0.7 : i === 1 ? 0.8 : 0.9);
+        tl.add(setMark(i, i === last ? "wait" : "done"), settle);
+        if (details[i]) tl.to(details[i], { opacity: 1, duration: 0.3, ease: "power2.out" }, settle);
+        at = settle + 0.25;
+      });
+      if (wait) tl.to(wait, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, at);
+      tl.to(el, { opacity: 0, duration: 0.4, ease: "power1.in" }, at + 4.2);
+      tl.set(el, { opacity: 1 }, at + 4.7);
+
+      const observer = new IntersectionObserver(([entry]) => { if (entry?.isIntersecting) tl.play(); else tl.pause(); }, { threshold: 0.25 });
+      observer.observe(el);
+      return () => {
+        observer.disconnect();
+        tl.kill();
+        // hand the drawing back to the markup: the last frame
+        gsap.set([...chars, ...tools, ...details, ...(wait ? [wait] : []), el], { clearProps: "opacity,transform" });
+        marks.forEach((mark, i) => mark.setAttribute("data-state", i === last ? "wait" : "done"));
+      };
+    });
+    return () => mm.revert();
+  }, [last]);
+
   return (
-    <div className={styles.term}>
-      <p><b>›</b><i style={bar(44)} /></p>
-      <p><i style={bar(70)} data-dim="" /></p>
-      <p><i style={bar(56)} data-dim="" /></p>
-      <p><b>›</b><Slot /></p>
-      <p><b>›</b><span className={styles.caret} /></p>
+    <div ref={root} className={styles.term}>
+      <p className={styles.cmd}>
+        <b>›</b>
+        <span className={styles.typed}>{Array.from(scene.prompt).map((ch, i) => <span key={i} data-ch>{ch}</span>)}</span>
+      </p>
+      {scene.tools.map((tool, i) => (
+        <p key={tool.label} className={styles.tool} data-tool>
+          <span className={styles.mark} data-mark data-state={i === last ? "wait" : "done"} />
+          <Slot />
+          <span className={styles.toolLabel}>{tool.label}</span>
+          {tool.detail && <span className={styles.detail} data-detail>{tool.detail}</span>}
+        </p>
+      ))}
+      <p className={styles.waiting} data-wait><b>›</b><span>{scene.waiting}</span><span className={styles.caret} /></p>
     </div>
   );
 }
@@ -81,14 +148,23 @@ function DesktopScreen() {
 }
 
 /** Decorative: the client's own surface as a window, with the mascot (or initials) standing in front of it. */
-export function AgentArt({ agent }: { agent: AgentClient }) {
+export function AgentArt({ agent, scene }: { agent: AgentClient; scene?: TerminalScene }) {
   const mascot = useMascot(agent);
   return (
     <div className={styles.art} data-surface={agent.surface} aria-hidden="true">
       <div className={styles.window}>
-        <div className={styles.chrome}><i /><i /><i /></div>
+        <div className={styles.chrome}>
+          <i /><i /><i />
+          {agent.surface === "terminal" && scene && (
+            <>
+              <span className={styles.chromeTitle}>{agent.name}</span>
+              <span className={styles.chromeBadge}>{scene.badge}</span>
+            </>
+          )}
+        </div>
         <div className={styles.screen}>
-          {agent.surface === "terminal" ? <TerminalScreen /> : agent.surface === "editor" ? <EditorScreen /> : <DesktopScreen />}
+          {agent.surface === "terminal" && scene ? <TerminalScreen scene={scene} />
+            : agent.surface === "editor" ? <EditorScreen /> : <DesktopScreen />}
         </div>
       </div>
       <div className={styles.mascot}>

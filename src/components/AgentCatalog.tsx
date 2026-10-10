@@ -2,6 +2,8 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { agents, integrationStages, type AgentClient, type AgentSurface } from "@/lib/content/agents";
+import { terminalScene } from "@/lib/content/terminal-scene";
+import { demoScenarios } from "@/lib/demo/scenarios";
 import type { Copy } from "@/lib/i18n";
 import { AgentArt, AgentBadge } from "./AgentArt";
 import { AgentGuidePanel } from "./AgentGuidePanel";
@@ -37,6 +39,12 @@ export function AgentCatalog({ t }: { t: Copy }) {
   const stages = integrationStages(current);
   const doneCount = stages.filter((stage) => stage.done).length;
   const s = t.agents.stages;
+  // The illustrative session of the terminal clients plays the cinema case of the simulation below it.
+  const cinema = demoScenarios[0];
+  const scene = useMemo(
+    () => terminalScene(t.locale, t.demo.scenarios.cinema.request, `${cinema.quote.amount} ${cinema.quote.currency}`),
+    [t.locale, t.demo.scenarios.cinema.request, cinema.quote.amount, cinema.quote.currency],
+  );
 
   // The plate that slides behind the selected client. Rows have a fixed height, so only its offset is measured.
   useIsoLayoutEffect(() => {
@@ -123,7 +131,7 @@ export function AgentCatalog({ t }: { t: Copy }) {
 
           <div className={styles.panel} role="tabpanel" id="agent-stage" aria-labelledby={`agent-tab-${current.slug}`}>
             <article key={current.slug} className={styles.card} style={tint(current)} aria-labelledby={`agent-name-${current.slug}`}>
-              <AgentArt agent={current} />
+              <AgentArt agent={current} scene={scene} />
               <div className={styles.body}>
                 <div className={styles.identity}>
                   <div className={styles.meta}>

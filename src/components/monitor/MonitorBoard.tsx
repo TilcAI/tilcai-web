@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import type { MonitorSeverity, ResourceSnapshot } from "@/lib/monitor/contract";
 import { MONITOR_COPY, type MonitorCopy } from "@/lib/monitor/copy";
@@ -21,7 +20,6 @@ const LEVEL_OF: Record<MonitorSeverity, Level> = { info: "ok", warning: "warning
 export function MonitorBoard({ lang }: { lang: Lang }) {
   const t = MONITOR_COPY[lang];
   const feed = useMonitorFeed();
-  const other = lang === "en" ? "es" : "en";
 
   return (
     <div className={styles.page}>
@@ -31,13 +29,12 @@ export function MonitorBoard({ lang }: { lang: Lang }) {
           <h1 className={styles.title}>{t.title}</h1>
           <p className={styles.lead}>{t.lead}</p>
         </div>
-        <nav className={styles.links} aria-label={t.title}>
-          {feed.state === "ready" && <Connection state={feed.connection} t={t} />}
-          <Link href={`/${lang}`}>{t.backToSite}</Link>
-          <Link href={`/${other}/monitor`} hrefLang={other} lang={other}>
-            {t.otherLanguage}
-          </Link>
-        </nav>
+        {/* The way back to the site and the language switch live in the site header. */}
+        {feed.state === "ready" && (
+          <div className={styles.links}>
+            <Connection state={feed.connection} t={t} />
+          </div>
+        )}
       </header>
 
       {feed.state === "loading" && <p className={styles.note} role="status">…</p>}

@@ -741,3 +741,53 @@ Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada. C
 En el catálogo de asistentes, OpenCode y Gemini CLI ya usan sus mascotas (`agente-opencode.png` y `agente-gemini.png`) en lugar de las iniciales «OC» y «GC», tanto en la lista como en la ficha de la derecha. El cambio está en `src/lib/content/agents.ts` (dos entradas con `asset`, con su texto alternativo en ES y EN); el componente ya sabía dibujar la mascota cuando existe.
 
 Comprobado: `tsc` limpio, pruebas nuevas en `test/agents-assets.test.ts`, capturas en 1440 px. Sin commit.
+
+## 2026-10-09T23:20:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para esa parte de los Asistentes mejora esa mini terminal mejorada que paresca como si deverdad estuviera sucediendo halgo con tilcai [adjunto: captura de la mini terminal con barras y la etiqueta «tilcai»]
+
+### Salida
+
+La mini terminal de los clientes de terminal (Codex, Claude Code, OpenCode, Gemini CLI) ya no son barras: es una sesión con texto que se reproduce sola mientras está en pantalla. Se escribe la petición del caso del cine, TilcAI responde con tres herramientas en orden (buscar un servicio, pedir una cotización con 10.00 USDC, solicitar aprobación) y la sesión termina esperando a una persona, que es lo que el resto de la página dice.
+
+- **Es una ilustración y lo dice:** la barra de título lleva «Ilustración · sin conexión» (el estado real de cada cliente sigue siendo «En preparación»). El texto reutiliza lo que el sitio ya tiene: las acciones de la entrada MCP y la petición y el importe del caso del cine de la simulación.
+- **Movimiento:** una pasada de unos ocho segundos que se repite solo mientras la ventana se ve; sin movimiento muestra el último fotograma. En teléfono se ocultan la etiqueta y el importe para que la mascota no los tape.
+- **Archivos:** `AgentArt.tsx` (la sesión), `AgentCatalog.tsx` y su CSS, y `src/lib/content/terminal-scene.ts` (los textos en ES y EN).
+
+Comprobado: capturas en 1440 y 390 px, ES/EN y movimiento reducido; prueba nueva en `test/agents-assets.test.ts`; detector de Impeccable sin hallazgos. Sin commit.
+
+## 2026-10-10T00:14:27Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 9325b9d0-c75d-495a-a084-ed7788faaff7
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /impeccable mejora el el navbar que para cualquie secion o cambie de apartado se vea lo mejor posible le navbar ese aparatdo mejoralo que se vea bien como esta esta bien pero talvez al medio y para cualquier apartado aparesca el mismo y no cambie y para el apartado de monitor agregale igual el navbar http://localhost:3000/es/monitor
+>
+> [adjunto: captura del navbar de la home con el menú desplazado a la izquierda y la página visible a través de la barra]
+
+### Salida
+
+Unifiqué el navbar: es el mismo en home, docs, roadmap y monitor, con el menú centrado en la ventana.
+
+- **Un solo navbar.** Antes eran tres variantes (la home con «Empresas… Avance», el roadmap con «Inicio» y docs con «Qué es / Simulación»). Ahora todas muestran Empresas · Cómo funciona · Rutas de pago · Agentes · Avance · Docs, en el mismo orden y el mismo sitio. Medido a 1440 px, home, docs y roadmap tienen exactamente la misma geometría.
+- **Menú al medio.** Rejilla de tres columnas (marca · menú · herramientas): el menú se centra en la ventana, no en el hueco sobrante. Desfase 0 px a 1440, 1280 y 1181 px, en ES y EN (el caso más justo, sin solaparse).
+- **Monitor.** `/es/monitor` ahora lleva el navbar (sin pie de página). Quité de la cabecera del tablero «Volver al sitio» y el cambio de idioma, que ya están en la barra, y sus claves de texto.
+- **Por qué se veía la página a través.** El CSS compilado del header no contenía `backdrop-filter`, solo `-webkit-backdrop-filter`, que Chrome no soporta: la barra nunca se desenfocaba. Ahora el desenfoque es real (18 px, fondo al 78 %) y la barra pasa de velo a cristal con un fundido de opacidad al hacer scroll.
+- **Detalles.** Subrayado que se dibuja al pasar y se queda en la página actual; botón morado con flecha dibujada (antes un glifo «↗») que gira 45° al pasar y se hunde al pulsar; en móvil el botón de menú pasa a ✕, el panel entra en 180 ms, tocar fuera o Escape lo cierra y se cierra solo al ensanchar la ventana; `scrollbar-gutter: stable` para que la barra no se mueva entre páginas con y sin scroll; `sizes` correcto del logo; al cliente solo viajan las etiquetas del header, no todo el texto de la página.
+
+Archivos: `SiteHeader.tsx` (ahora un envoltorio de servidor), `SiteHeaderBar.tsx` y `SiteHeader.module.css` (nuevos), `monitor/page.tsx`, `MonitorBoard.tsx`, `lib/monitor/copy.ts`, `lib/site.ts`; retiradas las reglas del header de `globals.css`, `hero.css` y `mobile.css`.
+
+Comprobado: 87 pruebas pasan (1 omitida); el detector de Impeccable no devolvió hallazgos; por DOM, sin desborde horizontal ni solapes a 1440, 1280, 1181, 1180 y 320 px; el menú móvil abre, enfoca el primer enlace, cierra con Escape y devuelve el foco; el estado «scrolled» se activa y se desactiva. No comprobado: el aspecto visual (el panel del navegador no renderiza fotogramas y las capturas agotaron el tiempo), así que el juicio de diseño queda pendiente de que lo veas; tampoco Safari ni dispositivos reales. `tsc` marca errores en `narrative.ts` y `office.es.ts`, que otra sesión está editando; ninguno en archivos de este cambio.
+
+Pendiente: el mismo defecto de `backdrop-filter` afecta a `.pill`, `.office-banner` y las tarjetas de ConnectionPaths (dejado como tarea aparte); el proyecto no tiene `PRODUCT.md` (`/impeccable init` lo crearía). El botón morado ahora aparece en todas las páginas y lleva a `/#simulation`.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.

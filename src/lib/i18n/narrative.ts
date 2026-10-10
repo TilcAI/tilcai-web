@@ -75,7 +75,6 @@ const es: NarrativeCopy = {
       title: "Qué conservas y qué coordina TilcAI",
       yours: { title: "Tú conservas", lines: ["Precios y condiciones", "Disponibilidad y cupos", "El destino de cobro, verificado", "La confirmación de entrega"] },
       ours: { title: "TilcAI coordina", lines: ["La identidad y las reglas del comprador", "Cotización y orden con identificadores comunes", "El pago por un riel soportado y su conciliación", "Recibos para ambas partes"] },
-      note: "Ningún modelo de IA fija por sí solo un precio, un stock o un destino de cobro.",
     },
   },
   flow: {

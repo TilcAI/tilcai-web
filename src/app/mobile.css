@@ -82,23 +82,8 @@
 /* Selectors below start with `body` so they win over globals.css, which is imported after this file. */
 /*
  * Whole-site phone polish (the opening screens above are handled separately).
- * Tighter vertical rhythm, readable measure for centred copy, 44px touch targets, a clearer menu and a compact docs index.
+ * Tighter vertical rhythm, readable measure for centred copy, 44px touch targets and a compact docs index. (The site header and its menu live in SiteHeader.module.css.)
  */
-@media (max-width: 1180px) {
-  /* ---------- Menu ---------- */
-  body .main-nav {
-    max-height: calc(100svh - var(--header-h)); overflow-y: auto; overscroll-behavior: contain;
-    padding: 8px 16px 20px; gap: 0; box-shadow: 0 30px 50px -20px rgb(2 2 15 / 0.8);
-  }
-  body .main-nav a { min-height: 52px; padding: 0 12px; font-size: 17px; border-radius: 0; border-bottom: 1px solid var(--border); }
-  body .site-header.is-overlay .main-nav a { border-bottom: 1px solid var(--border); }
-  body .main-nav .nav-docs, body .site-header.is-overlay .main-nav .nav-docs {
-    justify-content: flex-start; margin: 14px 0 0; padding: 0 16px; border: 0.8px solid var(--line); border-radius: 12px; background: #242236; min-height: 52px;
-  }
-  /* Dim the page behind the open menu so it reads as a layer, not as part of the content. */
-  body .site-header.menu-open::after { content: ""; position: fixed; inset: var(--header-h) 0 0; z-index: -1; background: rgb(2 2 15 / 0.62); pointer-events: none; }
-}
-
 @media (max-width: 767px) {
   /* ---------- Rhythm and type ---------- */
   body .section { padding: 56px 0; }
