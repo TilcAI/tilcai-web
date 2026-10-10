@@ -104,7 +104,6 @@ export function PaymentRouteStage({ t, focus, selected, onHover, onSelect }: {
 
   return (
     <div ref={stage} className={s.stage} data-focus={focus || undefined} aria-label={isEs ? "Comprador, TilcAI y negocio conectados por dos rutas de pago ilustrativas" : "Buyer, TilcAI and business connected by two illustrative payment routes"}>
-      <div className={s.haze} aria-hidden="true"><Image src={routeArt.haze} alt="" fill sizes="(max-width: 1099px) 100vw, 70vw" quality={85} /></div>
       <div className={s.floor} aria-hidden="true" />
       <svg className={s.wires} viewBox={`0 0 ${geo.width} ${geo.height}`} aria-hidden="true">
         <defs>

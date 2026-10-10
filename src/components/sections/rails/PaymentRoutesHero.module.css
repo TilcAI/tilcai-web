@@ -130,29 +130,6 @@
   padding: 6px 0 4px;
 }
 
-/* La nebulosa de fondo: mismo violeta/azul que las rutas; sin bordes duros gracias a la máscara. */
-.haze {
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 50%;
-  width: 86%;
-  aspect-ratio: 1;
-  translate: -46% -52%;
-  opacity: 0.5;
-  mix-blend-mode: screen;
-  -webkit-mask-image: radial-gradient(closest-side, #000 38%, transparent 100%);
-  mask-image: radial-gradient(closest-side, #000 38%, transparent 100%);
-  pointer-events: none;
-}
-
-.haze img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
 .floor {
   position: absolute;
   z-index: 0;
@@ -1056,7 +1033,6 @@
   .port[data-port="biz-x402"],
   .port[data-port="biz-cctp"] { left: 50%; top: 24%; }
 
-  .haze { width: 130%; translate: -50% -50%; opacity: 0.4; }
   .coin { width: 52px; }
 }
 

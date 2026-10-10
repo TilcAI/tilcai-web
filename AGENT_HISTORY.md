@@ -871,3 +871,17 @@ Actualicé y rediseñé la página de documentación (`/es/docs` y `/en/docs`) c
 Comprobado: `tsc` limpio; `npm run build` correcto (16 páginas); 97 pruebas, 96 pasan, 1 omitida, 0 fallan (8 nuevas); capturas en 1440, 1024, 820 y 390 px en ES y EN; la placa coincide con el enlace activo, el índice queda fijo a 104 px, el hash cambia con Enter, hay foco visible, sin desbordes y sin errores en consola. No comprobado: Safari ni dispositivos reales, ni que el equipo haya revisado cada afirmación de estado; la fecha «9 de octubre de 2026» está escrita a mano en `docs.*.ts` y hay que cambiarla al actualizar.
 
 Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T00:20:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de la seccion de RUTAS DE PAGO y DETALLE DE RUTA quitale el fondo de la imagen como backgroun de esas imagenes
+
+### Salida
+
+Quité las dos imágenes que hacían de fondo: la nebulosa detrás de la escena de «Rutas de pago» (`ruta-p1-img7.png`) y la capa de polvo cósmico detrás de «Detalle de ruta» (`ruta-p2-img6.png`), con sus estilos. Los personajes, las tarjetas y los conectores no se tocaron. Sin commit.

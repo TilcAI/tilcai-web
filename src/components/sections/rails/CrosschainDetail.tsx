@@ -34,8 +34,6 @@ export function CrosschainDetail({ t }: { t: Copy }) {
 
   return (
     <section className={s.detail} id="cctp-detail" aria-labelledby="cctp-detail-title" data-detail data-verified={verified}>
-      <div className={s.atmosphere} aria-hidden="true"><Image src={`${art}/ruta-p2-img6.png`} alt="" fill sizes="100vw" /></div>
-
       <header className={s.header}>
         <div className={s.intro}>
           <p className={s.eyebrow}><span className={s.eyebrowDot} />{isEs ? "DETALLE DE RUTA" : "ROUTE DETAIL"}</p>
