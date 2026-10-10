@@ -329,12 +329,23 @@ caption { text-align: left; padding: 14px 18px; color: var(--muted); font-size: 
 /* ---------- Footer ---------- */
 .site-footer { border-top: 1px solid var(--border); padding: 48px 0 32px; color: var(--muted); font-size: 14px; background: var(--bg-deep); }
 .footer-inner { display: grid; gap: 28px; }
-@media (min-width: 900px) { .footer-inner { grid-template-columns: 2fr 1fr; } .footer-meta { grid-column: 1 / -1; } }
+@media (min-width: 900px) { .footer-inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } .footer-meta { grid-column: 1 / -1; } }
 .footer-brand img { height: 28px; width: auto; }
 .footer-brand p { margin-top: 14px; max-width: 60ch; }
 .footer-nav { display: flex; flex-wrap: wrap; gap: 8px 24px; align-content: start; }
 .footer-nav a { color: var(--text-2); font-weight: 500; }
 .footer-nav a:hover { color: #fff; }
+.footer-side { display: grid; gap: 22px; align-content: start; min-width: 0; }
+/* Public channels: quiet outlined links that wake up to the brand violet, like the rest of the footer's controls. */
+.footer-contact { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.footer-contact a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 13px; border: 1px solid var(--border-strong); border-radius: 10px; color: var(--text-2); font-size: 14px; font-weight: 500; overflow-wrap: anywhere; -webkit-tap-highlight-color: transparent; transition: border-color .2s ease, background-color .2s ease, color .2s ease, transform .14s cubic-bezier(0.23, 1, 0.32, 1); }
+.footer-contact .icon { color: var(--purple-300); transition: color .2s ease; }
+.footer-contact a:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .footer-contact a:hover { border-color: rgba(169, 148, 255, 0.55); background: var(--purple-soft); color: #fff; }
+  .footer-contact a:hover .icon { color: #fff; }
+}
+@media (prefers-reduced-motion: reduce) { .footer-contact a { transition: none; } }
 .footer-meta { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 13px; border-top: 1px solid var(--border); padding-top: 20px; }
 
 /* ---------- Docs ---------- */

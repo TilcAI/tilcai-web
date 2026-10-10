@@ -1105,3 +1105,49 @@ Arreglo: se elimina `footnote` por completo, en línea con el cambio que ya hab�
 Comprobado: la CLI de Vercel no tenía sesión (no pude leer el log), así que reproduje el build local del último commit y obtuve el error; tras el arreglo, `tsc` limpio, `next build` correcto y 103 pruebas, 102 pasan, 1 omitida, 0 fallan.
 
 Pendiente: commit y push (los 4 archivos modificados quedan en el árbol de trabajo).
+
+## 2026-10-10T07:38:23Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para lo que es el footer pon lo que es https://x.com/tilcai_ai con icno de X y tilcai.ai@gmail.com como correo agrag eso con /impeccable
+
+### Salida
+
+El pie de página (todas las páginas: inicio, docs y roadmap, ES y EN) tiene ahora dos enlaces de contacto bajo la navegación: `@tilcai_ai` con el icono de X, que abre https://x.com/tilcai_ai en una pestaña nueva con `rel="noopener noreferrer"`, y `tilcai.ai@gmail.com` con un icono de sobre, como `mailto:`.
+
+- **Diseño:** botones perfilados y discretos con el borde, el radio y el violeta de marca del resto del pie; en hover (solo con puntero fino) el borde y el fondo se tiñen de violeta, al pulsar se reducen a 0,97, 44 px de alto (48 px en teléfono) y se parten en dos filas cuando no caben.
+- **Accesibilidad:** la lista tiene nombre «Contacto»/«Contact»; el enlace a X anuncia «se abre en una pestaña nueva», e incluye su texto visible en el nombre accesible.
+- **Archivos:** `SiteFooter.tsx`, `site.ts` (constante `contact`), `types.ts`, `es.ts`, `en.ts`, `globals.css` y `mobile.css`.
+
+Comprobado: `tsc` limpio; 103 pruebas, 102 pasan, 1 omitida, 0 fallan; capturas ES/EN a 1440, 820 y 390 px; enlaces verificados en `/es`, `/en`, `/es/docs` y `/en/roadmap`. No comprobado: Safari, dispositivos reales, `next build` tras este cambio.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T07:44:58Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> que  este lo que es la cuenta de https://t.me/+CfbYnvPNXTo2OGMx de telegram igual
+
+### Salida
+
+El pie de página tiene ahora un tercer enlace de contacto, «Telegram», con el icono de Telegram, que abre https://t.me/+CfbYnvPNXTo2OGMx en una pestaña nueva (`rel="noopener noreferrer"`), con el mismo estilo que los de X y el correo y el nombre accesible «TilcAI en Telegram (se abre en una pestaña nueva)» (ES/EN).
+
+- **Orden:** `@tilcai_ai`, Telegram y `tilcai.ai@gmail.com`.
+- **Ajuste de columnas:** la rejilla del pie pasa de `2fr 1fr` a `1.1fr 1fr` para que los tres enlaces quepan en una fila a 1440 px; el pie conserva su altura (244 px). En teléfono se parten en dos filas.
+- **Archivos:** `SiteFooter.tsx`, `site.ts`, `types.ts`, `es.ts`, `en.ts` y `globals.css`.
+
+Comprobado: `tsc` limpio; 103 pruebas, 102 pasan, 1 omitida, 0 fallan; capturas a 1440, 820 y 390 px; enlaces verificados en `/es` y `/en`. No comprobado: Safari, dispositivos reales, `next build`.
+
+Nota: el enlace es una invitación (`t.me/+…`), es decir, un grupo o canal, no una cuenta con nombre de usuario; por eso el botón dice «Telegram» y no un `@usuario`.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.

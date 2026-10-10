@@ -109,6 +109,7 @@
   /* ---------- Footer ---------- */
   body .footer-nav { gap: 0 8px; }
   body .footer-nav a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 10px 0 0; }
+  body .footer-contact a { min-height: 48px; }
   body .footer-meta { gap: 4px 20px; }
 
   /* ---------- Small floating controls ---------- */
