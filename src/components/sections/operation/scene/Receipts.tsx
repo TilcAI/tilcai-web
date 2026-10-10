@@ -20,21 +20,21 @@ export function Receipts({ receipts }: Props) {
       <g data-k="receipt-pay">
         <g transform={`translate(${payment.x} ${payment.y})`}>
           <rect x="-80" y="-56" width="160" height="112" rx="14" fill="url(#op-panel)" stroke="#48d9ff" strokeOpacity=".75" />
-          <text className={s.label} x="-66" y="-32" style={{ fontSize: 11 }}>{receipts.payment}</text>
+          <text className={s.label} x="-66" y="-32" style={{ fontSize: 12, letterSpacing: ".08em" }}>{receipts.payment}</text>
           <path d="M-66 -22H66" stroke="#925fff" strokeOpacity=".4" />
           <g transform="translate(-56 -2)">
             <circle r="9" fill="none" stroke="#60e4ff" strokeWidth="1.6" />
             <path data-k="pay-tick" d="M-4.5 0l3.2 3.4L5 -3.5" fill="none" stroke="#60e4ff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </g>
           <text className={`${s.value} ${s.cyan}`} x="-38" y="4" style={{ fontSize: 16 }}>{receipts.paid}</text>
-          <text className={s.small} x="-66" y="30" style={{ fontSize: 10.5 }}>hash 0x25…21c3</text>
-          <text className={s.small} x="-66" y="45" style={{ fontSize: 10.5 }}>orderId · 7f2a</text>
+          <text className={s.small} x="-66" y="30" style={{ fontSize: 12 }}>hash 0x25…21c3</text>
+          <text className={s.small} x="-66" y="45" style={{ fontSize: 12 }}>orderId · 7f2a</text>
         </g>
       </g>
       <g data-k="receipt-delivery">
         <g transform={`translate(${delivery.x} ${delivery.y})`}>
           <rect x="-80" y="-56" width="160" height="112" rx="14" fill="url(#op-panel)" stroke="#ac76ff" strokeOpacity=".75" />
-          <text className={s.label} x="-66" y="-32" style={{ fontSize: 11 }}>{receipts.delivery}</text>
+          <text className={s.label} x="-66" y="-32" style={{ fontSize: 12, letterSpacing: ".08em" }}>{receipts.delivery}</text>
           <path d="M-66 -22H66" stroke="#925fff" strokeOpacity=".4" />
           <g transform="translate(-56 -2)">
             <circle data-k="delivery-ring" r="9" fill="none" stroke="#ac76ff" strokeWidth="1.6" />
@@ -42,18 +42,18 @@ export function Receipts({ receipts }: Props) {
           </g>
           <text data-k="delivery-pending" className={`${s.value} ${s.violet}`} x="-38" y="4" style={{ fontSize: 16 }}>{receipts.pending}</text>
           <text data-k="delivery-confirmed" className={`${s.value} ${s.cyan}`} x="-38" y="4" opacity="0" style={{ fontSize: 16 }}>{receipts.confirmed}</text>
-          <text className={s.small} x="-66" y="30" style={{ fontSize: 10.5 }}>—</text>
-          <text className={s.small} x="-66" y="45" style={{ fontSize: 10.5 }}>orderId · 7f2a</text>
+          <text className={s.small} x="-66" y="30" style={{ fontSize: 12 }}>—</text>
+          <text className={s.small} x="-66" y="45" style={{ fontSize: 12 }}>orderId · 7f2a</text>
         </g>
       </g>
       <g data-k="same-order">
         <path data-k="same-line" d={`M ${payment.x} ${payment.y + 56} V ${payment.y + 72} H ${delivery.x} V ${delivery.y + 56}`} fill="none" stroke="#ac76ff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
         <rect x={(payment.x + delivery.x) / 2 - 66} y={payment.y + 62} width="132" height="20" rx="10" fill="#080819" stroke="#ac76ff" strokeOpacity=".7" />
-        <text className={`${s.mono} ${s.center} ${s.violet}`} x={(payment.x + delivery.x) / 2} y={payment.y + 76} style={{ fontSize: 11.5 }}>{receipts.sameOrder}</text>
+        <text className={`${s.mono} ${s.center} ${s.violet}`} x={(payment.x + delivery.x) / 2} y={payment.y + 76} style={{ fontSize: 12 }}>{receipts.sameOrder}</text>
       </g>
       <g data-k="not-delivery">
         <rect x={(payment.x + delivery.x) / 2 - 70} y={payment.y + 88} width="140" height="20" rx="10" fill="#080819" />
-        <text className={`${s.mono} ${s.center} ${s.cyan}`} x={(payment.x + delivery.x) / 2} y={payment.y + 102} style={{ fontSize: 11 }}>{receipts.notDelivery}</text>
+        <text className={`${s.mono} ${s.center} ${s.cyan}`} x={(payment.x + delivery.x) / 2} y={payment.y + 102} style={{ fontSize: 11.5 }}>{receipts.notDelivery}</text>
       </g>
     </g>
   );

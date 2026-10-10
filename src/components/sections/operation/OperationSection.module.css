@@ -11,6 +11,7 @@
 /* ── Left: heading, scene, timeline ──────────────────────────────────────────────────────────────────── */
 .left { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
 .head { flex: none; }
+.headline { min-width: 0; }
 .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 clamp(8px, 1.4svh, 16px); color: #a98ae9; font: 500 11px/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #925ff6; }
 .title { margin: 0; color: #f1edf8; font-size: clamp(26px, min(2.7vw, 4.6svh), 42px); line-height: 1.1; letter-spacing: -.04em; font-weight: 500; }
@@ -27,18 +28,30 @@
   .root[data-mode='static'] .sticky { align-items: start; }
 }
 
-.timeline { position: relative; flex: none; margin-top: clamp(4px, 1svh, 12px); }
+.timeline { position: relative; flex: none; margin-top: clamp(4px, 1svh, 12px); padding-bottom: 28px; }
 .timeline ol { position: relative; display: flex; justify-content: space-between; margin: 0; padding: 0; list-style: none; }
 .line { position: absolute; left: 20px; right: 20px; top: 20px; height: 2px; border-radius: 2px; background: #2e2548; overflow: hidden; }
 .line i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #925fff, #48d9ff); transform-origin: 0 50%; transform: scaleX(0); }
-.mark { position: relative; z-index: 1; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #665581; border-radius: 50%; background: #080819; color: #a99cbf; font: 12px var(--mono); transition: background-color .35s, border-color .35s, color .35s; }
-.mark svg { position: absolute; width: 16px; height: 16px; opacity: 0; transition: opacity .3s; }
-.mark span { transition: opacity .3s; }
-.item[data-state='active'] .mark { background: #6024e8; border-color: #b693fa; color: #fff; }
-.item[data-state='done'] .mark { border-color: #48d9ff; color: #48d9ff; }
-.item[data-state='done'] .mark svg { opacity: 1; }
-.item[data-state='done'] .mark span { opacity: 0; }
+/* A mark is the circle and, under it, the name of its step: the order of the story can be read without opening anything. */
+.mark { position: relative; z-index: 1; display: block; width: 40px; height: 40px; border-radius: 50%; color: #a99cbf; -webkit-tap-highlight-color: transparent; }
+.dot { display: grid; place-items: center; width: 100%; height: 100%; border: 1px solid #665581; border-radius: 50%; background: #080819; font: 12px var(--mono); transition: background-color .35s, border-color .35s, color .35s, transform .14s cubic-bezier(0.23, 1, 0.32, 1); }
+.dot svg { position: absolute; width: 16px; height: 16px; opacity: 0; transition: opacity .3s; }
+.dot span { transition: opacity .3s; }
+.item[data-state='active'] .dot { background: #6024e8; border-color: #b693fa; color: #fff; }
+.item[data-state='done'] .dot { border-color: #48d9ff; color: #48d9ff; }
+.item[data-state='done'] .dot svg { opacity: 1; }
+.item[data-state='done'] .dot span { opacity: 0; }
+.mark:active .dot { transform: scale(0.94); }
 .mark:focus-visible { outline: 2px solid #57d2f9; outline-offset: 4px; }
+.markLabel { position: absolute; top: calc(100% + 9px); left: 50%; transform: translateX(-50%); white-space: nowrap; color: #8d84a6; font-size: 12.5px; font-weight: 500; line-height: 1.2; letter-spacing: -.005em; transition: color .3s; pointer-events: none; }
+/* The first and the last name hang from their circle's edge, so neither is cut by the column. */
+.item:first-child .markLabel { left: 0; transform: none; }
+.item:last-child .markLabel { left: auto; right: 0; transform: none; }
+.item[data-state='active'] .markLabel { color: #f1edf8; }
+.item[data-state='done'] .markLabel { color: #8fd8ea; }
+@media (hover: hover) and (pointer: fine) {
+  .mark:hover .dot { border-color: #b693fa; color: #fff; }
+}
 
 /* ── Right: the step that is happening ─────────────────────────────────────────────────────────────────── */
 .right { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
@@ -68,8 +81,30 @@
 .stepCard p.detail { position: relative; padding-left: 28px; color: #a0b6c9; font-size: 13px; line-height: 1.6; }
 .stepCard p.detail::before { content: ''; position: absolute; left: 0; top: .8em; width: 16px; height: 1.5px; border-radius: 1px; background: #57d2f9; }
 
+/* ── Wide: the drawing gets the larger share, and the heading spans both columns ───────────────────────────
+   The title stays above the scene and the lead sits above the step, so the top right is not left empty and the step
+   centres on the scene instead of on the whole column. ─────────────────────────────────────────────────────── */
+@media (min-width: 1100px) {
+  .root { --col-gap: clamp(28px, 4vw, 64px); }
+  .sticky { grid-template-columns: minmax(0, 60fr) minmax(0, 40fr); column-gap: var(--col-gap); }
+  .root[data-mode='pinned'] .sticky { grid-template-rows: auto minmax(0, 1fr); row-gap: clamp(6px, 1.6svh, 18px); }
+  .root[data-mode='pinned'] .left { display: contents; }
+  .root[data-mode='pinned'] .head { grid-column: 1 / -1; grid-row: 1; display: grid; grid-template-columns: minmax(0, 60fr) minmax(0, 40fr); column-gap: var(--col-gap); align-items: end; }
+  .root[data-mode='pinned'] .title { font-size: clamp(28px, min(3vw, 5svh), 46px); }
+  .root[data-mode='pinned'] .lead { margin: 0 0 6px; max-width: 46ch; }
+  .root[data-mode='pinned'] .stage { grid-column: 1; grid-row: 2; margin-top: 0; }
+  .root[data-mode='pinned'] .right { grid-column: 2; grid-row: 2; }
+}
+/* Short screens: the names under the marks and the lead make way for the drawing. */
+@media (max-height: 700px) and (min-width: 768px) {
+  .markLabel { display: none; }
+  .timeline { padding-bottom: 0; }
+}
+
 /* ── Phone: the scene stays at the top, the cards scroll under it ──────────────────────────────────────── */
 @media (max-width: 767px) {
+  .markLabel { display: none; }
+  .timeline { padding-bottom: 0; }
   .sticky { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: 40px 56px; }
   .left { display: contents; }
   .head { padding-bottom: 6px; }

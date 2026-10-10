@@ -12,7 +12,7 @@ export function Payment({ rail, stops, settled }: Props) {
     <g id="payment" data-k="payment">
       <g data-k="rail-lane">
         <rect x="440" y="535" width="340" height="26" rx="13" fill="#7347ff" opacity=".1" stroke="#925fff" strokeOpacity=".35" />
-        <text className={s.small} x="470" y="523" style={{ fontSize: 10.5 }}>{rail}</text>
+        <text className={s.small} x="470" y="523" style={{ fontSize: 12 }}>{rail}</text>
         <g fill="none" stroke="#60e4ff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" opacity=".65">
           {[500, 586, 674].map((x) => <path key={x} data-k="rail-chevron" d={`M${x} 542l6 6-6 6`} />)}
         </g>
@@ -27,7 +27,7 @@ export function Payment({ rail, stops, settled }: Props) {
             <circle data-k={`stop-ring-${i}`} r="10" fill="#0c0a1f" stroke="#925fff" strokeWidth="1.6" />
             <circle data-k={`stop-fill-${i}`} r="10" fill="#48d9ff" opacity="0" />
             <path data-k={`stop-tick-${i}`} d="M-5 0l3.5 3.5L6 -4" fill="none" stroke="#070616" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-            <text className={`${s.small} ${i === 0 ? s.end : s.center}`} x={i === 0 ? -18 : 0} y={i === 0 ? 4 : 30} style={{ fontSize: 10.5 }}>{stops[i]}</text>
+            <text className={`${s.small} ${i === 0 ? s.end : s.center}`} x={i === 0 ? -18 : 0} y={i === 0 ? 4 : 31} style={{ fontSize: 12 }}>{stops[i]}</text>
           </g>
         </g>
       ))}
@@ -39,7 +39,7 @@ export function Payment({ rail, stops, settled }: Props) {
       <g data-k="settled" opacity="0">
         <g transform="translate(680 498)">
           <rect x="-62" y="-14" width="124" height="28" rx="14" fill="#0b2b3a" stroke="#60e4ff" />
-          <text className={`${s.mono} ${s.cyan}`} x="-48" y="4.5" style={{ fontSize: 12 }}>{settled}</text>
+          <text className={`${s.mono} ${s.cyan}`} x="-48" y="4.5" style={{ fontSize: 12.5 }}>{settled}</text>
           <path d="M34 0l5 5 10-11" fill="none" stroke="#60e4ff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
         </g>
       </g>

@@ -885,3 +885,31 @@ Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
 ### Salida
 
 Quité las dos imágenes que hacían de fondo: la nebulosa detrás de la escena de «Rutas de pago» (`ruta-p1-img7.png`) y la capa de polvo cósmico detrás de «Detalle de ruta» (`ruta-p2-img6.png`), con sus estilos. Los personajes, las tarjetas y los conectores no se tocaron. Sin commit.
+
+## 2026-10-10T02:20:29Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es el apartado visual con /impeccable esta seccion Cómo funciona
+>
+> Una operación.Seis pasos.Dos recibos.
+
+### Salida
+
+Mejoré el apartado visual de la sección «Cómo funciona» («Una operación. Seis pasos. Dos recibos.») sin cambiar sus textos ni la animación de scroll.
+
+- **Dibujo más grande:** en pantallas anchas la escena pasa a ocupar el 60 % del ancho (antes 47 %), con lo que escala de 0,60 a 0,76 en 1440 px.
+- **Texto legible:** subí las etiquetas más pequeñas de la escena (de 9,5–11 a 11–13 unidades): rieles, recibos, panel de aprobación, comprobaciones y botones. Ensanché la cápsula de la autorización y ajusté el espaciado del panel para que «15 min» no toque los botones.
+- **Composición:** el título queda arriba a la izquierda y la bajada arriba a la derecha, así que ya no hay un hueco vacío en la esquina; el paso activo se centra sobre la escena y no sobre toda la columna.
+- **Línea de pasos:** cada marca lleva ahora el nombre de su paso debajo (Pedido, Oferta, Reglas, Aprobación, Pago, Dos recibos), con color por estado, hover en puntero fino y `:active`. Se ocultan en teléfono y en pantallas bajas.
+- **Sin cambios:** textos, `VIEW` del dibujo, línea de tiempo de GSAP, modo teléfono, modo tablet apilado y la ruta sin movimiento.
+
+Archivos: `OperationSection.tsx`, `OperationSection.module.css` y, en `scene/`, `Approval.tsx`, `Payment.tsx`, `Receipts.tsx`, `Request.tsx` y `Rules.tsx`.
+
+Comprobado: `tsc` limpio; las 8 pruebas de la escena pasan; el detector de Impeccable no devolvió hallazgos; capturas en 1100, 1440 y 1920 px (anclado), 820 px (tablet), 390 px (teléfono), movimiento reducido y en inglés, sin errores en consola. No comprobado: Safari ni dispositivos reales, ni la sensación del scroll con el nuevo reparto de columnas. No recorté el `viewBox` porque la cámara se acerca en la aprobación y cortaría la base del agente.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
