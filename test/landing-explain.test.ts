@@ -179,7 +179,9 @@ const pathsSource = readFileSync(new URL("../src/components/sections/ConnectionP
 
 test("four ways to connect: every illustration the section names exists on disk, with real transparency", () => {
   const files = [...pathsSource.matchAll(/file: "(cam-img\d+\.png)"/g)].map((m) => m[1]);
-  assert.equal(new Set(files).size, 8, "node, four cards, two notes and the dust");
+  assert.equal(new Set(files).size, 7, "node, four cards and two notes: the dust backdrop is gone");
+  assert.ok(!files.includes("cam-img8.png"));
+  assert.ok(!/data-dust|styles\.dust/.test(pathsSource), "no dust layer is drawn or animated");
   const dir = new URL("../public/assets/img/caminos conect/", import.meta.url);
   for (const name of files) {
     const bytes = readFileSync(new URL(name, dir));

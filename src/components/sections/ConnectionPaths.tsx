@@ -24,7 +24,6 @@ export const connectionAssets = {
   ],
   hudConnected: { file: "cam-img6.png", width: 2172, height: 724 },
   hudCluster: { file: "cam-img7.png", width: 1448, height: 1086 },
-  dust: { file: "cam-img8.png", width: 1672, height: 941 },
 } as const;
 const src = (file: string) => DIR + file;
 
@@ -304,11 +303,10 @@ export function ConnectionPaths({ t }: { t: Copy }) {
         });
         intro.add(activateNode, 1.2 + 3 * .12 + 1.8);
 
-        // ── Idle: the node hangs in the air, its rings ping, the dust drifts ──────────────────────────────
+        // ── Idle: the node hangs in the air and its rings ping ────────────────────────────────────────────
         loops.push(
           gsap.to(nodeFloat, { y: 4, duration: 4, ease: "sine.inOut", repeat: -1, yoyo: true, startAt: { y: -4 } }),
           gsap.to(nodeFloat, { scale: 1.015, duration: 4, ease: "sine.inOut", repeat: -1, yoyo: true, startAt: { scale: .99 } }),
-          gsap.to("[data-dust]", { x: 15, y: -10, duration: 20, ease: "sine.inOut", repeat: -1, yoyo: true, startAt: { x: -15, y: 10 } }),
         );
         // Three small points circle the node (front half only: the back half is in the illustration).
         let angle = 0;
@@ -381,11 +379,6 @@ export function ConnectionPaths({ t }: { t: Copy }) {
     <section ref={root} id="business-paths" className={styles.root} aria-labelledby="paths-title" data-live="false" data-active="false">
       <div className={styles.backdrop} aria-hidden="true">
         <div className={styles.grid} data-par="3" />
-        <div className={styles.dustPar} data-par="18" data-mouse="12">
-          <div className={styles.dust} data-dust>
-            <Image src={src(connectionAssets.dust.file)} alt="" width={connectionAssets.dust.width} height={connectionAssets.dust.height} sizes="100vw" draggable={false} />
-          </div>
-        </div>
       </div>
 
       <div className={styles.scene} data-scene>

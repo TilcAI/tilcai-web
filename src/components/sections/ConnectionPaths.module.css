@@ -3,9 +3,6 @@
 .root { --ease-out: cubic-bezier(.23, 1, .32, 1); position: relative; isolation: isolate; overflow: clip; display: flex; flex-direction: column; justify-content: center; min-height: calc(100svh - var(--header-h)); padding: clamp(24px, 4svh, 64px) clamp(20px, 4vw, 64px) clamp(20px, 3svh, 48px); color: #eeeaf9; background: linear-gradient(180deg, transparent calc(100% - 160px), #0b0a1e), radial-gradient(ellipse 70% 46% at 72% 6%, #1c1152 0, transparent 72%), radial-gradient(ellipse 55% 40% at 4% 62%, #130b38 0, transparent 70%), #070616; }
 .backdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .grid { position: absolute; inset: -2%; background: repeating-linear-gradient(0deg, #8f69ff0f 0 1px, transparent 1px 64px), repeating-linear-gradient(90deg, #8f69ff0b 0 1px, transparent 1px 64px); -webkit-mask-image: radial-gradient(ellipse 80% 62% at 62% 22%, #000 8%, transparent 78%); mask-image: radial-gradient(ellipse 80% 62% at 62% 22%, #000 8%, transparent 78%); }
-.dustPar { position: absolute; inset: -3% -2%; }
-.dust { position: absolute; inset: 0; opacity: .2; mix-blend-mode: screen; }
-.dust img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Everything below is sized in container units, so the composition keeps its proportions at any width. */
 .scene { --cq: 1cqw; position: relative; z-index: 1; width: 100%; max-width: 1440px; margin: 0 auto; container-type: inline-size; }
