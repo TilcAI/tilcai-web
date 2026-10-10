@@ -937,3 +937,19 @@ Mejoré solo la tipografía de la landing desde «El edificio TilcAI» hasta el 
 Comprobado: `tsc` limpio; 97 pruebas, 96 pasan, 1 omitida, 0 fallan; el detector de tipografía no devolvió hallazgos; nueva auditoría en 1440 y 390 px sin texto bajo 11 px ni tracking bajo -0,04 em; capturas de las 11 secciones en ES (1440 y 390) y EN (1440), y de «Empresas» anclada en 1440, 1366 y teléfono. Efecto visible: el título de «Empresas» pasa de 2 a 3 líneas en 1440 px por el tracking más abierto y sigue cabiendo en 1366×768. No comprobado: Safari ni dispositivos reales; ni la tipografía del hero, la oficina y la presentación del producto, que quedaron fuera de alcance.
 
 Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T03:36:29Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> lo que es la partes como imagenes de logos de RED DE ORIGEN y cualquier otro que hay que poner ponle los logos que deven de ser corespondientes o todo que hay que poner logo le pones y para la doc tambien Cobertura de redes ponle los logos reales y tambien las partes que colocaste de logos genericos de stellar ponle el oficial, y los logos estan con sus nombres y esta ubicado en C:\proyectos 2026\tilcAI\tilcai-web\public\assets\img\logos cripto
+
+### Salida
+
+Listo. Las redes muestran sus logos correctos en «Red de origen», el recorrido de pagos y «Cobertura de redes» (ES/EN). Stellar usa su logo oficial también en el Canvas de la oficina y la sección de tecnología. Añadí Arc desde el [kit oficial de Circle](https://www.circle.com/pressroom), porque no estaba entre los archivos locales.
+
+Verificado en escritorio y móvil: 96 pruebas aprobadas (1 omitida), TypeScript y compilación de producción.

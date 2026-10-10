@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Copy } from "@/lib/i18n";
 import { narrative } from "@/lib/i18n/narrative";
 import { Icon, type IconName } from "../Icon";
+import { StellarIcon } from "./rails/ChainIcons";
 import styles from "./StackSection.module.css";
 
 /**
@@ -12,7 +13,6 @@ import styles from "./StackSection.module.css";
  */
 const MARKS: Record<string, IconName> = {
   MCP: "agent",
-  Stellar: "target",
   Soroban: "rules",
   USDC: "coin",
   x402: "bolt",
@@ -40,7 +40,7 @@ export function StackSection({ t }: { t: Copy }) {
         <ul className={`${styles.pieces} reveal`} role="list">
           {t.stack.badges.map((badge, i) => (
             <li key={badge.name} className={styles.piece} style={{ "--i": i } as CSSProperties}>
-              <span className={styles.mark} aria-hidden="true"><Icon name={MARKS[badge.name] ?? "layers"} /></span>
+              <span className={styles.mark} aria-hidden="true">{badge.name === "Stellar" ? <StellarIcon /> : <Icon name={MARKS[badge.name] ?? "layers"} />}</span>
               <strong className={styles.name}>{badge.name}</strong>
               <span className={styles.role}>{badge.role}</span>
             </li>

@@ -356,6 +356,8 @@
 .doc-nets > li[data-state="verified"] { border-color: rgba(75, 202, 129, .4); }
 .doc-nets > li[data-state="lab"] { border-style: dashed; }
 .doc-nets > li[data-state="destination"] { border-color: rgba(102, 216, 255, .4); }
+.doc-net-label { display: inline-flex; align-items: center; min-width: 0; gap: 9px; }
+.doc-net-label img { flex: none; width: 30px; height: 30px; border-radius: 50%; object-fit: contain; }
 .doc-net-name { font-weight: 500; color: var(--text); }
 
 @media (prefers-reduced-motion: reduce) {

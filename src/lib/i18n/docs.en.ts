@@ -1,4 +1,5 @@
 import type { Copy } from "./types";
+import { networkLogos } from "../content/network-logos.ts";
 
 // Each section body is trusted HTML authored in this repository and rendered with
 // dangerouslySetInnerHTML. Never interpolate form data, URL parameters or any
@@ -298,14 +299,14 @@ export const docsEn: Copy["docs"] = {
 <h3>Network coverage</h3>
 <p>The <code>tilcai-cctp-engine</code> lab models eight test networks. TilcAI's backend vouches for a single complete corridor.</p>
 <ul class="doc-nets" role="list">
-  <li data-state="verified"><span class="doc-net-name">Avalanche Fuji</span><span class="tag tag-available">Verified in TilcAI</span></li>
-  <li data-state="lab"><span class="doc-net-name">Ethereum Sepolia</span><span class="tag tag-next">Lab</span></li>
-  <li data-state="lab"><span class="doc-net-name">Arbitrum Sepolia</span><span class="tag tag-next">Lab</span></li>
-  <li data-state="lab"><span class="doc-net-name">Base Sepolia</span><span class="tag tag-next">Lab</span></li>
-  <li data-state="lab"><span class="doc-net-name">Arc Testnet</span><span class="tag tag-next">Lab</span></li>
-  <li data-state="lab"><span class="doc-net-name">Solana Devnet</span><span class="tag tag-next">Lab</span></li>
-  <li data-state="lab"><span class="doc-net-name">Sui Testnet</span><span class="tag tag-next">Lab</span></li>
-  <li data-state="destination"><span class="doc-net-name">Stellar Testnet</span><span class="tag tag-dest">Destination · the business's USDC</span></li>
+  <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["avalanche-fuji"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Avalanche Fuji</span></span><span class="tag tag-available">Verified in TilcAI</span></li>
+  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["ethereum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Ethereum Sepolia</span></span><span class="tag tag-next">Lab</span></li>
+  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["arbitrum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arbitrum Sepolia</span></span><span class="tag tag-next">Lab</span></li>
+  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["base-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Base Sepolia</span></span><span class="tag tag-next">Lab</span></li>
+  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["arc-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arc Testnet</span></span><span class="tag tag-next">Lab</span></li>
+  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["solana-devnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Solana Devnet</span></span><span class="tag tag-next">Lab</span></li>
+  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["sui-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Sui Testnet</span></span><span class="tag tag-next">Lab</span></li>
+  <li data-state="destination"><span class="doc-net-label"><img src="${networkLogos["stellar-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Stellar Testnet</span></span><span class="tag tag-dest">Destination · the business's USDC</span></li>
 </ul>
 <p>"Lab" means code, a route matrix and contract verification; each route still lacks its end-to-end transfer and reconciliation. Circle supporting a network does not enable it in TilcAI: networks are enabled one by one, when each passes its test. CCTP moves native USDC: it does not convert bolivianos or other tokens, and someone who already holds USDC on Stellar does not need it.</p>
 <p>The technical detail, payloads and error contract of the x402 rail are in the <a href="https://github.com/TilcAI/tilcai-core/blob/main/docs/payment-rail-environment.md" rel="noopener">payment rail documentation</a> of the open <code>tilcai-core</code> repository.</p>`,

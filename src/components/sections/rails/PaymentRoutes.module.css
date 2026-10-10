@@ -241,7 +241,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.networkLogosRow svg {
+.networkLogosRow img {
   width: 16px;
   height: 16px;
   opacity: 0.85;

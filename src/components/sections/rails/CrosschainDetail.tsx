@@ -103,7 +103,7 @@ export function CrosschainDetail({ t }: { t: Copy }) {
           <div className={s.destinationCard}>
             <span className={s.destinationBadge}><span aria-hidden="true">✓</span>{isEs ? "Destino definido" : "Defined destination"}</span>
             <div className={s.destinationArt}><Image src={`${art}/ruta-p2-img4.png`} alt="" fill sizes="(max-width: 1100px) 250px, 290px" /></div>
-            <h5>{destinationNetwork.name}</h5>
+            <h5><StellarIcon className={s.destinationLogo} />{destinationNetwork.name}</h5>
             <p>{isEs ? "USDC del negocio" : "Business USDC"}</p>
           </div>
           <dl className={s.destinationFacts}>
