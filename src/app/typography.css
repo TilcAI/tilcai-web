@@ -37,11 +37,11 @@
 }
 
 /* The page sets 1.75 on the body: right for paragraphs, too loose for the small UI text of these sections. */
-:is(#office-rooms, #businesses, #flow, #rails, #demo, #control, #entrances, #agents, #stack, #faq) {
+:is(#office-rooms, #businesses, #solutions, #flow, #rails, #demo, #control, #entrances, #agents, #stack, #faq) {
   line-height: var(--lh-body);
   font-kerning: normal;
 }
-:is(#office-rooms, #businesses, #flow, #rails, #demo, #control, #entrances, #agents, #stack, #faq) :is(p, li, dd) {
+:is(#office-rooms, #businesses, #solutions, #flow, #rails, #demo, #control, #entrances, #agents, #stack, #faq) :is(p, li, dd) {
   text-wrap: pretty;
 }
 
@@ -49,7 +49,7 @@
  * Section titles. Every one of them has an id, so this rule decides tracking, weight and word spacing for all of them
  * at once: two of them collapsed their word gaps at -0.055em and -0.06em, and three used 600 or 700 where the system is 500.
  */
-:is(#office-building-title, #businesses-title, #flow-title, #rails-title, #demo-title, #control-title, #entrances-title, #agents-title, #stack-title, #faq-title, #cta-title) {
+:is(#office-building-title, #businesses-title, #solutions-title, #flow-title, #rails-title, #demo-title, #control-title, #entrances-title, #agents-title, #stack-title, #faq-title, #cta-title) {
   font-weight: var(--weight-display);
   letter-spacing: var(--track-display);
   word-spacing: 0.05em;

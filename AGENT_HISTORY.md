@@ -953,3 +953,63 @@ Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
 Listo. Las redes muestran sus logos correctos en «Red de origen», el recorrido de pagos y «Cobertura de redes» (ES/EN). Stellar usa su logo oficial también en el Canvas de la oficina y la sección de tecnología. Añadí Arc desde el [kit oficial de Circle](https://www.circle.com/pressroom), porque no estaba entre los archivos locales.
 
 Verificado en escritorio y móvil: 96 pruebas aprobadas (1 omitida), TypeScript y compilación de producción.
+
+## 2026-10-10T05:16:07Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> debajo de la secion de "empresas" crea otras seccion de soluciones para empresas y que estas empresas ya estan en implementacion de tilcai que es de las empresas que estan ya incluyendo nuestro sistema optipagos usa ya pagos para wallet de whatsap y de baral en proximas implementaciones haslo genial usando lo que es la skill de /emil-design-eng
+
+### Salida
+
+Nueva sección «Soluciones para empresas» (`#solutions`) justo debajo de «Empresas», en ES y EN.
+
+- **Optipagos, «En implementación»:** logo con su glifo y su nombre en Baumans, «Pagos para wallet de WhatsApp», una conversación de ejemplo (pide pagar, QR, depósito recibido, envío a la wallet con recibo) que se reproduce una vez al entrar en pantalla y se puede repetir, y tres datos de la prueba E2E del 9 de octubre (6 desembolsos confirmados, 12–16 s, red Fuji).
+- **Baral, «Próxima implementación»:** tarjeta con borde discontinuo y el alcance «por confirmar con la empresa».
+- **Invitación** a la documentación de negocio y una nota que recuerda que todo corre en red de pruebas, sin fondos reales ni auditoría; el QR es un simulador.
+- **Movimiento (emil-design-eng):** entrada escalonada de 70 ms con la curva ease-out compartida, burbujas que crecen desde la esquina de quien escribe, `:active` con escala, hover solo con puntero fino, sin elevar tarjetas que no son enlaces, movimiento reducido sin animaciones.
+- **Archivos:** `SolutionsSection.tsx`, `SolutionsChat.tsx`, `SolutionsSection.module.css`, `src/lib/i18n/solutions.ts`, `HomePage.tsx`, `typography.css` y `test/solutions-section.test.ts`.
+
+Comprobado: `tsc` limpio; 101 pruebas, 100 pasan, 1 omitida, 0 fallan; el detector de tipografía no devolvió hallazgos; capturas ES/EN en 1440, 1100, 820 y 390 px. No comprobado: Safari, dispositivos reales, `next build`.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T00:50:00Z · Soluciones para empresas: captura real de Optipagos en un celular
+
+**Prompt:** quitar de «Soluciones para empresas» las tres cifras (6 desembolsos, 12–16 s, Fuji) y la nota «Verificado el 9 de octubre de 2026…», y poner la imagen real de Optipagos (`pago optipago.jpg`) dentro de un celular, como ya está implementado de verdad.
+
+- **Quitado:** las tres cifras y la nota de verificación, en ES y EN, junto con la conversación ilustrada (`SolutionsChat.tsx`) que la captura real reemplaza. La nota al pie (red de pruebas, sin fondos reales ni auditoría) se mantiene.
+- **Añadido:** la captura (720 × 1612) dentro de un marco de celular hecho en CSS (bisel, cámara, teclas laterales, reflejo suave), con pie «Captura real · chat de Optipagos en WhatsApp» y texto alternativo que describe lo que se ve. Junto al texto, dos pasos que describen solo lo que muestra la captura: confirmar con huella o rostro y recibir el comprobante.
+- **Movimiento:** el celular no se anima; entra con la tarjeta (revelado compartido). El punto vivo del estado se mantiene.
+- **Archivos:** `SolutionsSection.tsx`, `SolutionsSection.module.css`, `src/lib/i18n/solutions.ts`, `test/solutions-section.test.ts`; eliminado `SolutionsChat.tsx`.
+
+Comprobado: `tsc` limpio; 102 pruebas, 101 pasan, 1 omitida, 0 fallan; el detector de diseño no devolvió hallazgos; capturas en 1440, 900 y 390 px. Sin commit.
+
+## 2026-10-10T05:55:40Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /emil-design-eng pero mejora lo que son las seciones de lo que es Soluciones para empresas
+>
+> (aclaración, tras interrumpir) lo que estas trabajando lo de optipagos hace pagos en bolivianos con QR y recibe usdc en una wallet para whatsap y pagos con Avalanch
+
+### Salida
+
+Mejoré las tres piezas de «Soluciones para empresas» y ajusté el texto de Optipagos a lo que hace: cobra en bolivianos con QR, acredita USDC en una wallet de WhatsApp y sus pagos corren sobre Avalanche.
+
+- **Optipagos:** título «Paga en bolivianos con QR y recibe USDC en WhatsApp», una franja «Cómo se mueve el dinero» (Bolivianos · USDC · Avalanche, con el logo de la red) y los dos pasos convertidos en botones: elegir uno (hover con ratón, toque o foco) enciende en el teléfono el recuadro de la captura que describe y atenúa el resto; tras 3,4 s en pantalla pasa solo del paso 1 al 2, una vez. El teléfono se inclina unos grados hacia el ratón (solo puntero fino) y sube al entrar la tarjeta. La columna de texto ocupa el alto del teléfono, con los pasos anclados abajo.
+- **Baral:** recorrido «El mismo recorrido» (Orden · Aprobación · Pago · Recibo) dibujado con nodos huecos y punteados, porque es plan y no algo ya hecho; en tablet ocupa todo el ancho con el recorrido al lado, y en teléfono pasa a 2×2.
+- **Invitación:** icono y, en tablet, franja horizontal con la acción a la derecha.
+- **Archivos:** `OptipagosShowcase.tsx` (nuevo, cliente), `SolutionsSection.tsx`, `SolutionsSection.module.css`, `src/lib/i18n/solutions.ts`.
+
+Comprobado: `tsc` limpio; 102 pruebas, 101 pasan, 1 omitida, 0 fallan; detector de tipografía sin hallazgos; capturas ES a 1440, 1100, 820 y 390 px; hover, auto-avance e inclinación probados en el navegador. No comprobado: Safari, dispositivos reales, `next build` tras estos cambios.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
