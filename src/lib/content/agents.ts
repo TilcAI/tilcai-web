@@ -90,6 +90,7 @@ export const agents: readonly AgentClient[] = [
   }),
   prepared({
     slug: "opencode", name: "OpenCode", group: "primary", surface: "terminal",
+    asset: { src: "/assets/img/agentes/agente-opencode.png", alt: text("Robot negro con detalles azules de OpenCode", "Black robot with blue details for OpenCode"), accent: "cool" },
     surfaceDetail: text("OpenCode · terminal", "OpenCode · terminal"),
     summary: text("Cliente de terminal con servidores MCP configurables.", "Terminal client with configurable MCP servers."),
     officialDocs: "https://opencode.ai/docs/mcp-servers/",
@@ -99,6 +100,7 @@ export const agents: readonly AgentClient[] = [
   }),
   prepared({
     slug: "gemini-cli", name: "Gemini CLI", group: "primary", surface: "terminal",
+    asset: { src: "/assets/img/agentes/agente-gemini.png", alt: text("Robot blanco con estrella de colores de Gemini", "White robot with a colourful star for Gemini"), accent: "cool" },
     surfaceDetail: text("Gemini CLI · terminal", "Gemini CLI · terminal"),
     summary: text("Herramientas MCP en una sesión de Gemini CLI.", "MCP tools in a Gemini CLI session."),
     officialDocs: "https://geminicli.com/docs/tools/mcp-server/",

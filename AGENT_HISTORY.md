@@ -725,3 +725,19 @@ Comprobado: `tsc` limpio; 85 pruebas pasan (1 omitida); con la API de animacione
 Pendiente de decisión: la sección no muestra `t.stack.disclaimer` («Mencionar tecnologías no implica patrocinio…»), que ya existe en es/en y encajaría aquí porque se nombran Circle y OpenZeppelin.
 
 Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada. Creé `.claude/launch.json` (ignorado por git) para intentar la vista previa.
+
+## 2026-10-09T22:50:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para esta parte "Terminal OC OpenCode OpenCode · terminal En preparación GC Gemini CLI Gemini CLI · terminal" usa lo que es son la imagenes de los agentes que esta en C:proyectos 2026	ilcAI	ilcai-webpublicassetsimgagentes asme esos cambios
+
+### Salida
+
+En el catálogo de asistentes, OpenCode y Gemini CLI ya usan sus mascotas (`agente-opencode.png` y `agente-gemini.png`) en lugar de las iniciales «OC» y «GC», tanto en la lista como en la ficha de la derecha. El cambio está en `src/lib/content/agents.ts` (dos entradas con `asset`, con su texto alternativo en ES y EN); el componente ya sabía dibujar la mascota cuando existe.
+
+Comprobado: `tsc` limpio, pruebas nuevas en `test/agents-assets.test.ts`, capturas en 1440 px. Sin commit.
