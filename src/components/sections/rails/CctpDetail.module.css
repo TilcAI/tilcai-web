@@ -135,15 +135,41 @@
 
 .origin { display: flex; flex-direction: column; }
 .origin { padding-inline: 17px; }
+.originDestination {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 14px;
+  align-items: center;
+  gap: 9px;
+  margin: -3px 0 13px;
+  padding: 9px;
+  border: 1px solid rgba(38, 220, 176, .4);
+  border-radius: 11px;
+  background: linear-gradient(105deg, rgba(16, 85, 75, .24), rgba(14, 36, 57, .34));
+  color: #e9fff8;
+  text-decoration: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.originDestination:hover { border-color: #40ecc1; box-shadow: 0 0 18px rgba(38, 220, 176, .16); }
+.originDestination:focus-visible { outline: 2px solid #65ddff; outline-offset: 2px; }
+.originDestinationLogo { width: 32px; height: 32px; object-fit: contain; }
+.originDestinationCopy { display: grid; gap: 2px; min-width: 0; }
+.originDestinationCopy small { color: #8ec8c1; font: 700 10px/1.15 var(--font-mono-stack, monospace); letter-spacing: .06em; }
+.originDestinationCopy strong { font-size: 13px; line-height: 1.2; }
+.originDestinationCopy span { color: #57f4c9; font-size: 11px; font-weight: 700; }
+.originDestinationArrow { align-self: start; color: #57f4c9; font-size: 16px; line-height: 1; }
 .networks { position: relative; z-index: 1; display: grid; gap: 5px; }
 .network {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 14px;
+  grid-template-rows: auto auto;
   align-items: center;
-  gap: 6px;
+  gap: 3px 8px;
   min-width: 0;
-  min-height: 35px;
-  padding: 5px 8px;
+  min-height: 48px;
+  padding: 6px 8px;
   border: 1px solid rgba(137, 147, 224, .13);
   border-radius: 10px;
   background: rgba(6, 10, 34, .48);
@@ -169,28 +195,30 @@
   margin: 0;
   opacity: 0;
 }
-.networkIcon { flex: none; width: 24px; height: 24px; }
+.networkIcon { grid-column: 1; grid-row: 1 / 3; width: 24px; height: 24px; }
 .networkName {
+  grid-column: 2;
+  grid-row: 1;
   min-width: 0;
-  flex: 1;
-  overflow: hidden;
   color: #eeeaff;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 .networkStatus {
-  flex: none;
-  padding: 3px 5px;
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start;
+  padding: 4px 7px;
   border: 1px solid currentColor;
-  border-radius: 4px;
+  border-radius: 999px;
   font: 700 11px/1 var(--font-mono-stack, monospace);
 }
 .networkVerified { color: #26dcb0; background: rgba(19, 214, 169, .08); }
 .networkLab { color: #f6ad37; background: rgba(255, 169, 23, .07); }
 .radio {
-  flex: none;
+  grid-column: 3;
+  grid-row: 1 / 3;
   display: grid;
   place-items: center;
   width: 14px;
@@ -292,6 +320,7 @@
 .destination { display: flex; flex-direction: column; }
 .destinationCard {
   position: relative;
+  scroll-margin-top: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -326,6 +355,16 @@
 .destinationCard h5 { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 3px; color: #fff; font-size: 17px; }
 .destinationLogo { width: 25px; height: 25px; object-fit: contain; }
 .destinationCard p { position: relative; z-index: 1; margin: 0; color: #c7b8ee; font-size: 12px; }
+.destinationEvidence {
+  margin: 10px 2px 0;
+  padding: 9px 11px;
+  border: 1px solid rgba(38, 220, 176, .3);
+  border-radius: 9px;
+  background: rgba(16, 85, 75, .16);
+  color: #a5ebd6;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
 .destinationFacts {
   display: grid;
   gap: 0;
@@ -452,6 +491,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .network, .stepArt, .labButton { transition: none; }
+  .network, .stepArt, .labButton, .originDestination { transition: none; }
   .network:hover, .step:hover .stepArt, .labButton:hover { transform: none; }
 }

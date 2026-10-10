@@ -31,6 +31,7 @@
 .network + .network { border-top: 1px solid var(--line); }
 .network[data-status='verified'] { border: 1px solid #4bca81; border-radius: 10px; background: #4bca8114; color: #f1edf8; font-weight: 500; }
 .network[data-status='verified'] + .network { border-top-color: transparent; }
+.network[data-status='verified'] + .network[data-status='verified'] { margin-top: 6px; border-top: 1px solid #4bca81; }
 .network > [data-pt] { right: 0; top: 50%; }
 
 .stations { grid-area: sta; position: relative; min-width: 0; }
@@ -57,6 +58,7 @@
 .verified { stroke: url(#ra-v); stroke-width: 2.2; }
 .direct { stroke: var(--amber); stroke-width: 1.6; stroke-dasharray: 2 7; opacity: .85; }
 .stub { stroke: #8d7bb0; stroke-width: 1.2; stroke-dasharray: 2 6; opacity: .6; }
+.stubVerified { stroke: #a58bff; stroke-width: 1.6; stroke-dasharray: none; opacity: .9; }
 .dot { fill: #0b0a1e; stroke: #8d7bb0; stroke-width: 1.4; }
 .dot[data-kind='verified'] { fill: #f7f5ff; stroke: #a58bff; stroke-width: 2; }
 .dot[data-kind='station'] { fill: #0b0a1e; stroke: var(--cyan); stroke-width: 2; }

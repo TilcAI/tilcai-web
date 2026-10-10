@@ -300,9 +300,9 @@ export const docsEn: Copy["docs"] = {
 <p>The <code>tilcai-cctp-engine</code> lab models eight test networks. TilcAI's backend vouches for a single complete corridor.</p>
 <ul class="doc-nets" role="list">
   <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["avalanche-fuji"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Avalanche Fuji</span></span><span class="tag tag-available">Verified in TilcAI</span></li>
-  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["ethereum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Ethereum Sepolia</span></span><span class="tag tag-next">Lab</span></li>
-  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["arbitrum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arbitrum Sepolia</span></span><span class="tag tag-next">Lab</span></li>
-  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["base-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Base Sepolia</span></span><span class="tag tag-next">Lab</span></li>
+  <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["ethereum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Ethereum Sepolia</span></span><span class="tag tag-available">Verified in TilcAI</span></li>
+  <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["arbitrum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arbitrum Sepolia</span></span><span class="tag tag-available">Verified in TilcAI</span></li>
+  <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["base-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Base Sepolia</span></span><span class="tag tag-available">Verified in TilcAI</span></li>
   <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["arc-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arc Testnet</span></span><span class="tag tag-next">Lab</span></li>
   <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["solana-devnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Solana Devnet</span></span><span class="tag tag-next">Lab</span></li>
   <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["sui-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Sui Testnet</span></span><span class="tag tag-next">Lab</span></li>
@@ -334,7 +334,7 @@ export const docsEn: Copy["docs"] = {
 <thead><tr><th scope="col">Path</th><th scope="col">How it works</th><th scope="col">Status</th></tr></thead>
 <tbody>
 <tr><td>USDC on Stellar</td><td>From a compatible wallet; it is the shortest path and does not need CCTP</td><td>Depends on verifying the direct rail with USDC</td></tr>
-<tr><td>USDC from another network</td><td>With CCTP, over an enabled route</td><td>Only Avalanche Fuji to Stellar Testnet is verified</td></tr>
+<tr><td>USDC from another network</td><td>With CCTP, over an enabled route</td><td>Avalanche Fuji, Ethereum Sepolia, Arbitrum Sepolia and Base Sepolia to Stellar Testnet are verified</td></tr>
 <tr><td>Bolivianos</td><td>A fiat on-ramp provider that quotes, confirms the deposit and delivers USDC</td><td>No verified provider or corridor; the QR payment that exists today is a mock, with no bank</td></tr>
 </tbody></table></div>
 <p>TilcAI does not credit a balance from a captured QR or an unauthenticated notice: a deposit is credited only on verifiable confirmation from the provider.</p>
@@ -384,10 +384,10 @@ export const docsEn: Copy["docs"] = {
   <li><strong>The signer is a separate boundary.</strong> Keys stay away from the model and from business data. This website stores no private keys, financial tokens or spending mandates.</li>
   <li><strong>Facilitator and Relayer dependency.</strong> Settlement relies on an x402 facilitator and an OpenZeppelin Relayer. If they are unavailable, payments stop.</li>
   <li><strong>Testnet only.</strong> The backend rejects any environment other than testnet, and testnet and mainnet will be configured and enabled separately. There are no real funds.</li>
-  <li><strong>A lab is not a product.</strong> Eight modeled networks are not eight commercial corridors: today one is verified end to end.</li>
+  <li><strong>A lab is not a product.</strong> Eight modeled networks are not eight commercial corridors: today four are verified.</li>
   <li><strong>Not audited.</strong> Nothing described here has been audited.</li>
 </ul>
-<p>Out of scope for now: an agent marketplace, trading or DeFi, wrapped-asset bridges between chains (paying across networks with CCTP, which retires and issues native USDC, is planned and today only Avalanche Fuji to Stellar is verified), free-form price negotiation, purchases from any business without an adapter, regulated services, converting bolivianos without a verified provider and unlimited agent autonomy.</p>`,
+<p>Out of scope for now: an agent marketplace, trading or DeFi, wrapped-asset bridges between chains (paying across networks with CCTP, which retires and issues native USDC, is planned and today Avalanche Fuji, Ethereum Sepolia, Arbitrum Sepolia and Base Sepolia to Stellar are verified), free-form price negotiation, purchases from any business without an adapter, regulated services, converting bolivianos without a verified provider and unlimited agent autonomy.</p>`,
     },
     {
       id: "extensions",

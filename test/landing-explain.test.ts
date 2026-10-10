@@ -60,15 +60,18 @@ test("the payment is never presented as the delivery, and an allow is never pres
   }
 });
 
-// ── Networks: only Fuji is verified; the rest are lab ─────────────────────────────────────────────────
+// ── Networks: Fuji and the three Sepolia routes are verified; the rest are lab ─────────────────────────────────────────────────
 
-test("exactly one network is verified end to end (Fuji); the others are lab, and Stellar is the destination", () => {
-  assert.deepEqual(originNetworks.filter((n) => n.status === "verified").map((n) => n.id), ["avalanche-fuji"]);
-  assert.equal(originNetworks.length, 7, "Fuji plus six lab networks");
+test("Fuji and the three Sepolia routes are verified; the others are lab, and Stellar is the destination", () => {
+  assert.deepEqual(
+    originNetworks.filter((n) => n.status === "verified").map((n) => n.id),
+    ["avalanche-fuji", "ethereum-sepolia", "arbitrum-sepolia", "base-sepolia"],
+  );
+  assert.equal(originNetworks.length, 7, "four verified networks plus three lab networks");
   assert.equal(new Set(originNetworks.map((n) => n.id)).size, originNetworks.length);
   assert.ok(originNetworks.every((n) => n.status === "verified" || n.status === "lab"));
   assert.equal(destinationNetwork.id, "stellar-testnet");
-  for (const c of [es, en]) assert.match(c.rails.mapLead, /Fuji/, "the lead says which one is verified");
+  for (const c of [es, en]) assert.match(c.rails.mapLead, /Fuji/, "the lead says which ones are verified");
 });
 
 test("the rails copy never promises any token, any network or a currency conversion", () => {
@@ -168,7 +171,7 @@ for (const locale of ["es", "en"] as const) {
     assert.ok(outOfScope, "the out-of-scope sentence exists");
     assert.match(outOfScope, locale === "es" ? /puentes de activos envueltos/ : /wrapped-asset bridges/);
     assert.match(outOfScope, /CCTP/, "it says the CCTP route is planned");
-    assert.match(outOfScope, /Fuji/, "and that only Fuji is verified");
+    assert.match(outOfScope, /Fuji/, "and which networks are verified");
     assert.ok(!/bridges entre cadenas|cross-chain bridges/.test(outOfScope), "the blanket claim is gone");
   });
 }

@@ -300,9 +300,9 @@ export const docsEs: Copy["docs"] = {
 <p>El laboratorio <code>tilcai-cctp-engine</code> modela ocho redes de prueba. El backend de TilcAI acredita un solo corredor completo.</p>
 <ul class="doc-nets" role="list">
   <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["avalanche-fuji"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Avalanche Fuji</span></span><span class="tag tag-available">Verificado en TilcAI</span></li>
-  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["ethereum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Ethereum Sepolia</span></span><span class="tag tag-next">Laboratorio</span></li>
-  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["arbitrum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arbitrum Sepolia</span></span><span class="tag tag-next">Laboratorio</span></li>
-  <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["base-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Base Sepolia</span></span><span class="tag tag-next">Laboratorio</span></li>
+  <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["ethereum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Ethereum Sepolia</span></span><span class="tag tag-available">Verificado en TilcAI</span></li>
+  <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["arbitrum-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arbitrum Sepolia</span></span><span class="tag tag-available">Verificado en TilcAI</span></li>
+  <li data-state="verified"><span class="doc-net-label"><img src="${networkLogos["base-sepolia"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Base Sepolia</span></span><span class="tag tag-available">Verificado en TilcAI</span></li>
   <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["arc-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Arc Testnet</span></span><span class="tag tag-next">Laboratorio</span></li>
   <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["solana-devnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Solana Devnet</span></span><span class="tag tag-next">Laboratorio</span></li>
   <li data-state="lab"><span class="doc-net-label"><img src="${networkLogos["sui-testnet"]}" alt="" width="30" height="30" loading="lazy" decoding="async"><span class="doc-net-name">Sui Testnet</span></span><span class="tag tag-next">Laboratorio</span></li>
@@ -334,7 +334,7 @@ export const docsEs: Copy["docs"] = {
 <thead><tr><th scope="col">Vía</th><th scope="col">Cómo funciona</th><th scope="col">Estado</th></tr></thead>
 <tbody>
 <tr><td>USDC en Stellar</td><td>Desde una wallet compatible; es el camino más corto y no necesita CCTP</td><td>Depende de verificar el riel directo con USDC</td></tr>
-<tr><td>USDC desde otra red</td><td>Con CCTP, por una ruta habilitada</td><td>Solo Avalanche Fuji a Stellar Testnet está verificada</td></tr>
+<tr><td>USDC desde otra red</td><td>Con CCTP, por una ruta habilitada</td><td>Avalanche Fuji, Ethereum Sepolia, Arbitrum Sepolia y Base Sepolia a Stellar Testnet están verificadas</td></tr>
 <tr><td>Bolivianos</td><td>Un proveedor de rampa fiat que cotice, confirme el depósito y entregue USDC</td><td>Sin proveedor ni corredor verificados; el cobro con QR que existe hoy es un mock, sin banco</td></tr>
 </tbody></table></div>
 <p>TilcAI no acredita saldo por la captura de un QR ni por un aviso sin autenticar: un depósito se acredita solo con la confirmación verificable del proveedor.</p>
@@ -384,10 +384,10 @@ export const docsEs: Copy["docs"] = {
   <li><strong>El firmante es una frontera separada.</strong> Las claves quedan fuera del alcance del modelo y de los datos del negocio. Este sitio web no almacena claves privadas, tokens financieros ni mandatos de gasto.</li>
   <li><strong>Dependencia del facilitador y del Relayer.</strong> La liquidación depende de un facilitador x402 y de un OpenZeppelin Relayer. Si no están disponibles, los pagos se detienen.</li>
   <li><strong>Solo testnet.</strong> El backend rechaza cualquier entorno distinto de testnet, y testnet y mainnet tendrán configuración y habilitación separadas. No hay fondos reales.</li>
-  <li><strong>Laboratorio no es producto.</strong> Ocho redes modeladas no son ocho corredores comerciales: hoy una está verificada de punta a punta.</li>
+  <li><strong>Laboratorio no es producto.</strong> Ocho redes modeladas no son ocho corredores comerciales: hoy cuatro están verificadas.</li>
   <li><strong>Sin auditar.</strong> Nada de lo descrito aquí ha sido auditado.</li>
 </ul>
-<p>Fuera del alcance por ahora: un marketplace de agentes, trading o DeFi, puentes de activos envueltos entre cadenas (el pago entre redes con CCTP, que retira y emite USDC nativo, sí está previsto y hoy solo Avalanche Fuji a Stellar está verificado), negociación libre de precios, compras a cualquier negocio sin adaptador, servicios regulados, conversión de bolivianos sin un proveedor verificado y autonomía ilimitada de los agentes.</p>`,
+<p>Fuera del alcance por ahora: un marketplace de agentes, trading o DeFi, puentes de activos envueltos entre cadenas (el pago entre redes con CCTP, que retira y emite USDC nativo, sí está previsto y hoy están verificadas Avalanche Fuji, Ethereum Sepolia, Arbitrum Sepolia y Base Sepolia hacia Stellar), negociación libre de precios, compras a cualquier negocio sin adaptador, servicios regulados, conversión de bolivianos sin un proveedor verificado y autonomía ilimitada de los agentes.</p>`,
     },
     {
       id: "extensions",

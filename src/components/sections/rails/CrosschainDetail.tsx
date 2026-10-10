@@ -31,6 +31,10 @@ export function CrosschainDetail({ t }: { t: Copy }) {
   const [showLedger, setShowLedger] = useState(false);
   const network = originNetworks.find((item) => item.id === selectedNetwork) ?? originNetworks[0];
   const verified = network.status === "verified";
+  /** The gasless payment (the relayer covers the fees) was only tested on Fuji. */
+  const gasless = network.id === "avalanche-fuji";
+  const verifiedNames = new Intl.ListFormat(isEs ? "es" : "en", { style: "long", type: "conjunction" })
+    .format(originNetworks.filter((item) => item.status === "verified").map((item) => item.name));
 
   return (
     <section className={s.detail} id="cctp-detail" aria-labelledby="cctp-detail-title" data-detail data-verified={verified}>
@@ -42,8 +46,8 @@ export function CrosschainDetail({ t }: { t: Copy }) {
         </div>
         <div className={s.badges} aria-label={isEs ? "Estado de la ruta" : "Route status"}>
           <span className={`${s.badge} ${s.cyan}`}>CCTP · Crosschain</span>
-          <span className={`${s.badge} ${verified ? s.green : s.amber}`}>{verified ? (isEs ? "Fuji verificado en testnet" : "Fuji verified on testnet") : (isEs ? "Red en laboratorio" : "Network in lab")}</span>
-          <span className={`${s.badge} ${s.purple}`}><span aria-hidden="true">ϟ</span>{verified ? (isEs ? "Sin gas para el comprador" : "No gas for the buyer") : (isEs ? "Modo sin gas pendiente" : "Gasless mode pending")}</span>
+          <span className={`${s.badge} ${verified ? s.green : s.amber}`}>{verified ? (isEs ? `${network.name} verificado en testnet` : `${network.name} verified on testnet`) : (isEs ? "Red en laboratorio" : "Network in lab")}</span>
+          <span className={`${s.badge} ${s.purple}`}><span aria-hidden="true">ϟ</span>{gasless ? (isEs ? "Sin gas para el comprador" : "No gas for the buyer") : (isEs ? "Modo sin gas pendiente" : "Gasless mode pending")}</span>
         </div>
       </header>
 
@@ -53,6 +57,15 @@ export function CrosschainDetail({ t }: { t: Copy }) {
             <h4><span>1.</span> {isEs ? "RED DE ORIGEN" : "SOURCE NETWORK"}</h4>
             <p>{isEs ? "Selecciona la red donde tienes USDC." : "Choose the network holding your USDC."}</p>
           </div>
+          <a className={s.originDestination} href="#stellar-destination">
+            <StellarIcon className={s.originDestinationLogo} />
+            <span className={s.originDestinationCopy}>
+              <small>{isEs ? "DESTINO DE ESTA RUTA" : "DESTINATION OF THIS ROUTE"}</small>
+              <strong>Stellar Testnet</strong>
+              <span>{isEs ? "✓ Verificado con Fuji" : "✓ Verified with Fuji"}</span>
+            </span>
+            <span className={s.originDestinationArrow} aria-hidden="true">↗</span>
+          </a>
           <div className={s.networks} role="radiogroup" aria-label={isEs ? "Redes de origen" : "Source networks"}>
             {originNetworks.map((item) => (
               <label key={item.id} className={s.network} data-selected={selectedNetwork === item.id}>
@@ -66,7 +79,7 @@ export function CrosschainDetail({ t }: { t: Copy }) {
           </div>
           <p className={s.originNote} role="status">
             {verified
-              ? (isEs ? "Fuji → Stellar: pago técnico verificado en testnet." : "Fuji → Stellar: technical payment verified on testnet.")
+              ? (isEs ? `${network.name} → Stellar: pago técnico verificado en testnet.` : `${network.name} → Stellar: technical payment verified on testnet.`)
               : (isEs ? `${network.name} sigue en laboratorio; el flujo mostrado es ilustrativo.` : `${network.name} is still in the lab; the flow shown is illustrative.`)}
           </p>
         </div>
@@ -100,12 +113,15 @@ export function CrosschainDetail({ t }: { t: Copy }) {
             <h4><span>3.</span> {isEs ? "DESTINO" : "DESTINATION"}</h4>
             <p>{isEs ? "Destino final de esta ruta." : "Final destination for this route."}</p>
           </div>
-          <div className={s.destinationCard}>
-            <span className={s.destinationBadge}><span aria-hidden="true">✓</span>{isEs ? "Destino definido" : "Defined destination"}</span>
+          <div className={s.destinationCard} id="stellar-destination">
+            <span className={s.destinationBadge}><span aria-hidden="true">✓</span>{isEs ? "Verificado con Fuji" : "Verified with Fuji"}</span>
             <div className={s.destinationArt}><Image src={`${art}/ruta-p2-img4.png`} alt="" fill sizes="(max-width: 1100px) 250px, 290px" /></div>
             <h5><StellarIcon className={s.destinationLogo} />{destinationNetwork.name}</h5>
             <p>{isEs ? "USDC del negocio" : "Business USDC"}</p>
           </div>
+          <p className={s.destinationEvidence}>
+            {isEs ? "Destino comprobado en la ruta técnica Avalanche Fuji → Stellar." : "Destination tested on the Avalanche Fuji → Stellar technical route."}
+          </p>
           <dl className={s.destinationFacts}>
             <div><dt>{isEs ? "Misma moneda" : "Same currency"}</dt><dd>USDC</dd></div>
             <div><dt>{isEs ? "Misma cantidad" : "Same amount"}</dt><dd>1:1</dd></div>
@@ -117,16 +133,16 @@ export function CrosschainDetail({ t }: { t: Copy }) {
       <div className={s.feeStrip}>
         <div className={s.feeMain}>
           <span className={s.feeBolt} aria-hidden="true">ϟ</span>
-          <div><strong>{verified ? (isEs ? "TilcAI paga las comisiones." : "TilcAI covers the fees.") : (isEs ? "El modo sin gas se valida por red." : "Gasless mode is verified per network.")}</strong><p>{verified ? (isEs ? "Tú solo envías el USDC desde tu wallet." : "You only send USDC from your wallet.") : (isEs ? "Esta red aún no tiene un pago verificado en TilcAI." : "This network has no verified TilcAI payment yet.")}</p></div>
+          <div><strong>{gasless ? (isEs ? "TilcAI paga las comisiones." : "TilcAI covers the fees.") : (isEs ? "El modo sin gas se valida por red." : "Gasless mode is verified per network.")}</strong><p>{gasless ? (isEs ? "Tú solo envías el USDC desde tu wallet." : "You only send USDC from your wallet.") : verified ? (isEs ? "La ruta está verificada; el modo sin gas aún no." : "The route is verified; gasless mode is not yet.") : (isEs ? "Esta red aún no tiene un pago verificado en TilcAI." : "This network has no verified TilcAI payment yet.")}</p></div>
         </div>
-        <div className={s.benefit}><BenefitIcon kind="shield" /><span><strong>{verified ? (isEs ? "Sin gas para el comprador" : "No gas for the buyer") : (isEs ? "Pendiente de validar" : "Pending verification")}</strong><small>{verified ? (isEs ? "TilcAI asume las comisiones." : "TilcAI covers network fees.") : (isEs ? "Solo Fuji tiene esa prueba." : "Only Fuji has that test.")}</small></span></div>
-        <div className={s.benefit}><BenefitIcon kind="clock" /><span><strong>{verified ? (isEs ? "Con evidencia" : "With evidence") : (isEs ? "Evidencia pendiente" : "Evidence pending")}</strong><small>{isEs ? "Burn, atestación y mint." : "Burn, attestation and mint."}</small></span></div>
+        <div className={s.benefit}><BenefitIcon kind="shield" /><span><strong>{gasless ? (isEs ? "Sin gas para el comprador" : "No gas for the buyer") : (isEs ? "Pendiente de validar" : "Pending verification")}</strong><small>{gasless ? (isEs ? "TilcAI asume las comisiones." : "TilcAI covers network fees.") : (isEs ? "Solo Fuji tiene esa prueba." : "Only Fuji has that test.")}</small></span></div>
+        <div className={s.benefit}><BenefitIcon kind="clock" /><span><strong>{gasless ? (isEs ? "Con evidencia" : "With evidence") : verified ? (isEs ? "Pruebas en curso" : "Tests in progress") : (isEs ? "Evidencia pendiente" : "Evidence pending")}</strong><small>{isEs ? "Burn, atestación y mint." : "Burn, attestation and mint."}</small></span></div>
         <div className={s.benefit}><BenefitIcon kind="wallet" /><span><strong>{isEs ? "Mismas condiciones" : "Same terms"}</strong><small>{isEs ? "Mismo importe, misma moneda." : "Same amount, same currency."}</small></span></div>
       </div>
 
       <div className={s.labCard}>
         <div className={s.labArt} aria-hidden="true"><Image src={`${art}/ruta-p2-img5.png`} alt="" fill sizes="86px" /></div>
-        <div className={s.labCopy}><h4>{isEs ? "Redes del laboratorio de CCTP" : "CCTP lab networks"}</h4><p>{isEs ? "Solo Avalanche Fuji está verificada de punta a punta en TilcAI. Las otras redes se habilitan tras probar cada ruta." : "Only Avalanche Fuji is verified end to end in TilcAI. Other networks require their own route test."}</p></div>
+        <div className={s.labCopy}><h4>{isEs ? "Redes del laboratorio de CCTP" : "CCTP lab networks"}</h4><p>{isEs ? `${verifiedNames} están verificadas en TilcAI. Las otras redes se habilitan tras probar cada ruta.` : `${verifiedNames} are verified in TilcAI. Other networks require their own route test.`}</p></div>
         <button type="button" className={s.labButton} onClick={() => setShowLedger((value) => !value)} aria-expanded={showLedger}>
           {showLedger ? (isEs ? "Ocultar pagos de prueba" : "Hide test payments") : (isEs ? "Ver pagos de prueba" : "View test payments")} <span aria-hidden="true">↗</span>
         </button>

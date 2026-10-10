@@ -82,7 +82,6 @@ const es: SolutionsCopy = {
     body: "Empieza por un solo caso: una orden con precio, aprobación y recibo. Tú sigues decidiendo precio, destino de cobro y entrega.",
     link: "Ver cómo se conecta",
   },
-  footnote: "Todo corre en red de pruebas: sin fondos reales y sin auditoría. El equipo confirma el estado de cada empresa antes de publicarlo.",
 };
 
 const en: SolutionsCopy = {

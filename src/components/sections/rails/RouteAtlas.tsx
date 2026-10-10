@@ -11,7 +11,8 @@ import s from "./RouteAtlas.module.css";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 const tagFor = { verified: "tag-available", lab: "tag-integration" } as const;
-const LAB = originNetworks.map((network, index) => ({ network, index })).filter((item) => item.network.status === "lab");
+/** Every network after the first (the straight run) joins it through a stub; verified ones are drawn solid, lab ones dashed. */
+const FEEDERS = originNetworks.map((network, index) => ({ network, index })).filter((item) => item.index > 0);
 
 type Pt = { x: number; y: number };
 const f = (n: number) => n.toFixed(1);
@@ -57,7 +58,7 @@ export function RouteAtlas({ t }: { t: Copy }) {
     const maskOf = (name: string) => one<SVGPathElement>(`[data-mask="${name}"]`);
     const pathOf = (name: string) => one<SVGPathElement>(`[data-line="${name}"]`);
     const vLine = pathOf("verified"), vGlow = one<SVGPathElement>('[data-glow="verified"]');
-    const dashed = ["direct", "spine", ...LAB.map(({ index }) => `stub-${index}`)];
+    const dashed = ["direct", "spine", ...FEEDERS.map(({ index }) => `stub-${index}`)];
 
     let cleanup: (() => void) | undefined;
     let measured = { w: 0, h: 0 };
@@ -87,7 +88,7 @@ export function RouteAtlas({ t }: { t: Copy }) {
         set("direct", `M ${f(d0.x)} ${f(d0.y)} L ${f(dd.x)} ${f(dd.y)}`);
         const bus = o0.x + (j.x - o0.x) * 0.42;
         let lowest = o0.y;
-        for (const { index } of LAB) {
+        for (const { index } of FEEDERS) {
           const o = P(`o${index}`);
           lowest = Math.max(lowest, o.y);
           set(`stub-${index}`, `M ${f(o.x)} ${f(o.y)} L ${f(bus)} ${f(o.y)}`);
@@ -99,7 +100,7 @@ export function RouteAtlas({ t }: { t: Copy }) {
         dot("j").setAttribute("cx", f(j.x)); dot("j").setAttribute("cy", f(j.y));
       } else {
         dv = P("dm"); dd = P("dc");
-        const labTop = LAB.map(({ index }) => P(`o${index}`)).sort((a, b) => a.y - b.y)[0];
+        const labTop = FEEDERS.map(({ index }) => P(`o${index}`)).sort((a, b) => a.y - b.y)[0];
         set("verified", `M ${f(o0.x)} ${f(o0.y)} L ${f(dv.x)} ${f(dv.y)}`);
         set("spine", `M ${f(labTop.x)} ${f(labTop.y)} L ${f(o0.x)} ${f(o0.y)}`);
         set("direct", `M ${f(d0.x)} ${f(d0.y)} L ${f(dd.x)} ${f(dd.y)}`);
@@ -264,7 +265,7 @@ export function RouteAtlas({ t }: { t: Copy }) {
             <radialGradient id="ra-halo"><stop stopColor="#fff" stopOpacity=".95" /><stop offset=".25" stopColor="#a58bff" stopOpacity=".55" /><stop offset="1" stopColor="#7347ff" stopOpacity="0" /></radialGradient>
             {dashedMasks.map((name) => <mask key={name} id={`ra-m-${name}`} maskUnits="userSpaceOnUse" data-mask-box><path data-mask={name} fill="none" stroke="#fff" strokeWidth="8" strokeLinecap="butt" /></mask>)}
           </defs>
-          {LAB.map(({ index }) => <path key={index} className={`${s.line} ${s.stub}`} data-line={`stub-${index}`} mask={`url(#ra-m-stub-${index})`} />)}
+          {FEEDERS.map(({ network, index }) => <path key={index} className={`${s.line} ${s.stub} ${network.status === "verified" ? s.stubVerified : ""}`} data-line={`stub-${index}`} mask={`url(#ra-m-stub-${index})`} />)}
           <path className={`${s.line} ${s.stub}`} data-line="spine" mask="url(#ra-m-spine)" />
           <path className={`${s.line} ${s.direct}`} data-line="direct" mask="url(#ra-m-direct)" />
           <path className={s.glow} data-glow="verified" />
@@ -272,7 +273,8 @@ export function RouteAtlas({ t }: { t: Copy }) {
           <path className={s.arrow} data-arrow="v" />
           <path className={s.arrow} data-arrow="d" style={{ stroke: "#e5b66e" }} />
           {dotKeys.map((key) => {
-            const kind = key === "o0" || key === "dv" ? "verified" : /^s\d$/.test(key) ? "station" : key === "d0" || key === "d1" || key === "dd" ? "direct" : "lab";
+            const verifiedOrigin = /^o\d+$/.test(key) && originNetworks[Number(key.slice(1))]?.status === "verified";
+            const kind = verifiedOrigin || key === "dv" ? "verified" : /^s\d$/.test(key) ? "station" : key === "d0" || key === "d1" || key === "dd" ? "direct" : "lab";
             const r = kind === "station" ? 5.5 : kind === "verified" ? 5 : 3.6;
             return <circle key={key} className={s.dot} data-dot={key} data-kind={kind} data-r={r} r={r} />;
           })}
@@ -336,5 +338,5 @@ export function RouteAtlas({ t }: { t: Copy }) {
   );
 }
 
-const dashedMasks = ["direct", "spine", ...LAB.map(({ index }) => `stub-${index}`)];
+const dashedMasks = ["direct", "spine", ...FEEDERS.map(({ index }) => `stub-${index}`)];
 const dotKeys = ["d0", "d1", "dd", "dv", "j", ...originNetworks.map((_, i) => `o${i}`), "s0", "s1", "s2"];

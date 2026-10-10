@@ -11,8 +11,9 @@ const ledger = read("EvidenceLedger.tsx");
 const header = read("RailsHeader.tsx");
 const section = readFileSync(new URL("../src/components/sections/RailsSection.tsx", import.meta.url), "utf8");
 
-test("the map draws what the data says: one verified network (the straight run), the rest as lab, one destination", () => {
-  assert.equal(originNetworks.filter((n) => n.status === "verified").length, 1);
+test("the map draws what the data says: the first network is the straight run, the others feed it (solid if verified, dashed if lab), one destination", () => {
+  assert.equal(originNetworks.filter((n) => n.status === "verified").length, 4);
+  assert.deepEqual(originNetworks.slice(0, 4).map((n) => n.status), ["verified", "verified", "verified", "verified"], "the verified networks come first");
   assert.equal(originNetworks[0]!.status, "verified", "the verified network is first, because the solid line leaves from its row");
   assert.equal(originNetworks[0]!.id, "avalanche-fuji");
   // Every network gets a row and a port the lines are measured from; the verified one is the only solid, bright dot.

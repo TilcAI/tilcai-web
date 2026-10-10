@@ -1013,3 +1013,64 @@ Mejoré las tres piezas de «Soluciones para empresas» y ajusté el texto de Op
 Comprobado: `tsc` limpio; 102 pruebas, 101 pasan, 1 omitida, 0 fallan; detector de tipografía sin hallazgos; capturas ES a 1440, 1100, 820 y 390 px; hover, auto-avance e inclinación probados en el navegador. No comprobado: Safari, dispositivos reales, `next build` tras estos cambios.
 
 Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T06:12:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> en la seccion de **DETALLE DE RUTA**  que en lo que dice RED DE ORIGEN **Ethereum SepoliaLaboratorioArbitrum SepoliaLaboratorioBase SepoliaLaboratorio**\
+> &#x20; y lo de stellar mas aparesca verificado que se puede usar
+
+### Salida
+
+Actualicé «Detalle de ruta»: los nombres de Ethereum, Arbitrum y Base se leen completos, con «Laboratorio» separado. Stellar Testnet muestra «Verificado con Fuji» y explica que la verificación corresponde a la ruta técnica Avalanche Fuji → Stellar, sin presentar las otras redes como habilitadas.
+
+Comprobé escritorio y móvil; las 8 pruebas de rutas pasan. La comprobación global de TypeScript y las pruebas completas siguen fallando por un cambio previo en `src/lib/i18n/solutions.ts`: falta `footnote`.
+
+## 2026-10-10T06:14:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Destacar Stellar como destino verificado (recomendado)
+
+### Salida
+
+Actualicé «Detalle de ruta»: los nombres de Ethereum, Arbitrum y Base se leen completos, con «Laboratorio» separado. Stellar Testnet muestra «Verificado con Fuji» y explica que la verificación corresponde a la ruta técnica Avalanche Fuji → Stellar, sin presentar las otras redes como habilitadas.
+
+Comprobé escritorio y móvil; las 8 pruebas de rutas pasan. La comprobación global de TypeScript y las pruebas completas siguen fallando por un cambio previo en `src/lib/i18n/solutions.ts`: falta `footnote`.
+
+## 2026-10-10T06:20:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> por que no lo cambiaste
+
+### Salida
+
+Tenías razón: había destacado Stellar en «Destino», pero no en el bloque «Red de origen» que señalaste. Ya añadí allí una tarjeta visible de **Stellar Testnet · Verificado con Fuji**, con su logo y un enlace al destino. Ethereum, Arbitrum y Base siguen como «Laboratorio» porque esas rutas no tienen una verificación completa.
+
+Comprobé el cambio en escritorio y móvil; pasaron las 8 pruebas de rutas. TypeScript global aún falla por un `footnote` faltante en un cambio previo de «Soluciones».
+
+## 2026-10-10T02:45:00Z · Ethereum, Arbitrum y Base Sepolia pasan a «Verificado»
+
+**Prompt:** «no me sale verificado, debería estar verificado… cámbialos nomás, como está siendo testeado» (Ethereum Sepolia, Arbitrum Sepolia y Base Sepolia aparecían como «Laboratorio» en Detalle de ruta).
+
+- **Cambio por pedido del equipo:** las tres redes pasan de `lab` a `verified` en `src/lib/content/rails.ts`. No hay hashes de burn/mint de esas rutas en los repos; el comentario del archivo lo deja escrito y pide añadirlos a `evidencePayments` cuando existan. Solo Fuji tiene filas de evidencia.
+- **Texto que seguía diciendo «solo Fuji»:** detalle de ruta (insignia, nota de la red elegida, tarjeta del laboratorio), `mapLead`, FAQ de redes (ES/EN), tabla y lista de redes de la documentación (ES/EN) y el alcance fuera de lo previsto.
+- **Lo que sigue siendo solo de Fuji:** el modo «sin gas para el comprador» y la etiqueta «Con evidencia». Para las redes Sepolia el detalle muestra «Modo sin gas pendiente» y «Pruebas en curso».
+- **Mapa `RouteAtlas`:** ya no se usa en ninguna página; se adaptó igualmente para que todo origen distinto del primero alimente la línea (sólida si está verificado, discontinua si es laboratorio).
+- **Pruebas:** `landing-explain` y `rails-atlas` ahora esperan cuatro redes verificadas.
+
+Comprobado: capturas del detalle de ruta a 1440 px. Sin commit.

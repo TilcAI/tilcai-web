@@ -114,7 +114,7 @@ const es: NarrativeCopy = {
       { id: "cctp", title: "USDC de otra red", tag: "CCTP · crosschain", body: "El USDC se retira (burn) en la red de origen, Circle lo confirma y se emite (mint) en Stellar. El relayer paga las comisiones: el comprador no necesita la moneda de gas.", status: "Verificado en testnet", tone: "verified" },
     ],
     mapTitle: "Redes del laboratorio de CCTP",
-    mapLead: "Ocho redes de testnet: Fuji y seis más como origen, y Stellar como destino. Solo Fuji está verificada de punta a punta en TilcAI.",
+    mapLead: "Ocho redes de testnet: siete como origen y Stellar como destino. Verificadas en TilcAI: Fuji, Ethereum Sepolia, Arbitrum Sepolia y Base Sepolia; las otras tres siguen en laboratorio.",
     origin: "USDC de origen", pipeline: "TilcAI + CCTP", destination: "Destino",
     pipelineSteps: [
       { plain: "Se retira el USDC en la red de origen", term: "burn" },
@@ -224,7 +224,7 @@ const en: NarrativeCopy = {
       { id: "cctp", title: "USDC from another network", tag: "CCTP · crosschain", body: "The USDC is retired (burn) on the source network, Circle confirms it and it is issued (mint) on Stellar. The relayer pays the fees: the buyer does not need the gas token.", status: "Verified on testnet", tone: "verified" },
     ],
     mapTitle: "Networks in the CCTP lab",
-    mapLead: "Eight testnets: Fuji and six more as sources, and Stellar as the destination. Only Fuji is verified end to end in TilcAI.",
+    mapLead: "Eight testnets: seven as sources and Stellar as the destination. Verified in TilcAI: Fuji, Ethereum Sepolia, Arbitrum Sepolia and Base Sepolia; the other three are still in the lab.",
     origin: "Source USDC", pipeline: "TilcAI + CCTP", destination: "Destination",
     pipelineSteps: [
       { plain: "The USDC is retired on the source network", term: "burn" },
