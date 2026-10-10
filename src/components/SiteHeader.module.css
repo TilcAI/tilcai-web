@@ -1,0 +1,222 @@
+/*
+ * Site header: one bar for every page (home, docs, roadmap, monitor). Same links, same order, same place, so
+ * changing page never moves the navigation. Brand left, links centred on the viewport (not on the leftover space),
+ * language and the simulation shortcut right.
+ *
+ * Authored with the unprefixed `backdrop-filter` only. The old header declared both the prefixed and unprefixed
+ * property and the CSS pipeline kept just `-webkit-backdrop-filter`, which Chrome ignores: the bar never blurred and
+ * the page showed through it. Let the toolchain add the prefix.
+ */
+.header {
+  --pad: clamp(16px, 4.3vw, 80px);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--header-h);
+  isolation: isolate;
+}
+
+/*
+ * Two layers under the content, cross-faded by opacity (a gradient never interpolates into a colour):
+ * a scrim while the bar floats over the opening screen, and frosted glass once the page has scrolled.
+ */
+.header::before,
+.header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.header::before { background: linear-gradient(180deg, #080618d1, #08061800); }
+.header::after {
+  background: #0c0a1dc7;
+  backdrop-filter: saturate(140%) blur(18px);
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+}
+.scrolled::before, .open::before { opacity: 0; }
+.scrolled::after { opacity: 1; }
+.open::after { opacity: 1; background: #0c0a1df5; }
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(12px, 2vw, 32px);
+  height: 100%;
+  padding-inline: var(--pad);
+}
+
+.brand {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+}
+.brand img { width: auto; height: clamp(38px, 3.8vw, 54px); }
+
+/* Links */
+.nav { display: flex; align-items: center; justify-content: center; gap: 2px; }
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 11px;
+  border-radius: 8px;
+  color: #f3eff9;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -.005em;
+  white-space: nowrap;
+  transition: color .15s ease, transform .16s var(--ease-out);
+}
+.link .icon { width: 16px; height: 16px; opacity: .8; }
+/* The underline is the whole indicator: it draws in on hover and stays for the page you are on. */
+.link::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  bottom: 7px;
+  height: 2px;
+  border-radius: 2px;
+  background: #a58bff;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .22s var(--ease-out);
+}
+.link[aria-current="page"] { color: #fff; }
+.link[aria-current="page"]::after { transform: scaleX(1); }
+.link:active { transform: scale(.97); }
+.link:focus-visible, .brand:focus-visible, .cta:focus-visible, .menuBtn:focus-visible, .lang a:focus-visible {
+  outline: 2px solid #57d2f9;
+  outline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover { color: #cdb8ff; }
+  .link:hover::after { transform: scaleX(1); }
+}
+
+/* Tools */
+.tools { justify-self: end; display: flex; align-items: center; gap: clamp(12px, 1.5vw, 24px); }
+.lang { display: inline-flex; align-items: center; font-size: 14px; font-weight: 500; }
+.langItem { display: inline-flex; align-items: center; }
+.lang a, .langCurrent { display: inline-flex; align-items: center; justify-content: center; min-width: 38px; min-height: 44px; padding: 0 5px; }
+.lang a { color: rgb(255 255 255 / .74); transition: color .15s ease; }
+.langCurrent { color: #a58bff; font-weight: 600; }
+.sep { color: rgb(255 255 255 / .28); }
+@media (hover: hover) and (pointer: fine) {
+  .lang a:hover { color: #fff; }
+}
+
+.cta {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #7546ff;
+  box-shadow: 0 8px 24px -8px #6f3cffb0, inset 0 1px 0 #ffffff2e;
+  color: #fff;
+  transition: background-color .2s ease, transform .16s var(--ease-out);
+}
+.cta .icon { width: 20px; height: 20px; transition: transform .25s var(--ease-out); }
+.cta:active { transform: scale(.94); }
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover { background: #8e64ff; }
+  .cta:hover .icon { transform: rotate(45deg); }
+}
+
+.menuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: .8px solid var(--line);
+  border-radius: 8px;
+  background: #242236;
+  color: #fff;
+  cursor: pointer;
+  transition: transform .16s var(--ease-out);
+}
+.menuBtn:active { transform: scale(.95); }
+.dim { display: none; }
+
+/* Tablet and phone: the links fold into a panel under the bar. */
+@media (max-width: 1180px) {
+  .inner { grid-template-columns: auto 1fr; column-gap: 12px; }
+  .brand img { height: 35px; }
+  .tools { gap: 10px; }
+  .menuBtn { display: inline-flex; }
+  .cta { width: 44px; height: 44px; }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    max-height: calc(100svh - var(--header-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 8px var(--pad) 20px;
+    background: #0b0918;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 30px 50px -20px rgb(2 2 15 / .8);
+  }
+  .navOpen { display: flex; animation: panel-in .18s var(--ease-out); }
+  .link { min-height: 52px; padding: 0 12px; border-radius: 0; border-bottom: 1px solid var(--border); font-size: 17px; }
+  .link::after { display: none; }
+  .link[aria-current="page"] { color: #cdb8ff; font-weight: 600; }
+  .docs {
+    margin-top: 14px;
+    padding: 0 16px;
+    border: .8px solid var(--line);
+    border-radius: 12px;
+    background: #242236;
+  }
+
+  /* Dim the page behind the open panel so it reads as a layer; tapping it closes the panel. */
+  .dim { display: block; position: fixed; inset: var(--header-h) 0 0; background: rgb(2 2 15 / .62); animation: dim-in .18s ease; }
+
+  /* No JavaScript: no toggle, so the links stay in view as a two-column block under the bar. */
+  :global(html):not(:global(.js)) .header { position: static; height: auto; }
+  :global(html):not(:global(.js)) .inner { height: auto; min-height: var(--header-h); padding-block: 10px; }
+  :global(html):not(:global(.js)) .nav {
+    display: grid;
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: none;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    animation: none;
+  }
+  :global(html):not(:global(.js)) .docs { margin-top: 0; }
+  :global(html):not(:global(.js)) .menuBtn { display: none; }
+}
+
+@keyframes panel-in { from { opacity: 0; transform: translateY(-6px); } }
+@keyframes dim-in { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .header::before, .header::after, .link, .link::after, .lang a, .cta, .cta .icon, .menuBtn { transition: none; }
+  .navOpen, .dim { animation: none; }
+}

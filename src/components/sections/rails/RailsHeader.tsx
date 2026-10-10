@@ -66,7 +66,6 @@ export function RailsHeader({ t }: { t: Copy }) {
         <span className={styles.noteTerm} data-part>{c.explainer.term}</span>
         <h3 id="crosschain-title" data-part>{c.explainer.title}</h3>
         <p data-part>{c.explainer.body}</p>
-        <p className={styles.noteNote} data-part>{c.explainer.note}</p>
       </aside>
     </header>
   );

@@ -1,0 +1,258 @@
+/* ==========================================================================
+   Entradas del comprador
+   Tres ramas de una misma línea que termina en lo que comparten. La línea se mide desde la página (EntranceMap.tsx).
+   ========================================================================== */
+
+.map {
+  --rail: 14px;
+  --gutter: 46px;
+  --hair: rgba(169, 144, 229, 0.14);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  margin-top: clamp(32px, 4vw, 52px);
+}
+
+/* ── La línea ─────────────────────────────────────────────────────────── */
+
+.wire {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.base {
+  fill: none;
+  stroke: rgba(205, 195, 235, 0.3);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1.5 7;
+}
+
+.line {
+  fill: none;
+  stroke: #c8b6f8;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.head {
+  fill: #fff;
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(169, 138, 233, 0.9));
+}
+
+/* ── Las tres entradas ────────────────────────────────────────────────── */
+
+.group {
+  margin: 0 0 14px var(--gutter);
+  color: #aaa4bf;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.rows {
+  list-style: none;
+  margin: 0 0 0 var(--gutter);
+  padding: 0;
+}
+
+.row {
+  --accent: 169, 138, 233;
+  position: relative;
+  display: grid;
+  grid-template-columns: 188px minmax(0, 1fr) minmax(210px, 290px);
+  align-items: center;
+  column-gap: clamp(24px, 3vw, 44px);
+  padding-block: 28px;
+  border-top: 1px solid var(--hair);
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--rail) - var(--gutter) - 6px);
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: rgb(var(--accent));
+  box-shadow: 0 0 0 5px rgba(var(--accent), 0.16);
+  transition: transform 0.35s var(--ease-out), opacity 0.35s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.dot[data-hold] {
+  transform: scale(0.45);
+  opacity: 0.35;
+}
+
+@media (hover: hover) {
+  .row:hover .dot { box-shadow: 0 0 0 9px rgba(var(--accent), 0.2); }
+}
+
+.art {
+  min-width: 0;
+  color: #cfc7e4;
+}
+
+.copy h3 {
+  margin: 0 0 8px;
+  color: #f1edf8;
+  font-size: clamp(18px, 1.5vw, 21px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.copy p {
+  max-width: 54ch;
+  margin: 0;
+  color: #b6adc9;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.state {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding-left: clamp(18px, 2vw, 28px);
+  border-left: 1px solid var(--hair);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #eae4f8;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.status i {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid rgb(var(--accent));
+}
+
+.status[data-state="available"] i { background: rgb(var(--accent)); }
+.status[data-state="reported"] i { border-style: dashed; }
+
+/* ── Lo que comparten ─────────────────────────────────────────────────── */
+
+.shared {
+  margin: 0 0 0 var(--gutter);
+  padding-top: 22px;
+  border-top: 1px solid var(--hair);
+}
+
+.sharedLabel {
+  margin: 0 0 16px;
+  color: #aaa4bf;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.steps {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 4px;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  flex: 1 1 0;
+  gap: 14px;
+  justify-items: start;
+  min-width: 0;
+}
+
+/* the last stretch stands at the far end, so the line spans the whole width and ends on the receipts */
+.step:last-child { flex: 0 0 auto; }
+
+.node {
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid #d4c5ff;
+  background: #0b0a1e;
+  transition: transform 0.35s var(--ease-out), border-color 0.35s var(--ease-out);
+}
+
+.node[data-hold] {
+  transform: scale(0.8);
+  border-color: #5d5377;
+}
+
+.step:last-child .node { background: #d4c5ff; }
+
+.stepLabel {
+  color: #f0eaf9;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* ── Pantallas medianas ───────────────────────────────────────────────── */
+
+@media (max-width: 1019px) {
+  .row {
+    grid-template-columns: 150px minmax(0, 1fr);
+    row-gap: 14px;
+  }
+
+  .state {
+    grid-column: 2;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* ── Teléfono: la línea corre recta por el lateral y atraviesa los cinco pasos ── */
+
+@media (max-width: 719px) {
+  .map {
+    --rail: 11px;
+    --gutter: 36px;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    padding-block: 24px;
+  }
+
+  .art { width: min(100%, 176px); }
+  .state { grid-column: 1; }
+
+  .steps {
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .step {
+    flex: none;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+    padding-block: 12px;
+  }
+
+  .node { margin-left: calc(var(--rail) - var(--gutter) - 7px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot,
+  .node { transition: none; }
+}

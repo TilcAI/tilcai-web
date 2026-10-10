@@ -1,7 +1,5 @@
-/* Blocks that explain the lower half of the landing and still live here: what each side keeps (Empresas) and the buyer entrances.
-   The payment-routes section (map, limits, ledger) has its own styles in ./rails; the four onboarding paths are in ConnectionPaths. */
-
-.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; border: 1px solid #75608f; color: #c9bddb; font: 500 11px/1.5 var(--mono); max-width: 100%; overflow-wrap: anywhere; }
+/* What each side keeps (Empresas). The payment-routes section (map, limits, ledger) has its own styles in ./rails,
+   the four onboarding paths are in ConnectionPaths and the buyer entrances are in EntranceMap. */
 
 /* ---- Empresas: what each side keeps ---- */
 .keep { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
@@ -11,19 +9,7 @@
 .keepCol li { display: flex; gap: 10px; color: #d2cae1; font-size: 14px; line-height: 1.5; }
 .keepCol li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 7px; border-radius: 2px; background: #57d2f9; }
 .keepYours li::before { background: #72ddb9; }
-.keepNote { grid-column: 1 / -1; margin: 4px 0 0; color: #b0a6c4; font-size: 13px; line-height: 1.6; }
-
-/* ---- Entradas del comprador ---- */
-.entranceGrid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 34px 0 0; padding: 0; }
-.entrance { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 24px; border: 1px solid #9b7bdb40; border-radius: 16px; background: linear-gradient(160deg, #1d1832, #121024); }
-.entrance h3 { margin: 0; color: #eee8f8; font-size: 19px; font-weight: 500; letter-spacing: -.02em; }
-.entrance p { margin: 0; color: #b6adc9; font-size: 14.5px; line-height: 1.7; }
-.entranceFoot { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: auto; padding-top: 6px; }
-.entranceNote { color: #a9bfd1; font-size: 13px; line-height: 1.55; }
 
 @media (max-width: 900px) {
-  .entranceGrid, .keep { grid-template-columns: 1fr; }
-}
-@media (max-width: 600px) {
-  .entrance { padding: 20px; }
+  .keep { grid-template-columns: 1fr; }
 }

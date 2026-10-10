@@ -7,8 +7,6 @@ import type { Lang } from "./interpret.ts";
 export interface MonitorCopy {
   title: string;
   lead: string;
-  backToSite: string;
-  otherLanguage: string;
   connection: { live: string; reconnecting: string; offline: string };
   locked: { title: string; body: string; label: string; submit: string; wrong: string };
   unconfigured: { title: string; body: string };
@@ -64,8 +62,6 @@ export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
   en: {
     title: "Backend monitor",
     lead: "Resources and events of TilcAI's backend, as it reports them. Testnet only.",
-    backToSite: "Back to the site",
-    otherLanguage: "Español",
     connection: { live: "Live", reconnecting: "Reconnecting…", offline: "Offline" },
     locked: { title: "This page needs the dashboard token", body: "Whoever runs the site has it (MONITOR_DASHBOARD_TOKEN).", label: "Dashboard token", submit: "Open", wrong: "That token is not valid." },
     unconfigured: { title: "The monitor is not configured", body: "Set MONITOR_DASHBOARD_TOKEN and MONITOR_INGEST_SECRET on this site, and MONITOR_WEB_URL and MONITOR_WEB_SECRET on the backend." },
@@ -119,8 +115,6 @@ export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
   es: {
     title: "Monitor del backend",
     lead: "Recursos y eventos del backend de TilcAI, tal como los reporta. Solo testnet.",
-    backToSite: "Volver al sitio",
-    otherLanguage: "English",
     connection: { live: "En vivo", reconnecting: "Reconectando…", offline: "Sin conexión" },
     locked: { title: "Esta página pide el token del tablero", body: "Lo tiene quien administra el sitio (MONITOR_DASHBOARD_TOKEN).", label: "Token del tablero", submit: "Abrir", wrong: "Ese token no es válido." },
     unconfigured: { title: "El monitor no está configurado", body: "Define MONITOR_DASHBOARD_TOKEN y MONITOR_INGEST_SECRET en este sitio, y MONITOR_WEB_URL y MONITOR_WEB_SECRET en el backend." },

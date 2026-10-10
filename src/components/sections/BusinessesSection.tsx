@@ -16,9 +16,6 @@ export function BusinessesSection({ t }: { t: Copy }) {
   return (
     <section id="businesses" className={styles.section} style={{ paddingTop: 0 }} aria-labelledby="businesses-title">
       <BusinessParallax t={t} c={c} />
-      <div className={styles.inner}>
-        <p className={styles.caption}>{t.capabilities.disclaimer}</p>
-      </div>
       <ConnectionPaths t={t} />
       <div className={styles.inner}>
         <div className={explain.keep} role="group" aria-label={c.keep.title}>
@@ -30,7 +27,6 @@ export function BusinessesSection({ t }: { t: Copy }) {
             <h4>{c.keep.ours.title}</h4>
             <ul>{c.keep.ours.lines.map(line => <li key={line}>{line}</li>)}</ul>
           </div>
-          <p className={explain.keepNote}>{c.keep.note}</p>
         </div>
 
         {profiles.length > 0 && <div className={styles.profiles}><BusinessGrid profiles={profiles} t={t} /></div>}

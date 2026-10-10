@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import type { MonitorSeverity, ResourceSnapshot } from "@/lib/monitor/contract";
 import { MONITOR_COPY, type MonitorCopy } from "@/lib/monitor/copy";
 import { CATEGORY_LABELS, categoryOf, explainAlert, explainEvent, MONITOR_CATEGORIES, type Lang, type MonitorCategory } from "@/lib/monitor/interpret";
 import type { OriginState, StoredEvent } from "@/lib/monitor/store";
+import { networkName, vaultLevel, vaultsOf } from "@/lib/monitor/vaults";
 import styles from "./MonitorBoard.module.css";
 import { useMonitorFeed } from "./useMonitorFeed";
 
@@ -20,7 +20,6 @@ const LEVEL_OF: Record<MonitorSeverity, Level> = { info: "ok", warning: "warning
 export function MonitorBoard({ lang }: { lang: Lang }) {
   const t = MONITOR_COPY[lang];
   const feed = useMonitorFeed();
-  const other = lang === "en" ? "es" : "en";
 
   return (
     <div className={styles.page}>
@@ -30,13 +29,12 @@ export function MonitorBoard({ lang }: { lang: Lang }) {
           <h1 className={styles.title}>{t.title}</h1>
           <p className={styles.lead}>{t.lead}</p>
         </div>
-        <nav className={styles.links} aria-label={t.title}>
-          {feed.state === "ready" && <Connection state={feed.connection} t={t} />}
-          <Link href={`/${lang}`}>{t.backToSite}</Link>
-          <Link href={`/${other}/monitor`} hrefLang={other} lang={other}>
-            {t.otherLanguage}
-          </Link>
-        </nav>
+        {/* The way back to the site and the language switch live in the site header. */}
+        {feed.state === "ready" && (
+          <div className={styles.links}>
+            <Connection state={feed.connection} t={t} />
+          </div>
+        )}
       </header>
 
       {feed.state === "loading" && <p className={styles.note} role="status">…</p>}
@@ -156,6 +154,7 @@ function Origin({ origin, lang, t }: { origin: OriginState; lang: Lang; t: Monit
   const time = useMemo(() => new Intl.DateTimeFormat(lang, { dateStyle: "short", timeStyle: "medium" }), [lang]);
   const r: ResourceSnapshot | null = origin.resources;
   const lag = Math.max(origin.head - origin.lastSeq, 0);
+  const vaultTiles = r ? vaultsOf(r) : [];
 
   return (
     <section className={styles.origin} aria-labelledby={`origin-${origin.instance}`}>
@@ -209,14 +208,24 @@ function Origin({ origin, lang, t }: { origin: OriginState; lang: Lang; t: Monit
         <p className={styles.note}>{t.origin.noSnapshot}</p>
       ) : (
         <div className={styles.tiles}>
-          {r.vault ? (
-            <Tile label={t.tiles.vault} value={number.format(Number(r.vault.balance))} unit="USDC" level={levelFor(origin.alerts, "VAULT")} t={t}>
-              <Meter value={Number(r.vault.availableToday)} max={Number(r.vault.dailyLimit)} label={`${number.format(Number(r.vault.availableToday))} / ${number.format(Number(r.vault.dailyLimit))} USDC ${t.tiles.availableToday}`} />
-              <p>
-                {number.format(Number(r.vault.pending))} USDC {t.tiles.pending} · {number.format(Number(r.vault.maxPerDisbursement))} USDC {t.tiles.maxPerPayout}
-                {r.vault.paused && ` · ${t.tiles.paused}`}
-              </p>
-            </Tile>
+          {vaultTiles.length > 0 ? (
+            vaultTiles.map(({ network, vault, error }) => {
+              const level = vaultLevel(origin.alerts, network);
+              const label = vaultTiles.length > 1 ? `${t.tiles.vault} · ${networkName(network)}` : t.tiles.vault;
+              return vault ? (
+                <Tile key={network} label={label} value={number.format(Number(vault.balance))} unit="USDC" level={level} t={t}>
+                  <Meter value={Number(vault.availableToday)} max={Number(vault.dailyLimit)} label={`${number.format(Number(vault.availableToday))} / ${number.format(Number(vault.dailyLimit))} USDC ${t.tiles.availableToday}`} />
+                  <p>
+                    {number.format(Number(vault.pending))} USDC {t.tiles.pending} · {number.format(Number(vault.maxPerDisbursement))} USDC {t.tiles.maxPerPayout}
+                    {vault.paused && ` · ${t.tiles.paused}`}
+                  </p>
+                </Tile>
+              ) : (
+                <Tile key={network} label={label} value="—" level={level === "ok" ? "unknown" : level} t={t}>
+                  <p>{error ?? t.tiles.vaultNone}</p>
+                </Tile>
+              );
+            })
           ) : (
             <Tile label={t.tiles.vault} value="—" level={levelFor(origin.alerts, "VAULT") === "ok" ? "unknown" : levelFor(origin.alerts, "VAULT")} t={t}>
               <p>{r.vaultError ?? t.tiles.vaultNone}</p>

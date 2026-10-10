@@ -1,0 +1,11 @@
+/*
+ * The page keeps the docs hero's night/dawn field; only what the roadmap needs differs: the label that used to sit above
+ * the heading is now the current step of the breadcrumb, and the heading is allowed to break into two balanced lines.
+ */
+.page .hero { padding: 28px 0 56px; }
+.page .hero h1 { max-width: 22ch; margin-bottom: 20px; text-wrap: balance; }
+.page .hero :global(.lead) { text-wrap: pretty; }
+
+@media (max-width: 719px) {
+  .page .hero { padding: 16px 0 40px; }
+}

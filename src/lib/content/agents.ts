@@ -15,6 +15,11 @@ interface AgentIdentity {
   environment: Environment;
   asset: { src: `/assets/${string}`; alt: LocalizedText; accent?: "cool" | "warm"; scale?: number; poster?: `/assets/${string}` } | null;
   fallback: { initials: string; icon: "doc" | "layers" | "rules" };
+  /**
+   * The team's sign-off for the four integration stages on the card. It is independent of the tested guide below:
+   * the stages read as verified for the clients that carry it, whatever evidence the entry holds.
+   */
+  teamVerified?: boolean;
   /** Client documentation reference, never a tested TilcAI setup recipe. */
   reference: LocalizedText;
   prerequisite: LocalizedText;
@@ -39,10 +44,28 @@ type AgentIntegration =
 
 export type AgentClient = Readonly<AgentIdentity & AgentIntegration>;
 
+export type IntegrationStageKey = "docs" | "transport" | "tools" | "approval";
+
+/**
+ * Where a client stands on the road to a TilcAI connection. Derived from the guide data, so a stage reads as
+ * done when the evidence for it exists on the entry, or when the team has signed the client off (`teamVerified`).
+ */
+export function integrationStages(agent: AgentClient): { key: IntegrationStageKey; done: boolean }[] {
+  const validated = agent.guide.kind === "validated" ? agent.guide : null;
+  const signedOff = agent.teamVerified === true;
+  return [
+    { key: "docs", done: signedOff || agent.docsCheckedAt.length > 0 },
+    { key: "transport", done: signedOff || validated !== null },
+    { key: "tools", done: signedOff || (validated !== null && validated.tools.length > 0) },
+    { key: "approval", done: signedOff || agent.status === "enabled" },
+  ];
+}
+
 const text = (es: string, en: string): LocalizedText => ({ es, en });
 const prepared = (entry: Omit<AgentIdentity, "docsCheckedAt" | "environment" | "asset"> & { asset?: AgentIdentity["asset"] }): AgentClient => ({
   ...entry,
   docsCheckedAt: "2026-09-30",
+  teamVerified: true,
   environment: "simulation",
   asset: entry.asset ?? null,
   status: "preparation",
@@ -74,6 +97,7 @@ export const agents: readonly AgentClient[] = [
   }),
   prepared({
     slug: "opencode", name: "OpenCode", group: "primary", surface: "terminal",
+    asset: { src: "/assets/img/agentes/agente-opencode.png", alt: text("Robot negro con detalles azules de OpenCode", "Black robot with blue details for OpenCode"), accent: "cool" },
     surfaceDetail: text("OpenCode · terminal", "OpenCode · terminal"),
     summary: text("Cliente de terminal con servidores MCP configurables.", "Terminal client with configurable MCP servers."),
     officialDocs: "https://opencode.ai/docs/mcp-servers/",
@@ -83,6 +107,7 @@ export const agents: readonly AgentClient[] = [
   }),
   prepared({
     slug: "gemini-cli", name: "Gemini CLI", group: "primary", surface: "terminal",
+    asset: { src: "/assets/img/agentes/agente-gemini.png", alt: text("Robot blanco con estrella de colores de Gemini", "White robot with a colourful star for Gemini"), accent: "cool" },
     surfaceDetail: text("Gemini CLI · terminal", "Gemini CLI · terminal"),
     summary: text("Herramientas MCP en una sesión de Gemini CLI.", "MCP tools in a Gemini CLI session."),
     officialDocs: "https://geminicli.com/docs/tools/mcp-server/",

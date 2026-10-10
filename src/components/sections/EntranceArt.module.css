@@ -1,0 +1,28 @@
+.art {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* neutral strokes use the page's text tones; the accent comes from the row */
+.line { stroke: rgba(228, 222, 244, 0.62); }
+.soft { stroke: rgba(228, 222, 244, 0.3); }
+.dashed { stroke: rgba(228, 222, 244, 0.34); stroke-dasharray: 2.5 3.5; }
+.accent { stroke: rgb(var(--accent, 169, 138, 233)); }
+.tint { fill: rgba(var(--accent, 169, 138, 233), 0.13); stroke: rgba(var(--accent, 169, 138, 233), 0.85); }
+.tile { fill: rgba(var(--accent, 169, 138, 233), 0.2); }
+.badge { fill: #0b0a1e; }
+
+.art :is(.line, .soft, .dashed, .accent, .tint, .tile) {
+  transition: stroke 0.3s cubic-bezier(0.23, 1, 0.32, 1), fill 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) {
+  :global([data-row]:hover) .line { stroke: rgba(240, 236, 252, 0.9); }
+  :global([data-row]:hover) .tile { fill: rgba(var(--accent, 169, 138, 233), 0.34); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art :is(.line, .soft, .dashed, .accent, .tint, .tile) { transition: none; }
+}

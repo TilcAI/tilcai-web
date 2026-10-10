@@ -61,7 +61,6 @@ export const officeEn: OfficeCopy = {
     title: "Every room is a piece of TilcAI.",
     titleDim: "Agents walk the full path of a purchase.",
     lead: "The simulation above follows the same order as the product: intent, quote, policy, approval, payment and receipt. Each room's colour is reused in the stream and in the decisions.",
-    note: "Visual simulation in your browser. Figures, IDs and ledger numbers are illustrative.",
   },
   sim: {
     locale: "en",

@@ -85,6 +85,15 @@ export const es: Copy = {
     surfaceLabels: { terminal: "Terminal", editor: "Editor / IDE", desktop: "Aplicación de escritorio" },
     exploration: "Entorno de exploración",
     thirdPartyNote: "Productos de terceros, sin alianza ni integración TilcAI habilitada. Mascotas e iconos son recursos visuales de esta web.",
+    stages: {
+      title: "Estado de integración", progress: "{done} de {total} etapas",
+      items: {
+        docs: { label: "Documentación del cliente", done: "Verificado", pending: "Sin revisar" },
+        transport: { label: "Transporte y autenticación", done: "Verificado", pending: "Por probar" },
+        tools: { label: "Herramientas TilcAI", done: "Verificado", pending: "Aún no expuestas" },
+        approval: { label: "Aprobación humana de la compra", done: "Verificado", pending: "Por validar" },
+      },
+    },
     panel: {
       title: "Conexión con TilcAI", empty: "Elige un cliente para revisar su superficie, documentación y preparación de la integración.",
       close: "Cerrar panel", officialDocs: "Documentación oficial del cliente", reference: "Referencia del cliente",
@@ -242,7 +251,6 @@ export const es: Copy = {
       { stage: "next", title: "Delegación limitada", body: "Habilitar cuentas inteligentes con permisos restringidos, vigencia y revocación, después de verificar cuenta, firmante y compatibilidad del riel." },
       { stage: "next", title: "Presupuesto común y tareas programadas", body: "Coordinar retenciones entre agentes y ocurrencias idempotentes para tareas repetidas, con límites compartidos y recuperación ante interrupciones." },
     ],
-    disclaimer: "La disponibilidad comercial depende de cada integración. Una empresa se presenta como habilitada solo cuando su flujo operativo está verificado.",
   },
   code: {
     eyebrow: "Contratos de integración", title: "Condiciones explícitas. Referencias compartidas.",
@@ -289,6 +297,7 @@ export const es: Copy = {
     eyebrow: "Estado de construcción", title: "Construimos por capacidades, no por promesas.",
     lead: "Diferenciamos lo que ya se puede comprobar, lo que estamos integrando y lo que viene después. Cada elemento indica dónde tiene evidencia hoy (simulación o testnet; nada corre en producción) y quién mantiene su estado al día. No publicamos fechas rígidas.",
     maintainer: "Mantiene",
+    breadcrumb: "Ruta de navegación",
     columns: {
       available: { when: "Componentes comprobables", title: "Base técnica y exploración", note: "Un componente disponible no es un flujo de compra habilitado. Un pago técnico verificado no es una compra comercial." },
       integration: { when: "Validación del flujo", title: "Consulta y compra con aprobación", note: "El piloto se declara validado cuando funciona el recorrido completo en su entorno indicado." },
@@ -329,7 +338,7 @@ export const es: Copy = {
       authority: { question: "¿Mi agente puede gastar sin preguntarme?", answer: "Empezamos con aprobación de cada compra y de sus condiciones exactas. La delegación futura requiere un mandato con alcance, límites, vigencia y revocación, además de controles verificables en cuenta y firmante. Una instrucción al asistente no crea ese permiso. Si cambian las condiciones relevantes, se revisa la autoridad antes de ejecutar." },
       business: { question: "¿Cómo se conecta una empresa?", answer: "No necesitas un agente de IA ni un sitio web. Proponemos cuatro caminos: una consola gestionada, un archivo o planilla, una API o conector de POS, o tu propio agente. En todos conservas precios, disponibilidad, destino de cobro y confirmación de entrega. Son propuestas de incorporación: se prueban primero con un negocio piloto acotado, en testnet." },
       today: { question: "¿Qué funciona hoy?", answer: "Hay un pago técnico verificado: USDC de Avalanche Fuji a Stellar Testnet con CCTP, con API, conciliación y un modo sin gas para el comprador, reproducido de forma independiente. También hay un evaluador de políticas, contratos compartidos y esta web con su simulación. Todavía no hay un negocio real conectado: catálogo, cotización, orden, aprobación firmada y confirmación de entrega siguen en integración, así que la compra completa no está habilitada." },
-      networks: { question: "¿Puedo pagar con cualquier dinero o en cualquier red?", answer: "No. TilcAI mueve USDC nativo entre redes habilitadas con CCTP y el negocio cobra en USDC sobre Stellar. Hoy solo Avalanche Fuji a Stellar Testnet está verificada de punta a punta; otras seis redes están en el laboratorio y se habilitan una por una. Otros tokens o bolivianos requieren una conversión y un proveedor aparte que todavía no existen." },
+      networks: { question: "¿Puedo pagar con cualquier dinero o en cualquier red?", answer: "No. TilcAI mueve USDC nativo entre redes habilitadas con CCTP y el negocio cobra en USDC sobre Stellar. Hoy Avalanche Fuji, Ethereum Sepolia, Arbitrum Sepolia y Base Sepolia, hacia Stellar Testnet, están verificadas; otras tres redes están en el laboratorio y se habilitan una por una. Otros tokens o bolivianos requieren una conversión y un proveedor aparte que todavía no existen." },
       simulation: { question: "¿La simulación realiza pagos?", answer: "La simulación muestra cómo cambian las decisiones al modificar destinatario o importe. No conecta una wallet, no verifica una oferta real y no envía transacciones. El resultado «Puede continuar» significa que la política ilustrativa permite avanzar a otras comprobaciones. No confirma aprobación humana, pago liquidado ni entrega comercial." },
       stellar: { question: "¿Por qué Stellar?", answer: "Stellar es el riel inicial elegido para integrar pagos y autorización programable con Soroban. Concentrarnos en una red permite comprobar un recorrido acotado antes de ampliar capacidades. La compatibilidad de cuenta, firmante, activo y facilitador debe validarse en conjunto. Usar Stellar no sustituye la política comercial ni la confirmación de entrega." },
       fulfillment: { question: "¿Qué pasa si el pago se confirma pero el servicio no se entrega?", answer: "El pago y el cumplimiento conservan estados separados. Una liquidación confirmada no convierte la orden en entregada: se consulta la evidencia del negocio y se resuelve según sus condiciones comerciales. Cancelación, soporte o devolución requieren su propio flujo y autoridad. Repetir la compra no es una solución automática a una entrega pendiente." },

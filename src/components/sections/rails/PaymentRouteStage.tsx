@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Copy } from "@/lib/i18n";
-import { StellarIcon } from "./ChainIcons";
+import { NetworkIcon, StellarIcon } from "./ChainIcons";
 import { routeArt, type Route } from "./routeArt";
 import s from "./PaymentRoutesHero.module.css";
 
@@ -104,7 +104,6 @@ export function PaymentRouteStage({ t, focus, selected, onHover, onSelect }: {
 
   return (
     <div ref={stage} className={s.stage} data-focus={focus || undefined} aria-label={isEs ? "Comprador, TilcAI y negocio conectados por dos rutas de pago ilustrativas" : "Buyer, TilcAI and business connected by two illustrative payment routes"}>
-      <div className={s.haze} aria-hidden="true"><Image src={routeArt.haze} alt="" fill sizes="(max-width: 1099px) 100vw, 70vw" quality={85} /></div>
       <div className={s.floor} aria-hidden="true" />
       <svg className={s.wires} viewBox={`0 0 ${geo.width} ${geo.height}`} aria-hidden="true">
         <defs>
@@ -120,7 +119,13 @@ export function PaymentRouteStage({ t, focus, selected, onHover, onSelect }: {
         <div className={`${s.node} ${s.buyer}`}>
           <div className={s.art}><div className={s.float}><Image src={routeArt.buyer} alt="" fill sizes="(max-width: 1099px) 240px, 20vw" quality={85} /></div><i className={s.port} data-port="buyer-out" /></div>
           <div className={s.plate}><strong>{isEs ? "Comprador" : "Buyer"}</strong><span>{isEs ? "Paga en USDC" : "Pays in USDC"}</span></div>
-          <div className={s.chains} aria-hidden="true"><span>Ξ</span><span>◈</span><span>Ⓐ</span><i>···</i></div>
+          <div className={s.chains} aria-hidden="true">
+            <NetworkIcon id="avalanche-fuji" />
+            <NetworkIcon id="ethereum-sepolia" />
+            <NetworkIcon id="arbitrum-sepolia" />
+            <NetworkIcon id="base-sepolia" />
+            <i>···</i>
+          </div>
         </div>
         <div className={`${s.node} ${s.tilcai}`}>
           <div className={s.art}><div className={s.float}><Image src={routeArt.tilcai} alt="" fill sizes="(max-width: 1099px) 240px, 20vw" quality={85} /></div>

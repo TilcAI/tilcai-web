@@ -76,6 +76,8 @@ src/
 │   │   │                         #   + rails.module.css; GSAP/ScrollTrigger on the shared Lenis, reduced-motion path = everything drawn
 │   │   ├── RoadmapSection.tsx    # build status in three stages; environment chip and maintainer per item
 │   │   ├── BuyerEntrances.tsx    # WhatsApp / MCP / API, each with its real state
+│   │   ├── EntranceMap.tsx       # client: the three entrances as branches of one measured line that ends in what they share
+│   │   ├── EntranceArt.tsx       # the three drawings (no text of their own)
 │   │   ├── DemoSection, ControlSection, StackSection, CtaSection
 │   │   │   CapabilitiesSection, InterfaceSection, CompareSection   # earlier content
 │   │   └── shared.tsx            # SectionHead, StageTag
@@ -86,7 +88,9 @@ src/
 │   ├── CommerceScene.tsx         # four scroll-driven flow layers (FlowLayers)
 │   ├── office/                   # full-screen office: layout, A*, simulation, canvas renderer, OfficeHero
 │   ├── useDepthMotion.ts         # event-driven depth and reduced-motion preference
-│   ├── PolicyDemo.tsx            # client: illustrative policy choices
+│   ├── PolicyDemo.tsx            # client: one panel — case, condition, request, walked path, result
+│   ├── PolicyFlowVisualization.tsx # client: the request path (one GSAP timeline per run; end state drawn from props/CSS)
+│   ├── CaseArt.tsx               # the three case drawings
 │   ├── DocsPage.tsx              # architecture page (server component)
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy

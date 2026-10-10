@@ -109,7 +109,6 @@ export function PaymentRoutesHero({ t }: { t: Copy }) {
             </div>
             <h3 className={s.cardTitle}>{card.title}</h3>
             <ul className={s.perks}>{card.perks.map((perk, index) => <li key={perk} style={{ "--i": index } as CSSProperties}><Check />{perk}</li>)}</ul>
-            <p className={s.cardNote}>{card.data.note}</p>
             <p className={s.status}><i aria-hidden="true" />{card.data.status}</p>
           </li>
         ))}

@@ -85,6 +85,15 @@ export const en: Copy = {
     surfaceLabels: { terminal: "Terminal", editor: "Editor / IDE", desktop: "Desktop application" },
     exploration: "Exploration environment",
     thirdPartyNote: "Third-party products, without a partnership or an enabled TilcAI integration. Mascots and icons are visual assets for this website.",
+    stages: {
+      title: "Integration status", progress: "{done} of {total} steps",
+      items: {
+        docs: { label: "Client documentation", done: "Verified", pending: "Not reviewed" },
+        transport: { label: "Transport and authentication", done: "Verified", pending: "To be tested" },
+        tools: { label: "TilcAI tools", done: "Verified", pending: "Not exposed yet" },
+        approval: { label: "Human approval of the purchase", done: "Verified", pending: "To be validated" },
+      },
+    },
     panel: {
       title: "Connection to TilcAI", empty: "Choose a client to review its surface, documentation and integration preparation.",
       close: "Close panel", officialDocs: "Official client documentation", reference: "Client reference",
@@ -289,6 +298,7 @@ export const en: Copy = {
     eyebrow: "Build status", title: "We build around capabilities, not promises.",
     lead: "We distinguish what can already be checked, what we are integrating and what follows. Each item says where it has evidence today (simulation or testnet; nothing runs in production) and who keeps its status accurate. We publish no fixed dates.",
     maintainer: "Maintained by",
+    breadcrumb: "Breadcrumb",
     columns: {
       available: { when: "Verifiable components", title: "Technical foundation and exploration", note: "An available component is not an enabled purchase flow. A verified technical payment is not a commercial purchase." },
       integration: { when: "Validating the flow", title: "Inquiry and purchase with approval", note: "A pilot is declared validated once the complete journey works in its stated environment." },
@@ -329,7 +339,7 @@ export const en: Copy = {
       authority: { question: "Can my agent spend without asking me?", answer: "We start with approval of each purchase and its exact terms. Future delegation requires a mandate with scope, limits, expiry and revocation, plus verifiable controls in the account and signer. An instruction to the assistant does not create that permission. If relevant terms change, authority is reviewed before execution." },
       business: { question: "How does a business connect?", answer: "You do not need an AI agent or a website. We propose four paths: a managed console, a file or spreadsheet, an API or POS connector, or your own agent. In all of them you keep prices, availability, payout destination and delivery confirmation. These are onboarding proposals: they are tried first with one limited pilot business, on testnet." },
       today: { question: "What works today?", answer: "There is one verified technical payment: USDC from Avalanche Fuji to Stellar Testnet with CCTP, with an API, reconciliation and a mode where the buyer pays no gas, independently reproduced. There is also a policy evaluator, shared contracts and this website with its simulation. No real business is connected yet: catalog, quote, order, signed approval and delivery confirmation are still being integrated, so the complete purchase flow is not enabled." },
-      networks: { question: "Can I pay with any money or on any network?", answer: "No. TilcAI moves native USDC between enabled networks with CCTP, and the business is paid in USDC on Stellar. Today only Avalanche Fuji to Stellar Testnet is verified end to end; six other networks are in the lab and are enabled one at a time. Other tokens or bolivianos need a conversion and a separate provider that do not exist yet." },
+      networks: { question: "Can I pay with any money or on any network?", answer: "No. TilcAI moves native USDC between enabled networks with CCTP, and the business is paid in USDC on Stellar. Today Avalanche Fuji, Ethereum Sepolia, Arbitrum Sepolia and Base Sepolia, to Stellar Testnet, are verified; three other networks are in the lab and are enabled one at a time. Other tokens or bolivianos need a conversion and a separate provider that do not exist yet." },
       simulation: { question: "Does the simulation make payments?", answer: "The simulation shows how decisions change when the recipient or amount changes. It does not connect a wallet, verify a real offer or submit transactions. A “Can continue” result means the illustrative policy allows further checks. It does not confirm human approval, settled payment or commercial delivery." },
       stellar: { question: "Why Stellar?", answer: "Stellar is the initial rail selected to integrate payments and programmable authorization with Soroban. Focusing on one network lets us verify a limited journey before expanding capabilities. Account, signer, asset and facilitator compatibility must be validated together. Using Stellar does not replace commercial policy or delivery confirmation." },
       fulfillment: { question: "What if payment is confirmed but the service is not delivered?", answer: "Payment and fulfillment keep separate states. Confirmed settlement does not mark the order as delivered: business evidence is checked and the issue is resolved under its commercial terms. Cancellation, support or refunds require their own flow and authority. Repeating the purchase is not an automatic solution to pending delivery." },

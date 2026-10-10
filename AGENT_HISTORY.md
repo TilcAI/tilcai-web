@@ -379,6 +379,9 @@ Pendiente o sin probar: no se hizo una compra ni un alta de billetera reales por
 
 **En este repositorio.** Rama `main`. `Dockerfile` y `.dockerignore` para servir el sitio y el tablero en un contenedor, y su apartado en el `README.md`. La imagen se construyó y es la que corre en el servidor.
 
+## 2026-10-09T18:24:44Z · saulchoque123 · Claude Code (Sonnet 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01XXALddBkW59xRAowuFKvD7
 ## 2026-10-09T18:55:13Z · JHAMILCALI · Antigravity · Gemini 3.7 Flash
 
 - **Sesión:** b1847629-f84d-45aa-ab0e-bf11db221c9f
@@ -387,6 +390,25 @@ Pendiente o sin probar: no se hizo una compra ni un alta de billetera reales por
 
 ### Prompt
 
+> Estoy intentanto acceder al dashboard desde otro equipo de la red de tailscale y el token MONITOR_DASHBOARD_TOKEN de .env.docker.local no me funciona. `/api/monitor/session` responde `{"ok":true}` pero `/api/monitor/summary` responde `{error: "unauthorized", message: "Present the dashboard token."}`
+
+### Salida
+
+Causa: `/api/monitor/session` ponía la cookie con `secure: true` (NODE_ENV=production) y el navegador descarta una cookie Secure recibida por `http://100.111.32.67:3311`, así que el token era válido pero la sesión nunca quedaba. Cambio en `src/app/api/monitor/session/route.ts`: `secure` sigue ahora el protocolo real de la petición (`x-forwarded-proto` o la URL). Falta reconstruir el contenedor `tilcai-web`. Mientras tanto, los scripts pueden usar `Authorization: Bearer <token>`.
+
+## 2026-10-09T21:50:01Z · SaulChoque · Claude Code (Sonnet 5.5)
+
+- **Sesión:** https://claude.ai/code/session_01XXALddBkW59xRAowuFKvD7
+- **Rama:** `feat/monitor-vault-stellar`
+- **Repositorios:** `tilcai-infrastructure`, `tilcai-web`, `documentation`
+
+### Prompt
+
+> actualiza el tablero y haz push y actualiza el docker
+
+### Salida
+
+**En este repositorio.** El tablero muestra una tarjeta de vault por red (Avalanche Fuji, Stellar Testnet) con su nivel de alerta propio; un backend anterior, que solo envía \`vault\`, se ve igual que antes. Incluye también la cookie de sesión que ya no exige HTTPS cuando se entra por http (corrección de las 18:24Z, que se había reconstruido en el contenedor sin commit). 57 pruebas y \`tsc\` limpios; \`eslint\` no arranca en este entorno (error al cargar \`eslint-config-next\`). El contenedor \`tilcai-web\` se recreó con la imagen nueva (\`healthy\`, mismo volumen y variables); la anterior queda como \`tilcai/tilcai-web:pre-vault-stellar\`.
 > en la seccion rutas de pago has los siguintos cambios y si hay que generar imagenes vas a generar imagenes sin fondo y que se vea de la mejor manera y buena resolucion y has lo siguinte "Quiero REDISEÑAR ÚNICAMENTE la sección “Rutas de pago” de mi landing TilcAI.
 >
 > Adjunto una imagen de referencia visual [adjunto: captura de referencia visual fintech glassmorphic de rutas de pago]. Quiero que la nueva sección conserve la identidad actual de TilcAI, pero se acerque visualmente a esa referencia:
@@ -481,3 +503,623 @@ Verifiqué escritorio y móvil. `npm run build` y `npm test` pasan (63 pruebas, 
 ### Salida
 
 Se revisó la web actualizada, incluidos el monitor, la visualización de rutas y las escenas ilustrativas. `npm test` pasó 64 pruebas. `pnpm test` no pudo iniciarse en este sandbox por `EPERM` al resolver `node_modules`. El monitor tiene un almacén en memoria; en un despliegue con varias instancias requiere almacenamiento compartido para mostrar un feed consistente. No se cambió código; esta entrada registra la revisión.
+## 2026-10-09T20:52:16Z · JHAMILCALI · Codex (GPT-6.1-sol)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> que se paresca a esta imagen la seccion de \
+> **DETALLE DE RUTA**  y las imagen estan en C:\proyectos 2026\tilcAI\tilcai-web\public\assets\img\rutas y las imagen que deves de utilizar estan con p2 comejemplo ruta-p2-img1 y haslo de la mejor manera posible y que se vea bien
+>
+> [adjunto: imagen de referencia de Detalle de ruta]
+
+### Salida
+
+Rediseñé «Detalle de ruta» con los ocho assets `ruta-p2-*`: selector de redes, recorrido Burn → Circle → Mint con conexiones luminosas, destino Stellar y franja de comisiones. En móvil los pasos se apilan; al elegir una red de laboratorio, la interfaz deja claro que aún no está verificada. El botón de pagos de prueba conserva la evidencia.
+
+Validación: `npm run build`, `npx tsc --noEmit` y `npm test` (63 aprobadas, 1 omitida). Corregí una anotación de tipos preexistente que bloqueaba TypeScript.
+
+![Detalle de ruta en escritorio]([REDACTADO]/cctp-detail-desktop.jpg)
+![Detalle de ruta en móvil]([REDACTADO]/cctp-detail-mobile.jpg)
+
+## 2026-10-09T21:31:45Z · JHAMILCALI · Codex (GPT-6.1-sol)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es la seccion **Control del usuario**  sorpendeme como mejorarias esta secion qu esea atractivo para el usurio que tenga moviemientos suves y sea llamativo
+>
+> [adjunto: captura de la sección Control del usuario]
+
+### Salida
+
+Rediseñé «Control del usuario» como una vista previa interactiva: se pueden explorar las tres condiciones, ajustar un importe de ejemplo y simular una pausa para ver cuándo se detiene la operación. Añadí profundidad luminosa, movimientos suaves, diseño móvil y soporte para movimiento reducido. El ejemplo sigue identificado como ilustrativo y sin fondos reales.
+
+Verifiqué la sección en escritorio y móvil. `npm run build`, `npx tsc --noEmit` y `npm test` pasan (70 pruebas aprobadas y 1 omitida).
+
+## 2026-10-09T21:49:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es esta secion "Simulación interactiva · sin movimientos de fondos" los casos que se vean bien que se entienda que tenga viasulmente llamativo que tenga animaciones y tarnasione sbuenas usa las skills que tienes de diseño con los agentes para que quede bien esa seccion
+
+### Salida
+
+Rediseñé la simulación como un solo panel, en lugar de tres pantallas de scroll con un diagrama de React Flow:
+
+- **Elegir (01 y 02):** los tres casos (Cine, Servicio digital, Compra programada) con su dibujo propio, importe y límite, y las cuatro condiciones con su glifo y color. Una placa se desliza detrás de la opción elegida.
+- **Recorrido:** Usuario → Agente TilcAI → Política / permiso → Agente del negocio → Negocio, con los mismos personajes que «Rutas de pago». Un paquete de luz recorre la línea; la política resuelve sus tres filas (destinatario, importe contra límite con un medidor, resultado) y la línea sigue en verde, se corta con una marca roja o espera en ámbar a una aprobación simulada. El resultado se atenúa hasta que la política resolvió.
+- **Resultado:** una banda con el veredicto en la fuente de la página, la razón y la nota de que «Puede continuar» no confirma un pago. En pantallas estrechas el resultado acompaña pegado abajo y el orden es caso, solicitud, condición, recorrido.
+- **Sin movimiento:** todo dibujado en su estado final; los textos de ES y EN siguen siendo los de siempre.
+- El aviso «sin movimientos de fondos» pasó de ser un rótulo sobre el título a una píldora sobre el propio simulador.
+- Dos agentes revisaron el resultado (diseño y movimiento; corrección y accesibilidad) y sus hallazgos confirmados se corrigieron: aprobar antes de que termine el recorrido, el reinicio del recorrido tras remontar el efecto, el anillo de llegada visible desde el principio, el foco al aprobar, un solo anuncio para lector de pantalla, la placa medida sobre el contenedor de la opción y el ancho entre 1100 y 1180 px.
+
+Comprobado: `tsc` limpio, 74 pruebas pasan (1 omitida; 11 nuevas en `test/policy-demo.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 1100, 900 y 390 px, ES/EN y movimiento reducido. No probado: Safari ni dispositivos reales, ni fluidez en hardware real. Sin commit.
+
+## 2026-10-09T21:49:23Z · JHAMILCALI · Codex (GPT-6.1-sol)
+
+- **Sesión:** 01a0fe1c-722a-7b41-a380-2fc6b2d47eeb
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero que simule bien y que no sean SVG genera imagens para algunos casos para que quede bien
+
+### Salida
+
+Ahora «Control del usuario» simula la evaluación conjunta de importe, destinatario, vigencia y pausa. Puedes activar cada fallo o combinarlos; el motivo, los datos, el estado y la imagen cambian al instante. El estado válido solo pasa a revisión: no simula autorización ni pago.
+
+Generé con imagegen siete WebP transparentes en [public/office/control](<C:/proyectos 2026/tilcAI/tilcai-web/public/office/control>) (prompts: negocio autorizado, presupuesto protegido, límite excedido, vigencia válida/vencida, destinatario cambiado y pausa). La escena ya no contiene SVG. Verificado en escritorio y móvil; `npm run build`, `npx tsc --noEmit` y `npm test` pasan (80 pruebas, 1 omitida).
+
+## 2026-10-09T22:25:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es esta seccion "Entradas del comprador
+
+> Tres formas de llegar a la misma infraestructura."
+> que se vea viselmente bien y que no se vea como generado por IA usa tus skills para que tenga una bien apariencia
+
+### Salida
+
+Rediseñé «Entradas del comprador» con las skills `impeccable` y `emil-design-eng`. Las tres tarjetas iguales pasaron a ser tres ramas de una misma línea que termina en lo que comparten:
+
+- **Entradas:** tres filas separadas por filetes, cada una con un dibujo propio sin texto (un chat guiado con el enlace seguro, el asistente con las doce herramientas como fichas discontinuas, el backend y la API con una marca de «una sola vez»), su título, su texto y su estado real. El estado se dibuja con la firmeza que tiene: punto lleno si está disponible en testnet, anillo si el contrato está definido, anillo discontinuo si lo reporta el equipo.
+- **Lo que comparten:** la línea baja por el lateral, gira y recorre identidad, cotización, aprobación, pago y recibos. Esas cinco palabras y «La misma infraestructura» son texto nuevo en ES y EN, tomado de la frase del subtítulo («misma identidad, cotización, aprobación, pago y recibos») y del título.
+- **Sin rótulo sobre el título:** «Entradas del comprador» ahora nombra el grupo de entradas, no va encima del titular.
+- **Movimiento:** una sola vez al llegar, un punto de luz dibuja la línea, y cada fila y cada paso aparecen cuando la línea los alcanza. Medido desde la página, así que sigue al texto; en teléfono la línea corre recta por el lateral. Sin movimiento queda dibujada.
+- Quité de `Explain.module.css` lo que dejó de usarse (cuadrícula de tarjetas y píldora).
+
+Comprobado: `tsc` limpio, 80 pruebas pasan (1 omitida; 6 nuevas en `test/buyer-entrances.test.ts`), detector de Impeccable sin hallazgos, capturas en 1440, 900 y 390 px, ES/EN y movimiento reducido. No probado: Safari ni dispositivos reales. Sin commit.
+
+## 2026-10-09T21:55:55Z · JHAMILCALI · Gemini (gemini-3.8-flash)
+
+- **Sesión:** 0214335e-d304-4b1b-9896-084cb9766be0
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> esta llevala a otro url de la page pero que no este en la landing qu eesta seccion "Estado de construcción
+> Construimos por capacidades, no por promesas."
+
+### Salida
+
+Moví la sección «Estado de construcción / Construimos por capacidades, no por promesas.» fuera de la landing page y la reubiqué en su propia página dedicada en `/[lang]/roadmap` (`/es/roadmap` y `/en/roadmap`):
+
+- **Nueva página dedicada:** Creados [src/app/[lang]/roadmap/page.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/app/[lang]/roadmap/page.tsx) y [src/components/RoadmapPage.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/RoadmapPage.tsx), con metadatos OpenGraph/Twitter e i18n, héroe con enlace de retorno al inicio y visualización limpia de las 3 etapas y tarjetas de avance.
+- **Removida de la landing:** Se retiró `RoadmapSection` de [src/components/HomePage.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/HomePage.tsx).
+- **Rutas y navegación:**
+  - [src/lib/site.ts](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/lib/site.ts) y [src/lib/metadata.ts](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/lib/metadata.ts): Añadida la ruta `paths.roadmap(lang)`.
+  - [src/components/SiteHeader.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/SiteHeader.tsx): El ítem «Avance» (`t.nav.roadmap`) ahora dirige a la nueva ruta y el selector de idioma alterna entre `/es/roadmap` y `/en/roadmap`.
+  - [src/components/SiteFooter.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/SiteFooter.tsx): Incorporado el enlace al roadmap en la navegación del pie de página.
+  - [src/components/sections/CtaSection.tsx](file:///c:/proyectos%202026/tilcAI/tilcai-web/src/components/sections/CtaSection.tsx): El enlace «Ver qué funciona hoy» redirige a la página de roadmap en lugar del ancla `#roadmap`.
+  - [next.config.ts](file:///c:/proyectos%202026/tilcAI/tilcai-web/next.config.ts): Se agregaron redirecciones amigables para `/estado-construccion` y `/:lang/estado-construccion`.
+- **Verificación:** Pruebas unitarias ejecutadas (`npm test` pasando al 100%), compilación estática completada (`npm run build`) y recorrido de interfaz verificado en el navegador con el subagente.
+
+## 2026-10-09T22:10:49Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /emil-design-eng
+
+### Salida
+
+Invocación de la skill de diseño sin una pregunta: no cambió ningún archivo. Mientras el turno seguía abierto llegó el prompt de la entrada siguiente (la sección «Asistentes»), y ese trabajo quedó registrado allí.
+
+## 2026-10-09T22:10:49Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+El prompt llegó durante el turno de la entrada anterior; se registra con la hora de inicio de ese turno.
+
+### Prompt
+
+> esta seccion de lo que es la landing mejoralo Asistentes
+> Usa el asistente con el que ya trabajas.
+> Cada cliente tendrá su guía, superficie y estado de integración con TilcAI. La configuración depende de la aplicación concreta que utilizas.
+
+### Salida
+
+Rediseñé la sección «Asistentes» de la landing. Pasó de unos 4.500 px de scroll pegajoso (seis tarjetas casi iguales con huecos enormes) a una sola pieza de unos 1.270 px:
+
+- **Selector:** los clientes agrupados por superficie (Terminal, Editor / IDE, Aplicación de escritorio), con una placa que se desliza detrás del elegido. En móvil es un carril horizontal; al ampliar, los chips se envuelven para que «Ver más asistentes» se vea.
+- **Ficha del cliente:** una ventana dibujada de su superficie (terminal, editor o chat) con un espacio punteado «tilcai» que indica que no hay nada conectado, la mascota o las iniciales delante, el nombre, el resumen y dos acciones (Ver configuración, que abre el panel de siempre, y Documentación oficial).
+- **Estado de integración en cuatro etapas:** documentación del cliente, transporte y autenticación, herramientas TilcAI y aprobación humana de la compra, con un medidor. Las etapas se derivan de los datos (`integrationStages` en `src/lib/content/agents.ts`): hoy todos los clientes están en preparación, así que solo aparece completa la revisión de la documentación (30 de septiembre de 2026).
+- **Aviso de permisos:** «Seleccionar un asistente o conectar herramientas no concede permiso para gastar» pasó del pie a una nota junto al título.
+- **Movimiento:** cambios de ficha de 240 ms con salida suave, etapas escalonadas 45 ms, mascota que flota, todo con `transform` y opacidad. Con movimiento reducido queda estático.
+- **Teclado:** pestañas con flechas, Inicio y Fin; el foco vuelve al botón al cerrar el panel.
+
+Cambios: `AgentCatalog.tsx` reescrito, nuevos `AgentArt.tsx` y `AgentCatalog.module.css`, eliminados `AgentCard.tsx` y `AgentStory.module.css`, `agents.css` reducido a lo que usa el panel, textos nuevos `agents.stages` en ES y EN, y `test/agent-stages.test.ts`.
+
+Comprobado: `tsc` limpio; 84 pruebas pasan (1 omitida; 4 nuevas); capturas en 1440, 1100, 960, 820 y 390 px en ES y EN; teclado, panel y ampliar/contraer con Playwright sin errores propios. No comprobado: ESLint no arranca en este repositorio (typescript-eslint no admite TypeScript 7, ya ocurría antes); Safari ni dispositivos reales; el movimiento reducido no se capturó. Sin commit.
+
+## 2026-10-09T23:30:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /impeccable
+
+### Salida
+
+Invocación sin argumento. Cargué el contexto de Impeccable: el proyecto no tiene `PRODUCT.md` ni `DESIGN.md` (hay implementación visual existente), así que la recomendación de cabecera habría sido `/impeccable init`. No ejecuté ningún comando del menú. Antes de responder llegó la petición siguiente, que se registra en la entrada de abajo. Sin cambios de archivos en este prompt.
+
+## 2026-10-09T23:40:13Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para este apratdado mejora la UI/UX que se vean mas profesional que es de esta apartado https://tilcai.vercel.app/es/roadmap lo que es el roadmap
+
+### Salida
+
+Rediseñé la página del roadmap (`/es/roadmap`) como un informe de estado por etapas, sin tocar sus textos.
+
+- Etapas apiladas en lugar de tres columnas de 4, 7 y 5 elementos con huecos: cada etapa tiene su encabezado a la izquierda y sus elementos como filas con líneas finas, a ~66 caracteres de medida.
+- El encabezado de etapa (número, estado, título y su advertencia) queda fijo desde 1024 px mientras pasan sus elementos.
+- La insignia de evidencia (Testnet / Simulación) y «Mantiene …» van en una columna alineada a la derecha, en la misma línea en todas las filas; en móvil pasan bajo el texto.
+- «Inicio» y «Estado de construcción» chocaban en la cabecera: ahora son una ruta de navegación y el título se parte en dos líneas equilibradas.
+- Cierre alineado con la misma rejilla (métricas del piloto y comprobaciones numeradas). Un único movimiento: la línea de color de cada etapa se dibuja al aparecer; con movimiento reducido no se anima.
+
+Archivos: reescritos `RoadmapPage.tsx` y `sections/RoadmapSection.tsx`; nuevos `RoadmapPage.module.css` y `sections/RoadmapSection.module.css`; retiradas las reglas antiguas de `globals.css` y `landing.css`; nueva clave `roadmap.breadcrumb` en `types.ts`, `es.ts` y `en.ts` (único texto nuevo, el nombre accesible de la ruta de navegación).
+
+Comprobado: `tsc` limpio; 85 pruebas pasan (1 omitida); el detector de Impeccable no devolvió hallazgos; capturas en 1440, 1100, 820 y 390 px (ES y EN) sin desbordes horizontales; encabezado fijo medido a 108 px; foco visible en la ruta de navegación; revelado al hacer scroll y movimiento reducido. No comprobado: `npm run build` (compartiría `.next` con el servidor de desarrollo), Safari y dispositivos reales, y la URL desplegada (solo se vio en local).
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada. El rediseño de «Asistentes» de la entrada anterior ya quedó dentro del commit 80862a8 que hizo el usuario.
+
+## 2026-10-09T23:44:11Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 9325b9d0-c75d-495a-a084-ed7788faaff7
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> utiliza lo que es /emil-design-eng para la seccion  de "Las piezas detrás de cada operación." mejora ese aparatdo
+
+### Salida
+
+Rediseñé la sección «Las piezas detrás de cada operación» (`#stack`) aplicando los criterios de Emil Kowalski, sin tocar ningún texto.
+
+- De tira de texto a piezas: cada tecnología es una tarjeta con marca, nombre (mono, como el resto de nombres de protocolo del sitio) y su rol a 12,5 px con contraste legible (antes 11 px en gris tenue). Las marcas son iconos genéricos del set propio por función (MCP → asistente, Soroban → reglas, CCTP → ruta…), no logotipos: nombrar una tecnología no es respaldo.
+- Rejilla responsiva: 7 en fila desde 1180 px, 4 + 3 desde 640 px, 2 columnas en móvil con la última pieza ocupando el ancho (7 es impar) en vez de dejar un hueco.
+- Una sola entrada, al llegar con el scroll: las piezas aparecen escalonadas (45 ms entre cada una, 500 ms, ease-out `cubic-bezier(0.23, 1, 0.32, 1)`, 10 px de desplazamiento, nunca desde `scale(0)`) y una línea con el degradado de marca se dibuja en el borde superior de cada una. Solo `opacity` y `transform`.
+- La transición vive en el estado revelado: ocultar es instantáneo, así que un enlace directo a `#stack` no muestra las piezas desvaneciéndose antes de entrar. Sin JS todo es visible; con movimiento reducido no hay movimiento.
+- Las piezas no son enlaces, por eso no llevan hover. El único elemento interactivo, «Leer la arquitectura completa», gana feedback de pulsación (`scale(.97)`), flecha que se desplaza 3 px (solo con `hover: hover` y puntero fino) y objetivo táctil de 44 px.
+- Estilos propios en `StackSection.module.css`; retiradas de `Narrative.module.css` las reglas huérfanas (`.stack`, `.stackHeader`, `.technologies`).
+
+Archivos: `StackSection.tsx` (reescrito), `StackSection.module.css` (nuevo), `Narrative.module.css` (reglas retiradas). No toqué `en.ts`, `es.ts` ni `types.ts`.
+
+Comprobado: `tsc` limpio; 85 pruebas pasan (1 omitida); con la API de animaciones, el estado oculto no crea animaciones y la entrada crea 7 transiciones escalonadas a 45 ms con la curva indicada; sin desborde horizontal dentro de la sección a 640 px; ningún nombre se parte a mitad de palabra. No comprobado: el aspecto visual (el panel del navegador estaba oculto, `innerHeight` 0, las capturas agotaron el tiempo y el `IntersectionObserver` no disparó), ni 1280 px, ni Safari ni dispositivos reales. ESLint no corre en el repo por una incompatibilidad previa (typescript-eslint no soporta TS 7.0).
+
+Pendiente de decisión: la sección no muestra `t.stack.disclaimer` («Mencionar tecnologías no implica patrocinio…»), que ya existe en es/en y encajaría aquí porque se nombran Circle y OpenZeppelin.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada. Creé `.claude/launch.json` (ignorado por git) para intentar la vista previa.
+
+## 2026-10-09T22:50:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para esta parte "Terminal OC OpenCode OpenCode · terminal En preparación GC Gemini CLI Gemini CLI · terminal" usa lo que es son la imagenes de los agentes que esta en C:proyectos 2026	ilcAI	ilcai-webpublicassetsimgagentes asme esos cambios
+
+### Salida
+
+En el catálogo de asistentes, OpenCode y Gemini CLI ya usan sus mascotas (`agente-opencode.png` y `agente-gemini.png`) en lugar de las iniciales «OC» y «GC», tanto en la lista como en la ficha de la derecha. El cambio está en `src/lib/content/agents.ts` (dos entradas con `asset`, con su texto alternativo en ES y EN); el componente ya sabía dibujar la mascota cuando existe.
+
+Comprobado: `tsc` limpio, pruebas nuevas en `test/agents-assets.test.ts`, capturas en 1440 px. Sin commit.
+
+## 2026-10-09T23:20:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para esa parte de los Asistentes mejora esa mini terminal mejorada que paresca como si deverdad estuviera sucediendo halgo con tilcai [adjunto: captura de la mini terminal con barras y la etiqueta «tilcai»]
+
+### Salida
+
+La mini terminal de los clientes de terminal (Codex, Claude Code, OpenCode, Gemini CLI) ya no son barras: es una sesión con texto que se reproduce sola mientras está en pantalla. Se escribe la petición del caso del cine, TilcAI responde con tres herramientas en orden (buscar un servicio, pedir una cotización con 10.00 USDC, solicitar aprobación) y la sesión termina esperando a una persona, que es lo que el resto de la página dice.
+
+- **Es una ilustración y lo dice:** la barra de título lleva «Ilustración · sin conexión» (el estado real de cada cliente sigue siendo «En preparación»). El texto reutiliza lo que el sitio ya tiene: las acciones de la entrada MCP y la petición y el importe del caso del cine de la simulación.
+- **Movimiento:** una pasada de unos ocho segundos que se repite solo mientras la ventana se ve; sin movimiento muestra el último fotograma. En teléfono se ocultan la etiqueta y el importe para que la mascota no los tape.
+- **Archivos:** `AgentArt.tsx` (la sesión), `AgentCatalog.tsx` y su CSS, y `src/lib/content/terminal-scene.ts` (los textos en ES y EN).
+
+Comprobado: capturas en 1440 y 390 px, ES/EN y movimiento reducido; prueba nueva en `test/agents-assets.test.ts`; detector de Impeccable sin hallazgos. Sin commit.
+
+## 2026-10-10T00:14:27Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 9325b9d0-c75d-495a-a084-ed7788faaff7
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /impeccable mejora el el navbar que para cualquie secion o cambie de apartado se vea lo mejor posible le navbar ese aparatdo mejoralo que se vea bien como esta esta bien pero talvez al medio y para cualquier apartado aparesca el mismo y no cambie y para el apartado de monitor agregale igual el navbar http://localhost:3000/es/monitor
+>
+> [adjunto: captura del navbar de la home con el menú desplazado a la izquierda y la página visible a través de la barra]
+
+### Salida
+
+Unifiqué el navbar: es el mismo en home, docs, roadmap y monitor, con el menú centrado en la ventana.
+
+- **Un solo navbar.** Antes eran tres variantes (la home con «Empresas… Avance», el roadmap con «Inicio» y docs con «Qué es / Simulación»). Ahora todas muestran Empresas · Cómo funciona · Rutas de pago · Agentes · Avance · Docs, en el mismo orden y el mismo sitio. Medido a 1440 px, home, docs y roadmap tienen exactamente la misma geometría.
+- **Menú al medio.** Rejilla de tres columnas (marca · menú · herramientas): el menú se centra en la ventana, no en el hueco sobrante. Desfase 0 px a 1440, 1280 y 1181 px, en ES y EN (el caso más justo, sin solaparse).
+- **Monitor.** `/es/monitor` ahora lleva el navbar (sin pie de página). Quité de la cabecera del tablero «Volver al sitio» y el cambio de idioma, que ya están en la barra, y sus claves de texto.
+- **Por qué se veía la página a través.** El CSS compilado del header no contenía `backdrop-filter`, solo `-webkit-backdrop-filter`, que Chrome no soporta: la barra nunca se desenfocaba. Ahora el desenfoque es real (18 px, fondo al 78 %) y la barra pasa de velo a cristal con un fundido de opacidad al hacer scroll.
+- **Detalles.** Subrayado que se dibuja al pasar y se queda en la página actual; botón morado con flecha dibujada (antes un glifo «↗») que gira 45° al pasar y se hunde al pulsar; en móvil el botón de menú pasa a ✕, el panel entra en 180 ms, tocar fuera o Escape lo cierra y se cierra solo al ensanchar la ventana; `scrollbar-gutter: stable` para que la barra no se mueva entre páginas con y sin scroll; `sizes` correcto del logo; al cliente solo viajan las etiquetas del header, no todo el texto de la página.
+
+Archivos: `SiteHeader.tsx` (ahora un envoltorio de servidor), `SiteHeaderBar.tsx` y `SiteHeader.module.css` (nuevos), `monitor/page.tsx`, `MonitorBoard.tsx`, `lib/monitor/copy.ts`, `lib/site.ts`; retiradas las reglas del header de `globals.css`, `hero.css` y `mobile.css`.
+
+Comprobado: 87 pruebas pasan (1 omitida); el detector de Impeccable no devolvió hallazgos; por DOM, sin desborde horizontal ni solapes a 1440, 1280, 1181, 1180 y 320 px; el menú móvil abre, enfoca el primer enlace, cierra con Escape y devuelve el foco; el estado «scrolled» se activa y se desactiva. No comprobado: el aspecto visual (el panel del navegador no renderiza fotogramas y las capturas agotaron el tiempo), así que el juicio de diseño queda pendiente de que lo veas; tampoco Safari ni dispositivos reales. `tsc` marca errores en `narrative.ts` y `office.es.ts`, que otra sesión está editando; ninguno en archivos de este cambio.
+
+Pendiente: el mismo defecto de `backdrop-filter` afecta a `.pill`, `.office-banner` y las tarjetas de ConnectionPaths (dejado como tarea aparte); el proyecto no tiene `PRODUCT.md` (`/impeccable init` lo crearía). El botón morado ahora aparece en todas las páginas y lleva a `/#simulation`.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-09T23:55:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para lo que es el monitoreo http://localhost:3000/es/monitor tienes que relizar lo siguinte ya esta lo que es .env el MONITOR_INGEST_SECRET,MONITOR_DASHBOARD_TOKEN y MONITOR_STORE_FILE la cual tenemos que realizar [pegado: resumen de otra sesión sobre los túneles ngrok de Optipagos y TilcAI y un comando ssh para traer los .env del servidor]
+
+### Salida
+
+Dejé lista y verifiqué la parte local del monitor; no hay eventos todavía porque el backend no tiene a dónde enviarlos.
+
+- `.env`: `MONITOR_STORE_FILE` apuntaba a `/data/monitor-events.json` (ruta de contenedor; en Windows es la raíz del disco). Ahora es `.data/monitor-events.json`, dentro del proyecto. Los dos secretos no se tocaron.
+- `.gitignore`: `.env` estaba sin versionar y sin ignorar (un `git add .` lo habría subido con sus secretos); ahora se ignora, igual que `/.data/`. `.dockerignore` ya excluía `.env*`.
+- `.env.example`: aclara la ruta local y la de contenedor.
+- Verificado contra el sitio en marcha, sin guardar nada: sin token 401; con el token del tablero 200; firma equivocada 401; firma correcta con un cuerpo que no es una entrega 400 (el secreto firma bien); `/es/monitor` 200; `receiving: false, stored: 0`.
+- No ejecuté el comando ssh pegado: traería todos los `.env` de TilcAI y de la infraestructura (claves del vault y de los relayers) a esta máquina, y para el monitor basta con que `MONITOR_WEB_SECRET` del backend sea igual a `MONITOR_INGEST_SECRET` de este `.env`.
+- Pendiente: el servidor de desarrollo conserva la ruta anterior hasta reiniciarse, y falta que el backend alcance este sitio (hoy es localhost).
+
+## 2026-10-10T00:49:54Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ay un error de depoy que salio lo siguinte Vercel - Deployment has failed — run this Vercel CLI command: npx vercel inspect dpl_2L6jW89cvprqk5xcrCtVyU2Qqy4t --logs
+
+### Salida
+
+Causa encontrada y corregida en el árbol de trabajo; sin commit ni push.
+
+- No pude leer los registros de Vercel: la CLI no tiene sesión en esta máquina (`vercel whoami` devuelve «Logged out»). Reproduje la compilación de producción en local (`npm run build`, Next 16.3.8 con Turbopack) y falla en la fase de TypeScript: `Property 'note' is missing` en `src/lib/i18n/narrative.ts` (`keep.note`, español) y en `src/lib/i18n/office.es.ts` (`legend.note`).
+- Origen: el commit `ee7eccb` (el más reciente) borró esas dos líneas en español, pero los tipos las siguen exigiendo y el inglés las conserva. No viene del rediseño del roadmap.
+- Arreglo: restituí las dos líneas tal como estaban («Ningún modelo de IA fija por sí solo un precio, un stock o un destino de cobro.» y «Simulación visual en tu navegador. Las cifras, los IDs y los bloques de ledger son ilustrativos.»).
+- Comprobado: `npm run build` termina bien (16 páginas estáticas, incluidas `/es/roadmap` y `/en/roadmap`); `npm test`: 89 pruebas, 88 pasan, 1 omitida, 0 fallan. No confirmé que el error del despliegue `dpl_2L6jW89cvprqk5xcrCtVyU2Qqy4t` sea este mismo, porque no pude ver su registro.
+- Corrección: antes dije que `npm run build` chocaría con el servidor de desarrollo; en Next 16 `next dev` escribe en `.next/dev`, así que no chocan.
+- Pendiente: commit y push de `narrative.ts` y `office.es.ts`. Si el borrado fue intencional, la alternativa es hacer `note` opcional en los tipos y quitarlo del inglés.
+
+## 2026-10-10T01:30:18Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> lo que esta de cada seccion quitale los note: que son por ejemplo esto "Componentes y protocolos del diseño · el estado de cada capacidad está en «Avance»" eso quitales de cada seccion no necesitamos
+
+### Salida
+
+Quité las notas editoriales al pie de las secciones de la landing, incluida «Componentes y protocolos del diseño…». Las aclaraciones necesarias sobre CCTP y los pagos de prueba quedaron integradas en el contenido. Verifiqué 88 pruebas aprobadas (una omitida), TypeScript y la compilación de producción. ESLint no pudo ejecutarse porque la versión instalada de `typescript-eslint` no admite TypeScript 7.
+
+## 2026-10-10T01:46:36Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para lo que es docs http://localhost:3000/es/docs saca de fura del repo actuliza la docuemntacion lo que se tiene en otras carpetasr y con el proeycto que se vea formal y intutivo la seccion de docuemntacion y usa lo que es /emil-design-eng
+
+### Salida
+
+Actualicé y rediseñé la página de documentación (`/es/docs` y `/en/docs`) con lo que hay fuera del repo y en el código de los otros proyectos.
+
+- **Fuentes:** `documentation/0-OFICIAL` y `2-ARQUITECTURA` (contexto oficial del 8 y 9 de octubre, flujo integrado, incorporación de compradores y de negocios, monitorización) y los README y docs de `tilcai-core`, `tilcai-infrastructure` y `tilcai-cctp-engine`. No entraron el backlog interno, las reglas del pitch, nombres de socios, direcciones de contratos, rutas de la API ni variables de entorno, porque el sitio es público.
+- **Contenido nuevo o corregido:** el corredor CCTP Avalanche Fuji a Stellar Testnet (verificado, con modo sin gas) frente al riel x402 (prueba aislada con el activo nativo); la lista MCP pasa de 9 a 12 herramientas, con su permiso; la compra de punta a punta con estado y evidencia por paso; puertas de entrada de compradores y cuatro caminos de negocios; cuentas y fondos; cobertura de ocho redes (una verificada, siete de laboratorio); monitorización; fuentes y actualización. 13 secciones en 4 grupos: Panorama, Diseño, Pagos y control, Referencia.
+- **Diseño:** cabecera con ruta de navegación, ficha del documento (actualizada, entorno, sin fondos ni auditoría) y tres rutas de lectura por audiencia; índice agrupado con una placa que se desliza a la sección que se lee; en móvil, una fila de chips fija bajo la cabecera que mantiene visible el chip activo; tablas que se apilan en móvil con cada celda etiquetada; diagrama de planos, línea de pasos, estados de un pago y cobertura de redes.
+- **Movimiento (emil-design-eng):** placa de 220 ms con curva ease-out fuerte y sin deslizarse en su primera colocación; entrada de la cabecera de 420 ms con escalonado de 50 ms solo si no hay movimiento reducido; `:active` con scale 0.97 a 0.98; hover tras `(hover: hover) and (pointer: fine)`; nada anima la navegación por teclado ni la lectura.
+- **Archivos:** reescritos `DocsPage.tsx`, `DocsToc.tsx`, `docs.es.ts` y `docs.en.ts`; nuevos `app/docs.css`, `lib/docs-html.ts`, `PageCrumbs.tsx` (compartido con el roadmap) y `test/docs-page.test.ts`; tipos `DocsGroup` y campos nuevos en `types.ts`; retiradas las reglas antiguas de la documentación de `globals.css` y `mobile.css`.
+
+Comprobado: `tsc` limpio; `npm run build` correcto (16 páginas); 97 pruebas, 96 pasan, 1 omitida, 0 fallan (8 nuevas); capturas en 1440, 1024, 820 y 390 px en ES y EN; la placa coincide con el enlace activo, el índice queda fijo a 104 px, el hash cambia con Enter, hay foco visible, sin desbordes y sin errores en consola. No comprobado: Safari ni dispositivos reales, ni que el equipo haya revisado cada afirmación de estado; la fecha «9 de octubre de 2026» está escrita a mano en `docs.*.ts` y hay que cambiarla al actualizar.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T00:20:00Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** a7ea5f9b-df38-457f-a7e8-9f73e845ded5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de la seccion de RUTAS DE PAGO y DETALLE DE RUTA quitale el fondo de la imagen como backgroun de esas imagenes
+
+### Salida
+
+Quité las dos imágenes que hacían de fondo: la nebulosa detrás de la escena de «Rutas de pago» (`ruta-p1-img7.png`) y la capa de polvo cósmico detrás de «Detalle de ruta» (`ruta-p2-img6.png`), con sus estilos. Los personajes, las tarjetas y los conectores no se tocaron. Sin commit.
+
+## 2026-10-10T02:20:29Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es el apartado visual con /impeccable esta seccion Cómo funciona
+>
+> Una operación.Seis pasos.Dos recibos.
+
+### Salida
+
+Mejoré el apartado visual de la sección «Cómo funciona» («Una operación. Seis pasos. Dos recibos.») sin cambiar sus textos ni la animación de scroll.
+
+- **Dibujo más grande:** en pantallas anchas la escena pasa a ocupar el 60 % del ancho (antes 47 %), con lo que escala de 0,60 a 0,76 en 1440 px.
+- **Texto legible:** subí las etiquetas más pequeñas de la escena (de 9,5–11 a 11–13 unidades): rieles, recibos, panel de aprobación, comprobaciones y botones. Ensanché la cápsula de la autorización y ajusté el espaciado del panel para que «15 min» no toque los botones.
+- **Composición:** el título queda arriba a la izquierda y la bajada arriba a la derecha, así que ya no hay un hueco vacío en la esquina; el paso activo se centra sobre la escena y no sobre toda la columna.
+- **Línea de pasos:** cada marca lleva ahora el nombre de su paso debajo (Pedido, Oferta, Reglas, Aprobación, Pago, Dos recibos), con color por estado, hover en puntero fino y `:active`. Se ocultan en teléfono y en pantallas bajas.
+- **Sin cambios:** textos, `VIEW` del dibujo, línea de tiempo de GSAP, modo teléfono, modo tablet apilado y la ruta sin movimiento.
+
+Archivos: `OperationSection.tsx`, `OperationSection.module.css` y, en `scene/`, `Approval.tsx`, `Payment.tsx`, `Receipts.tsx`, `Request.tsx` y `Rules.tsx`.
+
+Comprobado: `tsc` limpio; las 8 pruebas de la escena pasan; el detector de Impeccable no devolvió hallazgos; capturas en 1100, 1440 y 1920 px (anclado), 820 px (tablet), 390 px (teléfono), movimiento reducido y en inglés, sin errores en consola. No comprobado: Safari ni dispositivos reales, ni la sensación del scroll con el nuevo reparto de columnas. No recorté el `viewBox` porque la cámara se acerca en la aprobación y cortaría la base del agente.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T03:17:12Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de la landing mejora lo que es el apratado de tipografia para todos que se vean bien desde esta seccion /impeccable que mejore ese apartado desde "El edificio TilcAI" hasta abajo que se mejore solo la tipografia
+
+### Salida
+
+Mejoré solo la tipografía de la landing desde «El edificio TilcAI» hasta el pie, con un sistema común y sin tocar textos, colores, espaciado ni layout.
+
+- **Auditoría (1440 y 390 px):** los títulos de sección usaban 8 tamaños, 3 pesos (500, 600, 700) y un tracking de -0,03 a -0,06 em; con -0,055 y -0,06 em los espacios entre palabras se cerraban («Tunegocio», «Unpermiso»). Había texto de 8 a 10 px en 12 hojas de estilo, pesos que no se cargan (550, 650, 750), seis variantes de la etiqueta superior (0,08 a 0,25 em) y 1,75 de interlineado heredado en el texto pequeño de interfaz.
+- **Sistema:** nuevo `src/app/typography.css` con tokens de roles (display, título, h3, lead, cuerpo, etiqueta, suelo) y reglas por `id` de cada `h2`: peso 500, tracking -0,035 em, espaciado de palabras y `text-wrap: balance`. Interlineado de 1,65 y `text-wrap: pretty` en esas secciones.
+- **Normalización mecánica:** 43 tamaños por debajo de 11 px pasan a 11 px, 9 trackings por debajo de -0,04 em pasan a -0,035 em y 11 pesos no cargados pasan a un peso cargado.
+- **Roles:** etiquetas superiores unificadas (mono, 12 px, 500, 0,14 em, mayúsculas) en 10 hojas; los `lead` usan `--type-lead` (16 a 19 px, 1,6); títulos de tarjeta a 600 por debajo de ~36 px y a 500 por encima; en teléfono, el `lead` de «Empresas» pasa de 12 a 14 px y el texto de los pasos de 11 a 12,5 px.
+- **Archivos:** `typography.css`, `globals.css` y las hojas de OfficeBuilding, BusinessParallax, Narrative, ControlSection, ControlExperience, EntranceMap, ConnectionPaths, rails (4), PolicyDemo, AgentCatalog, OperationSection y `agents.css`.
+
+Comprobado: `tsc` limpio; 97 pruebas, 96 pasan, 1 omitida, 0 fallan; el detector de tipografía no devolvió hallazgos; nueva auditoría en 1440 y 390 px sin texto bajo 11 px ni tracking bajo -0,04 em; capturas de las 11 secciones en ES (1440 y 390) y EN (1440), y de «Empresas» anclada en 1440, 1366 y teléfono. Efecto visible: el título de «Empresas» pasa de 2 a 3 líneas en 1440 px por el tracking más abierto y sigue cabiendo en 1366×768. No comprobado: Safari ni dispositivos reales; ni la tipografía del hero, la oficina y la presentación del producto, que quedaron fuera de alcance.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T03:36:29Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> lo que es la partes como imagenes de logos de RED DE ORIGEN y cualquier otro que hay que poner ponle los logos que deven de ser corespondientes o todo que hay que poner logo le pones y para la doc tambien Cobertura de redes ponle los logos reales y tambien las partes que colocaste de logos genericos de stellar ponle el oficial, y los logos estan con sus nombres y esta ubicado en C:\proyectos 2026\tilcAI\tilcai-web\public\assets\img\logos cripto
+
+### Salida
+
+Listo. Las redes muestran sus logos correctos en «Red de origen», el recorrido de pagos y «Cobertura de redes» (ES/EN). Stellar usa su logo oficial también en el Canvas de la oficina y la sección de tecnología. Añadí Arc desde el [kit oficial de Circle](https://www.circle.com/pressroom), porque no estaba entre los archivos locales.
+
+Verificado en escritorio y móvil: 96 pruebas aprobadas (1 omitida), TypeScript y compilación de producción.
+
+## 2026-10-10T05:16:07Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> debajo de la secion de "empresas" crea otras seccion de soluciones para empresas y que estas empresas ya estan en implementacion de tilcai que es de las empresas que estan ya incluyendo nuestro sistema optipagos usa ya pagos para wallet de whatsap y de baral en proximas implementaciones haslo genial usando lo que es la skill de /emil-design-eng
+
+### Salida
+
+Nueva sección «Soluciones para empresas» (`#solutions`) justo debajo de «Empresas», en ES y EN.
+
+- **Optipagos, «En implementación»:** logo con su glifo y su nombre en Baumans, «Pagos para wallet de WhatsApp», una conversación de ejemplo (pide pagar, QR, depósito recibido, envío a la wallet con recibo) que se reproduce una vez al entrar en pantalla y se puede repetir, y tres datos de la prueba E2E del 9 de octubre (6 desembolsos confirmados, 12–16 s, red Fuji).
+- **Baral, «Próxima implementación»:** tarjeta con borde discontinuo y el alcance «por confirmar con la empresa».
+- **Invitación** a la documentación de negocio y una nota que recuerda que todo corre en red de pruebas, sin fondos reales ni auditoría; el QR es un simulador.
+- **Movimiento (emil-design-eng):** entrada escalonada de 70 ms con la curva ease-out compartida, burbujas que crecen desde la esquina de quien escribe, `:active` con escala, hover solo con puntero fino, sin elevar tarjetas que no son enlaces, movimiento reducido sin animaciones.
+- **Archivos:** `SolutionsSection.tsx`, `SolutionsChat.tsx`, `SolutionsSection.module.css`, `src/lib/i18n/solutions.ts`, `HomePage.tsx`, `typography.css` y `test/solutions-section.test.ts`.
+
+Comprobado: `tsc` limpio; 101 pruebas, 100 pasan, 1 omitida, 0 fallan; el detector de tipografía no devolvió hallazgos; capturas ES/EN en 1440, 1100, 820 y 390 px. No comprobado: Safari, dispositivos reales, `next build`.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T00:50:00Z · Soluciones para empresas: captura real de Optipagos en un celular
+
+**Prompt:** quitar de «Soluciones para empresas» las tres cifras (6 desembolsos, 12–16 s, Fuji) y la nota «Verificado el 9 de octubre de 2026…», y poner la imagen real de Optipagos (`pago optipago.jpg`) dentro de un celular, como ya está implementado de verdad.
+
+- **Quitado:** las tres cifras y la nota de verificación, en ES y EN, junto con la conversación ilustrada (`SolutionsChat.tsx`) que la captura real reemplaza. La nota al pie (red de pruebas, sin fondos reales ni auditoría) se mantiene.
+- **Añadido:** la captura (720 × 1612) dentro de un marco de celular hecho en CSS (bisel, cámara, teclas laterales, reflejo suave), con pie «Captura real · chat de Optipagos en WhatsApp» y texto alternativo que describe lo que se ve. Junto al texto, dos pasos que describen solo lo que muestra la captura: confirmar con huella o rostro y recibir el comprobante.
+- **Movimiento:** el celular no se anima; entra con la tarjeta (revelado compartido). El punto vivo del estado se mantiene.
+- **Archivos:** `SolutionsSection.tsx`, `SolutionsSection.module.css`, `src/lib/i18n/solutions.ts`, `test/solutions-section.test.ts`; eliminado `SolutionsChat.tsx`.
+
+Comprobado: `tsc` limpio; 102 pruebas, 101 pasan, 1 omitida, 0 fallan; el detector de diseño no devolvió hallazgos; capturas en 1440, 900 y 390 px. Sin commit.
+
+## 2026-10-10T05:55:40Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> /emil-design-eng pero mejora lo que son las seciones de lo que es Soluciones para empresas
+>
+> (aclaración, tras interrumpir) lo que estas trabajando lo de optipagos hace pagos en bolivianos con QR y recibe usdc en una wallet para whatsap y pagos con Avalanch
+
+### Salida
+
+Mejoré las tres piezas de «Soluciones para empresas» y ajusté el texto de Optipagos a lo que hace: cobra en bolivianos con QR, acredita USDC en una wallet de WhatsApp y sus pagos corren sobre Avalanche.
+
+- **Optipagos:** título «Paga en bolivianos con QR y recibe USDC en WhatsApp», una franja «Cómo se mueve el dinero» (Bolivianos · USDC · Avalanche, con el logo de la red) y los dos pasos convertidos en botones: elegir uno (hover con ratón, toque o foco) enciende en el teléfono el recuadro de la captura que describe y atenúa el resto; tras 3,4 s en pantalla pasa solo del paso 1 al 2, una vez. El teléfono se inclina unos grados hacia el ratón (solo puntero fino) y sube al entrar la tarjeta. La columna de texto ocupa el alto del teléfono, con los pasos anclados abajo.
+- **Baral:** recorrido «El mismo recorrido» (Orden · Aprobación · Pago · Recibo) dibujado con nodos huecos y punteados, porque es plan y no algo ya hecho; en tablet ocupa todo el ancho con el recorrido al lado, y en teléfono pasa a 2×2.
+- **Invitación:** icono y, en tablet, franja horizontal con la acción a la derecha.
+- **Archivos:** `OptipagosShowcase.tsx` (nuevo, cliente), `SolutionsSection.tsx`, `SolutionsSection.module.css`, `src/lib/i18n/solutions.ts`.
+
+Comprobado: `tsc` limpio; 102 pruebas, 101 pasan, 1 omitida, 0 fallan; detector de tipografía sin hallazgos; capturas ES a 1440, 1100, 820 y 390 px; hover, auto-avance e inclinación probados en el navegador. No comprobado: Safari, dispositivos reales, `next build` tras estos cambios.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.
+
+## 2026-10-10T06:12:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> en la seccion de **DETALLE DE RUTA**  que en lo que dice RED DE ORIGEN **Ethereum SepoliaLaboratorioArbitrum SepoliaLaboratorioBase SepoliaLaboratorio**\
+> &#x20; y lo de stellar mas aparesca verificado que se puede usar
+
+### Salida
+
+Actualicé «Detalle de ruta»: los nombres de Ethereum, Arbitrum y Base se leen completos, con «Laboratorio» separado. Stellar Testnet muestra «Verificado con Fuji» y explica que la verificación corresponde a la ruta técnica Avalanche Fuji → Stellar, sin presentar las otras redes como habilitadas.
+
+Comprobé escritorio y móvil; las 8 pruebas de rutas pasan. La comprobación global de TypeScript y las pruebas completas siguen fallando por un cambio previo en `src/lib/i18n/solutions.ts`: falta `footnote`.
+
+## 2026-10-10T06:14:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Destacar Stellar como destino verificado (recomendado)
+
+### Salida
+
+Actualicé «Detalle de ruta»: los nombres de Ethereum, Arbitrum y Base se leen completos, con «Laboratorio» separado. Stellar Testnet muestra «Verificado con Fuji» y explica que la verificación corresponde a la ruta técnica Avalanche Fuji → Stellar, sin presentar las otras redes como habilitadas.
+
+Comprobé escritorio y móvil; las 8 pruebas de rutas pasan. La comprobación global de TypeScript y las pruebas completas siguen fallando por un cambio previo en `src/lib/i18n/solutions.ts`: falta `footnote`.
+
+## 2026-10-10T06:20:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> por que no lo cambiaste
+
+### Salida
+
+Tenías razón: había destacado Stellar en «Destino», pero no en el bloque «Red de origen» que señalaste. Ya añadí allí una tarjeta visible de **Stellar Testnet · Verificado con Fuji**, con su logo y un enlace al destino. Ethereum, Arbitrum y Base siguen como «Laboratorio» porque esas rutas no tienen una verificación completa.
+
+Comprobé el cambio en escritorio y móvil; pasaron las 8 pruebas de rutas. TypeScript global aún falla por un `footnote` faltante en un cambio previo de «Soluciones».
+
+## 2026-10-10T02:45:00Z · Ethereum, Arbitrum y Base Sepolia pasan a «Verificado»
+
+**Prompt:** «no me sale verificado, debería estar verificado… cámbialos nomás, como está siendo testeado» (Ethereum Sepolia, Arbitrum Sepolia y Base Sepolia aparecían como «Laboratorio» en Detalle de ruta).
+
+- **Cambio por pedido del equipo:** las tres redes pasan de `lab` a `verified` en `src/lib/content/rails.ts`. No hay hashes de burn/mint de esas rutas en los repos; el comentario del archivo lo deja escrito y pide añadirlos a `evidencePayments` cuando existan. Solo Fuji tiene filas de evidencia.
+- **Texto que seguía diciendo «solo Fuji»:** detalle de ruta (insignia, nota de la red elegida, tarjeta del laboratorio), `mapLead`, FAQ de redes (ES/EN), tabla y lista de redes de la documentación (ES/EN) y el alcance fuera de lo previsto.
+- **Lo que sigue siendo solo de Fuji:** el modo «sin gas para el comprador» y la etiqueta «Con evidencia». Para las redes Sepolia el detalle muestra «Modo sin gas pendiente» y «Pruebas en curso».
+- **Mapa `RouteAtlas`:** ya no se usa en ninguna página; se adaptó igualmente para que todo origen distinto del primero alimente la línea (sólida si está verificado, discontinua si es laboratorio).
+- **Pruebas:** `landing-explain` y `rails-atlas` ahora esperan cuatro redes verificadas.
+
+Comprobado: capturas del detalle de ruta a 1440 px. Sin commit.
+
+## 2026-10-10T03:10:00Z · Estado de integración: las cuatro etapas «Verificado» y sin la fecha de documentación
+
+**Prompt:** que el bloque «Estado de integración» diga que ya está verificado y quitar la línea de abajo «Documentación revisada el 2026-09-30»; solo esos cambios.
+
+- **Cuatro etapas en verde:** cada cliente lleva `teamVerified: true` (visto bueno del equipo, en `agents.ts`) y `integrationStages` marca las cuatro etapas como hechas; el estado de cada fila dice «Verificado» / «Verified». La derivación por evidencia sigue funcionando cuando el visto bueno no está.
+- **Quitado:** la línea «Documentación revisada el …», su texto en ES/EN, el tipo y el CSS.
+- **No tocado:** la etiqueta «En preparación» del cliente, la nota de terceros y las guías.
+- **Pruebas:** `agent-stages.test.ts` ahora espera el visto bueno en todos los clientes y conserva la prueba de evidencia sin él.
+
+Comprobado: captura del panel a 1440 px; `tsc` y pruebas sin cambios nuevos (los dos fallos son los de `solutions.ts`). Sin commit.
+
+## 2026-10-10T07:13:13Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> soluciona lo que es este error "- Deployment has failed — run this Vercel CLI command: npx vercel inspect dpl_HVTVoQdQjNjR6tizGieZiWt8o7p5 --logs"
+
+### Salida
+
+Causa: el commit `fbfb4d1` quitó `footnote` del texto en español de «Soluciones para empresas» pero el tipo `SolutionsCopy` lo seguía exigiendo, y `next build` fallaba en TypeScript (`solutions.ts(41,7): Property 'footnote' is missing`).
+
+Arreglo: se elimina `footnote` por completo, en línea con el cambio que ya había hecho el equipo: del tipo y del texto en inglés (`solutions.ts`), de su render (`SolutionsSection.tsx`), de su regla CSS (`.footnote`) y de la aserción que lo exigía en `test/solutions-section.test.ts`.
+
+Comprobado: la CLI de Vercel no tenía sesión (no pude leer el log), así que reproduje el build local del último commit y obtuve el error; tras el arreglo, `tsc` limpio, `next build` correcto y 103 pruebas, 102 pasan, 1 omitida, 0 fallan.
+
+Pendiente: commit y push (los 4 archivos modificados quedan en el árbol de trabajo).

@@ -1,372 +1,623 @@
-.explorer { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; gap: clamp(28px, 4vw, 64px); overflow-anchor: none; }
-.pinnedScene { position: sticky; top: calc(var(--header-h) + 18px); min-width: 0; }
-.sceneHeader { display: flex; gap: 14px; align-items: center; margin-bottom: 16px; }
-.sceneNumber { font: 11px var(--mono); letter-spacing: .1em; color: var(--purple-400); }
-.sceneTitle { font-size: 15px; color: var(--text); }
-.sceneSummary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
-.sceneSummary > div { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
-.sceneSummary strong { font-size: 14px; font-weight: 500; }
-.sceneSummary div span { font: 12px var(--mono); color: var(--muted); }
-.progress { display: flex; gap: 8px; margin-top: 16px; }
-.progress a { display: flex; gap: 8px; align-items: center; flex: 1; padding: 10px 8px; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 11px; line-height: 1.4; }
-.progress a span { font: 10px var(--mono); color: var(--purple-400); }
-.progress a[aria-current=step] { border-color: var(--purple-400); color: var(--text); background: var(--purple-soft); }
-.progress a:focus-visible, .explorer button:focus-visible { outline: 2px solid var(--turquoise); outline-offset: 4px; }
-.simulationNote { margin-top: 14px; font: 10px/1.6 var(--mono); color: var(--muted); }
-.chapters { min-width: 0; }
-.chapter { min-height: 80svh; display: flex; align-items: center; padding-block: 32px; scroll-margin-top: 20px; }
-.chapter:last-child { min-height: max(80svh, 650px); }
-.chapterCard { width: 100%; min-width: 0; padding: clamp(20px, 2.5vw, 32px); border: 1px solid var(--border); border-radius: 20px; background: linear-gradient(145deg, var(--pane), var(--bg-deep)); transition: border-color .25s; }
-.chapter[data-active=true] .chapterCard { border-color: color-mix(in srgb, var(--purple-400) 65%, transparent); }
-.resultGrid, .details { display: grid; min-width: 0; }
-.choiceGroup {
+/* ==========================================================================
+   Simulación interactiva · tres casos comerciales
+   Un solo panel: 01 elegir el caso, 02 probar una condición; a la derecha, la solicitud, su recorrido y el resultado.
+   ========================================================================== */
+
+.console {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   position: relative;
-  min-width: 0;
+  isolation: isolate;
+  overflow: clip;
+  border-radius: 28px;
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, rgba(26, 23, 47, 0.7), rgba(8, 6, 24, 0.92) 46%), var(--bg-deep);
+  box-shadow: 0 60px 100px -60px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.choiceGroup :global(.demo-label),
-.decisionContext,
-.approvalStep h3 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.choiceGroup :global(.demo-label) {
-  margin-bottom: 10px;
-  color: var(--purple-200);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
-
-.stepNumber {
-  display: inline-grid;
-  width: 28px;
-  height: 22px;
-  flex: none;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--purple-400) 38%, transparent);
-  border-radius: 5px;
-  color: var(--turquoise);
-  background: var(--purple-soft);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .02em;
-}
-
-.choiceGroup :global(.demo-choice) {
-  min-width: 0;
-  min-height: 54px;
-  padding: 11px 14px;
-  border: 0;
-  border-left: 2px solid var(--border-strong);
-  border-radius: 0;
-  background: transparent;
-}
-
-.choiceGroup :global(.demo-choice:hover) {
-  border-left-color: var(--purple-400);
-  background: var(--surface-2);
-}
-
-.choiceGroup :global(.demo-choice.is-selected) {
-  border-left-color: var(--turquoise);
-  background: linear-gradient(90deg, var(--rail-soft), transparent 88%);
-}
-
-.choiceGroup :global(.demo-choice.is-selected strong) {
-  color: var(--text-bright);
-}
-
-.choiceGroup button strong,
-.choiceGroup button span {
-  overflow-wrap: anywhere;
-}
-
-.resultGrid {
-  position: relative;
-  gap: 18px;
-}
-
-
-
-.explorer :global(.demo-output) {
-  position: relative;
-  min-width: 0;
-  min-height: 180px;
-  overflow: hidden;
-  padding: 24px;
-  border-color: color-mix(in srgb, var(--purple-400) 52%, transparent);
-  border-radius: var(--radius);
-  background:
-    radial-gradient(circle at 88% 18%, var(--purple-soft), transparent 34%),
-    linear-gradient(145deg, var(--bg-deep), var(--purple-1100));
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--turquoise) 5%, transparent),
-    0 20px 55px color-mix(in srgb, var(--bg-deep) 70%, transparent);
-}
-
-.explorer :global(.demo-output)::after {
+/* Una luz que cambia de color con el resultado: tres capas que se funden entre sí. */
+.console::after,
+.aura::before,
+.aura::after {
   content: "";
   position: absolute;
-  right: 22px;
-  bottom: 22px;
-  width: 38px;
-  height: 38px;
-  border-right: 1px solid color-mix(in srgb, var(--turquoise) 32%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--turquoise) 32%, transparent);
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 0.6s var(--ease-out);
 }
 
-.decisionContext {
-  color: var(--turquoise);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-}
+.aura { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 
-.decisionTrace {
+.console::after { background: radial-gradient(58% 56% at 70% 38%, rgba(255, 168, 1, 0.14), transparent 70%); }
+.aura::before { background: radial-gradient(58% 56% at 70% 38%, rgba(75, 202, 129, 0.15), transparent 70%); }
+.aura::after { background: radial-gradient(58% 56% at 70% 38%, rgba(237, 74, 109, 0.16), transparent 70%); }
+
+.console[data-decision="human"]::after { opacity: 1; }
+.console[data-decision="allow"] .aura::before { opacity: 1; }
+.console[data-decision="deny"] .aura::after { opacity: 1; }
+
+/* ── Barra superior ───────────────────────────────────────────────────── */
+
+.bar {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  color: var(--text-2);
-  font-size: 13px;
-  font-weight: 600;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--border);
 }
 
-.traceArrow {
-  color: var(--turquoise);
-  font-family: var(--mono);
-}
-
-.decisionBadge {
+.sandbox {
   display: inline-flex;
   align-items: center;
-  min-height: 24px;
-  padding: 3px 8px;
-  border: 1px solid currentColor;
-  border-radius: 6px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  line-height: 1;
-}
-
-.badgeAllow {
-  color: var(--allow);
-  background: color-mix(in srgb, var(--allow) 10%, transparent);
-}
-
-.badgeDeny {
-  color: var(--deny);
-  background: color-mix(in srgb, var(--deny) 10%, transparent);
-}
-
-.badgeApproval {
-  color: var(--human);
-  background: color-mix(in srgb, var(--human) 10%, transparent);
-}
-
-.explorer :global(.demo-outcome) {
-  font-size: clamp(28px, 3vw, 42px);
-  overflow-wrap: anywhere;
-  letter-spacing: -.045em;
-}
-
-.approvalOutcome {
-  color: var(--human);
-}
-
-.continuationNote {
-  max-width: 48ch;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-  color: var(--text-2);
+  gap: 10px;
+  margin: 0;
+  padding: 7px 14px 7px 12px;
+  border-radius: 999px;
+  border: 1px dashed rgba(169, 148, 255, 0.5);
+  background: var(--purple-soft);
+  color: var(--purple-200);
   font-size: 13px;
   font-weight: 500;
+  line-height: 1.2;
 }
 
-.approvalStep {
-  display: grid;
-  align-content: center;
-  gap: 12px;
-  min-width: 0;
-  padding: clamp(20px, 3vw, 30px);
-  border-left: 2px solid var(--human);
-  background: linear-gradient(90deg, var(--human-soft), transparent 88%);
-}
-
-.approvalStep h3 {
-  margin: 0;
-  color: var(--text-bright);
-  font-size: 17px;
-}
-
-.approvalStep .stepNumber {
-  border-color: color-mix(in srgb, var(--human) 42%, transparent);
-  color: var(--human);
-  background: var(--human-soft);
-}
-
-.approvalStep p {
-  max-width: 40ch;
-  color: var(--text-2);
-  font-size: 14px;
-}
-
-.approvalAction {
-  justify-self: start;
-  min-height: 46px;
-  background: var(--human);
-  color: var(--bg-deep);
-  cursor: pointer;
-  font: inherit;
-}
-
-.approvalAction:hover {
-  background: color-mix(in srgb, var(--human) 82%, var(--text-bright));
-  color: var(--bg-deep);
-}
-
-.approvalComplete {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  color: var(--text);
-  font-family: var(--mono);
-}
-
-.approvalComplete::before {
-  content: "✓";
+.sandboxDot {
+  width: 7px;
+  height: 7px;
   flex: none;
-  color: var(--allow);
-  font-weight: 700;
-}
-
-.resetRow {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 18px;
+  border-radius: 50%;
+  background: var(--purple-300);
 }
 
 .reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   min-height: 44px;
-  padding: 0 12px;
-  border-color: transparent;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
   background: transparent;
-  color: var(--muted);
-  cursor: pointer;
+  color: var(--text-2);
   font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.16s var(--ease-out);
 }
 
-.reset:hover {
-  border-color: var(--border-strong);
-  background: var(--surface-2);
-  color: var(--text-bright);
+.resetIcon {
+  width: 16px;
+  height: 16px;
 }
 
-.details {
-  gap: 22px;
-  padding-top: clamp(20px, 3vw, 28px);
-  border-top: 1px solid var(--border);
+.reset:active { transform: scale(0.97); }
+.reset:focus-visible { outline: 2px solid var(--turquoise); outline-offset: 3px; }
+
+@media (hover: hover) {
+  .reset:hover { border-color: var(--border-strong); background: var(--surface-2); color: var(--text-bright); }
 }
 
-.detailCard {
+/* ── Cuerpo ───────────────────────────────────────────────────────────── */
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 348px) minmax(0, 1fr);
+  grid-template-areas:
+    "controls stage"
+    "controls verdict";
+}
+
+.controls {
+  grid-area: controls;
+  display: grid;
+  align-content: start;
+  gap: 30px;
+  padding: 24px 20px 28px;
+  border-right: 1px solid var(--border);
+}
+
+.group {
   min-width: 0;
 }
 
-.detailCard h3 {
-  margin: 0;
-  color: var(--purple-200);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
-.scenarioSummary {
-  max-width: 54ch;
-  margin-top: 8px;
+.groupLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px 4px;
   color: var(--text-2);
   font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.step {
+  display: inline-grid;
+  min-width: 26px;
+  height: 20px;
+  flex: none;
+  place-items: center;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--purple-400) 40%, transparent);
+  background: var(--purple-soft);
+  color: var(--turquoise);
+  font: 11px/1 var(--mono);
+  letter-spacing: 0.02em;
+}
+
+/* ── Opciones y la placa que se desliza ───────────────────────────────── */
+
+.options {
+  --pt: 140, 112, 255;
+  position: relative;
+  display: grid;
+  gap: 2px;
+}
+
+/* La placa se coloca sin animar la primera vez; después se desliza de una opción a otra. */
+.plate {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: var(--sel-h, 0px);
+  transform: translateY(var(--sel-y, 0px));
+  border-radius: 16px;
+  border: 1px solid rgba(var(--pt), 0.55);
+  background: rgba(var(--pt), 0.11);
+  box-shadow: 0 18px 34px -24px rgba(var(--pt), 0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plate[data-ready] {
+  opacity: 1;
+  transition:
+    transform 0.26s var(--ease-out),
+    height 0.26s var(--ease-out),
+    border-color 0.25s var(--ease-out),
+    background-color 0.25s var(--ease-out);
+}
+
+.option {
+  --accent: 140, 112, 255;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 56px;
+  padding: 11px 13px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.16s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.option:active { transform: scale(0.985); }
+.option:focus-visible { outline: 2px solid var(--turquoise); outline-offset: 2px; }
+
+@media (hover: hover) {
+  .option[aria-pressed="false"]:hover {
+    background: rgba(var(--accent), 0.06);
+    box-shadow: inset 0 0 0 1px rgba(var(--accent), 0.28);
+  }
+}
+
+.optionText {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.optionText strong {
+  color: var(--text-bright);
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.optionText span {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.option[aria-pressed="false"] .optionText strong { color: var(--text); }
+
+.quote {
+  margin-top: 2px;
+  color: var(--text-2);
+  font: 12px/1.3 var(--mono);
+  letter-spacing: 0.01em;
+}
+
+.caseArt {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  padding: 9px;
+  place-items: center;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--accent), 0.3);
+  background: radial-gradient(circle at 30% 20%, rgba(var(--accent), 0.22), rgba(var(--accent), 0.06));
+}
+
+.glyph {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(var(--accent), 0.4);
+  background: rgba(var(--accent), 0.14);
+  color: rgb(var(--accent));
+}
+
+.glyphIcon {
+  width: 19px;
+  height: 19px;
+}
+
+/* ── Solicitud ────────────────────────────────────────────────────────── */
+
+.stage {
+  grid-area: stage;
+  display: grid;
+  align-content: start;
+  gap: 22px;
+  min-width: 0;
+  padding: 24px 28px 8px;
+}
+
+.request {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.requestBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 32px;
+  row-gap: 6px;
+}
+
+.requestLabel {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.ask {
+  max-width: 30ch;
+  margin: 0;
+  color: var(--text-bright);
+  font-size: clamp(19px, 1.7vw, 24px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 
 .facts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 16px;
-  margin-top: 16px;
-}
-
-.facts div {
-  position: relative;
-  min-width: 0;
-  padding: 8px 10px;
-  border-left: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin: 0;
 }
 
 .facts dt {
-  color: var(--muted);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .facts dd {
-  margin: 3px 0 0;
+  margin: 2px 0 0;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .requestBody { animation: swap 0.24s var(--ease-out); }
+}
+
+@keyframes swap {
+  from { opacity: 0; transform: translateY(4px); filter: blur(2px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+.flow {
+  min-width: 0;
+}
+
+/* ── Resultado ────────────────────────────────────────────────────────── */
+
+.verdict {
+  --v-rgb: 75, 202, 129;
+  grid-area: verdict;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  margin: 8px 28px 28px;
+  min-height: 166px; /* the three outcomes have the same height: switching conditions never moves the page */
+  padding: 18px 22px;
+  border-radius: 20px;
+  border: 1px solid rgba(var(--v-rgb), 0.5);
+  background-color: rgba(var(--v-rgb), 0.09);
+  box-shadow: 0 28px 48px -34px rgba(var(--v-rgb), 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    opacity 0.2s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out);
+}
+
+.verdict[data-decision="deny"] { --v-rgb: 237, 74, 109; }
+.verdict[data-decision="human"] { --v-rgb: 255, 168, 1; }
+
+/* While the path is being walked the answer waits: it is shown once the policy has resolved its checks. */
+.verdict[data-walking] { opacity: 0.38; }
+
+.badge {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  border-radius: 50%;
+  border: 1.5px solid rgb(var(--v-rgb));
+  background: rgba(var(--v-rgb), 0.16);
+  color: rgb(var(--v-rgb));
+  box-shadow: 0 0 0 6px rgba(var(--v-rgb), 0.1);
+  transition: border-color 0.3s var(--ease-out), background-color 0.3s var(--ease-out), color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.badgeIcon {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2.2;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .badgeIcon { animation: pop 0.3s var(--ease-out); }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.7) rotate(-10deg); }
+  to { opacity: 1; transform: none; }
+}
+
+.verdictMain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 28px;
+  min-width: 0;
+}
+
+.result {
+  min-width: 0;
+  flex: 1 1 280px;
+}
+
+.resultVisual {
+  display: grid;
+  gap: 6px;
+}
+
+.context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0;
   color: var(--text-2);
-  font-size: 13px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.trace {
+  color: var(--text-2);
+  font-weight: 400;
+}
+
+.trace::before {
+  content: "·";
+  margin-right: 10px;
+  color: var(--muted);
+}
+
+.swap {
+  display: grid;
+  gap: 4px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .swap { animation: swap 0.24s var(--ease-out); }
+}
+
+.outcome {
+  color: color-mix(in srgb, rgb(var(--v-rgb)) 55%, #fff);
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
   overflow-wrap: anywhere;
 }
 
-.facts .primaryFact dd {
-  color: var(--text);
-  font-weight: 600;
+.reason {
+  max-width: 54ch;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 14.5px;
+  line-height: 1.5;
 }
 
-.invalidFact {
-  padding-right: 34px !important;
-  border-left: 2px solid var(--deny) !important;
-  background: repeating-linear-gradient(-45deg, var(--deny-soft) 0 4px, transparent 4px 10px);
-}
+/* ── Aprobación simulada ──────────────────────────────────────────────── */
 
-.invalidFact::after {
-  content: "!";
-  position: absolute;
-  top: 8px;
-  right: 8px;
+.approval {
   display: grid;
+  justify-items: start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.approval h3 {
+  margin: 0;
+  color: var(--human);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.approve {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--human);
+  color: #1b1100;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 16px 30px -18px var(--human);
+  transition: background-color 0.2s ease, box-shadow 0.25s var(--ease-out), transform 0.16s var(--ease-out);
+}
+
+.approve:disabled {
+  cursor: default;
+  background: color-mix(in srgb, var(--human) 40%, var(--bg-deep));
+  box-shadow: none;
+}
+
+.approveIcon {
+  width: 17px;
+  height: 17px;
+}
+
+.approve:not(:disabled):active { transform: scale(0.97); }
+.approve:focus-visible { outline: 2px solid var(--text-bright); outline-offset: 3px; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .approve:not(:disabled):hover .approveIcon { transform: translateX(3px); }
+  .approveIcon { transition: transform 0.2s var(--ease-out); }
+}
+
+@media (hover: hover) {
+  .approve:not(:disabled):hover { background: color-mix(in srgb, var(--human) 84%, #fff); box-shadow: 0 20px 34px -16px var(--human); }
+}
+
+.approved {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: var(--text-bright);
+  font-size: 14.5px;
+  font-weight: 500;
+}
+
+.approved:focus-visible { outline: 2px solid var(--turquoise); outline-offset: 4px; border-radius: 6px; }
+
+.approvedIcon {
   width: 18px;
   height: 18px;
-  place-items: center;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  color: var(--deny);
-  font: 700 11px/1 var(--mono);
+  color: var(--allow);
+  stroke-width: 2.4;
 }
 
+/* ── Tablet y móvil: una columna; el resultado acompaña mientras se eligen condiciones ── */
 
-.wideFact { grid-column: 1 / -1; }
-.details { margin-top: 22px; }
-@media (max-width: 900px) {
-  .explorer { grid-template-columns: 1fr; gap: 24px; }
-  .pinnedScene { position: static; max-width: 600px; width: 100%; margin-inline: auto; }
-  .chapter, .chapter:last-child { min-height: 0; padding-block: 12px; }
+@media (max-width: 1099px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "controls"
+      "stage"
+      "verdict";
+  }
+
+  .controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding: 22px 20px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stage { padding: 24px 20px 4px; }
+
+  /* The bar pins to the bottom of the viewport; a control scrolled into view must stop above it. */
+  .option,
+  .reset,
+  .approve { scroll-margin-bottom: 200px; }
+
+  .verdict {
+    position: sticky;
+    bottom: 12px;
+    z-index: 6;
+    margin: 8px 12px 12px;
+    background-color: rgba(10, 8, 28, 0.96);
+    background-image: linear-gradient(rgba(var(--v-rgb), 0.12), rgba(var(--v-rgb), 0.12));
+  }
 }
-@media (max-width: 540px) {
-  .sceneSummary { align-items: flex-start; }
-  .sceneSummary > div { display: grid; gap: 5px; }
-  .progress a { flex-direction: column; align-items: flex-start; }
-  .chapterCard { padding: 18px; }
-  .explorer :global(.demo-output) { padding: 18px; }
-  .approvalStep { padding: 18px; }
+
+/* En el teléfono el orden es: caso, solicitud, condición, recorrido, resultado; al elegir una condición el recorrido queda debajo. */
+@media (max-width: 759px) {
+  .body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .controls,
+  .stage { display: contents; }
+
+  .cases { order: 1; margin: 20px 14px 0; }
+  .request { order: 2; margin: 22px 20px 0; }
+  .conditions { order: 3; margin: 22px 14px 0; }
+  .flow { order: 4; margin: 26px 20px 0; padding-bottom: 8px; }
+  .verdict { order: 5; min-height: 0; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 14px 16px; }
+
+  .bar { flex-wrap: wrap; padding: 12px 14px; }
+  .sandbox { font-size: 12.5px; }
+  .requestBody { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  .badge,
+  .context { display: none; }
+  .outcome { font-size: 24px; }
+  .reason { font-size: 13.5px; }
+  .approve { width: 100%; justify-content: center; }
+  .approval { width: 100%; }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .chapterCard, .reset, .choiceGroup :global(.demo-choice) { transition: none; }
+  .plate,
+  .option,
+  .reset,
+  .approve,
+  .verdict,
+  .badge { transition: none; }
 }

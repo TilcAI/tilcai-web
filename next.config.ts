@@ -5,7 +5,12 @@ const nextConfig: NextConfig = {
   images: { qualities: [75, 85, 88] },
   // English is the default language: "/" goes to "/en".
   async redirects() {
-    return [{ source: "/", destination: "/en", permanent: false }];
+    return [
+      { source: "/", destination: "/en", permanent: false },
+      { source: "/:lang/estado-construccion", destination: "/:lang/roadmap", permanent: false },
+      { source: "/estado-construccion", destination: "/es/roadmap", permanent: false },
+      { source: "/roadmap", destination: "/en/roadmap", permanent: false },
+    ];
   },
 };
 

@@ -143,8 +143,10 @@ export function OperationSection({ t }: { t: Copy }) {
       <div className={styles.sticky}>
         <div className={styles.left}>
           <header className={styles.head}>
-            <p className={styles.eyebrow}>{t.nav.flow}</p>
-            <h2 id="flow-title" className={styles.title}>{(c.title.match(/[^.!?]+[.!?]*/g) ?? [c.title]).map((s) => <span key={s}>{s.trim()}</span>)}</h2>
+            <div className={styles.headline}>
+              <p className={styles.eyebrow}>{t.nav.flow}</p>
+              <h2 id="flow-title" className={styles.title}>{(c.title.match(/[^.!?]+[.!?]*/g) ?? [c.title]).map((s) => <span key={s}>{s.trim()}</span>)}</h2>
+            </div>
             <p className={styles.lead}>{c.lead}</p>
           </header>
           <div className={styles.stage}>
@@ -157,14 +159,16 @@ export function OperationSection({ t }: { t: Copy }) {
                 {c.steps.map((step, index) => (
                   <li key={step.title} className={styles.item} data-k="nav-item" data-state={index === 0 ? "active" : "todo"}>
                     <a className={styles.mark} data-k="nav-link" href={`#purchase-step-${index}`} aria-label={`${index + 1}. ${step.title}`} aria-current={index === 0 ? "step" : undefined}>
-                      <span>0{index + 1}</span>
-                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" /></svg>
+                      <span className={styles.dot}>
+                        <span>0{index + 1}</span>
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" /></svg>
+                      </span>
+                      <span className={styles.markLabel} aria-hidden="true">{step.title}</span>
                     </a>
                   </li>
                 ))}
               </ol>
             </nav>
-            <p className={styles.caption}>{c.label}</p>
           </div>
         </div>
         <div className={styles.right}>

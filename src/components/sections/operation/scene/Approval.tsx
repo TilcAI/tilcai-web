@@ -21,24 +21,24 @@ export function Approval({ review }: Props) {
             <circle r="11" fill="#14172e" stroke="#ac76ff" strokeOpacity=".8" />
             <circle cy="-3" r="3.6" fill="#ac76ff" /><path d="M-6 7a6 5 0 0 1 12 0" fill="#ac76ff" />
           </g>
-          <text className={`${s.mono} ${s.violet}`} x="-86" y="-62" style={{ fontSize: 11 }}>{review.you}</text>
-          <text className={s.label} x="-52" y="-62" style={{ fontSize: 12 }}>{review.title}</text>
+          <text className={`${s.mono} ${s.violet}`} x="-86" y="-62" style={{ fontSize: 12 }}>{review.you}</text>
+          <text className={s.label} x="-52" y="-62" style={{ fontSize: 12.5 }}>{review.title}</text>
           <path d="M-112 -46H112" stroke="#925fff" strokeOpacity=".4" />
           {review.rows.map((row, i) => (
-            <g key={row} transform={`translate(-108 ${-26 + i * 24})`}>
+            <g key={row} transform={`translate(-108 ${-28 + i * 22})`}>
               <rect x="0" y="-7" width="8" height="8" rx="2" fill="none" stroke="#48d9ff" />
               <text className={s.value} x="18" y="2" style={{ fontSize: 15 }}>{row}</text>
             </g>
           ))}
           <g data-k="approve-reject" transform="translate(-62 66)">
             <rect x="-54" y="-16" width="108" height="32" rx="10" fill="none" stroke="#a6a0b8" strokeOpacity=".5" />
-            <text className={`${s.mono} ${s.center}`} x="0" y="4.5" style={{ fontSize: 12 }}>{review.reject}</text>
+            <text className={`${s.mono} ${s.center}`} x="0" y="4.5" style={{ fontSize: 13 }}>{review.reject}</text>
           </g>
           <g data-k="approve-button" transform="translate(62 66)">
             <rect data-k="approve-fill" x="-54" y="-16" width="108" height="32" rx="10" fill="#6a43ee" stroke="#ac76ff" />
-            <text data-k="approve-text" className={`${s.mono} ${s.center} ${s.white}`} x="0" y="4.5" style={{ fontSize: 12 }}>{review.approve}</text>
+            <text data-k="approve-text" className={`${s.mono} ${s.center} ${s.white}`} x="0" y="4.5" style={{ fontSize: 13 }}>{review.approve}</text>
             <g data-k="approve-done" opacity="0">
-              <text className={`${s.mono} ${s.center} ${s.white}`} x="8" y="4.5" style={{ fontSize: 12 }}>{review.approved}</text>
+              <text className={`${s.mono} ${s.center} ${s.white}`} x="8" y="4.5" style={{ fontSize: 13 }}>{review.approved}</text>
               <path data-k="approve-tick" d="M-42 0l5 5 9-10" fill="none" stroke="#60e4ff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
             </g>
           </g>
@@ -46,9 +46,9 @@ export function Approval({ review }: Props) {
       </g>
       <g data-k="auth-token" opacity="0">
         <g transform="translate(0 0)">
-          <rect x="-58" y="-12" width="116" height="24" rx="12" fill="#14172e" stroke="#60e4ff" />
-          <circle cx="-42" cy="0" r="5" fill="none" stroke="#60e4ff" strokeWidth="1.6" /><path d="M-37 0H-26M-30 0v4" stroke="#60e4ff" strokeWidth="1.6" strokeLinecap="round" />
-          <text className={`${s.mono} ${s.cyan}`} x="-18" y="4" style={{ fontSize: 9.5 }}>{review.authorization}</text>
+          <rect x="-70" y="-13" width="140" height="26" rx="13" fill="#14172e" stroke="#60e4ff" />
+          <circle cx="-54" cy="0" r="5" fill="none" stroke="#60e4ff" strokeWidth="1.6" /><path d="M-49 0H-38M-42 0v4" stroke="#60e4ff" strokeWidth="1.6" strokeLinecap="round" />
+          <text className={`${s.mono} ${s.cyan}`} x="-30" y="4" style={{ fontSize: 11 }}>{review.authorization}</text>
         </g>
       </g>
       <path data-k="auth-path" d={AUTH_PATH} fill="none" stroke="none" />

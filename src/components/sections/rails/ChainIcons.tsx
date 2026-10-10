@@ -1,4 +1,5 @@
-import React from "react";
+import Image from "next/image";
+import { networkLogos } from "@/lib/content/network-logos";
 
 export function UsdcIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
@@ -13,18 +14,7 @@ export function UsdcIcon({ className = "w-6 h-6" }: { className?: string }) {
 }
 
 export function StellarIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="16" cy="16" r="15" fill="#0E0B25" stroke="#9B72FF" strokeWidth="1.5" />
-      <path
-        d="M23.5 11.2L9.5 21.8M21.5 8.5L8.5 18.5M24.5 14L11.5 24"
-        stroke="#FFFFFF"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <circle cx="16" cy="16" r="7.5" stroke="#9B72FF" strokeWidth="1.5" strokeDasharray="3 3" />
-    </svg>
-  );
+  return <Image src={networkLogos["stellar-testnet"]} width={32} height={32} alt="" aria-hidden="true" className={className} draggable={false} />;
 }
 
 export function CircleCctpIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -63,104 +53,34 @@ export function FlameIcon({ className = "w-6 h-6" }: { className?: string }) {
 }
 
 export function AvalancheIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="11" fill="#E84142" />
-      <path
-        d="M12 5.5l5.5 9.5h-3.2L12 11l-2.3 4H6.5L12 5.5z"
-        fill="#FFFFFF"
-      />
-    </svg>
-  );
+  return <NetworkIcon id="avalanche-fuji" className={className} />;
 }
 
 export function EthereumIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="11" fill="#627EEA" />
-      <path d="M12 4.5l-4.5 7.5L12 15l4.5-3L12 4.5z" fill="#FFFFFF" fillOpacity="0.9" />
-      <path d="M12 15.8l-4.5-2.8L12 19.5l4.5-6.5-4.5 2.8z" fill="#FFFFFF" fillOpacity="0.7" />
-    </svg>
-  );
+  return <NetworkIcon id="ethereum-sepolia" className={className} />;
 }
 
 export function ArbitrumIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="11" fill="#28A0F0" />
-      <path
-        d="M12 6.5l4 6.5-1.5 2.5-2.5-4-2.5 4-1.5-2.5 4-6.5z"
-        fill="#FFFFFF"
-      />
-    </svg>
-  );
+  return <NetworkIcon id="arbitrum-sepolia" className={className} />;
 }
 
 export function BaseIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="11" fill="#0052FF" />
-      <circle cx="12" cy="12" r="6" fill="#FFFFFF" />
-      <rect x="11" y="6" width="6" height="2" fill="#0052FF" />
-    </svg>
-  );
+  return <NetworkIcon id="base-sepolia" className={className} />;
 }
 
 export function SolanaIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="11" fill="#14F195" fillOpacity="0.2" stroke="#14F195" strokeWidth="1.2" />
-      <path
-        d="M7 8.2h8.5l-2 2H5l2-2zm0 3.8h8.5l-2 2H5l2-2zm2 3.8h8.5l-2 2H7l2-2z"
-        fill="#14F195"
-      />
-    </svg>
-  );
+  return <NetworkIcon id="solana-devnet" className={className} />;
 }
 
 export function SuiIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="11" fill="#4DA2FF" />
-      <path
-        d="M12 5.5c-2.5 3-4.5 5.5-4.5 8a4.5 4.5 0 0 0 9 0c0-2.5-2-5-4.5-8z"
-        fill="#FFFFFF"
-      />
-    </svg>
-  );
+  return <NetworkIcon id="sui-testnet" className={className} />;
 }
 
 export function ArcIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="11" fill="#8C70FF" />
-      <path
-        d="M7 15a5 5 0 0 1 10 0M9 15a3 3 0 0 1 6 0"
-        stroke="#FFFFFF"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
+  return <NetworkIcon id="arc-testnet" className={className} />;
 }
 
 export function NetworkIcon({ id, className = "w-5 h-5" }: { id: string; className?: string }) {
-  switch (id) {
-    case "avalanche-fuji":
-      return <AvalancheIcon className={className} />;
-    case "ethereum-sepolia":
-      return <EthereumIcon className={className} />;
-    case "arbitrum-sepolia":
-      return <ArbitrumIcon className={className} />;
-    case "base-sepolia":
-      return <BaseIcon className={className} />;
-    case "solana-devnet":
-      return <SolanaIcon className={className} />;
-    case "sui-testnet":
-      return <SuiIcon className={className} />;
-    case "arc-testnet":
-      return <ArcIcon className={className} />;
-    default:
-      return <AvalancheIcon className={className} />;
-  }
+  const src = networkLogos[id as keyof typeof networkLogos];
+  return src ? <Image src={src} width={32} height={32} alt="" aria-hidden="true" className={className} draggable={false} /> : null;
 }

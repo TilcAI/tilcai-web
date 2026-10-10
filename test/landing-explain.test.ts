@@ -60,15 +60,18 @@ test("the payment is never presented as the delivery, and an allow is never pres
   }
 });
 
-// ── Networks: only Fuji is verified; the rest are lab ─────────────────────────────────────────────────
+// ── Networks: Fuji and the three Sepolia routes are verified; the rest are lab ─────────────────────────────────────────────────
 
-test("exactly one network is verified end to end (Fuji); the others are lab, and Stellar is the destination", () => {
-  assert.deepEqual(originNetworks.filter((n) => n.status === "verified").map((n) => n.id), ["avalanche-fuji"]);
-  assert.equal(originNetworks.length, 7, "Fuji plus six lab networks");
+test("Fuji and the three Sepolia routes are verified; the others are lab, and Stellar is the destination", () => {
+  assert.deepEqual(
+    originNetworks.filter((n) => n.status === "verified").map((n) => n.id),
+    ["avalanche-fuji", "ethereum-sepolia", "arbitrum-sepolia", "base-sepolia"],
+  );
+  assert.equal(originNetworks.length, 7, "four verified networks plus three lab networks");
   assert.equal(new Set(originNetworks.map((n) => n.id)).size, originNetworks.length);
   assert.ok(originNetworks.every((n) => n.status === "verified" || n.status === "lab"));
   assert.equal(destinationNetwork.id, "stellar-testnet");
-  for (const c of [es, en]) assert.match(c.rails.mapLead, /Fuji/, "the lead says which one is verified");
+  for (const c of [es, en]) assert.match(c.rails.mapLead, /Fuji/, "the lead says which ones are verified");
 });
 
 test("the rails copy never promises any token, any network or a currency conversion", () => {
@@ -103,9 +106,9 @@ test("the evidence rows are real transaction hashes with working explorer links"
   assert.match(evidenceDate, /^\d{4}-\d{2}-\d{2}$/);
 });
 
-test("the evidence says it is a technical payment and not a commercial order, in both languages", () => {
-  assert.match(es.evidence.note, /no una orden comercial/);
-  assert.match(en.evidence.note, /not a commercial order/);
+test("the evidence lead identifies test payments rather than commercial orders, in both languages", () => {
+  assert.match(es.evidence.lead, /no son órdenes comerciales/);
+  assert.match(en.evidence.lead, /not commercial orders/);
   assert.match(es.flow.label, /ilustrativo/);
   assert.match(en.flow.label, /llustrative/i);
 });
@@ -149,8 +152,8 @@ test("paying across networks is defined in both languages, names the term, and s
   for (const c of [es, en]) assert.equal(c.rails.explainer.term, "crosschain");
   assert.match(es.rails.explainer.body, /no es un cambio de moneda/i);
   assert.match(en.rails.explainer.body, /not a currency swap/i);
-  assert.match(es.rails.explainer.note, /nativo/);
-  assert.match(en.rails.explainer.note, /native USDC/);
+  assert.match(es.rails.explainer.body, /nativo/);
+  assert.match(en.rails.explainer.body, /native Circle USDC/);
   for (const c of [es, en]) assert.match(c.rails.routes[1]!.tag, /crosschain/, "the term is on the route itself");
 });
 
@@ -168,7 +171,7 @@ for (const locale of ["es", "en"] as const) {
     assert.ok(outOfScope, "the out-of-scope sentence exists");
     assert.match(outOfScope, locale === "es" ? /puentes de activos envueltos/ : /wrapped-asset bridges/);
     assert.match(outOfScope, /CCTP/, "it says the CCTP route is planned");
-    assert.match(outOfScope, /Fuji/, "and that only Fuji is verified");
+    assert.match(outOfScope, /Fuji/, "and which networks are verified");
     assert.ok(!/bridges entre cadenas|cross-chain bridges/.test(outOfScope), "the blanket claim is gone");
   });
 }
@@ -179,7 +182,9 @@ const pathsSource = readFileSync(new URL("../src/components/sections/ConnectionP
 
 test("four ways to connect: every illustration the section names exists on disk, with real transparency", () => {
   const files = [...pathsSource.matchAll(/file: "(cam-img\d+\.png)"/g)].map((m) => m[1]);
-  assert.equal(new Set(files).size, 8, "node, four cards, two notes and the dust");
+  assert.equal(new Set(files).size, 7, "node, four cards and two notes: the dust backdrop is gone");
+  assert.ok(!files.includes("cam-img8.png"));
+  assert.ok(!/data-dust|styles\.dust/.test(pathsSource), "no dust layer is drawn or animated");
   const dir = new URL("../public/assets/img/caminos conect/", import.meta.url);
   for (const name of files) {
     const bytes = readFileSync(new URL(name, dir));

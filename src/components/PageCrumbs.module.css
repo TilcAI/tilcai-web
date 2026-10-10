@@ -1,0 +1,21 @@
+.crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 28px; font-size: 14px; }
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding-right: 4px;
+  color: var(--text-2);
+  transition: color .15s ease, transform .14s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.crumbs a :global(.icon) { width: 16px; height: 16px; }
+.crumbs a:active { transform: scale(0.97); }
+.sep { color: var(--border-strong); }
+.here { font-weight: 500; color: var(--text); }
+
+@media (hover: hover) and (pointer: fine) {
+  .crumbs a:hover { color: #fff; }
+}
+@media (max-width: 719px) {
+  .crumbs { margin-bottom: 20px; }
+}

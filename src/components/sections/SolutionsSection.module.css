@@ -1,0 +1,215 @@
+/* "Soluciones para empresas": who is implementing TilcAI now (Optipagos) and who comes next (Baral).
+   Motion, each with a reason: one entrance per card (the shared .reveal, staggered 70ms); the phone rises after its card;
+   the two steps move a spotlight over the capture (explanation, opacity only); the phone leans towards a mouse (decorative,
+   fine pointers only); the live dot on the status. The cards are not links, so they do not lift on hover. */
+@font-face {
+  font-family: 'Baumans';
+  src: url('/assets/img/logos%20empresas/Baumans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --mint: #72ddb9;
+  --amber: #e5b66e;
+  --edge: #a990e52e;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: clamp(56px, 7vw, 104px) 0;
+  border-top: 1px solid #a990e51a;
+  background: radial-gradient(60% 55% at 6% 0%, #6024e824, transparent 70%), radial-gradient(40% 40% at 96% 100%, #48d9ff10, transparent 70%), #0b0a1e;
+  color: #eee8f8;
+  scroll-margin-top: 16px;
+}
+.inner { width: min(1280px, calc(100% - 2 * clamp(20px, 4vw, 64px))); margin-inline: auto; }
+
+/* ── Head ──────────────────────────────────────────────────────────────────────────────────────────── */
+.head { display: grid; gap: 18px; align-items: end; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 clamp(10px, 1.6vw, 18px); color: #a98ae9; font: 500 12px/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
+.eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #925ff6; }
+.title { margin: 0; max-width: 17ch; color: #f1edf8; font-size: var(--type-title); line-height: 1.08; }
+.lead { margin: 0; max-width: 52ch; color: #aaa4bf; font-size: var(--type-lead); line-height: var(--lh-lead); }
+@media (min-width: 1000px) {
+  .head { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); column-gap: clamp(32px, 5vw, 80px); }
+  .lead { padding-bottom: 6px; }
+}
+
+/* ── Grid ──────────────────────────────────────────────────────────────────────────────────────────── */
+.grid { display: grid; gap: clamp(14px, 1.8vw, 22px); margin-top: clamp(30px, 4vw, 52px); grid-template-columns: minmax(0, 1fr); }
+/* Tablet: Optipagos across the full width, Baral and the invitation side by side under it. */
+@media (min-width: 720px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .featured { grid-column: 1 / -1; }
+}
+/* Desktop: Optipagos on the left, the other two stacked on the right. */
+@media (min-width: 1200px) {
+  .grid { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); grid-template-areas: 'featured upcoming' 'featured invite'; }
+  .featured { grid-area: featured; grid-column: auto; }
+  .upcoming { grid-area: upcoming; }
+  .invite { grid-area: invite; }
+}
+
+.card { position: relative; display: flex; flex-direction: column; min-width: 0; padding: clamp(20px, 2.4vw, 32px); border: 1px solid #9b79d75c; border-radius: 22px; background: radial-gradient(70% 60% at 100% 0%, #6024e826, transparent 70%), #151127; box-shadow: 0 28px 64px #05031044; }
+.card:global(.reveal) { transition-delay: calc(var(--i, 0) * 70ms); }
+.featured { container: solution / inline-size; }
+.upcoming { border-style: dashed; border-color: #a990e547; background: #110e24; box-shadow: none; }
+
+.cardHead { display: flex; align-items: center; justify-content: space-between; gap: 14px 18px; flex-wrap: wrap; margin-bottom: clamp(16px, 2vw, 24px); }
+
+/* Optipagos lockup: its glyph (black in the file, so inverted) and its name in its own face. */
+.brand { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
+.glyph { width: 40px; height: auto; flex: none; filter: brightness(0) invert(1); opacity: 0.94; }
+.wordmark { color: #f1edf8; font-family: 'Baumans', var(--font-sans, inherit), sans-serif; font-size: clamp(24px, 2.2vw, 30px); line-height: 1; letter-spacing: 0.01em; }
+
+.status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 11px 6px 9px; border: 1px solid color-mix(in srgb, var(--tone) 42%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--tone) 11%, transparent); color: var(--tone); font: 500 12px/1 var(--mono); letter-spacing: 0.03em; white-space: nowrap; }
+.implementing { --tone: var(--mint); }
+.next { --tone: var(--amber); }
+.dot { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--tone); }
+.implementing .dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--tone); animation: ping 2.4s var(--ease-out) infinite; }
+@keyframes ping { 0% { transform: scale(1); opacity: 0.55; } 70%, 100% { transform: scale(3); opacity: 0; } }
+
+.kicker { margin: 0; color: #a98ae9; font: 500 12px/1.5 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
+.card h3 { margin: 10px 0 0; color: #f1edf8; font-size: var(--type-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; text-wrap: balance; }
+.body { margin: 14px 0 0; max-width: 48ch; color: #b6adc9; font-size: 15.5px; line-height: 1.65; }
+
+/* ── Optipagos: copy beside the phone, what the capture shows underneath ─────────────────────────────────────── */
+.featuredBody { display: grid; gap: clamp(22px, 3vw, 34px); grid-template-columns: minmax(0, 1fr); align-items: start; }
+@container solution (min-width: 640px) {
+  .featuredBody { grid-template-columns: minmax(0, 1fr) minmax(250px, 296px); }
+}
+.copy { min-width: 0; }
+
+/* The two steps are buttons: choosing one spotlights, on the phone, the part of the capture it describes. */
+.copy { display: flex; flex-direction: column; align-self: start; }
+@container solution (min-width: 640px) { .copy { align-self: stretch; } .copy .copy .stepsHead { margin-top: auto; padding-top: clamp(20px, 2.4vw, 28px); } }
+/* How the money moves: three marks in a row, joined by a thin line. */
+.route { margin: clamp(18px, 2.2vw, 26px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.routeLabel { margin: clamp(18px, 2.2vw, 26px) 0 0; color: #948bab; font: 500 11.5px/1.5 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.routeLabel + .route { margin-top: 10px; }
+.route li { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 12px; border: 1px solid var(--edge); border-radius: 14px; background: #ffffff08; }
+.mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: #6024e82e; color: #cdbcf7; }
+.mark :global(.icon) { width: 17px; height: 17px; }
+.mark svg { width: 17px; height: 17px; display: block; }
+.markImg { width: 30px; height: 30px; padding: 5px; border-radius: 9px; background: #ffffff12; object-fit: contain; }
+.route strong { display: block; color: #f1edf8; font-size: 14px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.route span.routeText { display: block; margin-top: 2px; color: #a6a0b8; font-size: 12.5px; line-height: 1.45; }
+@container solution (max-width: 520px) {
+  .route { grid-template-columns: minmax(0, 1fr); }
+  .route li { grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 12px; }
+}
+.stepsHead { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap; margin-top: clamp(20px, 2.4vw, 28px); padding-bottom: 10px; color: #948bab; font: 500 11.5px/1.5 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.stepsHint { letter-spacing: 0.02em; text-transform: none; color: #7f7698; }
+.steps { margin: 0; padding: 0; list-style: none; }
+.steps li { border-top: 1px solid #9075b52e; }
+.steps li:last-child { border-bottom: 1px solid #9075b52e; }
+.step { position: relative; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; align-items: baseline; width: 100%; margin: 0; padding: 14px 10px 14px 16px; border: 0; border-radius: 4px; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 0.2s ease, transform 0.14s var(--ease-out); }
+.step::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 2px; border-radius: 2px; background: var(--mint); transform: scaleY(0); transform-origin: 50% 0; transition: transform 0.28s var(--ease-out); }
+.step:active { transform: scale(0.99); }
+.step:focus-visible { outline: 2px solid #57d2f9; outline-offset: -2px; }
+.step[aria-pressed='true'] { background: #72ddb90d; }
+.step[aria-pressed='true']::before { transform: scaleY(1); }
+.stepNo { color: #8d84a6; font: 500 12px/1.4 var(--mono); letter-spacing: 0.08em; transition: color 0.2s ease; }
+.step[aria-pressed='true'] .stepNo { color: var(--mint); }
+.stepText { display: block; color: #a6a0b8; font-size: 13.5px; line-height: 1.55; }
+.stepText strong { display: block; margin-bottom: 3px; color: #d9d2ea; font-size: 15px; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; transition: color 0.2s ease; }
+.step[aria-pressed='true'] .stepText strong { color: #fff; }
+@media (hover: hover) and (pointer: fine) {
+  .step:hover { background: #925ff614; }
+  .step[aria-pressed='true']:hover { background: #72ddb912; }
+}
+
+/* ── The phone ─────────────────────────────────────────────────────────────────────────────────────────
+   The capture is the phone's own screen (its status bar and WhatsApp are in the image), so the device is only a frame:
+   a dark bezel, a punch-hole camera and two side keys. The screen keeps the capture's 720 × 1612 ratio. */
+.phone { display: grid; justify-items: center; gap: 14px; margin: 0; min-width: 0; }
+.device {
+  position: relative;
+  transform-origin: 50% 60%;
+  transition: transform 0.35s var(--ease-out);
+  width: min(100%, 284px);
+  padding: 9px;
+  border-radius: 40px;
+  background: linear-gradient(150deg, #2c2745 0%, #14102a 38%, #0c0a1c 70%, #1f1a38 100%);
+  box-shadow: inset 0 0 0 1px #ffffff1f, inset 0 1px 0 #ffffff26, 0 0 0 1px #05030f, 0 36px 64px -22px #02010ccc, 0 0 60px -18px #6024e855;
+}
+/* Side keys: volume on the left edge, power on the right. */
+.device::before, .device::after { content: ''; position: absolute; width: 3px; border-radius: 2px; background: #2a2543; }
+.device::before { left: -3px; top: 21%; height: 11%; }
+.device::after { right: -3px; top: 29%; height: 7%; }
+.camera { position: absolute; z-index: 2; top: 20px; left: 50%; width: 10px; height: 10px; translate: -50% 0; border-radius: 50%; background: #05030d; box-shadow: 0 0 0 2px #0b0918, inset 0 0 0 1.5px #1b1840; }
+.screen { position: relative; overflow: hidden; border-radius: 32px; background: #0b141a; aspect-ratio: 720 / 1612; }
+.screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* A soft reflection across the glass; it never covers the text for long and takes no pointer events. */
+.screen::after { content: ''; position: absolute; inset: 0; background: linear-gradient(118deg, #ffffff14 0%, #ffffff05 22%, transparent 42%); pointer-events: none; }
+/* The spotlight: a frame on the part of the capture the chosen step describes, and a shadow that dims the rest (the screen
+   clips it). The two frames cross-fade, so only opacity moves. */
+.spot { position: absolute; left: 4.7%; width: 72.8%; top: var(--top); height: var(--h); border: 1.5px solid var(--mint); border-radius: 7px; box-shadow: 0 0 0 100vmax #05030f8a, 0 0 18px #72ddb955; opacity: 0; pointer-events: none; transition: opacity 0.26s var(--ease-out); }
+.spot[data-on='true'] { opacity: 1; }
+.spot::after { content: attr(data-n); position: absolute; bottom: -1.5px; right: -1.5px; padding: 4px 7px 3px; border-radius: 7px 0 6px 0; background: var(--mint); color: #08150f; font: 600 11px/1 var(--mono); letter-spacing: 0.06em; }
+/* The phone rises into place after its card has revealed. Without script it is simply there. */
+:global(.js) .phone { opacity: 0; transform: translateY(22px) scale(0.97); transition: opacity 0.6s ease 0.2s, transform 0.8s var(--ease-out) 0.2s; }
+:global(.js) .featured:global(.is-visible) .phone { opacity: 1; transform: none; }
+.phone figcaption { max-width: 30ch; color: #948bab; font: 11.5px/1.5 var(--mono); text-align: center; text-wrap: balance; }
+
+/* ── Baral ─────────────────────────────────────────────────────────────────────────────────────────── */
+.logoBox { position: relative; display: block; width: clamp(140px, 11vw, 160px); aspect-ratio: 5 / 4; overflow: hidden; }
+.baralLogo { display: block; width: 100%; height: auto; margin-top: -15.5%; }
+.scope { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: auto 0 0; padding-top: 22px; color: #c5bfd4; font-size: 13.5px; line-height: 1.5; }
+.scope span { color: #948bab; font: 500 11.5px/1.5 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.upcoming .body { margin-bottom: 0; }
+/* The journey every implementation follows, drawn hollow and dashed: it is the plan, not something that has happened. */
+.journey { margin-top: clamp(20px, 2.4vw, 28px); padding-top: 18px; border-top: 1px dashed #a990e547; }
+.journeyLabel { margin: 0 0 14px; color: #948bab; font: 500 11.5px/1.5 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.journeySteps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+.journeySteps li { position: relative; padding-top: 22px; color: #c5bfd4; font: 500 12px/1.3 var(--mono); letter-spacing: 0.02em; }
+.journeySteps li::before { content: ''; position: absolute; top: 0; left: 0; width: 11px; height: 11px; border: 1.5px dashed var(--amber); border-radius: 50%; background: #110e24; }
+.journeySteps li:not(:last-child)::after { content: ''; position: absolute; top: 5px; left: 18px; right: 7px; border-top: 1px dashed #a990e555; }
+
+/* ── Invite ────────────────────────────────────────────────────────────────────────────────────────── */
+.invite { display: flex; flex-direction: column; align-items: flex-start; gap: 0; min-width: 0; padding: clamp(20px, 2.2vw, 28px); border: 1px solid var(--edge); border-radius: 22px; background: linear-gradient(135deg, #6024e826, #6024e808); }
+.inviteIcon { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 14px; border: 1px solid var(--edge); border-radius: 12px; background: #6024e82e; color: #cdbcf7; }
+.inviteIcon :global(.icon) { width: 20px; height: 20px; }
+.invite h3 { margin: 0; color: #f1edf8; font-size: clamp(19px, 1.6vw, 22px); font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; }
+.invite p { margin: 10px 0 0; max-width: 40ch; color: #b6adc9; font-size: 14.5px; line-height: 1.65; }
+.action { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: auto; padding-top: 12px; color: #cab5ff; font-size: 14px; font-weight: 600; transition: color 0.16s ease, transform 0.14s var(--ease-out); -webkit-tap-highlight-color: transparent; }
+.action :global(.icon) { width: 16px; height: 16px; transition: transform 0.2s var(--ease-out); }
+.action:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .action:hover { color: #fff; }
+  .action:hover :global(.icon) { transform: translateX(3px); }
+}
+
+
+@media (max-width: 480px) {
+  /* Four labels do not fit in a row on a phone: two by two, without the connecting line. */
+  .journeySteps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; }
+  .journeySteps li::after { display: none; }
+  .card { border-radius: 18px; }
+  .status { white-space: normal; }
+  .device { border-radius: 36px; }
+  .screen { border-radius: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .implementing .dot::after { animation: none; opacity: 0; }
+  .action, .action :global(.icon) { transition: none; }
+  .step, .step::before, .spot, .device { transition: none; }
+  :global(.js) .phone, :global(.js) .featured:global(.is-visible) .phone { opacity: 1; transform: none; transition: none; }
+}
+
+/* Tablet: Baral across the full width (the copy beside its journey) and the invitation as one strip under it. */
+@media (min-width: 720px) and (max-width: 1199px) {
+  .upcoming, .invite { grid-column: 1 / -1; }
+  .upcoming { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(28px, 5vw, 64px); align-content: start; }
+  .upcoming > .cardHead, .upcoming > .kicker, .upcoming > h3, .upcoming > .body, .upcoming > .scope { grid-column: 1; }
+  .upcoming > .journey { grid-column: 2; grid-row: 1 / span 5; align-self: center; margin-top: 0; padding: 0 0 0 clamp(20px, 3vw, 40px); border-top: 0; border-left: 1px dashed #a990e547; }
+  .upcoming > .scope { margin-top: 0; }
+  .invite { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 20px; align-items: center; }
+  .inviteIcon { grid-column: 1; grid-row: 1 / span 2; margin: 0; }
+  .invite h3 { grid-column: 2; grid-row: 1; }
+  .invite p { grid-column: 2; grid-row: 2; }
+  .invite .action { grid-column: 3; grid-row: 1 / span 2; margin-top: 0; padding-top: 0; }
+}

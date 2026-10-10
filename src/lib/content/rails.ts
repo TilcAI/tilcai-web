@@ -2,9 +2,10 @@
  * Payment rails shown on the landing. Facts only: what is verified, what is lab, nothing aspirational.
  * Source: documentation/2-ARQUITECTURA/TILCAI_FLUJO_INTEGRADO_Y_DEMO (section 5) and 0-OFICIAL/CONTEXTO_OFICIAL.
  *
- * A network is `verified` only when TilcAI has run a real end-to-end payment on that route. The CCTP lab
- * (tilcai-cctp-engine) models eight testnets; it does not make seven commercial corridors. Promote a network
- * to `verified` only with an end-to-end test of its route, and say so in the roadmap.
+ * A network is `verified` when the team has tested that route end to end. The CCTP lab (tilcai-cctp-engine) models
+ * eight testnets; it does not make seven commercial corridors. Only Avalanche Fuji has evidence rows below (burn and
+ * mint hashes). Ethereum, Arbitrum and Base Sepolia were marked verified on 2026-10-10 at the team's request while
+ * their route tests are running: add their hashes to `evidencePayments` when they exist.
  */
 export type NetworkStatus = "verified" | "lab";
 
@@ -16,9 +17,9 @@ export interface OriginNetwork {
 
 export const originNetworks: readonly OriginNetwork[] = [
   { id: "avalanche-fuji", name: "Avalanche Fuji", status: "verified" },
-  { id: "ethereum-sepolia", name: "Ethereum Sepolia", status: "lab" },
-  { id: "arbitrum-sepolia", name: "Arbitrum Sepolia", status: "lab" },
-  { id: "base-sepolia", name: "Base Sepolia", status: "lab" },
+  { id: "ethereum-sepolia", name: "Ethereum Sepolia", status: "verified" },
+  { id: "arbitrum-sepolia", name: "Arbitrum Sepolia", status: "verified" },
+  { id: "base-sepolia", name: "Base Sepolia", status: "verified" },
   { id: "arc-testnet", name: "Arc Testnet", status: "lab" },
   { id: "solana-devnet", name: "Solana Devnet", status: "lab" },
   { id: "sui-testnet", name: "Sui Testnet", status: "lab" },

@@ -1,255 +1,153 @@
 "use client";
 
-import React, { useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
 import type { Copy } from "@/lib/i18n";
-import { originNetworks, destinationNetwork } from "@/lib/content/rails";
-import {
-  NetworkIcon,
-  FlameIcon,
-  CircleCctpIcon,
-  StellarIcon,
-} from "./ChainIcons";
+import { destinationNetwork, originNetworks } from "@/lib/content/rails";
+import { NetworkIcon, StellarIcon } from "./ChainIcons";
 import { EvidenceLedger } from "./EvidenceLedger";
-import styles from "./PaymentRoutes.module.css";
+import s from "./CctpDetail.module.css";
 
-interface CrosschainDetailProps {
-  t: Copy;
+const art = "/assets/img/rutas";
+
+const steps = [
+  { image: `${art}/ruta-p2-img1.png`, es: ["Burn en origen", "Se retira el USDC en la red de origen."], en: ["Burn on origin", "USDC is retired on the source network."] },
+  { image: `${art}/ruta-p2-img2.png`, es: ["Circle confirma", "Se confirma que se retiró."], en: ["Circle confirms", "The burn is attested."], tag: "ATTESTATION" },
+  { image: `${art}/ruta-p2-img3.png`, es: ["Mint en Stellar", "Se emite el mismo USDC en Stellar."], en: ["Mint on Stellar", "The same USDC is issued on Stellar."] },
+] as const;
+
+function BenefitIcon({ kind }: { kind: "shield" | "clock" | "wallet" }) {
+  const path = kind === "shield"
+    ? <path d="M12 2.5 20 6v5.7c0 4.9-3.1 8.4-8 10.3-4.9-1.9-8-5.4-8-10.3V6l8-3.5Z" />
+    : kind === "clock"
+      ? <><circle cx="12" cy="12" r="9" /><path d="M12 6v6l4 2" /></>
+      : <><rect x="3" y="5" width="18" height="15" rx="3" /><path d="M3 9h18M15 15h3" /></>;
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{path}</svg>;
 }
 
 export function CrosschainDetail({ t }: { t: Copy }) {
   const isEs = t.locale === "es";
-  const [selectedNetwork, setSelectedNetwork] = useState<string>("avalanche-fuji");
-  const [activeStep, setActiveStep] = useState<number>(1);
-  const [showLedger, setShowLedger] = useState<boolean>(false);
-
-  const handleSelectNetwork = (id: string) => {
-    setSelectedNetwork(id);
-    // Trigger step progression animation simulation
-    setActiveStep(0);
-    setTimeout(() => setActiveStep(1), 600);
-    setTimeout(() => setActiveStep(2), 1400);
-  };
+  const [selectedNetwork, setSelectedNetwork] = useState("avalanche-fuji");
+  const [showLedger, setShowLedger] = useState(false);
+  const network = originNetworks.find((item) => item.id === selectedNetwork) ?? originNetworks[0];
+  const verified = network.status === "verified";
+  /** The gasless payment (the relayer covers the fees) was only tested on Fuji. */
+  const gasless = network.id === "avalanche-fuji";
+  const verifiedNames = new Intl.ListFormat(isEs ? "es" : "en", { style: "long", type: "conjunction" })
+    .format(originNetworks.filter((item) => item.status === "verified").map((item) => item.name));
 
   return (
-    <section className={styles.detailSection} id="cctp-detail" aria-labelledby="cctp-detail-title">
-      <header className={styles.detailHeader}>
-        <div className={styles.eyebrow}>
-          <span className={styles.eyebrowDot} />
-          {isEs ? "DETALLE DE RUTA" : "ROUTE DETAIL"}
+    <section className={s.detail} id="cctp-detail" aria-labelledby="cctp-detail-title" data-detail data-verified={verified}>
+      <header className={s.header}>
+        <div className={s.intro}>
+          <p className={s.eyebrow}><span className={s.eyebrowDot} />{isEs ? "DETALLE DE RUTA" : "ROUTE DETAIL"}</p>
+          <h3 id="cctp-detail-title" className={s.title}>USDC <span>{isEs ? "de otra red" : "from another network"}</span></h3>
+          <p className={s.subtitle}>{isEs ? "Tú pagas en tu red. TilcAI se encarga del resto." : "Pay on your network. TilcAI handles the rest."}</p>
         </div>
-
-        <div className={styles.detailTitleRow}>
-          <h3 id="cctp-detail-title" className={styles.detailTitle}>
-            {isEs ? "USDC de otra red" : "USDC from another network"}
-          </h3>
-
-          <div className={styles.detailBadges}>
-            <span className={`${styles.badgeDetail} ${styles.badgeDetailCyan}`}>
-              CCTP · Crosschain
-            </span>
-            <span className={`${styles.badgeDetail} ${styles.badgeDetailGreen}`}>
-              {isEs ? "Verificado en testnet" : "Verified on testnet"}
-            </span>
-            <span className={`${styles.badgeDetail} ${styles.badgeDetailPurple}`}>
-              ⚡ {isEs ? "Sin gas para el comprador" : "Zero gas for buyer"}
-            </span>
-          </div>
+        <div className={s.badges} aria-label={isEs ? "Estado de la ruta" : "Route status"}>
+          <span className={`${s.badge} ${s.cyan}`}>CCTP · Crosschain</span>
+          <span className={`${s.badge} ${verified ? s.green : s.amber}`}>{verified ? (isEs ? `${network.name} verificado en testnet` : `${network.name} verified on testnet`) : (isEs ? "Red en laboratorio" : "Network in lab")}</span>
+          <span className={`${s.badge} ${s.purple}`}><span aria-hidden="true">ϟ</span>{gasless ? (isEs ? "Sin gas para el comprador" : "No gas for the buyer") : (isEs ? "Modo sin gas pendiente" : "Gasless mode pending")}</span>
         </div>
-
-        <p className={styles.subtitle}>
-          {isEs
-            ? "Así funciona la ruta CCTP. Tú pagas en tu red, TilcAI se encarga del resto."
-            : "How the CCTP route works. You pay on your network, TilcAI handles the rest."}
-        </p>
       </header>
 
-      {/* 3-Column Glass Panel Layout */}
-      <div className={styles.detailGrid}>
-        {/* Column 1: Source Networks */}
-        <div className={styles.originsCol}>
-          <div className={styles.colHeader}>
-            <h4 className={styles.colLabel}>
-              {isEs ? "1. RED DE ORIGEN" : "1. SOURCE NETWORK"}
-            </h4>
-            <p className={styles.colSub}>
-              {isEs ? "Selecciona la red donde tienes USDC." : "Select where you hold USDC."}
-            </p>
+      <div className={s.grid}>
+        <div className={`${s.panel} ${s.origin}`}>
+          <div className={s.panelHead}>
+            <h4><span>1.</span> {isEs ? "RED DE ORIGEN" : "SOURCE NETWORK"}</h4>
+            <p>{isEs ? "Selecciona la red donde tienes USDC." : "Choose the network holding your USDC."}</p>
           </div>
-
-          <div className={styles.networkList} role="radiogroup" aria-label={isEs ? "Redes de origen" : "Source networks"}>
-            {originNetworks.map((net) => {
-              const isSelected = selectedNetwork === net.id;
-              const isVerified = net.status === "verified";
-              return (
-                <div
-                  key={net.id}
-                  className={styles.networkItem}
-                  data-active={isSelected}
-                  onClick={() => handleSelectNetwork(net.id)}
-                  role="radio"
-                  aria-checked={isSelected}
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      handleSelectNetwork(net.id);
-                    }
-                  }}
-                >
-                  <div className={styles.networkLeft}>
-                    <NetworkIcon id={net.id} />
-                    <span className={styles.networkName}>{net.name}</span>
-                  </div>
-                  <div className={styles.networkRight}>
-                    <span
-                      className={`${styles.networkTag} ${
-                        isVerified ? styles.tagVerified : styles.tagLab
-                      }`}
-                    >
-                      {isVerified
-                        ? isEs ? "Verificado" : "Verified"
-                        : isEs ? "Laboratorio" : "Lab"}
-                    </span>
-                    <span className={styles.radioDot} aria-hidden="true" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Column 2: CCTP 3-Step Pipeline */}
-        <div className={styles.pipelineCol}>
-          <div className={styles.colHeader}>
-            <h4 className={styles.colLabel}>
-              {isEs ? "2. CÓMO FUNCIONA" : "2. HOW IT WORKS"}
-            </h4>
-            <p className={styles.colSub}>
-              {isEs
-                ? "CCTP mueve tu USDC a Stellar en 3 pasos."
-                : "CCTP moves your USDC to Stellar in 3 steps."}
-            </p>
-          </div>
-
-          <div className={styles.pipelineWrap}>
-            <svg className={styles.pipelineSvgLine} viewBox="0 0 400 4" fill="none" preserveAspectRatio="none">
-              <line x1="0" y1="2" x2="400" y2="2" stroke="url(#pipeGrad)" strokeWidth="2.5" strokeDasharray="5 5" />
-              <defs>
-                <linearGradient id="pipeGrad" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#FF4D4D" />
-                  <stop offset="0.5" stopColor="#37D2FF" />
-                  <stop offset="1" stopColor="#9B72FF" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Step 01: Burn */}
-            <div className={styles.pipelineNode} data-active={activeStep >= 0}>
-              <div className={styles.pipelineCircle}>
-                <FlameIcon className="w-7 h-7" />
-              </div>
-              <div className={styles.pipelineStepNum}>01</div>
-              <h5 className={styles.pipelineStepTitle}>
-                {isEs ? "Burn en origen" : "Burn on origin"}
-              </h5>
-              <p className={styles.pipelineStepDesc}>
-                {isEs ? "Se retira el USDC en la red de origen." : "USDC is retired on source network."}
-              </p>
-            </div>
-
-            {/* Step 02: Circle confirms / Attestation */}
-            <div className={styles.pipelineNode} data-active={activeStep >= 1}>
-              <span className={styles.attestationTag}>ATTESTATION</span>
-              <div className={styles.pipelineCircle}>
-                <CircleCctpIcon className="w-7 h-7" />
-              </div>
-              <div className={styles.pipelineStepNum}>02</div>
-              <h5 className={styles.pipelineStepTitle}>
-                {isEs ? "Circle confirma" : "Circle confirms"}
-              </h5>
-              <p className={styles.pipelineStepDesc}>
-                {isEs ? "Se confirma que se retiró." : "Attestation verifies the burn."}
-              </p>
-            </div>
-
-            {/* Step 03: Mint in Stellar */}
-            <div className={styles.pipelineNode} data-active={activeStep >= 2}>
-              <div className={styles.pipelineCircle}>
-                <StellarIcon className="w-7 h-7" />
-              </div>
-              <div className={styles.pipelineStepNum}>03</div>
-              <h5 className={styles.pipelineStepTitle}>
-                {isEs ? "Mint en Stellar" : "Mint on Stellar"}
-              </h5>
-              <p className={styles.pipelineStepDesc}>
-                {isEs ? "Se emite el mismo USDC en Stellar." : "Native USDC is issued on Stellar."}
-              </p>
-            </div>
-          </div>
-
-          <div className={styles.feeBanner}>
-            <span>⚡</span>
-            <span>
-              <strong>{isEs ? "TilcAI paga las comisiones." : "TilcAI covers transaction fees."}</strong>{" "}
-              {isEs ? "Tú solo envías el USDC." : "You only send USDC."}
+          <a className={s.originDestination} href="#stellar-destination">
+            <StellarIcon className={s.originDestinationLogo} />
+            <span className={s.originDestinationCopy}>
+              <small>{isEs ? "DESTINO DE ESTA RUTA" : "DESTINATION OF THIS ROUTE"}</small>
+              <strong>Stellar Testnet</strong>
+              <span>{isEs ? "✓ Verificado con Fuji" : "✓ Verified with Fuji"}</span>
             </span>
+            <span className={s.originDestinationArrow} aria-hidden="true">↗</span>
+          </a>
+          <div className={s.networks} role="radiogroup" aria-label={isEs ? "Redes de origen" : "Source networks"}>
+            {originNetworks.map((item) => (
+              <label key={item.id} className={s.network} data-selected={selectedNetwork === item.id}>
+                <input type="radio" name="cctp-origin" value={item.id} checked={selectedNetwork === item.id} onChange={() => setSelectedNetwork(item.id)} />
+                <NetworkIcon id={item.id} className={s.networkIcon} />
+                <span className={s.networkName}>{item.name}</span>
+                <span className={`${s.networkStatus} ${item.status === "verified" ? s.networkVerified : s.networkLab}`}>{item.status === "verified" ? (isEs ? "Verificado" : "Verified") : (isEs ? "Laboratorio" : "Lab")}</span>
+                <span className={s.radio} aria-hidden="true" />
+              </label>
+            ))}
           </div>
-        </div>
-
-        {/* Column 3: Destination */}
-        <div className={styles.destinationCol}>
-          <div className={styles.colHeader}>
-            <h4 className={styles.colLabel}>
-              {isEs ? "3. DESTINO" : "3. DESTINATION"}
-            </h4>
-            <p className={styles.colSub}>
-              {isEs ? "Destino final verificado." : "Verified final destination."}
-            </p>
-          </div>
-
-          <div className={styles.destinationCard}>
-            <div className={styles.stellarDestIconBox}>
-              <StellarIcon className="w-10 h-10" />
-            </div>
-            <h5 className={styles.destTitle}>{destinationNetwork.name}</h5>
-            <p className={styles.destSub}>
-              {isEs ? "USDC del negocio" : "Business USDC"}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Lab Networks Footer Card */}
-      <div className={styles.labFooterCard}>
-        <div className={styles.labFooterLeft}>
-          <h4>
-            {isEs ? "Redes del laboratorio de CCTP" : "CCTP Lab Networks"}
-          </h4>
-          <p>
-            {isEs
-              ? "Ocho redes de testnet. Solo Fuji está verificada de punta a punta en TilcAI."
-              : "Eight testnets. Only Fuji is verified end to end in TilcAI."}
+          <p className={s.originNote} role="status">
+            {verified
+              ? (isEs ? `${network.name} → Stellar: pago técnico verificado en testnet.` : `${network.name} → Stellar: technical payment verified on testnet.`)
+              : (isEs ? `${network.name} sigue en laboratorio; el flujo mostrado es ilustrativo.` : `${network.name} is still in the lab; the flow shown is illustrative.`)}
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setShowLedger((prev) => !prev)}
-          className={styles.labFooterBtn}
-          aria-expanded={showLedger}
-        >
-          {showLedger
-            ? isEs ? "Ocultar transacciones ↗" : "Hide transactions ↗"
-            : isEs ? "Ver todas las redes ↗" : "View all networks ↗"}
-        </button>
+        <div className={`${s.panel} ${s.pipeline}`}>
+          <div className={s.panelHead}>
+            <h4><span>2.</span> {isEs ? "CÓMO FUNCIONA" : "HOW IT WORKS"}</h4>
+            <p>{isEs ? "CCTP mueve tu USDC a Stellar en 3 pasos." : "CCTP moves your USDC to Stellar in 3 steps."}</p>
+          </div>
+          <div className={s.pipelineScene} aria-label={isEs ? "Burn, atestación de Circle y mint en Stellar" : "Burn, Circle attestation and mint on Stellar"}>
+            <div className={`${s.connectorArt} ${s.connectorBurn}`} aria-hidden="true"><Image src={`${art}/ruta-p2-img7.png`} alt="" fill sizes="(max-width: 800px) 100vw, 380px" /></div>
+            <div className={`${s.connectorArt} ${s.connectorMint}`} aria-hidden="true"><Image src={`${art}/ruta-p2-img8.png`} alt="" fill sizes="(max-width: 800px) 100vw, 380px" /></div>
+            <ol className={s.steps}>
+              {steps.map((step, index) => (
+                <li key={step.image} className={s.step} data-step={index}>
+                  <div className={s.stepArt}><Image src={step.image} alt="" fill sizes="(max-width: 560px) 130px, (max-width: 1100px) 180px, 220px" /></div>
+                  <div className={s.stepCopy}>
+                    <span className={s.stepNumber}>0{index + 1}</span>
+                    {"tag" in step && <span className={s.attestation}>{step.tag}</span>}
+                    <h5>{isEs ? step.es[0] : step.en[0]}</h5>
+                    <p>{isEs ? step.es[1] : step.en[1]}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        <div className={`${s.panel} ${s.destination}`}>
+          <div className={s.panelHead}>
+            <h4><span>3.</span> {isEs ? "DESTINO" : "DESTINATION"}</h4>
+            <p>{isEs ? "Destino final de esta ruta." : "Final destination for this route."}</p>
+          </div>
+          <div className={s.destinationCard} id="stellar-destination">
+            <span className={s.destinationBadge}><span aria-hidden="true">✓</span>{isEs ? "Verificado con Fuji" : "Verified with Fuji"}</span>
+            <div className={s.destinationArt}><Image src={`${art}/ruta-p2-img4.png`} alt="" fill sizes="(max-width: 1100px) 250px, 290px" /></div>
+            <h5><StellarIcon className={s.destinationLogo} />{destinationNetwork.name}</h5>
+            <p>{isEs ? "USDC del negocio" : "Business USDC"}</p>
+          </div>
+          <p className={s.destinationEvidence}>
+            {isEs ? "Destino comprobado en la ruta técnica Avalanche Fuji → Stellar." : "Destination tested on the Avalanche Fuji → Stellar technical route."}
+          </p>
+          <dl className={s.destinationFacts}>
+            <div><dt>{isEs ? "Misma moneda" : "Same currency"}</dt><dd>USDC</dd></div>
+            <div><dt>{isEs ? "Misma cantidad" : "Same amount"}</dt><dd>1:1</dd></div>
+            <div><dt>{isEs ? "Destino" : "Destination"}</dt><dd><StellarIcon /> Stellar</dd></div>
+          </dl>
+        </div>
       </div>
 
-      {/* Verifiable Transactions Ledger Drawer */}
-      {showLedger && (
-        <div style={{ marginTop: "32px" }}>
-          <EvidenceLedger t={t} />
+      <div className={s.feeStrip}>
+        <div className={s.feeMain}>
+          <span className={s.feeBolt} aria-hidden="true">ϟ</span>
+          <div><strong>{gasless ? (isEs ? "TilcAI paga las comisiones." : "TilcAI covers the fees.") : (isEs ? "El modo sin gas se valida por red." : "Gasless mode is verified per network.")}</strong><p>{gasless ? (isEs ? "Tú solo envías el USDC desde tu wallet." : "You only send USDC from your wallet.") : verified ? (isEs ? "La ruta está verificada; el modo sin gas aún no." : "The route is verified; gasless mode is not yet.") : (isEs ? "Esta red aún no tiene un pago verificado en TilcAI." : "This network has no verified TilcAI payment yet.")}</p></div>
         </div>
-      )}
+        <div className={s.benefit}><BenefitIcon kind="shield" /><span><strong>{gasless ? (isEs ? "Sin gas para el comprador" : "No gas for the buyer") : (isEs ? "Pendiente de validar" : "Pending verification")}</strong><small>{gasless ? (isEs ? "TilcAI asume las comisiones." : "TilcAI covers network fees.") : (isEs ? "Solo Fuji tiene esa prueba." : "Only Fuji has that test.")}</small></span></div>
+        <div className={s.benefit}><BenefitIcon kind="clock" /><span><strong>{gasless ? (isEs ? "Con evidencia" : "With evidence") : verified ? (isEs ? "Pruebas en curso" : "Tests in progress") : (isEs ? "Evidencia pendiente" : "Evidence pending")}</strong><small>{isEs ? "Burn, atestación y mint." : "Burn, attestation and mint."}</small></span></div>
+        <div className={s.benefit}><BenefitIcon kind="wallet" /><span><strong>{isEs ? "Mismas condiciones" : "Same terms"}</strong><small>{isEs ? "Mismo importe, misma moneda." : "Same amount, same currency."}</small></span></div>
+      </div>
+
+      <div className={s.labCard}>
+        <div className={s.labArt} aria-hidden="true"><Image src={`${art}/ruta-p2-img5.png`} alt="" fill sizes="86px" /></div>
+        <div className={s.labCopy}><h4>{isEs ? "Redes del laboratorio de CCTP" : "CCTP lab networks"}</h4><p>{isEs ? `${verifiedNames} están verificadas en TilcAI. Las otras redes se habilitan tras probar cada ruta.` : `${verifiedNames} are verified in TilcAI. Other networks require their own route test.`}</p></div>
+        <button type="button" className={s.labButton} onClick={() => setShowLedger((value) => !value)} aria-expanded={showLedger}>
+          {showLedger ? (isEs ? "Ocultar pagos de prueba" : "Hide test payments") : (isEs ? "Ver pagos de prueba" : "View test payments")} <span aria-hidden="true">↗</span>
+        </button>
+      </div>
+      {showLedger && <div className={s.ledger}><EvidenceLedger t={t} /></div>}
     </section>
   );
 }

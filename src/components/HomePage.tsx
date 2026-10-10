@@ -12,7 +12,7 @@ import { OfficeLegendSection, OfficeRoomsSection } from "./sections/OfficeLegend
 import { ProductOverview } from "./sections/ProductOverview";
 import { BuyerEntrances } from "./sections/BuyerEntrances";
 import { RailsSection } from "./sections/RailsSection";
-import { RoadmapSection } from "./sections/RoadmapSection";
+import { SolutionsSection } from "./sections/SolutionsSection";
 import { StackSection } from "./sections/StackSection";
 
 /** Landing composition. Server component: every section renders on the server. */
@@ -25,11 +25,11 @@ export function HomePage({ t }: { t: Copy }) {
       <OfficeLegendSection t={t} />
       <OfficeRoomsSection t={t} />
       <BusinessesSection t={t} />
+      <SolutionsSection t={t} />
       <FlowSection t={t} />
       <RailsSection t={t} />
       <DemoSection t={t} />
       <ControlSection t={t} />
-      <RoadmapSection t={t} />
       <BuyerEntrances t={t} />
       <AgentCatalog t={t} />
       <StackSection t={t} />

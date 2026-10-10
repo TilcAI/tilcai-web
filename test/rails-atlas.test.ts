@@ -11,8 +11,9 @@ const ledger = read("EvidenceLedger.tsx");
 const header = read("RailsHeader.tsx");
 const section = readFileSync(new URL("../src/components/sections/RailsSection.tsx", import.meta.url), "utf8");
 
-test("the map draws what the data says: one verified network (the straight run), the rest as lab, one destination", () => {
-  assert.equal(originNetworks.filter((n) => n.status === "verified").length, 1);
+test("the map draws what the data says: the first network is the straight run, the others feed it (solid if verified, dashed if lab), one destination", () => {
+  assert.equal(originNetworks.filter((n) => n.status === "verified").length, 4);
+  assert.deepEqual(originNetworks.slice(0, 4).map((n) => n.status), ["verified", "verified", "verified", "verified"], "the verified networks come first");
   assert.equal(originNetworks[0]!.status, "verified", "the verified network is first, because the solid line leaves from its row");
   assert.equal(originNetworks[0]!.id, "avalanche-fuji");
   // Every network gets a row and a port the lines are measured from; the verified one is the only solid, bright dot.
@@ -71,22 +72,22 @@ test("the ledger shows the real hashes: split for the reveal, whole in the link'
   assert.match(ledger, /id="evidence"/, "the #evidence anchor survives");
 });
 
-test("the section keeps every text it had: the two routes, the pipeline, the limits, the evidence and its caution", () => {
+test("the section keeps route details, pipeline, limits and evidence without editorial notes", () => {
   for (const locale of ["es", "en"] as const) {
     const c = narrative(locale);
-    for (const route of c.rails.routes) for (const key of ["tag", "title", "body", "status", "note"] as const) assert.ok(route[key].length > 0, `${route.id}.${key}`);
+    for (const route of c.rails.routes) for (const key of ["tag", "title", "body", "status"] as const) assert.ok(route[key].length > 0, `${route.id}.${key}`);
     assert.equal(c.rails.pipelineSteps.length, 3);
     assert.equal(c.rails.limits.items.length, 4);
-    assert.ok(c.evidence.note.length > 0);
+    assert.ok(c.evidence.lead.length > 0);
   }
   // The atlas reads every one of those fields, so removing one from the page would fail here.
-  for (const field of ["route.tag", "route.title", "route.body", "route.status", "route.note", "c.pipelineSteps", "step.plain", "step.term", "c.gasless", "c.visionNote", "c.mapTitle", "c.mapLead", "c.destinationNote", "c.legend.verified", "c.legend.lab", "c.legend.vision"]) {
+  for (const field of ["route.tag", "route.title", "route.body", "route.status", "c.pipelineSteps", "step.plain", "step.term", "c.gasless", "c.mapTitle", "c.mapLead", "c.destinationNote", "c.legend.verified", "c.legend.lab", "c.legend.vision"]) {
     assert.ok(atlas.includes(field), field);
   }
   assert.match(section, /c\.limits\.items\.map/);
   assert.match(header, /c\.explainer\.term/);
-  assert.match(header, /c\.explainer\.note/);
-  assert.match(ledger, /e\.note/);
+  assert.ok(!header.includes("c.explainer.note"));
+  assert.ok(!ledger.includes("e.note"));
 });
 
 test("the headline reveal never clips the descenders afterwards and does not play twice", () => {
