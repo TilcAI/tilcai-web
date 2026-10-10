@@ -833,3 +833,41 @@ Causa encontrada y corregida en el árbol de trabajo; sin commit ni push.
 - Comprobado: `npm run build` termina bien (16 páginas estáticas, incluidas `/es/roadmap` y `/en/roadmap`); `npm test`: 89 pruebas, 88 pasan, 1 omitida, 0 fallan. No confirmé que el error del despliegue `dpl_2L6jW89cvprqk5xcrCtVyU2Qqy4t` sea este mismo, porque no pude ver su registro.
 - Corrección: antes dije que `npm run build` chocaría con el servidor de desarrollo; en Next 16 `next dev` escribe en `.next/dev`, así que no chocan.
 - Pendiente: commit y push de `narrative.ts` y `office.es.ts`. Si el borrado fue intencional, la alternativa es hacer `note` opcional en los tipos y quitarlo del inglés.
+
+## 2026-10-10T01:30:18Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> lo que esta de cada seccion quitale los note: que son por ejemplo esto "Componentes y protocolos del diseño · el estado de cada capacidad está en «Avance»" eso quitales de cada seccion no necesitamos
+
+### Salida
+
+Quité las notas editoriales al pie de las secciones de la landing, incluida «Componentes y protocolos del diseño…». Las aclaraciones necesarias sobre CCTP y los pagos de prueba quedaron integradas en el contenido. Verifiqué 88 pruebas aprobadas (una omitida), TypeScript y la compilación de producción. ESLint no pudo ejecutarse porque la versión instalada de `typescript-eslint` no admite TypeScript 7.
+
+## 2026-10-10T01:46:36Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 2ade03ec-522f-4e85-a8c7-408ff6878ade
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> para lo que es docs http://localhost:3000/es/docs saca de fura del repo actuliza la docuemntacion lo que se tiene en otras carpetasr y con el proeycto que se vea formal y intutivo la seccion de docuemntacion y usa lo que es /emil-design-eng
+
+### Salida
+
+Actualicé y rediseñé la página de documentación (`/es/docs` y `/en/docs`) con lo que hay fuera del repo y en el código de los otros proyectos.
+
+- **Fuentes:** `documentation/0-OFICIAL` y `2-ARQUITECTURA` (contexto oficial del 8 y 9 de octubre, flujo integrado, incorporación de compradores y de negocios, monitorización) y los README y docs de `tilcai-core`, `tilcai-infrastructure` y `tilcai-cctp-engine`. No entraron el backlog interno, las reglas del pitch, nombres de socios, direcciones de contratos, rutas de la API ni variables de entorno, porque el sitio es público.
+- **Contenido nuevo o corregido:** el corredor CCTP Avalanche Fuji a Stellar Testnet (verificado, con modo sin gas) frente al riel x402 (prueba aislada con el activo nativo); la lista MCP pasa de 9 a 12 herramientas, con su permiso; la compra de punta a punta con estado y evidencia por paso; puertas de entrada de compradores y cuatro caminos de negocios; cuentas y fondos; cobertura de ocho redes (una verificada, siete de laboratorio); monitorización; fuentes y actualización. 13 secciones en 4 grupos: Panorama, Diseño, Pagos y control, Referencia.
+- **Diseño:** cabecera con ruta de navegación, ficha del documento (actualizada, entorno, sin fondos ni auditoría) y tres rutas de lectura por audiencia; índice agrupado con una placa que se desliza a la sección que se lee; en móvil, una fila de chips fija bajo la cabecera que mantiene visible el chip activo; tablas que se apilan en móvil con cada celda etiquetada; diagrama de planos, línea de pasos, estados de un pago y cobertura de redes.
+- **Movimiento (emil-design-eng):** placa de 220 ms con curva ease-out fuerte y sin deslizarse en su primera colocación; entrada de la cabecera de 420 ms con escalonado de 50 ms solo si no hay movimiento reducido; `:active` con scale 0.97 a 0.98; hover tras `(hover: hover) and (pointer: fine)`; nada anima la navegación por teclado ni la lectura.
+- **Archivos:** reescritos `DocsPage.tsx`, `DocsToc.tsx`, `docs.es.ts` y `docs.en.ts`; nuevos `app/docs.css`, `lib/docs-html.ts`, `PageCrumbs.tsx` (compartido con el roadmap) y `test/docs-page.test.ts`; tipos `DocsGroup` y campos nuevos en `types.ts`; retiradas las reglas antiguas de la documentación de `globals.css` y `mobile.css`.
+
+Comprobado: `tsc` limpio; `npm run build` correcto (16 páginas); 97 pruebas, 96 pasan, 1 omitida, 0 fallan (8 nuevas); capturas en 1440, 1024, 820 y 390 px en ES y EN; la placa coincide con el enlace activo, el índice queda fijo a 104 px, el hash cambia con Enter, hay foco visible, sin desbordes y sin errores en consola. No comprobado: Safari ni dispositivos reales, ni que el equipo haya revisado cada afirmación de estado; la fecha «9 de octubre de 2026» está escrita a mano en `docs.*.ts` y hay que cambiarla al actualizar.
+
+Sin commit: los cambios quedan en el árbol de trabajo junto con esta entrada.

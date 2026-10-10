@@ -115,19 +115,3 @@
   body .hero-scene-badge { min-height: 40px; }
   body .office-hero .office-scroll { min-height: 40px; }
 }
-
-@media (max-width: 1023px) {
-  /* ---------- Docs: the index becomes one swipeable row instead of a long list above the text ---------- */
-  body .docs-layout { grid-template-columns: minmax(0, 1fr); }
-  body .docs-toc { min-width: 0; max-width: 100%; padding: 14px 0 6px; border: 0; background: none; border-radius: 0; }
-  body .docs-toc .toc-title { margin-bottom: 8px; }
-  body .docs-toc ol {
-    display: flex; gap: 8px; overflow-x: auto; margin: 0 -18px; padding: 2px 18px 10px;
-    scroll-snap-type: x proximity; scroll-padding-inline: 18px; scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  }
-  body .docs-toc ol::-webkit-scrollbar { display: none; }
-  body .docs-toc ol li { flex: none; scroll-snap-align: start; }
-  body .docs-toc ol a { white-space: nowrap; min-height: 44px; padding: 0 16px; border: 1px solid var(--border-strong); border-left-width: 1px; border-radius: 999px; background: rgb(255 255 255 / 0.03); }
-  body .docs-toc ol a.is-current { border-color: var(--purple-400); background: var(--purple-soft); }
-  body .docs-toc .toc-back { min-height: 44px; display: inline-flex; align-items: center; }
-}

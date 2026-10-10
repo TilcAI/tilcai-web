@@ -492,8 +492,6 @@ li[data-done] .stageState { color: #7fdca6; }
 .actions :global(.btn) { flex: 1 1 auto; font-size: 14.5px; }
 .actions :global(.btn):active { transform: scale(0.97); }
 
-.footer { margin-top: clamp(32px, 4vw, 48px); padding-top: 24px; border-top: 1px solid #a990e526; }
-.footer :global(.disclaimer) { max-width: 92ch; margin: 0; font-size: 11.5px; line-height: 1.6; text-align: left; }
 
 .root button:focus-visible,
 .root a:focus-visible { outline: 2px solid #57d2f9; outline-offset: 3px; }

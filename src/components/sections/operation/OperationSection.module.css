@@ -39,7 +39,6 @@
 .item[data-state='done'] .mark svg { opacity: 1; }
 .item[data-state='done'] .mark span { opacity: 0; }
 .mark:focus-visible { outline: 2px solid #57d2f9; outline-offset: 4px; }
-.caption { flex: none; margin: clamp(4px, 1svh, 12px) 0 0; color: #93899f; font: 10px/1.6 var(--mono); }
 
 /* ── Right: the step that is happening ─────────────────────────────────────────────────────────────────── */
 .right { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: center; }

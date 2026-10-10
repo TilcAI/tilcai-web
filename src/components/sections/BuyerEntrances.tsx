@@ -16,7 +16,6 @@ export function BuyerEntrances({ t }: { t: Copy }) {
         <h2 id="entrances-title" className={styles.heading} style={{ maxWidth: "26ch" }}>{c.title}</h2>
         <p className={styles.lead}>{c.lead}</p>
         <EntranceMap group={c.eyebrow} items={c.items} shared={c.shared} />
-        <p className={styles.caption}>{c.footnote}</p>
       </div>
     </section>
   );

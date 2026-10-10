@@ -164,7 +164,6 @@ export function OfficeBuildingSection({ legend, rooms }: Props) {
           <div className={styles.progress} aria-hidden="true"><i ref={progress} style={{ transform: "scaleX(.125)" }} /></div>
         </div>
       </div>
-      <p className={styles.note}>{legend.note}</p>
     </section>
   );
 }

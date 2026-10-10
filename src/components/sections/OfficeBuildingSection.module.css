@@ -81,7 +81,6 @@
 .root button:focus-visible { outline: 2px solid #dfceff; outline-offset: 3px; }
 .progress { position: absolute; z-index: 5; bottom: 0; left: 0; right: 0; height: 2px; background: #b7a5ff14; }
 .progress i { display: block; width: 100%; height: 100%; background: var(--room-accent); transform-origin: left; transition: background-color .35s; }
-.note { max-width: 72ch; margin: 0 auto; padding: 28px 24px 70px; color: #8f8ba5; font-size: 12px; line-height: 1.6; text-align: center; }
 
 @media (max-width: 1150px) and (min-width: 900px) {
   .frame { grid-template-columns: 56% 44%; }

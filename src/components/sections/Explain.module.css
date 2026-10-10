@@ -9,7 +9,6 @@
 .keepCol li { display: flex; gap: 10px; color: #d2cae1; font-size: 14px; line-height: 1.5; }
 .keepCol li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 7px; border-radius: 2px; background: #57d2f9; }
 .keepYours li::before { background: #72ddb9; }
-.keepNote { grid-column: 1 / -1; margin: 4px 0 0; color: #b0a6c4; font-size: 13px; line-height: 1.6; }
 
 @media (max-width: 900px) {
   .keep { grid-template-columns: 1fr; }

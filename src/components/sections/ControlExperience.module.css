@@ -146,8 +146,6 @@
 .pauseButton:hover { transform: translateY(-2px); border-color: #d8b5ff; background: #a05bf153; }
 .pauseButton[aria-pressed="true"] { border-color: #dca76e; color: #ffcf9c; background: #bb72332e; }
 .pauseButton span { font-size: 17px; line-height: 1; }
-.disclaimer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; margin: 15px 3px 0; color: #8e83a6; font: 10px/1.6 var(--mono); }
-.disclaimer span:last-child { max-width: 42ch; }
 .section button:focus-visible, .section a:focus-visible, .sliderTrack input:focus-visible { outline: 2px solid #76e4fa; outline-offset: 4px; }
 
 @keyframes enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

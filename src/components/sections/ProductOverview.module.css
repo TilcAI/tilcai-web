@@ -64,27 +64,6 @@
 .body h3 { margin: 0 0 6px; font-size: 22px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: #fff; }
 .body p { font-size: 15px; line-height: 1.55; color: #d9d4ea; }
 
-/* ---------- Closing note ---------- */
-.note {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  max-width: 900px;
-  margin: 28px auto 0;
-  padding: 18px 22px;
-  border-radius: 22px;
-  border: 1.5px solid rgb(104 126 255 / 0.9);
-  background: linear-gradient(90deg, rgb(12 10 44 / 0.88), rgb(8 8 34 / 0.88));
-  box-shadow: 0 0 34px rgb(76 102 255 / 0.4), inset 0 0 28px rgb(76 102 255 / 0.12);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  text-align: left;
-}
-.noteIcon { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; color: #fff; background: linear-gradient(145deg, #7a4dff, #4f2fe0); box-shadow: 0 8px 20px rgb(79 47 224 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.22); }
-.noteIcon :global(.icon) { width: 28px; height: 28px; }
-.noteLead { display: block; font-size: 16px; font-weight: 500; line-height: 1.45; color: #fff; }
-.noteRest { display: block; margin-top: 2px; font-size: 15px; line-height: 1.5; color: #b9b2d6; }
-
 /* ---------- Desktop: keep the proportions of the 1672x941 composition ---------- */
 @media (min-width: 1024px) {
   .wrap { max-width: none; width: calc(var(--u, 0.7px) * 1510); padding: 0; }
@@ -103,11 +82,6 @@
   .card:nth-child(2) .body { gap: calc(var(--u, 0.7px) * 20); padding-inline: calc(var(--u, 0.7px) * 17); }
   .card:nth-child(2) .body p { font-size: max(13.5px, calc(var(--u, 0.7px) * 17.2)); }
 
-  .note { max-width: none; width: calc(var(--u, 0.7px) * 901); margin: calc(var(--u, 0.7px) * 22) auto 0; padding: calc(var(--u, 0.7px) * 18) calc(var(--u, 0.7px) * 40); gap: calc(var(--u, 0.7px) * 27); border-radius: calc(var(--u, 0.7px) * 24); }
-  .noteIcon { width: max(44px, calc(var(--u, 0.7px) * 68)); height: max(44px, calc(var(--u, 0.7px) * 68)); border-radius: calc(var(--u, 0.7px) * 16); }
-  .noteIcon :global(.icon) { width: 50%; height: 50%; }
-  .noteLead { font-size: max(14px, calc(var(--u, 0.7px) * 19.5)); }
-  .noteRest { font-size: max(13px, calc(var(--u, 0.7px) * 19)); }
 }
 
 /* ---------- Phones ---------- */
@@ -134,11 +108,6 @@
   .body h3 { font-size: 20px; margin-bottom: 4px; }
   .body p { font-size: 14px; line-height: 1.5; }
 
-  .note { gap: 14px; margin-top: 22px; padding: 14px 16px; border-radius: 18px; }
-  .noteIcon { width: 46px; height: 46px; border-radius: 12px; }
-  .noteIcon :global(.icon) { width: 22px; height: 22px; }
-  .noteLead { font-size: 14.5px; }
-  .noteRest { font-size: 13.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

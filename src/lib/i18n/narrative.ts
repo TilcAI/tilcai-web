@@ -2,7 +2,7 @@ import type { Locale } from "./types";
 
 interface FlowStepCopy { title: string; actor: string; state: string; body: string; detail: string; artifact: string; lines: string[] }
 interface PathCopy { key: string; title: string; who: string; body: string }
-interface EntranceCopy { id: "whatsapp" | "mcp" | "api"; title: string; body: string; status: string; note: string }
+interface EntranceCopy { id: "whatsapp" | "mcp" | "api"; title: string; body: string; status: string; note?: string }
 /** Short labels drawn inside the animated scene. Decorative: every fact is also in the step cards beside it. */
 interface FlowSceneCopy {
   agents: { claude: string; codex: string; own: string };
@@ -13,7 +13,7 @@ interface FlowSceneCopy {
   rail: string; stops: string[]; settled: string;
   receipts: { payment: string; delivery: string; paid: string; pending: string; confirmed: string; sameOrder: string; notDelivery: string };
 }
-interface RouteCopy { id: "direct" | "cctp"; title: string; tag: string; body: string; status: string; tone: "verified" | "lab"; note: string }
+interface RouteCopy { id: "direct" | "cctp"; title: string; tag: string; body: string; status: string; tone: "verified" | "lab"; note?: string }
 
 interface NarrativeCopy {
   business: {
@@ -24,16 +24,16 @@ interface NarrativeCopy {
       /** The three floating notes around the TilcAI node, and its accessible name. */
       hud: { connected: string; identity: string; data: string }; node: string;
     };
-    keep: { title: string; yours: { title: string; lines: string[] }; ours: { title: string; lines: string[] }; note: string };
+    keep: { title: string; yours: { title: string; lines: string[] }; ours: { title: string; lines: string[] }; note?: string };
   };
   flow: { title: string; lead: string; label: string; agent: string; business: string; actor: string; state: string; steps: FlowStepCopy[]; scene: FlowSceneCopy };
   control: { title: string; lead: string; recipient: string; recipientValue: string; expiry: string; expiryValue: string; review: string; docs: string };
-  stack: { title: string; note: string };
+  stack: { title: string; note?: string };
   cta: { title: string; body: string; primary: string; secondary: string; tertiary: string };
   rails: {
     eyebrow: string; title: string; lead: string; routes: RouteCopy[];
     /** Plain-language definition of paying across networks, with the term people may search for. */
-    explainer: { term: string; title: string; body: string; note: string };
+    explainer: { term: string; title: string; body: string; note?: string };
     mapTitle: string; mapLead: string; origin: string; pipeline: string; destination: string;
     /** `plain` says what happens; `term` is the technical word, shown next to it. */
     pipelineSteps: { plain: string; term: string }[]; gasless: string; destinationName: string; destinationNote: string;
@@ -42,7 +42,7 @@ interface NarrativeCopy {
   };
   evidence: {
     eyebrow: string; title: string; lead: string; rows: { id: "gasless" | "external"; label: string; detail: string }[];
-    burn: string; mint: string; open: string; note: string; dateLabel: string; amount: string;
+    burn: string; mint: string; open: string; note?: string; dateLabel: string; amount: string;
   };
   /** `shared`: the stretch every entrance ends in, named with the words of the lead ("identity, quote, approval, payment and receipts"). */
   entrances: { eyebrow: string; title: string; lead: string; items: EntranceCopy[]; shared: { label: string; steps: string[] }; footnote: string };
@@ -75,7 +75,6 @@ const es: NarrativeCopy = {
       title: "Qué conservas y qué coordina TilcAI",
       yours: { title: "Tú conservas", lines: ["Precios y condiciones", "Disponibilidad y cupos", "El destino de cobro, verificado", "La confirmación de entrega"] },
       ours: { title: "TilcAI coordina", lines: ["La identidad y las reglas del comprador", "Cotización y orden con identificadores comunes", "El pago por un riel soportado y su conciliación", "Recibos para ambas partes"] },
-      note: "Ningún modelo de IA fija por sí solo un precio, un stock o un destino de cobro.",
     },
   },
   flow: {
@@ -100,7 +99,7 @@ const es: NarrativeCopy = {
     },
   },
   control: { title: "Una tarea concreta. Un permiso limitado.", lead: "Tú decides qué se autoriza, cuánto puede gastar y cuándo deja de ser válido.", recipient: "Destinatario", recipientValue: "Negocio autorizado", expiry: "Vigencia", expiryValue: "Solo esta compra", review: "Condiciones para revisar", docs: "Entender los permisos" },
-  stack: { title: "Las piezas detrás de cada operación.", note: "Componentes y protocolos del diseño · el estado de cada capacidad está en «Avance»" },
+  stack: { title: "Las piezas detrás de cada operación." },
   cta: { title: "Explora cómo comprarían tus agentes.", body: "Prueba las decisiones en la simulación, mira qué funciona hoy o conoce cómo preparar tu negocio para un piloto.", primary: "Explorar la simulación", secondary: "Explorar para mi empresa", tertiary: "Ver qué funciona hoy" },
   rails: {
     eyebrow: "Rutas de pago",
@@ -108,12 +107,11 @@ const es: NarrativeCopy = {
     lead: "TilcAI elige una ruta por orden y nunca cobra dos veces. Sirven para situaciones distintas: tener ya USDC en Stellar o tenerlo en otra red.",
     explainer: {
       term: "crosschain", title: "Qué significa pagar entre redes",
-      body: "Tú tienes USDC en una blockchain y el negocio lo recibe en otra. No es un cambio de moneda: el mismo USDC se retira en un lado y se emite en el otro, y TilcAI comprueba que ambos pasos ocurrieron.",
-      note: "Tampoco es un token «envuelto»: el USDC que llega a Stellar es USDC nativo, emitido por Circle.",
+      body: "Tú tienes USDC en una blockchain y el negocio lo recibe en otra. No es un cambio de moneda: el mismo USDC se retira en un lado y se emite en el otro, y TilcAI comprueba que ambos pasos ocurrieron. El USDC que llega a Stellar es nativo de Circle, no un token envuelto.",
     },
     routes: [
-      { id: "direct", title: "Stellar directo", tag: "x402", body: "Si el comprador ya tiene USDC en Stellar, paga el servicio con el protocolo x402: un relayer verifica y liquida el pago.", status: "Prueba aislada", tone: "lab", note: "Probado con XLM en testnet. Falta repetirlo con USDC." },
-      { id: "cctp", title: "USDC de otra red", tag: "CCTP · crosschain", body: "El USDC se retira (burn) en la red de origen, Circle lo confirma y se emite (mint) en Stellar. El relayer paga las comisiones: el comprador no necesita la moneda de gas.", status: "Verificado en testnet", tone: "verified", note: "Avalanche Fuji a Stellar Testnet, de punta a punta." },
+      { id: "direct", title: "Stellar directo", tag: "x402", body: "Si el comprador ya tiene USDC en Stellar, paga el servicio con el protocolo x402: un relayer verifica y liquida el pago.", status: "Prueba aislada", tone: "lab" },
+      { id: "cctp", title: "USDC de otra red", tag: "CCTP · crosschain", body: "El USDC se retira (burn) en la red de origen, Circle lo confirma y se emite (mint) en Stellar. El relayer paga las comisiones: el comprador no necesita la moneda de gas.", status: "Verificado en testnet", tone: "verified" },
     ],
     mapTitle: "Redes del laboratorio de CCTP",
     mapLead: "Ocho redes de testnet: Fuji y seis más como origen, y Stellar como destino. Solo Fuji está verificada de punta a punta en TilcAI.",
@@ -140,21 +138,20 @@ const es: NarrativeCopy = {
   },
   evidence: {
     eyebrow: "Evidencia", title: "Pago de prueba verificable.",
-    lead: "Dos pagos de 0,1 USDC de Avalanche Fuji a Stellar Testnet, reproducidos de forma independiente. Compruébalos tú mismo en el explorador.",
+    lead: "Dos pagos técnicos de 0,1 USDC de Avalanche Fuji a Stellar Testnet, reproducidos de forma independiente; no son órdenes comerciales. Compruébalos tú mismo en el explorador.",
     rows: [
       { id: "gasless", label: "Con relayer", detail: "El relayer paga el gas; el pagador firma una autorización." },
       { id: "external", label: "Con wallet externa", detail: "La wallet del pagador difunde el burn y paga su gas." },
     ],
     burn: "Retiro en Fuji (burn)", mint: "Emisión en Stellar (mint)", open: "Ver en el explorador", dateLabel: "Ejecutados el", amount: "0,1 USDC · de Avalanche Fuji a Stellar Testnet",
-    note: "Es un pago técnico entre cuentas de prueba, no una orden comercial: unirlo con el catálogo, la aprobación y la entrega sigue en integración.",
   },
   entrances: {
     eyebrow: "Entradas del comprador", title: "Tres formas de llegar a la misma infraestructura.",
     lead: "Cambia el canal, no las reglas: todas terminan en la misma identidad, cotización, aprobación, pago y recibos.",
     items: [
-      { id: "whatsapp", title: "Persona nueva · WhatsApp", body: "Una conversación guiada. Para comprar, un enlace seguro abre la pantalla donde creas tu credencial y apruebas. WhatsApp inicia el proceso; no es una firma.", status: "Reportado por el equipo", note: "Demostrado por el equipo; el adaptador propio está pendiente." },
-      { id: "mcp", title: "Asistente propio · MCP", body: "Conectas las herramientas de TilcAI a tu asistente: buscar un servicio, pedir una cotización, solicitar aprobación, consultar una orden. Permitir una herramienta no concede permiso de gasto.", status: "Contrato definido", note: "Doce herramientas especificadas; el servidor está pendiente." },
-      { id: "api", title: "Aplicación propia · API", body: "Un backend autenticado usa la API REST. Un SDK futuro empaquetaría autenticación, tipos e idempotencia, pero no reemplaza a la API.", status: "Disponible en testnet", note: "Cotizar y pagar de Fuji a Stellar con idempotencia; comercio y órdenes están pendientes." },
+      { id: "whatsapp", title: "Persona nueva · WhatsApp", body: "Una conversación guiada. Para comprar, un enlace seguro abre la pantalla donde creas tu credencial y apruebas. WhatsApp inicia el proceso; no es una firma.", status: "Reportado por el equipo" },
+      { id: "mcp", title: "Asistente propio · MCP", body: "Conectas las herramientas de TilcAI a tu asistente: buscar un servicio, pedir una cotización, solicitar aprobación, consultar una orden. Permitir una herramienta no concede permiso de gasto.", status: "Contrato definido" },
+      { id: "api", title: "Aplicación propia · API", body: "Un backend autenticado usa la API REST. Un SDK futuro empaquetaría autenticación, tipos e idempotencia, pero no reemplaza a la API.", status: "Disponible en testnet" },
     ],
     shared: { label: "La misma infraestructura", steps: ["Identidad", "Cotización", "Aprobación", "Pago", "Recibos"] },
     footnote: "A2A, la conversación entre agentes de organizaciones distintas, es una evolución prevista y no hace falta para empezar.",
@@ -188,7 +185,6 @@ const en: NarrativeCopy = {
       title: "What you keep and what TilcAI coordinates",
       yours: { title: "You keep", lines: ["Prices and terms", "Availability and capacity", "The payout destination, verified", "The delivery confirmation"] },
       ours: { title: "TilcAI coordinates", lines: ["The buyer's identity and rules", "Quote and order with shared identifiers", "Payment over a supported rail and its reconciliation", "Receipts for both parties"] },
-      note: "No AI model sets a price, a stock level or a payout destination on its own.",
     },
   },
   flow: {
@@ -213,7 +209,7 @@ const en: NarrativeCopy = {
     },
   },
   control: { title: "A specific task. A limited permission.", lead: "You decide what is authorized, how much it can spend and when it expires.", recipient: "Payee", recipientValue: "Authorized business", expiry: "Validity", expiryValue: "This purchase only", review: "Terms to review", docs: "Understand permissions" },
-  stack: { title: "The pieces behind each operation.", note: "Design components and protocols · the status of each capability is under “Progress”" },
+  stack: { title: "The pieces behind each operation." },
   cta: { title: "Explore how your agents would buy.", body: "Try the decisions in the simulation, see what works today, or learn how to prepare your business for a pilot.", primary: "Explore the simulation", secondary: "Explore for my business", tertiary: "See what works today" },
   rails: {
     eyebrow: "Payment routes",
@@ -221,12 +217,11 @@ const en: NarrativeCopy = {
     lead: "TilcAI picks one route per order and never charges twice. They serve different situations: already holding USDC on Stellar, or holding it on another network.",
     explainer: {
       term: "crosschain", title: "What paying across networks means",
-      body: "You hold USDC on one blockchain and the business receives it on another. It is not a currency swap: the same USDC is retired on one side and issued on the other, and TilcAI checks that both steps happened.",
-      note: "Nor is it a “wrapped” token: the USDC that arrives on Stellar is native USDC, issued by Circle.",
+      body: "You hold USDC on one blockchain and the business receives it on another. It is not a currency swap: the same USDC is retired on one side and issued on the other, and TilcAI checks that both steps happened. The USDC arriving on Stellar is native Circle USDC, not a wrapped token.",
     },
     routes: [
-      { id: "direct", title: "Direct on Stellar", tag: "x402", body: "If the buyer already holds USDC on Stellar, they pay for the service with the x402 protocol: a relayer verifies and settles the payment.", status: "Isolated test", tone: "lab", note: "Tested with XLM on testnet. Still to be repeated with USDC." },
-      { id: "cctp", title: "USDC from another network", tag: "CCTP · crosschain", body: "The USDC is retired (burn) on the source network, Circle confirms it and it is issued (mint) on Stellar. The relayer pays the fees: the buyer does not need the gas token.", status: "Verified on testnet", tone: "verified", note: "Avalanche Fuji to Stellar Testnet, end to end." },
+      { id: "direct", title: "Direct on Stellar", tag: "x402", body: "If the buyer already holds USDC on Stellar, they pay for the service with the x402 protocol: a relayer verifies and settles the payment.", status: "Isolated test", tone: "lab" },
+      { id: "cctp", title: "USDC from another network", tag: "CCTP · crosschain", body: "The USDC is retired (burn) on the source network, Circle confirms it and it is issued (mint) on Stellar. The relayer pays the fees: the buyer does not need the gas token.", status: "Verified on testnet", tone: "verified" },
     ],
     mapTitle: "Networks in the CCTP lab",
     mapLead: "Eight testnets: Fuji and six more as sources, and Stellar as the destination. Only Fuji is verified end to end in TilcAI.",
@@ -253,21 +248,20 @@ const en: NarrativeCopy = {
   },
   evidence: {
     eyebrow: "Evidence", title: "A verifiable test payment.",
-    lead: "Two payments of 0.1 USDC from Avalanche Fuji to Stellar Testnet, independently reproduced. Check them yourself in the explorer.",
+    lead: "Two technical payments of 0.1 USDC from Avalanche Fuji to Stellar Testnet, independently reproduced; these are not commercial orders. Check them yourself in the explorer.",
     rows: [
       { id: "gasless", label: "Through the relayer", detail: "The relayer pays the gas; the payer signs an authorization." },
       { id: "external", label: "With an external wallet", detail: "The payer's wallet broadcasts the burn and pays its own gas." },
     ],
     burn: "Burn on Fuji", mint: "Mint on Stellar", open: "View in the explorer", dateLabel: "Executed on", amount: "0.1 USDC · Avalanche Fuji to Stellar Testnet",
-    note: "This is a technical payment between test accounts, not a commercial order: tying it to the catalog, the approval and the delivery is still being integrated.",
   },
   entrances: {
     eyebrow: "Buyer entrances", title: "Three ways into the same infrastructure.",
     lead: "The channel changes, the rules do not: all of them end in the same identity, quote, approval, payment and receipts.",
     items: [
-      { id: "whatsapp", title: "New person · WhatsApp", body: "A guided conversation. To buy, a secure link opens the screen where you create your credential and approve. WhatsApp starts the process; it is not a signature.", status: "Reported by the team", note: "Demonstrated by the team; our own adapter is pending." },
-      { id: "mcp", title: "Your own assistant · MCP", body: "You connect TilcAI's tools to your assistant: find a service, ask for a quote, request approval, check an order. Allowing a tool does not grant permission to spend.", status: "Contract defined", note: "Twelve tools specified; the server is pending." },
-      { id: "api", title: "Your own application · API", body: "An authenticated backend uses the REST API. A future SDK would package authentication, types and idempotency, but would not replace the API.", status: "Available on testnet", note: "Quote and pay from Fuji to Stellar with idempotency; commerce and orders are pending." },
+      { id: "whatsapp", title: "New person · WhatsApp", body: "A guided conversation. To buy, a secure link opens the screen where you create your credential and approve. WhatsApp starts the process; it is not a signature.", status: "Reported by the team" },
+      { id: "mcp", title: "Your own assistant · MCP", body: "You connect TilcAI's tools to your assistant: find a service, ask for a quote, request approval, check an order. Allowing a tool does not grant permission to spend.", status: "Contract defined" },
+      { id: "api", title: "Your own application · API", body: "An authenticated backend uses the REST API. A future SDK would package authentication, types and idempotency, but would not replace the API.", status: "Available on testnet" },
     ],
     shared: { label: "The same infrastructure", steps: ["Identity", "Quote", "Approval", "Payment", "Receipts"] },
     footnote: "A2A, conversation between agents from different organizations, is a planned evolution and is not needed to start.",

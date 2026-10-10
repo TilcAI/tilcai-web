@@ -164,7 +164,6 @@ export function OperationSection({ t }: { t: Copy }) {
                 ))}
               </ol>
             </nav>
-            <p className={styles.caption}>{c.label}</p>
           </div>
         </div>
         <div className={styles.right}>

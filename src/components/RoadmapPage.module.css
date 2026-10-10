@@ -1,28 +1,11 @@
 /*
  * The page keeps the docs hero's night/dawn field; only what the roadmap needs differs: the label that used to sit above
- * the heading is now the current step of a breadcrumb, and the heading is allowed to break into two balanced lines.
+ * the heading is now the current step of the breadcrumb, and the heading is allowed to break into two balanced lines.
  */
 .page .hero { padding: 28px 0 56px; }
-.crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 28px; font-size: 14px; }
-.crumbs a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding-right: 4px;
-  color: var(--text-2);
-  transition: color .15s ease;
-}
-.crumbs a .icon { width: 16px; height: 16px; }
-.sep { color: var(--border-strong); }
-.here { font-weight: 500; color: var(--text); }
 .page .hero h1 { max-width: 22ch; margin-bottom: 20px; text-wrap: balance; }
 .page .hero :global(.lead) { text-wrap: pretty; }
 
-@media (hover: hover) and (pointer: fine) {
-  .crumbs a:hover { color: #fff; }
-}
 @media (max-width: 719px) {
   .page .hero { padding: 16px 0 40px; }
-  .crumbs { margin-bottom: 20px; }
 }

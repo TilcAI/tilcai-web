@@ -103,9 +103,9 @@ test("the evidence rows are real transaction hashes with working explorer links"
   assert.match(evidenceDate, /^\d{4}-\d{2}-\d{2}$/);
 });
 
-test("the evidence says it is a technical payment and not a commercial order, in both languages", () => {
-  assert.match(es.evidence.note, /no una orden comercial/);
-  assert.match(en.evidence.note, /not a commercial order/);
+test("the evidence lead identifies test payments rather than commercial orders, in both languages", () => {
+  assert.match(es.evidence.lead, /no son órdenes comerciales/);
+  assert.match(en.evidence.lead, /not commercial orders/);
   assert.match(es.flow.label, /ilustrativo/);
   assert.match(en.flow.label, /llustrative/i);
 });
@@ -149,8 +149,8 @@ test("paying across networks is defined in both languages, names the term, and s
   for (const c of [es, en]) assert.equal(c.rails.explainer.term, "crosschain");
   assert.match(es.rails.explainer.body, /no es un cambio de moneda/i);
   assert.match(en.rails.explainer.body, /not a currency swap/i);
-  assert.match(es.rails.explainer.note, /nativo/);
-  assert.match(en.rails.explainer.note, /native USDC/);
+  assert.match(es.rails.explainer.body, /nativo/);
+  assert.match(en.rails.explainer.body, /native Circle USDC/);
   for (const c of [es, en]) assert.match(c.rails.routes[1]!.tag, /crosschain/, "the term is on the route itself");
 });
 

@@ -19,9 +19,6 @@ export function ProductOverview({ t }: { t: Copy }) {
       ? [problem.title, "", ""]
       : [problem.title.slice(0, at), problem.titleAccent, problem.title.slice(at + problem.titleAccent.length)];
 
-  // First sentence leads, the rest is the supporting line.
-  const [noteLead, ...noteRest] = problem.question.split(/(?<=\.)\s+/);
-
   return (
     <TilcAIParallax id="problem" labelledBy="problem-title">
       <div className={styles.wrap}>
@@ -52,15 +49,6 @@ export function ProductOverview({ t }: { t: Copy }) {
           ))}
         </ol>
 
-        <p className={`${styles.note} reveal`}>
-          <span className={styles.noteIcon} aria-hidden="true">
-            <Icon name="chain" className="icon" />
-          </span>
-          <span>
-            <span className={styles.noteLead}>{noteLead}</span>
-            {noteRest.length > 0 && <span className={styles.noteRest}>{noteRest.join(" ")}</span>}
-          </span>
-        </p>
       </div>
     </TilcAIParallax>
   );

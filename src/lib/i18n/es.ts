@@ -251,7 +251,6 @@ export const es: Copy = {
       { stage: "next", title: "Delegación limitada", body: "Habilitar cuentas inteligentes con permisos restringidos, vigencia y revocación, después de verificar cuenta, firmante y compatibilidad del riel." },
       { stage: "next", title: "Presupuesto común y tareas programadas", body: "Coordinar retenciones entre agentes y ocurrencias idempotentes para tareas repetidas, con límites compartidos y recuperación ante interrupciones." },
     ],
-    disclaimer: "La disponibilidad comercial depende de cada integración. Una empresa se presenta como habilitada solo cuando su flujo operativo está verificado.",
   },
   code: {
     eyebrow: "Contratos de integración", title: "Condiciones explícitas. Referencias compartidas.",

@@ -14,7 +14,6 @@
 .noteTerm { display: inline-block; margin-bottom: 12px; color: #7fdcff; font: 500 12px/1.4 var(--mono); letter-spacing: .04em; }
 .note h3 { margin: 0 0 8px; color: var(--ink); font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
 .note p { margin: 0; color: #cdd6e3; font-size: 14.5px; line-height: 1.7; max-width: 58ch; }
-.note .noteNote { margin-top: 10px; color: #a9bfd1; font-size: 13px; line-height: 1.6; }
 
 /* ── What the route does not promise: a plain list, in the amber of a caution ──────────────────────────────── */
 .limits { margin-top: clamp(48px, 6vw, 88px); padding-top: 22px; border-top: 1px solid #c4ae8540; display: grid; grid-template-columns: minmax(180px, 280px) minmax(0, 1fr); gap: 18px clamp(24px, 5vw, 72px); }
@@ -46,8 +45,6 @@
 .span::after { content: ''; position: absolute; right: -1px; top: -3.5px; width: 7px; height: 7px; border-top: 1.5px solid var(--cyan); border-right: 1.5px solid var(--cyan); transform: rotate(45deg); transform-origin: 100% 0; }
 .meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 22px; margin: 18px 0 0; color: #cfc8e6; font: 12px/1.6 var(--mono); }
 .meta span + span::before { content: ''; display: inline-block; width: 1px; height: 11px; margin-right: 22px; vertical-align: -1px; background: #75608f; }
-.caution { position: relative; margin: 20px 0 0; padding-left: 28px; max-width: 78ch; color: #cfc4a8; font-size: 13px; line-height: 1.65; }
-.caution::before { content: ''; position: absolute; left: 0; top: .85em; width: 16px; height: 1.5px; background: var(--amber); }
 
 @media (max-width: 1099px) {
   .header, .ledgerHead { grid-template-columns: minmax(0, 1fr); }

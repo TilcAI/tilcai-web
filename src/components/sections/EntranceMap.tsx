@@ -9,7 +9,7 @@ import styles from "./EntranceMap.module.css";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-type Entrance = { id: "whatsapp" | "mcp" | "api"; title: string; body: string; status: string; note: string };
+type Entrance = { id: "whatsapp" | "mcp" | "api"; title: string; body: string; status: string };
 
 /** One colour per way in, and how firm its state is drawn: solid = available, ring = defined, dashed ring = reported. */
 const look: Record<Entrance["id"], { rgb: string; state: "available" | "defined" | "reported" }> = {
@@ -189,7 +189,6 @@ export function EntranceMap({ group, items, shared }: {
               </div>
               <div className={styles.state} data-part={i}>
                 <p className={styles.status} data-state={tone.state}><i aria-hidden="true" />{item.status}</p>
-                <p className={styles.note}>{item.note}</p>
               </div>
             </li>
           );

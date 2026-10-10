@@ -146,13 +146,6 @@
 .status[data-state="available"] i { background: rgb(var(--accent)); }
 .status[data-state="reported"] i { border-style: dashed; }
 
-.note {
-  margin: 0;
-  color: #a9bfd1;
-  font-size: 13px;
-  line-height: 1.55;
-}
-
 /* ── Lo que comparten ─────────────────────────────────────────────────── */
 
 .shared {

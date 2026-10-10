@@ -169,7 +169,6 @@ export function ControlSection({ t }: { t: Copy }) {
               </button>
             </div>
           </div>
-          <div className={styles.disclaimer}><span>{control.example.label}</span><span>{control.note}</span></div>
         </div>
       </div>
     </section>

@@ -85,7 +85,6 @@ export function EvidenceLedger({ t }: { t: Copy }) {
         })}
       </ol>
       <p className={styles.meta} data-after><span>{e.dateLabel} {date}</span><span>{e.amount}</span></p>
-      <p className={styles.caution} data-after>{e.note}</p>
     </div>
   );
 }

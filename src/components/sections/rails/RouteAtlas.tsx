@@ -251,7 +251,7 @@ export function RouteAtlas({ t }: { t: Copy }) {
         <div className={s.headTop}><span className={s.tagMono}>{route.tag}</span><span className={`tag ${tagFor[route.tone]}`}>{route.status}</span></div>
         <h3>{route.title}</h3>
       </div>
-      <div><p>{route.body}</p><p className={s.follow}>{route.note}</p></div>
+      <div><p>{route.body}</p></div>
     </header>
   );
 
@@ -331,7 +331,6 @@ export function RouteAtlas({ t }: { t: Copy }) {
           <li><span className="tag tag-integration">{c.legend.lab}</span></li>
           <li><span className="tag tag-next">{c.legend.vision}</span></li>
         </ul>
-        <p className={s.vision}>{c.visionNote}</p>
       </figcaption>
     </figure>
   );

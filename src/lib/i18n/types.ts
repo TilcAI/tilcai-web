@@ -54,7 +54,7 @@ export interface HeroScene {
     name: string;
     service: string;
     availability: string;
-    quote: { label: string; amount: string; note: string };
+    quote: { label: string; amount: string; note?: string };
   };
 }
 
@@ -64,9 +64,13 @@ export interface CompareRow {
   tilcai: string;
 }
 
+/** How the documentation index is grouped; the labels live in `docs.groups`. */
+export type DocsGroup = "overview" | "design" | "payments" | "reference";
+
 export interface DocsSection {
   id: string;
   title: string;
+  group: DocsGroup;
   /** Pre-rendered, trusted HTML authored in this repo (no user input). */
   html: string;
 }
@@ -95,7 +99,7 @@ export interface OfficeCopy {
   rooms: Record<RoomId, { name: string; who: string; body: string }>;
   roles: Record<Role, string>;
   tasks: Record<TaskKind, string>;
-  legend: { eyebrow: string; title: string; titleDim: string; lead: string; note: string; buildingEyebrow: string; buildingTitle: string; buildingLead: string; jumpToFloor: string; buildingSelect: string; buildingScroll: string; buildingFloor: string; buildingOverview: string; buildingDetail: string; buildingPrevious: string; buildingNext: string };
+  legend: { eyebrow: string; title: string; titleDim: string; lead: string; note?: string; buildingEyebrow: string; buildingTitle: string; buildingLead: string; jumpToFloor: string; buildingSelect: string; buildingScroll: string; buildingFloor: string; buildingOverview: string; buildingDetail: string; buildingPrevious: string; buildingNext: string };
   sim: OfficeStrings;
 }
 
@@ -180,7 +184,7 @@ export interface Copy {
       current: { title: string; body: string };
       future: { title: string; body: string };
     };
-    note: string;
+    note?: string;
   };
   faq: { eyebrow: string; title: string; items: Record<FaqId, { question: string; answer: string }> };
   flow: {
@@ -245,7 +249,7 @@ export interface Copy {
     reset: string;
     continuationNote: string;
   };
-  capabilities: { eyebrow: string; title: string; lead: string; items: Capability[]; disclaimer: string };
+  capabilities: { eyebrow: string; title: string; lead: string; items: Capability[]; disclaimer?: string };
   code: {
     eyebrow: string;
     title: string;
@@ -279,8 +283,15 @@ export interface Copy {
     status: string;
     title: string;
     lead: string;
+    /** Accessible name of the breadcrumb above the heading. */
+    breadcrumb: string;
+    /** Document facts shown under the lead: when it was last reviewed, where it runs, what is missing. */
+    meta: { label: string; value: string }[];
+    pathsTitle: string;
+    /** Reading paths by audience; `id` is the section each one opens. */
+    paths: { id: string; title: string; text: string }[];
     tocTitle: string;
-    backHome: string;
+    groups: Record<DocsGroup, string>;
     sections: DocsSection[];
   };
 }

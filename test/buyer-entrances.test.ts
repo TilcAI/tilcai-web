@@ -22,10 +22,11 @@ test("three entrances and one shared stretch, with the same shape in both langua
   assert.deepEqual(narrative("en").entrances.shared.steps, ["Identity", "Quote", "Approval", "Payment", "Receipts"]);
 });
 
-test("every text the section had is still shown, and each entrance keeps its real state next to it", () => {
-  for (const field of ["item.title", "item.body", "item.status", "item.note", "shared.label", "shared.steps.map", "{group}"]) {
+test("each entrance shows its description and real state, without editorial notes", () => {
+  for (const field of ["item.title", "item.body", "item.status", "shared.label", "shared.steps.map", "{group}"]) {
     assert.ok(map.includes(field), field);
   }
+  assert.ok(!map.includes("item.note"));
   // how firm the state is drawn is part of the claim: available is solid, defined is a ring, reported is dashed
   assert.match(map, /whatsapp: \{[^}]*state: "reported"/);
   assert.match(map, /mcp: \{[^}]*state: "defined"/);

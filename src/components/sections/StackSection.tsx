@@ -46,7 +46,6 @@ export function StackSection({ t }: { t: Copy }) {
             </li>
           ))}
         </ul>
-        <p className={styles.note}>{c.note}</p>
       </div>
     </section>
   );

@@ -182,12 +182,9 @@ export function AgentCatalog({ t }: { t: Copy }) {
           </div>
         </div>
 
-        <footer className={styles.footer}>
-          <noscript><ul className="agent-static-links" role="list">{agents.map((agent) =>
-            <li key={agent.slug}><a href={agent.officialDocs} target="_blank" rel="noopener noreferrer">{agent.name} · {t.agents.panel.officialDocs}</a></li>
-          )}</ul></noscript>
-          <p className="disclaimer">{t.agents.thirdPartyNote}</p>
-        </footer>
+        <noscript><ul className="agent-static-links" role="list">{agents.map((agent) =>
+          <li key={agent.slug}><a href={agent.officialDocs} target="_blank" rel="noopener noreferrer">{agent.name} · {t.agents.panel.officialDocs}</a></li>
+        )}</ul></noscript>
       </div>
       {guide && <AgentGuidePanel key={guide.slug} agent={guide} t={t} onClose={() => setGuideSlug(null)} returnFocus={lastTrigger.current} />}
     </section>
