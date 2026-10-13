@@ -10,6 +10,7 @@ const NETWORK_NAMES: Record<string, string> = {
   "eip155:43113": "Avalanche Fuji",
   "stellar:testnet": "Stellar Testnet",
   "eip155:43114": "Avalanche C-Chain",
+  "eip155:10143": "Monad Testnet",
   "stellar:pubnet": "Stellar Mainnet",
 };
 

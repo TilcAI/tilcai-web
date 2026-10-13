@@ -1367,3 +1367,16 @@ Comprobado: `tsc` limpio; 106 pruebas, 105 pasan, 1 omitida; capturas ES a 1440 
 - **Sin tocar:** el texto del vault que se pegó en el mensaje (ya está igual en Avance).
 
 Comprobado: `tsc` limpio; 106 pruebas, 105 pasan, 1 omitida; capturas de la sección a 1440 px (ES) y 390 px (EN). Sin commit.
+## 2026-10-13T14:55:22Z · SaulChoque · Claude Code (Sonnet 5.5)
+
+- **Sesión:** n/d
+- **Rama:** `main` (sin commit)
+- **Repositorios:** `tilcai-infrastructure`, `tilcai-web`
+
+### Prompt
+
+> actualiza tilcai para ser compatible con monad testnet para todas las funciones que ofrece tilcai (el relayer ya esta configurado para monad testnet y ya cuenta con tokens nativos)
+
+### Salida
+
+`tilcai-web` reconoce Monad Testnet: nombre de red `Monad Testnet` para su vault y la unidad MON en la acción de la alerta `RELAYER_LOW_GAS` (`src/lib/monitor/vaults.ts`, `interpret.ts`, `test/monitor.test.ts`). 15 pruebas del monitor pasan y `tsc` no reporta errores. El detalle del trabajo está en la entrada de `tilcai-infrastructure` de la misma fecha.

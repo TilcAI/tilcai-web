@@ -252,7 +252,7 @@ test("interpretation: alerts say what to do, including the one that kept payouts
   const empty = explainAlert("VAULT_EMPTY", "es");
   assert.match(empty.action, /dirección del contrato vault \(no a la cuenta del relayer\)/);
   assert.equal(empty.target, null);
-  assert.deepEqual(explainAlert("RELAYER_LOW_GAS:avalanche-fuji-relayer", "en"), { title: "A relayer is low on gas", action: "Fund its account (AVAX on Fuji, XLM on Stellar).", target: "avalanche-fuji-relayer" });
+  assert.deepEqual(explainAlert("RELAYER_LOW_GAS:avalanche-fuji-relayer", "en"), { title: "A relayer is low on gas", action: "Fund its account (AVAX on Fuji, MON on Monad, XLM on Stellar).", target: "avalanche-fuji-relayer" });
   assert.deepEqual(explainAlert("SOMETHING_NEW:x:y", "en"), { title: "SOMETHING_NEW:x:y", action: "", target: "x:y" });
   for (const [code, entry] of Object.entries(ALERT_CATALOG)) {
     for (const lang of ["en", "es"] as const) assert.ok(entry.title[lang] && entry.action[lang], `${code} ${lang}`);

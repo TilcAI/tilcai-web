@@ -129,7 +129,7 @@ export const EVENT_CATALOG: Record<MonitorEventType, { title: Text; meaning: Tex
 export const ALERT_CATALOG: Record<string, { title: Text; action: Text }> = {
   VAULT_EMPTY: {
     title: { en: "The vault has no USDC", es: "El vault no tiene USDC" },
-    action: { en: "Send USDC of its network (Fuji USDC to the Fuji vault, Stellar USDC to the Stellar one) to the vault contract address (not to the relayer account).", es: "Envía USDC de su red (USDC de Fuji al vault de Fuji, USDC de Stellar al de Stellar) a la dirección del contrato vault (no a la cuenta del relayer)." },
+    action: { en: "Send USDC of its network (Fuji USDC to the Fuji vault, Monad USDC to the Monad one, Stellar USDC to the Stellar one) to the vault contract address (not to the relayer account).", es: "Envía USDC de su red (USDC de Fuji al vault de Fuji, USDC de Monad al de Monad, USDC de Stellar al de Stellar) a la dirección del contrato vault (no a la cuenta del relayer)." },
   },
   VAULT_INSUFFICIENT: {
     title: { en: "The vault owes more than it holds", es: "El vault debe más de lo que tiene" },
@@ -177,7 +177,7 @@ export const ALERT_CATALOG: Record<string, { title: Text; action: Text }> = {
   },
   RELAYER_LOW_GAS: {
     title: { en: "A relayer is low on gas", es: "A un relayer le queda poco gas" },
-    action: { en: "Fund its account (AVAX on Fuji, XLM on Stellar).", es: "Fondea su cuenta (AVAX en Fuji, XLM en Stellar)." },
+    action: { en: "Fund its account (AVAX on Fuji, MON on Monad, XLM on Stellar).", es: "Fondea su cuenta (AVAX en Fuji, MON en Monad, XLM en Stellar)." },
   },
   MONITOR_SINK_FAILING: {
     title: { en: "Events are not reaching a destination", es: "Los eventos no llegan a un destino" },
