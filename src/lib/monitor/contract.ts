@@ -36,6 +36,10 @@ export const MONITOR_EVENT_TYPES = [
   "qr.expired",
   "qr.callback_delivered",
   "qr.callback_failed",
+  "qr.collection_created",
+  "qr.collection_paid",
+  "qr.collection_closed",
+  "qr.provider_failed",
 ] as const;
 export type MonitorEventType = (typeof MONITOR_EVENT_TYPES)[number];
 

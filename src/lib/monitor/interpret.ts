@@ -123,6 +123,22 @@ export const EVENT_CATALOG: Record<MonitorEventType, { title: Text; meaning: Tex
     title: { en: "Payment notification failed", es: "Aviso de pago fallido" },
     meaning: { en: "The notification was not acknowledged. It is retried three times; `final` says whether it gave up.", es: "El aviso no fue confirmado. Se reintenta tres veces; `final` dice si ya se rindió." },
   },
+  "qr.collection_created": {
+    title: { en: "Collection QR issued", es: "QR de cobro emitido" },
+    meaning: { en: "The QR gateway issued a bank QR with its principal provider, or with a fallback (warning) when the principal failed.", es: "La pasarela de QR emitió un QR bancario con su proveedor principal, o con uno de respaldo (advertencia) cuando el principal falló." },
+  },
+  "qr.collection_paid": {
+    title: { en: "Collection QR paid", es: "QR de cobro pagado" },
+    meaning: { en: "The provider that issued the QR confirmed the payment.", es: "El proveedor que emitió el QR confirmó el pago." },
+  },
+  "qr.collection_closed": {
+    title: { en: "Collection QR closed unpaid", es: "QR de cobro cerrado sin pago" },
+    meaning: { en: "A QR was cancelled, expired or ended in error without a payment.", es: "Un QR fue cancelado, venció o terminó en error sin pago." },
+  },
+  "qr.provider_failed": {
+    title: { en: "No provider could issue a QR", es: "Ningún proveedor pudo emitir el QR" },
+    meaning: { en: "Every provider of the list failed or is not configured; the attempts are in the event data.", es: "Todos los proveedores de la lista fallaron o no están configurados; los intentos están en los datos del evento." },
+  },
 };
 
 /** Alert codes of the backend (`resources.ts`). Codes with a target come as `CODE:<target>`. */
