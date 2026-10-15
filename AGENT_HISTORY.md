@@ -1380,3 +1380,17 @@ Comprobado: `tsc` limpio; 106 pruebas, 105 pasan, 1 omitida; capturas de la secc
 ### Salida
 
 `tilcai-web` reconoce Monad Testnet: nombre de red `Monad Testnet` para su vault y la unidad MON en la acción de la alerta `RELAYER_LOW_GAS` (`src/lib/monitor/vaults.ts`, `interpret.ts`, `test/monitor.test.ts`). 15 pruebas del monitor pasan y `tsc` no reporta errores. El detalle del trabajo está en la entrada de `tilcai-infrastructure` de la misma fecha.
+
+## 2026-10-15T20:00:27Z · saulchoque · Claude Code (Sonnet 5.5)
+
+- **Sesión:** https://claude.ai/code/session_0185g9fsVV9T5JBDkvrYoGqs
+- **Rama:** `feat/qr-gateway-events` (sin push)
+- **Repositorios:** `tilcai-web`, `tilcai-infrastructure` (`feat/qr-providers-fallback`)
+
+### Prompt
+
+> Implementar proveedores de QR (Banco Económico, Red Enlace ATC) con fallback y mock conmutable en tilcai-infrastructure; «trabaja en otra rama». Ver la entrada del mismo momento en `tilcai-infrastructure/AGENT_HISTORY.md`.
+
+### Salida
+
+Catalogados en el contrato y el intérprete del tablero los eventos nuevos de la pasarela de QR: `qr.collection_created`, `qr.collection_paid`, `qr.collection_closed` y `qr.provider_failed`. 106 pruebas pasan.
