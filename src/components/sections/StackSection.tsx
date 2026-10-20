@@ -32,7 +32,7 @@ export function StackSection({ t }: { t: Copy }) {
       <div className={styles.inner}>
         <div className={styles.header}>
           <h2 id="stack-title" className={styles.title}>{c.title}</h2>
-          <Link className={styles.docs} href={`/${t.locale}/docs#architecture`}>
+          <Link className={styles.docs} href={`/${t.locale}/docs/architecture`}>
             {t.stack.docsLink}
             <Icon name="arrow" />
           </Link>
