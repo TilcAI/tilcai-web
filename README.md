@@ -1,10 +1,10 @@
 # TilcAI — web (Next.js)
 
-Landing page and **proposed architecture** page for TilcAI, an early-stage project in development.
+TilcAI's website, bilingual developer documentation and backend monitor. The project builds infrastructure for commerce between AI agents, people and businesses, with payments on Stellar.
 Built with **Next.js (App Router) + TypeScript + Tailwind CSS v4**, following the `create-next-app --yes` defaults.
 English is the default language; Spanish is available through the EN / ES selector.
 
-> The policy demo is a visual simulation only. There is no deployed contract, published package, live payment service or transfer of funds.
+> The landing's policy demo is a visual simulation. The infrastructure separately has documented USDC transfers from Avalanche to Stellar on mainnet, testnet support for Monad, and SDK/MCP packages. The complete commercial purchase flow remains in integration; proprietary contracts are not independently audited. See the documentation for evidence and environment-specific scope.
 
 ## Run it
 
@@ -37,7 +37,8 @@ pnpm test         # node --experimental-strip-types --test test/*.test.ts
 | --- | --- |
 | `/` | Redirects to `/en` (see `next.config.ts`) |
 | `/en`, `/es` | Landing |
-| `/en/docs`, `/es/docs` | Proposed design: architecture, business integration, MCP and assistants, permissions and payments, planned extensions |
+| `/en/docs`, `/es/docs` | Developer portal: entry guides, local search and integration paths |
+| `/en/docs/[slug]`, `/es/docs/[slug]` | 19 guides: SDK, MCP, API, networks, Monad Testnet, mainnet evidence, accounts, x402, fiat/QR, architecture and security |
 | `/en/monitor`, `/es/monitor` | Backend monitor: resources, alerts and events reported by TilcAI's backend (see [Backend monitor](#backend-monitor)). Not linked from the site and not indexed |
 | `/api/monitor/*` | The monitor's API: `events` (ingest and feed), `summary`, `stream` (Server-Sent Events) and `session` |
 
@@ -53,7 +54,7 @@ src/
 │   └── [lang]/
 │       ├── layout.tsx            # root layout: <html lang>, fonts, metadata base
 │       ├── page.tsx              # landing
-│       ├── docs/page.tsx         # proposed architecture
+│       ├── docs/page.tsx         # documentation portal; docs/[slug]/page.tsx renders each guide
 │       ├── monitor/page.tsx      # backend monitor (static shell; data comes from /api/monitor)
 │       └── not-found.tsx
 ├── components/
