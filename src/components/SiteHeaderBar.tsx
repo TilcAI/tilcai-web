@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore, type AnchorHTMLAttributes } from "react";
 import type { Copy, Locale } from "@/lib/i18n";
 import { paths } from "@/lib/site";
@@ -29,11 +30,12 @@ export function SiteHeaderBar({ t, page }: { t: HeaderCopy; page: HeaderPage }) 
   const btnRef = useRef<HTMLButtonElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const lang = t.locale;
+  const pathname = usePathname();
 
   // Section links are `#id` on the home page and `/{lang}#id` from every other page: same links, same order.
   const anchor = (id: string) => (page === "home" ? `#${id}` : paths.section(lang, id));
   const localeHref = (loc: Locale) =>
-    page === "home" ? paths.home(loc) : page === "docs" ? paths.docs(loc) : page === "roadmap" ? paths.roadmap(loc) : paths.monitor(loc);
+    page === "home" ? paths.home(loc) : page === "docs" ? (pathname?.replace(/^\/(en|es)(?=\/)/, `/${loc}`) ?? paths.docs(loc)) : page === "roadmap" ? paths.roadmap(loc) : paths.monitor(loc);
 
   useEffect(() => {
     if (!open) return;
