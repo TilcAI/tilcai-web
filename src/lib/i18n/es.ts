@@ -8,8 +8,8 @@ export const es: Copy = {
   meta: {
     title: "TilcAI — Comercio entre agentes con control humano",
     description: "Conectamos agentes de personas y empresas para consultar, reservar y comprar con condiciones verificables, permisos limitados y pagos sobre Stellar. Proyecto en desarrollo.",
-    docsTitle: "Arquitectura propuesta — TilcAI (en desarrollo)",
-    docsDescription: "Diseño técnico de TilcAI: arquitectura, integración empresarial, MCP y asistentes, permisos y pagos. Documentación de arquitectura propuesta, no una API pública.",
+    docsTitle: "TilcAI Docs — Guías, SDK, API y pagos sobre Stellar",
+    docsDescription: "Integra TilcAI con SDK, MCP o API. Guías de USDC crosschain, mainnet, Monad Testnet, smart accounts, x402, QR y seguridad, con su evidencia y estado actual.",
   },
   a11y: {
     skip: "Saltar al contenido", langSwitch: "Idioma", menu: "Menú", copied: "Copiado", copy: "Copiar",
