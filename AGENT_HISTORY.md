@@ -1380,3 +1380,144 @@ Comprobado: `tsc` limpio; 106 pruebas, 105 pasan, 1 omitida; capturas de la secc
 ### Salida
 
 `tilcai-web` reconoce Monad Testnet: nombre de red `Monad Testnet` para su vault y la unidad MON en la acción de la alerta `RELAYER_LOW_GAS` (`src/lib/monitor/vaults.ts`, `interpret.ts`, `test/monitor.test.ts`). 15 pruebas del monitor pasan y `tsc` no reporta errores. El detalle del trabajo está en la entrada de `tilcai-infrastructure` de la misma fecha.
+
+
+## 2026-10-20T04:08:52Z · Omar · Codex · GPT-6
+
+- **Sesión:** 01a11f48-77ad-75f2-a07a-7e01949c0d42
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Necesito que actualices y mejores el Doc de [tilcai-web](1_PROYECTO/IDEA-PROJECT/TilcAI/tilcai-web/) con los avances que hemos tenido hasta ahora: que sea vea como una documentación nivel pro como de supabase/vite/expo/stellar/etc agrega imagenes, diagramas, etc.
+>
+> [$imagegen]([REDACTADO]/.codex/skills/.system/imagegen/SKILL.md)
+> [$image-art-direction]([REDACTADO]/.codex/skills/image-art-direction/SKILL.md)
+> [$professional-image-production]([REDACTADO]/.codex/skills/professional-image-production/SKILL.md)
+> [$premium-frontend-design]([REDACTADO]/.codex/skills/premium-frontend-design/SKILL.md)
+> [$frontend-visual-qa]([REDACTADO]/.codex/skills/frontend-visual-qa/SKILL.md)
+>
+> PS [REDACTADO]\tilcai-infrastructure> git pull origin main
+> remote: Enumerating objects: 112, done.
+> remote: Counting objects: 100% (112/112), done.
+> remote: Compressing objects: 100% (17/17), done.
+> remote: Total 67 (delta 51), reused 66 (delta 50), pack-reused 0 (from 0)
+> Unpacking objects: 100% (67/67), 24.94 KiB | 116.00 KiB/s, done.
+> From github.com:TilcAI/tilcai-infrastructure
+>  * branch            main       -> FETCH_HEAD
+>    8a42565..58066a7  main       -> origin/main
+> Updating 8a42565..58066a7
+> Fast-forward
+>  .env.example                              | 134 +++++++++++++++----------
+>  AGENT_HISTORY.md                          |  66 +++++++++++++
+>  README.md                                 |  37 +++++++
+>  contracts/evm/README.md                   |  13 +++
+>  deploy/.env.example                       |  12 +++
+>  deploy/README.md                          |  11 ++-
+>  deploy/docker-compose.yml                 |   6 ++
+>  deploy/relayer/config/config.json         |  34 ++++++-
+>  deploy/relayer/config/networks/monad.json |  24 +++++
+>  src/app-context.ts                        | 116 ++++++++++++++--------
+>  src/apps/api/accounts-routes.ts           |   2 +-
+>  src/apps/api/server.ts                    |  30 +++---
+>  src/apps/cli/crosschain-pay.ts            |  11 ++-
+>  src/apps/cli/e2e-gasless.ts               |   8 +-
+>  src/apps/cli/evm-network.ts               |  44 +++++++++
+>  src/apps/cli/sca-preflight.ts             |  13 ++-
+>  src/apps/cli/sca.ts                       |  34 +++++--
+>  src/apps/cli/vault.ts                     |  31 +++---
+>  src/apps/lifecycle.ts                     |   3 +-
+>  src/config/env.ts                         |  19 ++++
+>  src/config/networks.ts                    |  51 +++++++++-
+>  src/modules/crosschain/service.ts         | 103 ++++++++++++++------
+>  src/modules/monitor/resources.ts          |   4 +-
+>  src/modules/qrsimple/service.ts           |   7 +-
+>  src/modules/vault/adapters/evm.ts         |  15 ++-
+>  test/unit/config-networks.test.ts         |   2 +
+>  test/unit/crosschain-monad.test.ts        | 157 ++++++++++++++++++++++++++++++
+>  test/unit/qrsimple.test.ts                |  14 +++
+>  28 files changed, 817 insertions(+), 184 deletions(-)
+>  create mode 100644 deploy/relayer/config/networks/monad.json
+>  create mode 100644 src/apps/cli/evm-network.ts
+>  create mode 100644 test/unit/crosschain-monad.test.ts
+> PS [REDACTADO]\tilcai-infrastructure> cd ..
+> PS [REDACTADO]\TilcAI> cd .\tilcai-web\
+> PS [REDACTADO]\tilcai-web> git status
+> On branch main
+> Your branch is up to date with 'origin/main'.
+>
+> nothing to commit, working tree clean
+> PS [REDACTADO]\tilcai-web> git pull origin main
+> remote: Enumerating objects: 51, done.
+> remote: Counting objects: 100% (51/51), done.
+> remote: Compressing objects: 100% (8/8), done.
+> remote: Total 29 (delta 25), reused 25 (delta 21), pack-reused 0 (from 0)
+> Unpacking objects: 100% (29/29), 15.10 KiB | 101.00 KiB/s, done.
+> From github.com:TilcAI/tilcai-web
+>  * branch            main       -> FETCH_HEAD
+>    cb68272..f59551d  main       -> origin/main
+> Updating cb68272..f59551d
+> Fast-forward
+>  AGENT_HISTORY.md                                  | 62 +++++++++++++++++
+>  src/components/sections/RoadmapSection.module.css |  1 +
+>  src/components/sections/RoadmapSection.tsx        |  6 +-
+>  src/lib/content/roadmap.ts                        |  9 ++-
+>  src/lib/i18n/docs.en.ts                           | 82 +++++++++++++++++------
+>  src/lib/i18n/docs.es.ts                           | 82 +++++++++++++++++------
+>  src/lib/i18n/en.ts                                | 22 +++---
+>  src/lib/i18n/es.ts                                | 22 +++---
+>  src/lib/i18n/types.ts                             |  4 +-
+>  src/lib/monitor/interpret.ts                      |  4 +-
+>  src/lib/monitor/vaults.ts                         |  1 +
+>  test/landing-explain.test.ts                      |  8 ++-
+>  test/monitor.test.ts                              |  2 +-
+>  13 files changed, 231 insertions(+), 74 deletions(-)
+> PS [REDACTADO]\tilcai-web> cd ..
+> PS [REDACTADO]\TilcAI> cd .\tilcai-sdk\
+> PS [REDACTADO]\tilcai-sdk> git status
+> On branch main
+> Your branch is up to date with 'origin/main'.
+>
+> nothing to commit, working tree clean
+> PS [REDACTADO]\tilcai-sdk> git pull origin main
+> From github.com:TilcAI/tilcai-sdk
+>  * branch            main       -> FETCH_HEAD
+> Already up to date.
+> PS [REDACTADO]\tilcai-sdk>
+
+### Salida
+
+Actualicé la documentación de **tilcai-web** como un portal para desarrolladores:
+
+- **19 guías en español e inglés**, con contenido actualizado de mainnet, Monad, SDK, MCP, API, cuentas, x402 y QR/Bs.
+- Búsqueda, navegación lateral, índice por artículo y ejemplos copiables.
+- Ilustración nueva, diagramas interactivos y evidencia visual de la demo.
+- Estados probados, confirmados y pendientes claramente diferenciados.
+
+**Verificación:** 108 pruebas, TypeScript y build correctos. Revisado en escritorio, tablet y móvil. El lint queda bloqueado por la incompatibilidad instalada entre TypeScript 7 y typescript-eslint.
+
+[Ver documentación local](http://127.0.0.1:3020/es/docs) · [Detalle de cambios y recursos](docs/portal-documentation.md)
+
+![Nueva documentación de TilcAI](docs/qa-portal/desktop-home.jpg)
+
+Cambios locales, listos para revisión; sin commit ni push.
+
+
+## 2026-10-20T11:57:38Z · Omar · Codex · GPT-6
+
+- **Sesión:** 01a11f48-77ad-75f2-a07a-7e01949c0d42
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> dame 20 add+commit para copiarlo manualmente y subir cambios
+>
+> Antes: no tiene espacios innecesarios, paddins, margins, encima o debajo de titulos, que ocupen envano, verdad?
+
+### Salida
+
+Se revisó y compactó el espaciado de documentación: subtítulos de 40/16 a 28/12 px, cabecera de artículo de 30 a 22 px, breadcrumb de escritorio de 32 a 24 px y separaciones principales de portada a 28 px. Build de producción correcto; revisión visual a 1440 × 900 y 390 × 844, con medición móvil de márgenes y sin desbordamiento horizontal en las vistas inspeccionadas. Se guardó docs/qa-portal/mobile-quickstart-compact.jpg y se actualizó docs/portal-documentation.md.
+
+Se entregaron 20 pares de comandos git add/git commit, agrupados por contenido bilingüe, helpers y tests, navegación, búsqueda, herramientas de lectura, diagramas, ilustración, evidencia Vaquita, portal, estilos, rutas, idiomas, metadatos, enlaces desde landing, pruebas, README, documentación técnica, capturas e historial, más git push origin main para ejecución manual. No se ejecutaron add, commit ni push. El lint sigue limitado por la incompatibilidad previamente documentada de TypeScript 7 con typescript-eslint.
