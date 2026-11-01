@@ -87,7 +87,7 @@ export function ControlSection({ t }: { t: Copy }) {
             <span className={styles.noteMark} aria-hidden="true">•</span>
             <p>{control.account.body}</p>
           </div>
-          <Link href={`/${t.locale}/docs#limits`} className={styles.docsLink}>
+          <Link href={`/${t.locale}/docs/limits`} className={styles.docsLink}>
             {c.docs}<span aria-hidden="true">→</span>
           </Link>
         </div>

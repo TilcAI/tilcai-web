@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { labelTableCells } from "../src/lib/docs-html.ts";
+import { labelTableCells, prepareDocArticle } from "../src/lib/docs-html.ts";
 import { docsEn } from "../src/lib/i18n/docs.en.ts";
 import { docsEs } from "../src/lib/i18n/docs.es.ts";
 
@@ -8,6 +8,27 @@ const locales = [
   ["es", docsEs],
   ["en", docsEn],
 ] as const;
+
+test("article links resolve in both locales and examples stay server-side", () => {
+  for (const [lang, docs] of locales) {
+    const ids = new Set(docs.sections.map(s => s.id));
+    for (const section of docs.sections) {
+      for (const match of section.html.matchAll(/href="\/(es|en)\/docs\/([^"#]+)"/g)) {
+        assert.equal(match[1], lang, "internal article link preserves language");
+        assert.ok(ids.has(match[2]), `missing article ${match[2]}`);
+      }
+    }
+    const quickstart = docs.sections.find(s => s.id === "quickstart")!.html;
+    assert.match(quickstart, /verifyEnvironment/);
+    assert.doesNotMatch(quickstart, /payments\.pay\(/, "first example cannot move funds");
+  }
+});
+
+test("article anchors stay unique and retain readable accented headings", () => {
+  const out = prepareDocArticle("<h3>Validación</h3><p>Uno</p><h3>Validación</h3><p>Dos</p>", "es");
+  assert.deepEqual(out.headings, [{ id: "validacion", title: "Validación" }, { id: "validacion-2", title: "Validación" }]);
+  assert.match(out.html, /id="validacion-2"/);
+});
 
 test("both languages document the same sections, in the same order and groups", () => {
   assert.deepEqual(

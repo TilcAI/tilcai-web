@@ -65,7 +65,7 @@ export interface CompareRow {
 }
 
 /** How the documentation index is grouped; the labels live in `docs.groups`. */
-export type DocsGroup = "overview" | "design" | "payments" | "reference";
+export type DocsGroup = "overview" | "integrate" | "design" | "payments" | "reference";
 
 export interface DocsSection {
   id: string;

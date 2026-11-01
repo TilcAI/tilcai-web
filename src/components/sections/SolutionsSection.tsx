@@ -98,7 +98,7 @@ export function SolutionsSection({ t }: { t: Copy }) {
             <span className={styles.inviteIcon} aria-hidden="true"><Icon name="store" /></span>
             <h3 id="solution-invite">{c.invite.title}</h3>
             <p>{c.invite.body}</p>
-            <Link className={styles.action} href={`${paths.docs(t.locale)}#business`}>
+            <Link className={styles.action} href={`${paths.docs(t.locale)}/business`}>
               {c.invite.link}
               <Icon name="arrow" />
             </Link>

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import { narrative } from "../src/lib/i18n/narrative.ts";
+import { getDocsSections } from "../src/lib/content/docs-content.ts";
 import { FAQ_IDS, ROADMAP_IDS } from "../src/lib/i18n/types.ts";
 import {
   destinationNetwork, evidenceDate, evidencePayments, originNetworks, shortHash, snowtraceTx, stellarExpertTx,
@@ -168,8 +169,8 @@ test("each step of the route says what happens in plain words and keeps the tech
 
 for (const locale of ["es", "en"] as const) {
   test(`the architecture page (${locale}) no longer rules out the CCTP route by calling every cross-chain move a bridge`, () => {
-    const docs = readFileSync(new URL(`../src/lib/i18n/docs.${locale}.ts`, import.meta.url), "utf8");
-    const outOfScope = docs.split("\n").find((l) => /(Fuera del alcance por ahora|Out of scope for now)/.test(l)) ?? "";
+    const docs = getDocsSections(locale).find(s => s.id === "limits")?.html ?? "";
+    const outOfScope = docs.match(/(?:Fuera del alcance por ahora|Out of scope for now)<\/h3><p>([\s\S]*?)<\/p>/)?.[1] ?? "";
     assert.ok(outOfScope, "the out-of-scope sentence exists");
     assert.match(outOfScope, locale === "es" ? /puentes de activos envueltos/ : /wrapped-asset bridges/);
     assert.match(outOfScope, /CCTP/, "it says the CCTP route is planned");

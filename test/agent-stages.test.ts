@@ -4,7 +4,7 @@ import test from "node:test";
 import { agents, integrationStages, type AgentClient } from "../src/lib/content/agents.ts";
 
 const i18n = new URL("../src/lib/i18n/", import.meta.url);
-const read = (file: string) => readFileSync(new URL(file, i18n), "utf8");
+const read = (file: string) => readFileSync(new URL(file, i18n), "utf8").replace(/\r\n/g, "\n");
 
 const validated = (status: "guide" | "pilot" | "enabled", tools: readonly string[]): AgentClient => ({
   ...agents[0],
