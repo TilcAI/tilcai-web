@@ -36,6 +36,7 @@ export const MONITOR_EVENT_TYPES = [
   "qr.expired",
   "qr.callback_delivered",
   "qr.callback_failed",
+  "monitor.gap",
 ] as const;
 export type MonitorEventType = (typeof MONITOR_EVENT_TYPES)[number];
 
@@ -67,6 +68,20 @@ export interface MonitorDelivery {
   /** Newest position in the backend's log when the delivery left. */
   head: number;
   events: MonitorEvent[];
+  /**
+   * Positions of the backend's log this site will never get: they waited for it longer than the
+   * backend's MONITOR_PENDING_MAX_DAYS and were pruned. Sent until a delivery carrying it is answered 2xx.
+   */
+  gap?: MonitorGap;
+}
+
+/** `gap` of a delivery and `data` of a `monitor.gap` event: what was lost, never a guess. */
+export interface MonitorGap {
+  fromSeq: number;
+  toSeq: number;
+  /** Exact number of events lost; the range may also hold events that did arrive. */
+  count: number;
+  prunedAt: string;
 }
 
 /** What one vault holds and has left to pay today, in USDC. */
