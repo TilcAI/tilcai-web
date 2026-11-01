@@ -221,3 +221,9 @@ A mainnet backend reports to the same endpoint with its own secret: add
 `-e MONITOR_INGEST_SECRET_MAINNET=…` here and set `MONITOR_WEB_URL_MAINNET` and
 `MONITOR_WEB_SECRET_MAINNET` there. Each secret is accepted for its environment only, so the two
 must differ. The dashboard shows one block per backend, mainnet first and labelled as real funds.
+
+## Integraciones de terceros y facturación · 2026-11-01
+
+La rama `feat/third-party-credentials` de Infrastructure añade claves por tenant/entorno con caducidad, rotación por CLI e introspección propia. SDK 0.3.0 expone `auth.context()` y proveedor dinámico de claves; el MCP stdio existente incorpora `tilcai_auth_context` y lectura de secretos montados. Las claves de backend no se deben distribuir al navegador ni reemplazan consentimiento de usuarios. No se añadió un panel de emisión de claves en Web.
+
+Consultar la [documentación de integración](../documentation/3-CONSTRUCCION/CREDENCIALES_TERCEROS_IMPLEMENTACION_2026-11-01.md) y la [propuesta de facturación SIN](../documentation/2-ARQUITECTURA/TILCAI_FACTURACION_SIN_2026-11-01.md). Facturación es una fase propuesta, no una capacidad implementada por esta entrega.
