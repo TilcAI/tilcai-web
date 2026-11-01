@@ -187,6 +187,8 @@ export function parseDelivery(body: unknown): { ok: true; delivery: MonitorDeliv
     if (!isText(e.at, 40) || Number.isNaN(Date.parse(e.at))) return fail(`${at}.at`);
     events.push({ seq: e.seq, id: e.id, type: e.type, source: e.source as MonitorSource, severity: e.severity as MonitorSeverity, subject: e.subject, summary: e.summary, data: e.data, at: e.at });
   }
+  const gap = body.gap === undefined ? undefined : parseGap(body.gap);
+  if (gap === null) return fail("gap");
   return {
     ok: true,
     delivery: {
@@ -196,6 +198,15 @@ export function parseDelivery(body: unknown): { ok: true; delivery: MonitorDeliv
       origin: { env: body.origin.env, instance: body.origin.instance },
       head: body.head,
       events,
+      ...(gap ? { gap } : {}),
     },
   };
+}
+
+/** A gap as the backend sends it, or null if it is not one. Also reads the `data` of a `monitor.gap` event. */
+export function parseGap(v: unknown): MonitorGap | null {
+  const position = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n) && n >= 1;
+  if (!isRecord(v) || !position(v.fromSeq) || !position(v.toSeq) || !position(v.count) || v.toSeq < v.fromSeq) return null;
+  if (!isText(v.prunedAt, 40) || Number.isNaN(Date.parse(v.prunedAt))) return null;
+  return { fromSeq: v.fromSeq, toSeq: v.toSeq, count: v.count, prunedAt: v.prunedAt };
 }

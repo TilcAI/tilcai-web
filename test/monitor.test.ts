@@ -60,6 +60,25 @@ test("contract: a delivery is checked field by field before anything is stored",
   assert.equal(extra.ok && "extra" in extra.delivery.events[0]!, false);
 });
 
+test("contract: a delivery may carry the gap of events the backend pruned before this site got them", () => {
+  const gap = { fromSeq: 2, toSeq: 4, count: 3, prunedAt: "2026-11-01T12:00:00.000Z" };
+  const withGap = parseDelivery(JSON.parse(JSON.stringify(delivery([event()], { gap }))));
+  assert.equal(withGap.ok, true);
+  assert.deepEqual(withGap.ok && withGap.delivery.gap, gap);
+  // A delivery without one has no `gap` at all, as before.
+  const without = parseDelivery(JSON.parse(JSON.stringify(delivery([event()]))));
+  assert.equal(without.ok && "gap" in without.delivery, false);
+
+  for (const bad of [null, "2-4", { ...gap, fromSeq: 0 }, { ...gap, toSeq: 1 }, { ...gap, count: 1.5 }, { ...gap, prunedAt: "ayer" }, { fromSeq: 2, toSeq: 4, count: 3 }]) {
+    const r = parseDelivery({ ...delivery([event()]), gap: bad });
+    assert.equal(r.ok, false, JSON.stringify(bad));
+    assert.match(r.ok ? "" : r.reason, /gap/);
+  }
+  // Nothing undeclared travels inside it either.
+  const extra = parseDelivery({ ...delivery([event()]), gap: { ...gap, note: "<b>x</b>" } });
+  assert.deepEqual(extra.ok && extra.delivery.gap, gap);
+});
+
 test("signature: the backend's HMAC over «timestamp.body», fresh and untouched", () => {
   const secret = "secreto-compartido-de-prueba";
   const body = JSON.stringify(delivery([event()]));
