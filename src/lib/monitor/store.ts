@@ -1,6 +1,6 @@
 import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname } from "node:path";
-import type { MonitorDelivery, MonitorEvent, MonitorOrigin, MonitorSeverity, MonitorSource, ResourceSnapshot } from "./contract.ts";
+import { parseGap, type MonitorDelivery, type MonitorEvent, type MonitorGap, type MonitorOrigin, type MonitorSeverity, type MonitorSource, type ResourceSnapshot } from "./contract.ts";
 
 /** An event as this site keeps it: where it came from and its position here. */
 export interface StoredEvent extends MonitorEvent {
@@ -26,6 +26,25 @@ export interface OriginState extends MonitorOrigin {
   resources: ResourceSnapshot | null;
   resourcesAt: string | null;
   alerts: Array<{ code: string; severity: "warning" | "error"; message: string; since: string | null }>;
+  /** Events of this backend that never reached this site (pruned past MONITOR_PENDING_MAX_DAYS). */
+  gaps: MonitorGap[];
+}
+
+/**
+ * Adds a gap unless one already known covers it. The backend reports a loss twice, as a
+ * `monitor.gap` event and as the `gap` of the next delivery, and that `gap` grows when two prunes
+ * happen before the site hears of them: a gap that covers others replaces them, so nothing is counted twice.
+ */
+export function addGap(gaps: readonly MonitorGap[], gap: MonitorGap): MonitorGap[] {
+  const covers = (a: MonitorGap, b: MonitorGap) => a.fromSeq <= b.fromSeq && a.toSeq >= b.toSeq && a.count >= b.count;
+  if (gaps.some((known) => covers(known, gap))) return [...gaps];
+  return [...gaps.filter((known) => !covers(gap, known)), gap].sort((a, b) => a.fromSeq - b.fromSeq);
+}
+
+/** Events lost in total, and the positions they fall in. */
+export function lostEvents(gaps: readonly MonitorGap[]): { count: number; fromSeq: number; toSeq: number } | null {
+  if (gaps.length === 0) return null;
+  return { count: gaps.reduce((n, g) => n + g.count, 0), fromSeq: Math.min(...gaps.map((g) => g.fromSeq)), toSeq: Math.max(...gaps.map((g) => g.toSeq)) };
 }
 
 export interface EventFilter {
@@ -89,6 +108,8 @@ export class MonitorStore {
       accepted++;
       for (const listener of this.listeners) listener(stored);
     }
+    // After the events: a `monitor.gap` among them is covered by this gap when both tell the same loss.
+    if (delivery.gap) origin.gaps = addGap(origin.gaps, delivery.gap);
     return { accepted, duplicates: delivery.events.length - accepted, cursor: this.cursor };
   }
 
@@ -124,7 +145,7 @@ export class MonitorStore {
   private originOf(o: MonitorOrigin): OriginState {
     let origin = this.origins.get(originKey(o));
     if (!origin) {
-      origin = { env: o.env, instance: o.instance, head: 0, lastSeq: 0, lastDeliveryAt: "", resources: null, resourcesAt: null, alerts: [] };
+      origin = { env: o.env, instance: o.instance, head: 0, lastSeq: 0, lastDeliveryAt: "", resources: null, resourcesAt: null, alerts: [], gaps: [] };
       this.origins.set(originKey(o), origin);
     }
     return origin;
@@ -153,6 +174,10 @@ export class MonitorStore {
       origin.alerts = [...origin.alerts.filter((a) => a.code !== code), { code, severity: e.severity === "error" ? "error" : "warning", message: e.summary, since: e.at }];
     } else if (e.type === "alert.cleared" && typeof e.data.code === "string") {
       origin.alerts = origin.alerts.filter((a) => a.code !== e.data.code);
+    } else if (e.type === "monitor.gap") {
+      // Kept in the feed, so a restarted site that reloads its file still knows what was lost.
+      const gap = parseGap({ ...e.data, prunedAt: e.at });
+      if (gap) origin.gaps = addGap(origin.gaps, gap);
     }
   }
 

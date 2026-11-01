@@ -9,7 +9,7 @@ import { MONITOR_EVENT_TYPES, MONITOR_SCHEMA, parseDelivery, type MonitorDeliver
 import { ALERT_CATALOG, categoryOf, CATEGORY_LABELS, cleanEventText, EVENT_CATALOG, explainAlert, explainEvent, MONITOR_CATEGORIES } from "../src/lib/monitor/interpret.ts";
 import { authenticateDelivery, scopeAllows, sessionValue, signDelivery, verifyDelivery } from "../src/lib/monitor/signature.ts";
 import { MONITOR_COPY } from "../src/lib/monitor/copy.ts";
-import { MonitorStore } from "../src/lib/monitor/store.ts";
+import { addGap, lostEvents, MonitorStore } from "../src/lib/monitor/store.ts";
 
 let n = 0;
 const event = (over: Partial<MonitorEvent> = {}): MonitorEvent => {
@@ -202,6 +202,27 @@ test("store: the last snapshot and the alerts of each backend stay current", () 
   assert.deepEqual(store.summary().origins[0]!.alerts.map((a) => a.code), ["RELAYER_LOW_GAS:stellar-example"]);
   store.ingest(delivery([snapshot([])]));
   assert.deepEqual(store.summary().origins[0]!.alerts, []);
+});
+
+test("store: what a backend lost is kept per backend, counted once although it is told twice", () => {
+  const store = new MonitorStore();
+  const at = "2026-11-01T12:00:00.000Z";
+  const gapEvent = (data: Record<string, unknown>) => event({ type: "monitor.gap", source: "tilcai", severity: "error", subject: "web", data: { sink: "web", pendingMaxDays: 90, ...data }, at });
+  // The event and the delivery's gap describe the same prune.
+  store.ingest(delivery([gapEvent({ fromSeq: 2, toSeq: 4, count: 3 })], { gap: { fromSeq: 2, toSeq: 4, count: 3, prunedAt: at } }));
+  assert.deepEqual(lostEvents(store.summary().origins[0]!.gaps), { count: 3, fromSeq: 2, toSeq: 4 });
+  // A second prune before the site heard of the first: the delivery's gap grew and covers both.
+  store.ingest(delivery([gapEvent({ fromSeq: 6, toSeq: 7, count: 2 })], { deliveryId: "d-2", gap: { fromSeq: 2, toSeq: 7, count: 5, prunedAt: "2026-11-02T12:00:00.000Z" } }));
+  assert.deepEqual(lostEvents(store.summary().origins[0]!.gaps), { count: 5, fromSeq: 2, toSeq: 7 });
+  // Another backend's loss is its own.
+  store.ingest(delivery([event()], { origin: { env: "mainnet", instance: "host-a" }, gap: { fromSeq: 1, toSeq: 1, count: 1, prunedAt: at } }));
+  assert.deepEqual(store.summary().origins.map((o) => [o.env, lostEvents(o.gaps)?.count ?? 0]), [["testnet", 5], ["mainnet", 1]]);
+
+  // Separate losses add up; a smaller report inside a known one adds nothing.
+  const one = { fromSeq: 1, toSeq: 3, count: 3, prunedAt: at };
+  assert.deepEqual(addGap(addGap([], one), { fromSeq: 10, toSeq: 11, count: 2, prunedAt: at }).length, 2);
+  assert.deepEqual(addGap([one], { fromSeq: 2, toSeq: 3, count: 2, prunedAt: at }), [one]);
+  assert.equal(lostEvents([]), null);
 });
 
 test("store: with a file, a restarted server remembers the tail of the feed", () => {
