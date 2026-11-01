@@ -24,7 +24,8 @@ La portada usa fondo grafito, acentos violeta, Plus Jakarta Sans y JetBrains Mon
 - Avalanche C-Chain → Stellar Public Network: evidencia de mainnet y demo de 1 USDC; acreditación disponible en Vaquita como acción posterior distinta de CCTP.
 - Monad Testnet: selección por API y SDK; pruebas de pagos, cuentas y vault registradas en AGENT_HISTORY.md de infraestructura, 13 de octubre.
 - MCP 0.2.0 mantiene Avalanche → Stellar; no se anuncia selección de Monad por MCP.
-- Ethereum, Base y Arbitrum se distinguen como trabajo del laboratorio CCTP, no orígenes activos del backend actual.
+- Ethereum, Base y Arbitrum se distinguen como trabajo del laboratorio CCTP, no orígenes activos del backend actual. Desde el 1 de noviembre la landing coincide: solo Fuji figura como verificada, y un test exige un pago en `evidencePayments` para marcar una red como verificada (TIL-07, #24).
+- Operación del backend (artículo `operations`, nuevo): `/health` como liveness, `/ready` como readiness con `?mode=transactional` antes de activar mainnet, arranque cerrado si `TILCAI_API_KEYS` no se sincroniza, retención del monitor con `MONITOR_PENDING_MAX_DAYS` y `monitor.gap`, y Cloud Run con escritor único **pendiente de staging**. Fuentes: PR #43–#46 de tilcai-infrastructure, en revisión.
 - Contratos adicionales mainnet: desplegados según confirmación del equipo, con direcciones/hashes y activación aún por verificar públicamente.
 - Banco Económico y Diaconía: acceso a APIs y pruebas QR reportadas por el equipo; variables BANECO_* aún no consumidas en el backend. El mock QR Simple no acredita cobros bancarios reales.
 - x402 por red, reputación, delegación y comercio completo tienen sus límites explícitos. Sin auditoría independiente.
@@ -69,3 +70,8 @@ Se compactó el espaciado antes de preparar los commits manuales: subtítulos de
 
 Build repetido correctamente. Portada revisada a 1440 × 900 y guía de inicio rápido a 390 × 844: sin solapamientos ni desbordamiento horizontal en esas vistas. La medición del subtítulo móvil devuelve 28px 0px 12px. Captura: qa-portal/mobile-quickstart-compact.jpg. Se prepararon 20 bloques manuales de add/commit y un push final; no se ejecutaron operaciones de commit o push.
 
+### Actualización · 1 de noviembre de 2026
+
+Se documentó en el portal el trabajo de los issues N-04, N-12, N-11 y N-07 de tilcai-infrastructure y de TIL-07: el artículo nuevo «Operación y despliegue», `/ready` en la referencia de la API, la tabla de retención en Monitorización, los controles nuevos en Seguridad y límites, la fila «Operación del backend» en el estado de capacidades y las fuentes con los PR. Revisión editorial y tabla de estado al 1 de noviembre.
+
+Verificación con Node.js 24.22.1 (la versión de la imagen de producción): `npm test` 114/114 (antes 108), `tsc --noEmit` sin errores, y build de producción con Next.js 16.3.8: 56 páginas estáticas, incluidas 40 de artículos (20 por idioma). El tablero `/[lang]/monitor` muestra ahora los eventos perdidos de cada backend y su retención.
