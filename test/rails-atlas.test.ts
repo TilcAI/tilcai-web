@@ -97,3 +97,16 @@ test("the headline reveal never clips the descenders afterwards and does not pla
   assert.match(header, /played/);
   assert.match(header, /once: true/);
 });
+
+test("a network is only verified with a real payment behind it, and every payment proves a verified network", () => {
+  const known = new Set(originNetworks.map((n) => n.id));
+  for (const payment of evidencePayments) {
+    assert.ok(known.has(payment.network), `${payment.id}: ${payment.network} is not on the map`);
+    assert.equal(originNetworks.find((n) => n.id === payment.network)!.status, "verified", `${payment.id} proves a network shown as lab`);
+    assert.match(payment.burnTxHash, /^0x[0-9a-f]{64}$/);
+    assert.match(payment.mintTxHash, /^[0-9a-f]{64}$/);
+  }
+  for (const network of originNetworks.filter((n) => n.status === "verified")) {
+    assert.ok(evidencePayments.some((p) => p.network === network.id), `${network.name} is shown as verified without a payment in evidencePayments`);
+  }
+});
