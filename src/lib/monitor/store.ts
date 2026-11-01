@@ -1,5 +1,6 @@
 import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname } from "node:path";
+import { addGap } from "./gaps.ts";
 import { parseGap, type MonitorDelivery, type MonitorEvent, type MonitorGap, type MonitorOrigin, type MonitorSeverity, type MonitorSource, type ResourceSnapshot } from "./contract.ts";
 
 /** An event as this site keeps it: where it came from and its position here. */
@@ -28,23 +29,6 @@ export interface OriginState extends MonitorOrigin {
   alerts: Array<{ code: string; severity: "warning" | "error"; message: string; since: string | null }>;
   /** Events of this backend that never reached this site (pruned past MONITOR_PENDING_MAX_DAYS). */
   gaps: MonitorGap[];
-}
-
-/**
- * Adds a gap unless one already known covers it. The backend reports a loss twice, as a
- * `monitor.gap` event and as the `gap` of the next delivery, and that `gap` grows when two prunes
- * happen before the site hears of them: a gap that covers others replaces them, so nothing is counted twice.
- */
-export function addGap(gaps: readonly MonitorGap[], gap: MonitorGap): MonitorGap[] {
-  const covers = (a: MonitorGap, b: MonitorGap) => a.fromSeq <= b.fromSeq && a.toSeq >= b.toSeq && a.count >= b.count;
-  if (gaps.some((known) => covers(known, gap))) return [...gaps];
-  return [...gaps.filter((known) => !covers(gap, known)), gap].sort((a, b) => a.fromSeq - b.fromSeq);
-}
-
-/** Events lost in total, and the positions they fall in. */
-export function lostEvents(gaps: readonly MonitorGap[]): { count: number; fromSeq: number; toSeq: number } | null {
-  if (gaps.length === 0) return null;
-  return { count: gaps.reduce((n, g) => n + g.count, 0), fromSeq: Math.min(...gaps.map((g) => g.fromSeq)), toSeq: Math.max(...gaps.map((g) => g.toSeq)) };
 }
 
 export interface EventFilter {

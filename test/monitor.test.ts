@@ -9,7 +9,8 @@ import { MONITOR_EVENT_TYPES, MONITOR_SCHEMA, parseDelivery, type MonitorDeliver
 import { ALERT_CATALOG, categoryOf, CATEGORY_LABELS, cleanEventText, EVENT_CATALOG, explainAlert, explainEvent, MONITOR_CATEGORIES } from "../src/lib/monitor/interpret.ts";
 import { authenticateDelivery, scopeAllows, sessionValue, signDelivery, verifyDelivery } from "../src/lib/monitor/signature.ts";
 import { MONITOR_COPY } from "../src/lib/monitor/copy.ts";
-import { addGap, lostEvents, MonitorStore } from "../src/lib/monitor/store.ts";
+import { addGap, lostEvents } from "../src/lib/monitor/gaps.ts";
+import { MonitorStore } from "../src/lib/monitor/store.ts";
 
 let n = 0;
 const event = (over: Partial<MonitorEvent> = {}): MonitorEvent => {
