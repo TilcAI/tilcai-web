@@ -294,7 +294,7 @@ export function getDocsSections(locale: Locale): DocsSection[] {
       ].map(([t,d])=>"<dt>"+t+"</dt><dd>"+d+"</dd>").join("") + "</dl>"),
 
     section("sources", l("Fuentes y versiones", "Sources and versions"), "reference",
-      '<p class="lede">' + l("Revisión editorial: 20 de octubre de 2026. Las afirmaciones se separan por evidencia de código, registros del equipo y capacidades todavía en integración.", "Editorial review: 20 October 2026. Claims distinguish code evidence, team records and capabilities still in integration.") + "</p>" +
+      '<p class="lede">' + l("Revisión editorial: 1 de noviembre de 2026. Las afirmaciones se separan por evidencia de código, registros del equipo y capacidades todavía en integración.", "Editorial review: 1 November 2026. Claims distinguish code evidence, team records and capabilities still in integration.") + "</p>" +
       '<h3>' + l("Código y registros del equipo", "Code and team records") + "</h3>" + table(l("Fuentes de esta revisión", "Sources for this revision"), [l("Fuente", "Source"), l("Referencia", "Reference")], [
         ["tilcai-infrastructure", repo("tilcai-infrastructure", "src/config/networks.ts", "networks.ts") + " · 58066a7"],
         ["Monad Testnet", repo("tilcai-infrastructure", "AGENT_HISTORY.md", l("Historial del 13 de octubre", "13 October team log"))],
@@ -303,6 +303,11 @@ export function getDocsSections(locale: Locale): DocsSection[] {
         ["MCP · 0.2.0", repo("tilcai-mcp", "src/main.ts", l("Herramientas y schemas", "Tools and schemas"))],
         ["tilcai-core", repo("tilcai-core", "docs/shared-contracts.md", l("Contratos compartidos", "Shared contracts"))],
         ["tilcai-cctp-engine", external("https://github.com/TilcAI/tilcai-cctp-engine", l("Laboratorio de rutas", "Route laboratory"))],
+        [l("Arranque cerrado de claves (N-04)", "Fail-closed key sync (N-04)"), external("https://github.com/TilcAI/tilcai-infrastructure/pull/43", "PR #43") + " · " + external("https://github.com/TilcAI/tilcai-infrastructure/issues/30", "#30")],
+        [l("Readiness y /ready (N-12)", "Readiness and /ready (N-12)"), external("https://github.com/TilcAI/tilcai-infrastructure/pull/44", "PR #44") + " · " + external("https://github.com/TilcAI/tilcai-infrastructure/issues/38", "#38")],
+        [l("Retención del monitor (N-11)", "Monitor retention (N-11)"), external("https://github.com/TilcAI/tilcai-infrastructure/pull/45", "PR #45") + " · " + external("https://github.com/TilcAI/tilcai-infrastructure/issues/37", "#37")],
+        [l("Escritor único en Cloud Run (N-07)", "Single writer on Cloud Run (N-07)"), external("https://github.com/TilcAI/tilcai-infrastructure/pull/46", "PR #46") + " · " + external("https://github.com/TilcAI/tilcai-infrastructure/issues/33", "#33") + " · " + external("https://litestream.io/tips/", "Litestream") + " · " + external("https://docs.cloud.google.com/run/docs/configuring/max-instances", "Cloud Run")],
+        [l("Redes verificadas (TIL-07)", "Verified networks (TIL-07)"), external("https://github.com/TilcAI/tilcai-web/issues/24", "tilcai-web#24") + " · " + l("solo Fuji tiene pagos en los exploradores", "only Fuji has payments in the explorers")],
       ]) +
       '<h3>' + l("Cómo leer los estados", "How to read statuses") + "</h3><p>" +
       l("<strong>Implementado:</strong> existe en código. <strong>Probado:</strong> hay registro de una prueba concreta. <strong>Confirmado por el equipo:</strong> falta evidencia pública completa. <strong>En integración:</strong> no debe tratarse como funcionalidad operativa de extremo a extremo.", "<strong>Implemented:</strong> exists in code. <strong>Tested:</strong> a specific test is recorded. <strong>Team-confirmed:</strong> complete public evidence is missing. <strong>In integration:</strong> must not be treated as an operational end-to-end capability.") + "</p>" +
