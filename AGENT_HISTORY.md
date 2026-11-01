@@ -1521,3 +1521,37 @@ Cambios locales, listos para revisión; sin commit ni push.
 Se revisó y compactó el espaciado de documentación: subtítulos de 40/16 a 28/12 px, cabecera de artículo de 30 a 22 px, breadcrumb de escritorio de 32 a 24 px y separaciones principales de portada a 28 px. Build de producción correcto; revisión visual a 1440 × 900 y 390 × 844, con medición móvil de márgenes y sin desbordamiento horizontal en las vistas inspeccionadas. Se guardó docs/qa-portal/mobile-quickstart-compact.jpg y se actualizó docs/portal-documentation.md.
 
 Se entregaron 20 pares de comandos git add/git commit, agrupados por contenido bilingüe, helpers y tests, navegación, búsqueda, herramientas de lectura, diagramas, ilustración, evidencia Vaquita, portal, estilos, rutas, idiomas, metadatos, enlaces desde landing, pruebas, README, documentación técnica, capturas e historial, más git push origin main para ejecución manual. No se ejecutaron add, commit ni push. El lint sigue limitado por la incompatibilidad previamente documentada de TypeScript 7 con typescript-eslint.
+
+## 2026-11-01T18:30:19Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Solo nos vamos a enfocar en el proyecto tilcai, revisa mis issues
+
+### Salida
+
+Revisión, sin cambios de código, de los 5 issues TilcAI asignados a OmarQV: tilcai-web#24 (TIL-07, P0) y tilcai-infrastructure #30 (N-04), #38 (N-12), #37 (N-11) y #33 (N-07). En este repo: el #24 está avanzado en main (EvidenceLedger con los hashes reales Fuji → Stellar), pero src/lib/content/rails.ts marca Ethereum, Arbitrum y Base Sepolia como verified sin hashes que lo respalden, lo que contradice el criterio de aceptación de no atribuir datos no verificados. No hay PR vinculado ni comentarios. Pendiente: conseguir esos hashes o devolver las tres redes a lab, y cerrar con evidencia.
+
+## 2026-11-01T20:25:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> ACTUALIZA mi version de node (prioridad). Termina con las issues completamente, documenta en los readmes lo realizado en una lista como un check-in para que mis compañeros tengan el contexto. En tilcai-web agrega lo que falta lo de monitor.gap y lo demas, actualiza la Documentación (al terminar en el repo de tilcai-web debes reflejar en Documentacion todo lo realizado, se contabiliza los commits solo desde el repo tilcai-web así que realiza 20 add+commit).
+
+### Salida
+
+Node.js local actualizado de 22.16.0 a 24.22.1 (winget, MSI en Program Files; la copia de scoop 24.4.1 queda detrás en el PATH). En tilcai-web, 20 commits en feat/monitor-gap-til07, cada uno con la suite en verde:
+- Monitor (N-11): contrato con `monitor.gap`, `MonitorGap` y las alertas `MONITOR_BACKLOG_RETAINED` y `MONITOR_SINK_GAP`; validación de `gap`; campos de retención en la foto; brechas por backend sin contarlas dos veces, en src/lib/monitor/gaps.ts, sin Node; el tablero muestra los eventos perdidos y la retención; tests.
+- TIL-07 (#24): Ethereum, Arbitrum y Base Sepolia vuelven a laboratorio, porque no hay hashes y así lo dice el contexto oficial. Cada fila de `evidencePayments` dice qué red prueba, y un test impide una red verificada sin pago. Hoja de ruta, preguntas frecuentes y mapa en ambos idiomas.
+- Portal de documentación: `/ready` en la API, retención en Monitorización, arranque cerrado, readiness y escritor único en Seguridad y límites, artículo nuevo «Operación y despliegue», estado y fuentes al 1 de noviembre, tests del portal y docs/portal-documentation.md.
+- README con el check-in del día.
+
+Verificación: `npm test` 114/114, `tsc --noEmit` sin errores, `npm run build` con 56 páginas. Sin push. Pendiente: push y PR de esta rama, y los merges de los PR #43–#46 de tilcai-infrastructure.
