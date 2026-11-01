@@ -4,6 +4,7 @@ import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import type { MonitorSeverity, ResourceSnapshot } from "@/lib/monitor/contract";
 import { MONITOR_COPY, type MonitorCopy } from "@/lib/monitor/copy";
 import { CATEGORY_LABELS, categoryOf, cleanEventText, explainAlert, explainEvent, MONITOR_CATEGORIES, type Lang, type MonitorCategory } from "@/lib/monitor/interpret";
+import { lostEvents } from "@/lib/monitor/gaps";
 import type { OriginState, StoredEvent } from "@/lib/monitor/store";
 import { networkName, vaultLevel, vaultsOf } from "@/lib/monitor/vaults";
 import styles from "./MonitorBoard.module.css";
@@ -163,6 +164,8 @@ function Origin({ origin, lang, t }: { origin: OriginState; lang: Lang; t: Monit
   const time = useMemo(() => new Intl.DateTimeFormat(lang, { dateStyle: "short", timeStyle: "medium" }), [lang]);
   const r: ResourceSnapshot | null = origin.resources;
   const lag = Math.max(origin.head - origin.lastSeq, 0);
+  // A site that predates `gaps` in the summary (an older server process) shows none rather than failing.
+  const lost = lostEvents(origin.gaps ?? []);
   const vaultTiles = r ? vaultsOf(r, origin.env) : [];
   // A testnet and a mainnet backend on one host share the instance: the environment tells them apart.
   const headingId = `origin-${origin.env}-${origin.instance}`.replace(/[^A-Za-z0-9_-]/g, "-");
@@ -177,7 +180,23 @@ function Origin({ origin, lang, t }: { origin: OriginState; lang: Lang; t: Monit
           {origin.lastDeliveryAt && `${t.origin.lastDelivery}: ${time.format(new Date(origin.lastDeliveryAt))} · `}
           {lag > 0 ? `${number.format(lag)} ${t.origin.lag}` : t.origin.upToDate}
           {origin.resourcesAt && ` · ${t.origin.snapshot} ${time.format(new Date(origin.resourcesAt))}`}
+          {r?.monitor.retentionDays !== undefined &&
+            ` · ${t.origin.retention}: ${t.origin.retentionDelivered} ${r.monitor.retentionDays} ${t.origin.days}, ${t.origin.retentionPending} ${r.monitor.pendingMaxDays ?? r.monitor.retentionDays} ${t.origin.days}`}
         </p>
+        {lost && (
+          <div className={styles.alert} role="status">
+            <Mark level="error" t={t} />
+            <div>
+              <p className={styles.alertTitle}>
+                {number.format(lost.count)} {t.origin.lost}{" "}
+                <span className={styles.code}>
+                  ({t.origin.positions} {lost.fromSeq}–{lost.toSeq})
+                </span>
+              </p>
+              <p>{t.origin.lostNote}</p>
+            </div>
+          </div>
+        )}
       </header>
 
       <div className={styles.alerts}>
