@@ -357,3 +357,19 @@ test("the dashboard does not call anything a mock or a demo, and old events are 
   assert.equal(cleanEventText('{"payerBank":"BANCO MOCK"}'), '{"payerBank":"BANCO NO INFORMADO"}');
   assert.equal(cleanEventText("Desembolso de 10 USDC CONFIRMED"), "Desembolso de 10 USDC CONFIRMED");
 });
+
+test("the dashboard states a loss plainly in both languages, and never hides it behind a colour", () => {
+  for (const lang of ["en", "es"] as const) {
+    const o = MONITOR_COPY[lang].origin;
+    for (const key of ["lost", "positions", "lostNote", "retention", "retentionDelivered", "retentionPending", "days"] as const) assert.ok(o[key].length > 1, `${lang}.${key}`);
+    // The note says where the truth for that period is, not that nothing happened.
+    assert.match(o.lostNote, lang === "es" ? /cadena/ : /chain/);
+  }
+  assert.notEqual(MONITOR_COPY.en.origin.lost, MONITOR_COPY.es.origin.lost);
+
+  const board = readFileSync(new URL("../src/components/monitor/MonitorBoard.tsx", import.meta.url), "utf8");
+  assert.match(board, /lostEvents\(origin\.gaps \?\? \[\]\)/, "the board reads every gap of the backend");
+  assert.match(board, /role="status"[\s\S]{0,80}<Mark level="error"/, "an error mark with its word, announced to assistive technology");
+  assert.match(board, /from "@\/lib\/monitor\/gaps"/, "the browser bundle takes the gap maths from the module without Node APIs");
+  assert.doesNotMatch(board, /import \{[^}]*\} from "@\/lib\/monitor\/store"/, "only types come from the server store");
+});
