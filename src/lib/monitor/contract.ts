@@ -150,7 +150,27 @@ export interface ResourceSnapshot {
   vaultError?: string;
   /** Every vault the backend has configured, the primary first (Fuji, Stellar). Absent from older backends. */
   vaults?: VaultEntry[];
-  monitor: { head: number; sinks: Array<{ name: string; lastSeq: number; lag: number; attempts: number; lastError: string | null; lastDeliveredAt: string | null }> };
+  monitor: {
+    head: number;
+    sinks: Array<{
+      name: string;
+      lastSeq: number;
+      lag: number;
+      attempts: number;
+      lastError: string | null;
+      lastDeliveredAt: string | null;
+      /** Receives events now: only its pending events are kept. Absent from backends before N-11. */
+      configured?: boolean;
+      /** When the oldest event it lacks happened. */
+      oldestPendingAt?: string | null;
+      /** Events it lost and has not been told about yet. */
+      gap?: MonitorGap | null;
+    }>;
+    /** Delivered events are kept this long (MONITOR_RETENTION_DAYS). Absent from backends before N-11. */
+    retentionDays?: number;
+    /** Pending ones, this long (MONITOR_PENDING_MAX_DAYS). */
+    pendingMaxDays?: number;
+  };
   alerts: Array<{ code: string; severity: "warning" | "error"; message: string }>;
 }
 
