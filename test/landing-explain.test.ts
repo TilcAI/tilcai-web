@@ -61,14 +61,11 @@ test("the payment is never presented as the delivery, and an allow is never pres
   }
 });
 
-// ── Networks: Fuji and the three Sepolia routes are verified; the rest are lab ─────────────────────────────────────────────────
+// ── Networks: only Fuji is verified (official context, TIL-07); the rest are lab ──────────────────────────────────────────────
 
-test("Fuji and the three Sepolia routes are verified; the others are lab, and Stellar is the destination", () => {
-  assert.deepEqual(
-    originNetworks.filter((n) => n.status === "verified").map((n) => n.id),
-    ["avalanche-fuji", "ethereum-sepolia", "arbitrum-sepolia", "base-sepolia"],
-  );
-  assert.equal(originNetworks.length, 7, "four verified networks plus three lab networks");
+test("only Fuji is verified; the other six are lab, and Stellar is the destination", () => {
+  assert.deepEqual(originNetworks.filter((n) => n.status === "verified").map((n) => n.id), ["avalanche-fuji"]);
+  assert.equal(originNetworks.length, 7, "one verified network plus six lab networks");
   assert.equal(new Set(originNetworks.map((n) => n.id)).size, originNetworks.length);
   assert.ok(originNetworks.every((n) => n.status === "verified" || n.status === "lab"));
   assert.equal(destinationNetwork.id, "stellar-testnet");
