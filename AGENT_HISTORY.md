@@ -1521,3 +1521,17 @@ Cambios locales, listos para revisión; sin commit ni push.
 Se revisó y compactó el espaciado de documentación: subtítulos de 40/16 a 28/12 px, cabecera de artículo de 30 a 22 px, breadcrumb de escritorio de 32 a 24 px y separaciones principales de portada a 28 px. Build de producción correcto; revisión visual a 1440 × 900 y 390 × 844, con medición móvil de márgenes y sin desbordamiento horizontal en las vistas inspeccionadas. Se guardó docs/qa-portal/mobile-quickstart-compact.jpg y se actualizó docs/portal-documentation.md.
 
 Se entregaron 20 pares de comandos git add/git commit, agrupados por contenido bilingüe, helpers y tests, navegación, búsqueda, herramientas de lectura, diagramas, ilustración, evidencia Vaquita, portal, estilos, rutas, idiomas, metadatos, enlaces desde landing, pruebas, README, documentación técnica, capturas e historial, más git push origin main para ejecución manual. No se ejecutaron add, commit ni push. El lint sigue limitado por la incompatibilidad previamente documentada de TypeScript 7 con typescript-eslint.
+
+## 2026-11-02T01:14:59Z · saulchoque · Codex / gpt-6.1-sol
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** documentation, tilcai-core, tilcai-infrastructure, tilcai-sdk, tilcai-mcp, tilcai-web, tilcai-cctp-engine, .github
+
+### Prompt
+
+> actualiza los readme de todos los repos tambien, y haz push
+
+### Salida
+
+Actualicé el README de este repositorio con su alcance en la entrega, ramas publicadas, enlaces a la documentación y pendientes. Los cambios se publicaron en la rama indicada. Se revisaron el formato del diff y los enlaces locales de los README; no se modificó código ni se ejecutaron pruebas funcionales.

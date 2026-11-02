@@ -221,3 +221,18 @@ A mainnet backend reports to the same endpoint with its own secret: add
 `-e MONITOR_INGEST_SECRET_MAINNET=…` here and set `MONITOR_WEB_URL_MAINNET` and
 `MONITOR_WEB_SECRET_MAINNET` there. Each secret is accepted for its environment only, so the two
 must differ. The dashboard shows one block per backend, mainnet first and labelled as real funds.
+
+## Estado de integración · 2026-11-02 UTC
+
+`feat/qr-gateway-events` está publicada con referencia `6b3179f`; `main` se actualizó a
+`5c5701e` antes de esta edición del README. Comprobar la rama al revisar cambios del monitor QR:
+publicación de la rama no implica integración en main o despliegue del sitio.
+
+Backend, SDK y MCP publicaron sus ramas de credenciales: API keys por tenant, entorno y
+permisos, caducidad y rotación. La gestión se realiza con la CLI del operador del backend;
+el sitio no incorpora un panel de emisión de claves. Guardar las credenciales de socios en
+sus backends/gestores de secretos, fuera del navegador y del contenido público.
+
+QR Simple genera imágenes desde payload; los depósitos del simulador no acreditan abonos.
+Consultar [QR/configuración](https://github.com/TilcAI/documentation/blob/main/3-CONSTRUCCION/QR_PAYLOAD_Y_CONFIGURACION_2026-11-02.md), [credenciales](https://github.com/TilcAI/documentation/blob/main/3-CONSTRUCCION/CREDENCIALES_TERCEROS_IMPLEMENTACION_2026-11-01.md) y [estado de entrega](https://github.com/TilcAI/documentation/blob/main/3-CONSTRUCCION/ESTADO_REPOSITORIOS_2026-11-01.md).
+La [facturación SIN](https://github.com/TilcAI/documentation/blob/main/2-ARQUITECTURA/TILCAI_FACTURACION_SIN_2026-11-01.md) permanece en diseño; el sitio no emite facturas fiscales.
