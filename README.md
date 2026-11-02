@@ -22,7 +22,7 @@ Contexto para el equipo de lo que se hizo hoy (OmarQV con Claude Code). Detalle 
 **tilcai-infrastructure** (PRs en revisión)
 - [x] [#43](https://github.com/TilcAI/tilcai-infrastructure/pull/43) · N-04 #30: el proceso no arranca si `TILCAI_API_KEYS` no se sincroniza, en lugar de seguir aceptando una clave retirada. 195/195 tests.
 - [x] [#44](https://github.com/TilcAI/tilcai-infrastructure/pull/44) · N-12 #38: `/health` queda como liveness y `/ready` como readiness por modo, con `?mode=transactional` antes de activar mainnet. 208/208 tests. **Está apilado sobre #43:** primero se hace el merge de #43 y después se cambia la base de #44 a `main`.
-- [x] [#45](https://github.com/TilcAI/tilcai-infrastructure/pull/45) · N-11 #37: retención del monitor sin pérdidas silenciosas; lo pendiente se conserva hasta 90 días y después se informa `monitor.gap`. 201/201 tests. Usa la migración 7, porque `feat/qr-providers-fallback` ya tiene la 6.
+- [x] [#45](https://github.com/TilcAI/tilcai-infrastructure/pull/45) · N-11 #37: retención del monitor sin pérdidas silenciosas; lo pendiente se conserva hasta 90 días y después se informa `monitor.gap`. 201/201 tests. Usa la migración 8: la 6 es de `feat/qr-providers-fallback` y la 7 de `feat/third-party-credentials`.
 - [x] [#46](https://github.com/TilcAI/tilcai-infrastructure/pull/46) · N-07 #33: análisis de escritor único en Cloud Run, protocolo de staging y herramienta `deploy/staging/n07-writer.mjs`. **No cierra el issue.**
 
 **Pendiente**
