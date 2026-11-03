@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHmac } from "node:crypto";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -372,4 +372,40 @@ test("the dashboard states a loss plainly in both languages, and never hides it 
   assert.match(board, /role="status"[\s\S]{0,80}<Mark level="error"/, "an error mark with its word, announced to assistive technology");
   assert.match(board, /from "@\/lib\/monitor\/gaps"/, "the browser bundle takes the gap maths from the module without Node APIs");
   assert.doesNotMatch(board, /import \{[^}]*\} from "@\/lib\/monitor\/store"/, "only types come from the server store");
+});
+
+test("store: a gap told only in a delivery survives a restart (review of #30)", () => {
+  const dir = mkdtempSync(join(tmpdir(), "tilcai-monitor-"));
+  const file = join(dir, "events.jsonl");
+  try {
+    const gap = { fromSeq: 1, toSeq: 5, count: 5, prunedAt: "2026-11-01T12:00:00.000Z" };
+    // Saul's reproduction: a delivery with no events, head 10, and the gap.
+    new MonitorStore(3, file).ingest(delivery([], { head: 10, gap }));
+    const again = new MonitorStore(3, file);
+    assert.deepEqual(again.summary().origins.map((o) => [o.env, o.instance, lostEvents(o.gaps)]), [["testnet", "host-a", { count: 5, fromSeq: 1, toSeq: 5 }]]);
+    // The same report after the restart is not counted twice.
+    again.ingest(delivery([], { deliveryId: "d-2", head: 10, gap }));
+    assert.equal(lostEvents(new MonitorStore(3, file).summary().origins[0]!.gaps)?.count, 5);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("store: a monitor.gap pushed out of the reloaded tail is still known after a restart", () => {
+  const dir = mkdtempSync(join(tmpdir(), "tilcai-monitor-"));
+  const file = join(dir, "events.jsonl");
+  try {
+    const first = new MonitorStore(3, file);
+    first.ingest(delivery([event({ type: "monitor.gap", source: "tilcai", severity: "error", subject: "web", data: { sink: "web", fromSeq: 2, toSeq: 4, count: 3, pendingMaxDays: 90 }, at: "2026-11-01T12:00:00.000Z" })]));
+    // Many more events than the capacity: the gap event is no longer in the tail a restart reads.
+    first.ingest(delivery(Array.from({ length: 10 }, () => event()), { deliveryId: "d-2" }));
+    const again = new MonitorStore(3, file);
+    assert.ok(!again.list({ limit: 500 }).some((e) => e.type === "monitor.gap"), "the event itself is gone from the tail");
+    assert.deepEqual(lostEvents(again.summary().origins[0]!.gaps), { count: 3, fromSeq: 2, toSeq: 4 });
+    // An unreadable gaps file does not stop the store.
+    writeFileSync(`${file}.gaps.json`, "{no es json");
+    assert.doesNotThrow(() => new MonitorStore(3, file).ingest(delivery([event()], { deliveryId: "d-3" })));
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

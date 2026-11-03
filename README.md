@@ -199,7 +199,7 @@ backend ── POST /api/monitor/events (signed) ──▶ MonitorStore (memory)
 | Contract | `src/lib/monitor/contract.ts` | Types of `tilcai-monitor-v1` and the validation of a delivery. Mirrors the backend's `src/modules/monitor/domain.ts` |
 | Signature | `src/lib/monitor/signature.ts` | `X-Tilcai-Signature: v1=HMAC-SHA256(secret, "<X-Tilcai-Timestamp>.<body>")`, refused when older than 5 minutes |
 | Store | `src/lib/monitor/store.ts` | The last 2000 events, each backend's last resource snapshot and its active alerts. A cache of the backend's log, not the log |
-| Gaps | `src/lib/monitor/gaps.ts` | Events a backend pruned before they reached this site (`monitor.gap` and the delivery's `gap`), counted once. No Node APIs: the dashboard uses it in the browser |
+| Gaps | `src/lib/monitor/gaps.ts` | Events a backend pruned before they reached this site (`monitor.gap` and the delivery's `gap`), counted once. No Node APIs: the dashboard uses it in the browser. With `MONITOR_STORE_FILE`, the store keeps every backend's gaps whole in `<file>.gaps.json`, so a restart remembers them even when the feed's bounded tail no longer holds the `monitor.gap` event |
 | Interpretation | `src/lib/monitor/interpret.ts` | What every event type and alert code means, and what to do about an alert, in English and Spanish |
 | Access | `src/lib/monitor/access.ts` | Who may read: the dashboard token (session cookie or `Authorization: Bearer`) |
 | Hook and view | `src/components/monitor/` | `useMonitorFeed()` (summary + events + live stream) and `MonitorBoard`, a plain base view |

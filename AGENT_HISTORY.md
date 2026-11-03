@@ -1584,3 +1584,31 @@ Push de feat/monitor-gap-til07 (20 commits) y PR tilcai-web#30 contra main, que 
 ### Salida
 
 En este repo: el check-in del README indica la migración 8 de N-11 (la 7 es de feat/third-party-credentials). Es el commit 21 del PR #30. Las vulnerabilidades de Dependabot son del repo tilcai-infrastructure y se corrigen allí, en su propio PR.
+
+## 2026-11-03T00:00:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Revisa si hay nuevos issues
+
+### Salida
+
+No hay issues nuevos en TilcAI desde el 1 de noviembre; siguen los 5 asignados, cada uno con su PR. Hay una revisión de SaulChoque en el PR #30 con un hallazgo P2: las brechas recibidas por el campo `gap` de la entrega se pierden al reiniciar el sitio, y un `monitor.gap` que ya salió de las últimas 2000 líneas también. Ningún otro PR tiene revisiones.
+
+## 2026-11-03T00:05:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Hazlo, corrijelo
+
+### Salida
+
+P2 de la revisión del PR #30 corregido. Con `MONITOR_STORE_FILE`, el store guarda las brechas de cada backend completas en `<archivo>.gaps.json`, aparte del historial limitado. Se reescribe entero y se reemplaza de forma atómica en cada cambio, y se lee primero al arrancar, de modo que los `monitor.gap` del historial se deduplican contra él. Un historial anterior que tenga un `monitor.gap` lo migra al cargar. Si el archivo no se puede leer, el store sigue funcionando. Dos tests con los reinicios de la reproducción fallaban antes y pasan ahora. Suite 116/116, tsc correcto y build de 56 páginas.

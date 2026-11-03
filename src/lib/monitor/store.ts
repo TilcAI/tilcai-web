@@ -1,4 +1,4 @@
-import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { addGap } from "./gaps.ts";
 import { parseGap, type MonitorDelivery, type MonitorEvent, type MonitorGap, type MonitorOrigin, type MonitorSeverity, type MonitorSource, type ResourceSnapshot } from "./contract.ts";
@@ -18,6 +18,9 @@ export interface StoredEvent extends MonitorEvent {
  * backend on the same host report the same one.
  */
 export const originKey = (o: MonitorOrigin): string => `${o.env}\n${o.instance}`;
+
+/** Where a file-backed store keeps every backend's gaps, next to its feed. */
+const gapsFile = (file: string): string => `${file}.gaps.json`;
 
 export interface OriginState extends MonitorOrigin {
   /** Newest position the backend reported, and the newest one received from it. */
@@ -70,10 +73,21 @@ export class MonitorStore {
   private readonly capacity: number;
   private readonly file: string | null;
 
+  /** Set while the files are read back, so reading does not write them again. */
+  private loading = false;
+
   constructor(capacity = 2000, file: string | null = null) {
     this.capacity = capacity;
     this.file = file;
-    if (file) this.load(file);
+    if (file) {
+      this.loading = true;
+      // Gaps first: they are kept whole, apart from the bounded tail, and the tail's `monitor.gap` events then dedupe against them.
+      this.loadGaps(gapsFile(file));
+      this.load(file);
+      this.loading = false;
+      // A feed written before gaps had their own file may still hold a `monitor.gap`: keep it from now on.
+      if ([...this.origins.values()].some((o) => o.gaps.length > 0)) this.saveGaps(file);
+    }
   }
 
   /** Stores what is new in a delivery. Events already here (a retried delivery) are skipped. */
@@ -93,7 +107,7 @@ export class MonitorStore {
       for (const listener of this.listeners) listener(stored);
     }
     // After the events: a `monitor.gap` among them is covered by this gap when both tell the same loss.
-    if (delivery.gap) origin.gaps = addGap(origin.gaps, delivery.gap);
+    if (delivery.gap) this.noteGap(origin, delivery.gap);
     return { accepted, duplicates: delivery.events.length - accepted, cursor: this.cursor };
   }
 
@@ -159,9 +173,49 @@ export class MonitorStore {
     } else if (e.type === "alert.cleared" && typeof e.data.code === "string") {
       origin.alerts = origin.alerts.filter((a) => a.code !== e.data.code);
     } else if (e.type === "monitor.gap") {
-      // Kept in the feed, so a restarted site that reloads its file still knows what was lost.
       const gap = parseGap({ ...e.data, prunedAt: e.at });
-      if (gap) origin.gaps = addGap(origin.gaps, gap);
+      if (gap) this.noteGap(origin, gap);
+    }
+  }
+
+  /**
+   * Records a loss and, with a file, keeps every backend's gaps in `<file>.gaps.json`. They cannot live
+   * only in the feed: a gap may come in a delivery without its `monitor.gap` event, and the feed reloads
+   * just its last `capacity` lines.
+   */
+  private noteGap(origin: OriginState, gap: MonitorGap): void {
+    const next = addGap(origin.gaps, gap);
+    if (JSON.stringify(next) === JSON.stringify(origin.gaps)) return;
+    origin.gaps = next;
+    if (this.file && !this.loading) this.saveGaps(this.file);
+  }
+
+  private saveGaps(file: string): void {
+    const rows = [...this.origins.values()].filter((o) => o.gaps.length > 0).map((o) => ({ origin: { env: o.env, instance: o.instance }, gaps: o.gaps }));
+    try {
+      // Written whole and renamed into place: a crash leaves the previous file, never half of one.
+      const tmp = `${gapsFile(file)}.tmp`;
+      writeFileSync(tmp, JSON.stringify(rows));
+      renameSync(tmp, gapsFile(file));
+    } catch {
+      // The gaps stay known in memory; the next change tries the file again.
+    }
+  }
+
+  private loadGaps(file: string): void {
+    try {
+      if (!existsSync(file)) return;
+      const rows = JSON.parse(readFileSync(file, "utf8")) as Array<{ origin: MonitorOrigin; gaps: unknown[] }>;
+      for (const row of Array.isArray(rows) ? rows : []) {
+        if (typeof row?.origin?.env !== "string" || typeof row.origin.instance !== "string" || !Array.isArray(row.gaps)) continue;
+        const origin = this.originOf(row.origin);
+        for (const raw of row.gaps) {
+          const gap = parseGap(raw);
+          if (gap) origin.gaps = addGap(origin.gaps, gap);
+        }
+      }
+    } catch {
+      // An unreadable gaps file is not a reason to refuse new events; the feed's `monitor.gap` events still count.
     }
   }
 
