@@ -300,14 +300,20 @@ test("interpretation: alerts say what to do, including the one that kept payouts
   }
 });
 
-// With both repositories side by side (the team's layout), the mirror is checked against the
-// backend's own list. Elsewhere (CI of this repository alone) there is nothing to compare.
+// With the repositories side by side (the team's layout), the mirror is checked against the backend's own list:
+// tilcai-core/monitor's, plus what tilcai-infrastructure extends it with until Core carries it (monitor.gap).
+// Elsewhere (CI of this repository alone) there is nothing to compare.
 const backend = new URL("../../tilcai-infrastructure/src/modules/monitor/", import.meta.url);
+const core = new URL("../../tilcai-core/src/monitor.ts", import.meta.url);
 test("contract: event types and alert codes match the backend's", { skip: !existsSync(new URL("domain.ts", backend)) }, () => {
   const domain = readFileSync(new URL("domain.ts", backend), "utf8");
-  const list = /export const MONITOR_EVENT_TYPES = \[([\s\S]*?)\] as const;/.exec(domain)![1]!;
-  assert.deepEqual([...list.matchAll(/^\s*"([a-z0-9_.]+)"/gm)].map((m) => m[1]), [...MONITOR_EVENT_TYPES]);
-  assert.match(domain, new RegExp(`MONITOR_SCHEMA = "${MONITOR_SCHEMA}"`));
+  const typesIn = (source: string) => [.../export const MONITOR_EVENT_TYPES = \[([\s\S]*?)\] as const;/.exec(source)![1]!.matchAll(/"([a-z0-9_.]+)"/g)].map((m) => m[1]);
+  // A backend that takes the list from Core spreads it first (`...CORE_MONITOR_EVENT_TYPES`); an older one lists every type.
+  const fromCore = domain.includes("...CORE_MONITOR_EVENT_TYPES");
+  if (fromCore) assert.ok(existsSync(core), "tilcai-core is not next to tilcai-infrastructure");
+  const contract = fromCore ? readFileSync(core, "utf8") : domain;
+  assert.deepEqual(fromCore ? [...typesIn(contract), ...typesIn(domain)] : typesIn(domain), [...MONITOR_EVENT_TYPES]);
+  assert.match(contract, new RegExp(`MONITOR_SCHEMA = "${MONITOR_SCHEMA}"`));
 
   const resources = readFileSync(new URL("resources.ts", backend), "utf8");
   const codes = new Set([...resources.matchAll(/add\((?:"|`)([A-Z_]+)/g)].map((m) => m[1]!));
