@@ -1612,3 +1612,16 @@ No hay issues nuevos en TilcAI desde el 1 de noviembre; siguen los 5 asignados, 
 ### Salida
 
 P2 de la revisión del PR #30 corregido. Con `MONITOR_STORE_FILE`, el store guarda las brechas de cada backend completas en `<archivo>.gaps.json`, aparte del historial limitado. Se reescribe entero y se reemplaza de forma atómica en cada cambio, y se lee primero al arrancar, de modo que los `monitor.gap` del historial se deduplican contra él. Un historial anterior que tenga un `monitor.gap` lo migra al cargar. Si el archivo no se puede leer, el store sigue funcionando. Dos tests con los reinicios de la reproducción fallaban antes y pasan ahora. Suite 116/116, tsc correcto y build de 56 páginas.
+## 2026-11-02T01:14:59Z · saulchoque · Codex / gpt-6.1-sol
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** documentation, tilcai-core, tilcai-infrastructure, tilcai-sdk, tilcai-mcp, tilcai-web, tilcai-cctp-engine, .github
+
+### Prompt
+
+> actualiza los readme de todos los repos tambien, y haz push
+
+### Salida
+
+Actualicé el README de este repositorio con su alcance en la entrega, ramas publicadas, enlaces a la documentación y pendientes. Los cambios se publicaron en la rama indicada. Se revisaron el formato del diff y los enlaces locales de los README; no se modificó código ni se ejecutaron pruebas funcionales.
