@@ -1653,3 +1653,18 @@ Los 5 issues asignados siguen abiertos, cada uno con su PR listo y sin revisión
 ### Salida
 
 PR #30: se combinó `main` (el conflicto de AGENT_HISTORY.md se resuelve por unión). La web suma los cuatro eventos del gateway de QR que ya tiene tilcai-core, con los mismos textos que feat/qr-gateway-events de SaulChoque. El test de contrato compara con la lista de tilcai-core más la extensión de infra (`monitor.gap`). Suite 116/116 y tsc correcto, contra el `main` de infra con #45 y el `main` de Core. El merge de los PR quedó bloqueado por el permiso de Claude Code «merge sin revisión»: queda preparado para que lo ejecute OmarQV.
+
+
+## 2026-11-04T14:39:51Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** 326c05ab-c025-4213-8616-d60e79d08efb
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Resuelve los conflictos y haz merge de todo
+
+### Salida
+
+Infra: #43 (N-04), #44 (N-12), #45 (N-11, migración pasada a la 9 tras las credenciales de #53), #46 (N-07) y #47 (dependencias) mergeados en main con CI verde; además, los streams del monitor se cierran al apagar el servidor. Web: el check-in del README pasa a «mergeados», corrige la migración de N-11 (9) y actualiza los pendientes. Suite 116/116 (sin tests omitidos) y tsc correcto contra el main de infra (7fcbc91) y de Core.

@@ -19,17 +19,18 @@ Contexto para el equipo de lo que se hizo hoy (OmarQV con Claude Code). Detalle 
 - [x] **Documentación:** artículo nuevo «Operación y despliegue»; `/ready` en la referencia de la API; retención en Monitorización; arranque cerrado y escritor único en Seguridad y límites; estado y fuentes al 1 de noviembre.
 - [x] Verificación: `npm test` 114/114, `tsc --noEmit` sin errores, `npm run build` con 56 páginas estáticas.
 
-**tilcai-infrastructure** (PRs en revisión)
+**tilcai-infrastructure** (mergeados en `main` el 4 de noviembre)
 - [x] [#43](https://github.com/TilcAI/tilcai-infrastructure/pull/43) · N-04 #30: el proceso no arranca si `TILCAI_API_KEYS` no se sincroniza, en lugar de seguir aceptando una clave retirada. 195/195 tests.
-- [x] [#44](https://github.com/TilcAI/tilcai-infrastructure/pull/44) · N-12 #38: `/health` queda como liveness y `/ready` como readiness por modo, con `?mode=transactional` antes de activar mainnet. 208/208 tests. **Está apilado sobre #43:** primero se hace el merge de #43 y después se cambia la base de #44 a `main`.
-- [x] [#45](https://github.com/TilcAI/tilcai-infrastructure/pull/45) · N-11 #37: retención del monitor sin pérdidas silenciosas; lo pendiente se conserva hasta 90 días y después se informa `monitor.gap`. 201/201 tests. Usa la migración 8: la 6 es de `feat/qr-providers-fallback` y la 7 de `feat/third-party-credentials`.
+- [x] [#44](https://github.com/TilcAI/tilcai-infrastructure/pull/44) · N-12 #38: `/health` queda como liveness y `/ready` como readiness por modo, con `?mode=transactional` antes de activar mainnet. 208/208 tests.
+- [x] [#45](https://github.com/TilcAI/tilcai-infrastructure/pull/45) · N-11 #37: retención del monitor sin pérdidas silenciosas; lo pendiente se conserva hasta 90 días y después se informa `monitor.gap`. 201/201 tests. Usa la migración 9: la 6 es de los cobros QR, la 7 de la cuota patrocinada (N-14) y la 8 de las credenciales de socios. También cierra los streams del monitor al apagar el servidor.
 - [x] [#46](https://github.com/TilcAI/tilcai-infrastructure/pull/46) · N-07 #33: análisis de escritor único en Cloud Run, protocolo de staging y herramienta `deploy/staging/n07-writer.mjs`. **No cierra el issue.**
+- [x] [#47](https://github.com/TilcAI/tilcai-infrastructure/pull/47) · dependencias: corrige las 11 alertas de Dependabot; `npm audit --omit=dev` sin vulnerabilidades.
 
 **Pendiente**
-- [ ] Revisiones y merges de #43 → #44 → #45 y #46, y de esta rama.
-- [ ] **Orden entre repos:** el merge de [#45](https://github.com/TilcAI/tilcai-infrastructure/pull/45) en infra va **antes** que esta rama. El test `contract: event types and alert codes match the backend's` compara con el `tilcai-infrastructure` de al lado y espera `monitor.gap`: con infra en `main` falla 1 test, y con #45 pasan los 114.
+- [ ] Llevar `monitor.gap` y el campo `gap` a `tilcai-core`: hoy infra extiende la lista de Core y el test de contrato de esta web compara con las dos.
 - [ ] N-07: un proyecto de staging autorizado por operación para correr los ensayos E1–E5. Hasta entonces, **no etiquetar revisiones de `tilcai` en Cloud Run** y publicar sin pagos en curso.
-- [ ] Conflictos chicos al integrar `feat/qr-providers-fallback` (infra) y `feat/qr-gateway-events` (web) con estos cambios, en los mismos archivos del monitor y la API.
+- [ ] `feat/qr-gateway-events` (web): esta rama ya trae sus cuatro eventos con los mismos textos; al integrarla quedan conflictos chicos en el monitor.
+- [ ] `minimatch` (solo desarrollo, vía eslint) en infra: aviso moderado sin arreglo compatible todavía.
 - [ ] Un almacén duradero para el monitor de la web, si va a correr con más de una instancia (sin cambios).
 
 ## Run it
