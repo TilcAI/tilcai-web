@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { RevealObserver } from "@/components/RevealObserver";
@@ -8,9 +9,9 @@ import { siteUrl } from "@/lib/site";
 import "../globals.css";
 
 // Plus Jakarta Sans stands in for The Graph's licensed Euclid Circular A (see docs/redesign-the-graph.md).
-const display = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
+const display = localFont({ src: "../../fonts/PlusJakartaSans-VariableFont_wght.ttf", variable: "--font-jakarta", weight: "400 700", display: "swap" });
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
-const heroDisplay = Anton({ variable: "--font-anton", subsets: ["latin"], weight: "400", display: "swap" });
+const heroDisplay = localFont({ src: "../../fonts/Anton-Regular.ttf", variable: "--font-anton", weight: "400", display: "swap" });
 
 // Only /en and /es exist; anything else is a 404.
 export const dynamicParams = false;

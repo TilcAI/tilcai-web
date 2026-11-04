@@ -2146,3 +2146,17 @@ Ajusté la escala del hero: botones, píldora e iconos se reducen en portátiles
 ### Salida
 
 Creé el commit `feat(hero): actualizar portada y diseño adaptable` en `main`, con el gato y la órbita usados, el nuevo texto ES/EN, el diseño adaptable y el historial. `npx tsc --noEmit` y `git diff --check` pasaron. `npm test` terminó con 115/116 pruebas: falla el contrato del monitor porque el checkout vecino de infraestructura reexporta sus tipos y la prueba busca una lista local. Las descargas de fuentes duplicadas y el SVG de órbita anterior quedaron sin incluir porque la aplicación no los usa. No hice push.
+
+## 2026-11-04T19:56:44Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de lo que es fonts solo pon lo que usaremos y bora lo que no y los archivos incesarios
+
+### Salida
+
+Dejé `src/fonts` con Anton regular, Plus Jakarta variable y cuatro pesos de Poppins, más sus licencias. La web ahora carga esas fuentes localmente. Eliminé las carpetas duplicadas, el SVG de órbita anterior y tres PNG del hero sin uso. `npx tsc --noEmit`, `git diff --check` y la carga de `/es` en navegador pasaron. Creé el commit `chore(assets): depurar fuentes y recursos del hero`. No hice push.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import type { Copy } from "@/lib/i18n";
 import { Icon, type IconName } from "../Icon";
 import { HeroScene } from "./HeroScene";
@@ -10,7 +10,15 @@ import { useHeroAnimation } from "./useHeroAnimation";
 /** Same marks as the tech band below: a mark per piece, not its logo. */
 const TECH_MARKS: Record<string, IconName> = { Soroban: "layers", x402: "bolt", CCTP: "route" };
 const TECH_ORDER = ["Stellar", "x402", "Soroban", "CCTP"];
-const heroSans = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
+const heroSans = localFont({
+  src: [
+    { path: "../../fonts/Poppins-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../../fonts/Poppins-Medium.ttf", weight: "500", style: "normal" },
+    { path: "../../fonts/Poppins-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "../../fonts/Poppins-Bold.ttf", weight: "700", style: "normal" },
+  ],
+  display: "swap",
+});
 
 function HeroStellarMark() {
   return (
