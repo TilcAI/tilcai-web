@@ -36,6 +36,11 @@ export const MONITOR_EVENT_TYPES = [
   "qr.expired",
   "qr.callback_delivered",
   "qr.callback_failed",
+  "qr.collection_created",
+  "qr.collection_paid",
+  "qr.collection_closed",
+  "qr.provider_failed",
+  "monitor.gap",
 ] as const;
 export type MonitorEventType = (typeof MONITOR_EVENT_TYPES)[number];
 
@@ -67,6 +72,20 @@ export interface MonitorDelivery {
   /** Newest position in the backend's log when the delivery left. */
   head: number;
   events: MonitorEvent[];
+  /**
+   * Positions of the backend's log this site will never get: they waited for it longer than the
+   * backend's MONITOR_PENDING_MAX_DAYS and were pruned. Sent until a delivery carrying it is answered 2xx.
+   */
+  gap?: MonitorGap;
+}
+
+/** `gap` of a delivery and `data` of a `monitor.gap` event: what was lost, never a guess. */
+export interface MonitorGap {
+  fromSeq: number;
+  toSeq: number;
+  /** Exact number of events lost; the range may also hold events that did arrive. */
+  count: number;
+  prunedAt: string;
 }
 
 /** What one vault holds and has left to pay today, in USDC. */
@@ -135,7 +154,27 @@ export interface ResourceSnapshot {
   vaultError?: string;
   /** Every vault the backend has configured, the primary first (Fuji, Stellar). Absent from older backends. */
   vaults?: VaultEntry[];
-  monitor: { head: number; sinks: Array<{ name: string; lastSeq: number; lag: number; attempts: number; lastError: string | null; lastDeliveredAt: string | null }> };
+  monitor: {
+    head: number;
+    sinks: Array<{
+      name: string;
+      lastSeq: number;
+      lag: number;
+      attempts: number;
+      lastError: string | null;
+      lastDeliveredAt: string | null;
+      /** Receives events now: only its pending events are kept. Absent from backends before N-11. */
+      configured?: boolean;
+      /** When the oldest event it lacks happened. */
+      oldestPendingAt?: string | null;
+      /** Events it lost and has not been told about yet. */
+      gap?: MonitorGap | null;
+    }>;
+    /** Delivered events are kept this long (MONITOR_RETENTION_DAYS). Absent from backends before N-11. */
+    retentionDays?: number;
+    /** Pending ones, this long (MONITOR_PENDING_MAX_DAYS). */
+    pendingMaxDays?: number;
+  };
   alerts: Array<{ code: string; severity: "warning" | "error"; message: string }>;
 }
 
@@ -172,6 +211,8 @@ export function parseDelivery(body: unknown): { ok: true; delivery: MonitorDeliv
     if (!isText(e.at, 40) || Number.isNaN(Date.parse(e.at))) return fail(`${at}.at`);
     events.push({ seq: e.seq, id: e.id, type: e.type, source: e.source as MonitorSource, severity: e.severity as MonitorSeverity, subject: e.subject, summary: e.summary, data: e.data, at: e.at });
   }
+  const gap = body.gap === undefined ? undefined : parseGap(body.gap);
+  if (gap === null) return fail("gap");
   return {
     ok: true,
     delivery: {
@@ -181,6 +222,15 @@ export function parseDelivery(body: unknown): { ok: true; delivery: MonitorDeliv
       origin: { env: body.origin.env, instance: body.origin.instance },
       head: body.head,
       events,
+      ...(gap ? { gap } : {}),
     },
   };
+}
+
+/** A gap as the backend sends it, or null if it is not one. Also reads the `data` of a `monitor.gap` event. */
+export function parseGap(v: unknown): MonitorGap | null {
+  const position = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n) && n >= 1;
+  if (!isRecord(v) || !position(v.fromSeq) || !position(v.toSeq) || !position(v.count) || v.toSeq < v.fromSeq) return null;
+  if (!isText(v.prunedAt, 40) || Number.isNaN(Date.parse(v.prunedAt))) return null;
+  return { fromSeq: v.fromSeq, toSeq: v.toSeq, count: v.count, prunedAt: v.prunedAt };
 }

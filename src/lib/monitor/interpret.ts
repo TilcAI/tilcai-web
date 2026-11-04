@@ -8,7 +8,7 @@ import type { MonitorEventType } from "./contract.ts";
 export type Lang = "en" | "es";
 type Text = Record<Lang, string>;
 
-export const MONITOR_CATEGORIES = ["alert", "vault", "crosschain", "account", "qr", "relayer", "api", "resources", "system"] as const;
+export const MONITOR_CATEGORIES = ["alert", "vault", "crosschain", "account", "qr", "relayer", "api", "resources", "monitor", "system"] as const;
 export type MonitorCategory = (typeof MONITOR_CATEGORIES)[number];
 
 export const CATEGORY_LABELS: Record<MonitorCategory, Text> = {
@@ -20,6 +20,7 @@ export const CATEGORY_LABELS: Record<MonitorCategory, Text> = {
   relayer: { en: "Relayer", es: "Relayer" },
   api: { en: "API", es: "API" },
   resources: { en: "Resources", es: "Recursos" },
+  monitor: { en: "Event delivery", es: "Entrega de eventos" },
   system: { en: "System", es: "Sistema" },
 };
 
@@ -123,6 +124,29 @@ export const EVENT_CATALOG: Record<MonitorEventType, { title: Text; meaning: Tex
     title: { en: "Payment notification failed", es: "Aviso de pago fallido" },
     meaning: { en: "The notification was not acknowledged. It is retried three times; `final` says whether it gave up.", es: "El aviso no fue confirmado. Se reintenta tres veces; `final` dice si ya se rindió." },
   },
+  "qr.collection_created": {
+    title: { en: "Collection QR issued", es: "QR de cobro emitido" },
+    meaning: { en: "The QR gateway issued a bank QR with its principal provider, or with a fallback (warning) when the principal failed.", es: "La pasarela de QR emitió un QR bancario con su proveedor principal, o con uno de respaldo (advertencia) cuando el principal falló." },
+  },
+  "qr.collection_paid": {
+    title: { en: "Collection QR paid", es: "QR de cobro pagado" },
+    meaning: { en: "The provider that issued the QR confirmed the payment.", es: "El proveedor que emitió el QR confirmó el pago." },
+  },
+  "qr.collection_closed": {
+    title: { en: "Collection QR closed unpaid", es: "QR de cobro cerrado sin pago" },
+    meaning: { en: "A QR was cancelled, expired or ended in error without a payment.", es: "Un QR fue cancelado, venció o terminó en error sin pago." },
+  },
+  "qr.provider_failed": {
+    title: { en: "No provider could issue a QR", es: "Ningún proveedor pudo emitir el QR" },
+    meaning: { en: "Every provider of the list failed or is not configured; the attempts are in the event data.", es: "Todos los proveedores de la lista fallaron o no están configurados; los intentos están en los datos del evento." },
+  },
+  "monitor.gap": {
+    title: { en: "Events lost to this dashboard", es: "Eventos que este tablero perdió" },
+    meaning: {
+      en: "The backend kept events this site had not received for MONITOR_PENDING_MAX_DAYS and then pruned them. `count` is exact, `fromSeq`–`toSeq` is the range. Their history is gone from here; the chain and the backend's own records are not affected.",
+      es: "El backend guardó eventos que este sitio no había recibido durante MONITOR_PENDING_MAX_DAYS y después los borró. `count` es exacto y `fromSeq`–`toSeq` es el rango. Su historia ya no está aquí; la cadena y los registros propios del backend no se afectan.",
+    },
+  },
 };
 
 /** Alert codes of the backend (`resources.ts`). Codes with a target come as `CODE:<target>`. */
@@ -182,6 +206,20 @@ export const ALERT_CATALOG: Record<string, { title: Text; action: Text }> = {
   MONITOR_SINK_FAILING: {
     title: { en: "Events are not reaching a destination", es: "Los eventos no llegan a un destino" },
     action: { en: "Check MONITOR_WEB_URL and that both sides share the same secret.", es: "Revisa MONITOR_WEB_URL y que ambos lados compartan el mismo secreto." },
+  },
+  MONITOR_BACKLOG_RETAINED: {
+    title: { en: "A destination is behind by more than the retention", es: "Un destino lleva más atraso que la retención" },
+    action: {
+      en: "The backend is keeping its pending events past MONITOR_RETENTION_DAYS. Bring the destination back before MONITOR_PENDING_MAX_DAYS, or its oldest events will be lost.",
+      es: "El backend conserva sus eventos pendientes más allá de MONITOR_RETENTION_DAYS. Recupera el destino antes de MONITOR_PENDING_MAX_DAYS o se perderán sus eventos más viejos.",
+    },
+  },
+  MONITOR_SINK_GAP: {
+    title: { en: "A destination lost events", es: "Un destino perdió eventos" },
+    action: {
+      en: "They waited longer than MONITOR_PENDING_MAX_DAYS and were pruned; the next delivery says which positions. Look at the chain and the backend for that period: the dashboard cannot show it.",
+      es: "Esperaron más de MONITOR_PENDING_MAX_DAYS y se borraron; el próximo envío dice qué posiciones. Para ese período, consulta la cadena y el backend: el tablero no puede mostrarlo.",
+    },
   },
   PAYMENTS_UNCERTAIN: {
     title: { en: "Payments waiting for proof", es: "Pagos esperando comprobación" },

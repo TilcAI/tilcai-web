@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHmac } from "node:crypto";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -9,6 +9,7 @@ import { MONITOR_EVENT_TYPES, MONITOR_SCHEMA, parseDelivery, type MonitorDeliver
 import { ALERT_CATALOG, categoryOf, CATEGORY_LABELS, cleanEventText, EVENT_CATALOG, explainAlert, explainEvent, MONITOR_CATEGORIES } from "../src/lib/monitor/interpret.ts";
 import { authenticateDelivery, scopeAllows, sessionValue, signDelivery, verifyDelivery } from "../src/lib/monitor/signature.ts";
 import { MONITOR_COPY } from "../src/lib/monitor/copy.ts";
+import { addGap, lostEvents } from "../src/lib/monitor/gaps.ts";
 import { MonitorStore } from "../src/lib/monitor/store.ts";
 
 let n = 0;
@@ -58,6 +59,25 @@ test("contract: a delivery is checked field by field before anything is stored",
   const extra = parseDelivery({ ...good, admin: true, events: [{ ...event(), __proto__: { x: 1 }, extra: "x" }] });
   assert.equal(extra.ok && "admin" in extra.delivery, false);
   assert.equal(extra.ok && "extra" in extra.delivery.events[0]!, false);
+});
+
+test("contract: a delivery may carry the gap of events the backend pruned before this site got them", () => {
+  const gap = { fromSeq: 2, toSeq: 4, count: 3, prunedAt: "2026-11-01T12:00:00.000Z" };
+  const withGap = parseDelivery(JSON.parse(JSON.stringify(delivery([event()], { gap }))));
+  assert.equal(withGap.ok, true);
+  assert.deepEqual(withGap.ok && withGap.delivery.gap, gap);
+  // A delivery without one has no `gap` at all, as before.
+  const without = parseDelivery(JSON.parse(JSON.stringify(delivery([event()]))));
+  assert.equal(without.ok && "gap" in without.delivery, false);
+
+  for (const bad of [null, "2-4", { ...gap, fromSeq: 0 }, { ...gap, toSeq: 1 }, { ...gap, count: 1.5 }, { ...gap, prunedAt: "ayer" }, { fromSeq: 2, toSeq: 4, count: 3 }]) {
+    const r = parseDelivery({ ...delivery([event()]), gap: bad });
+    assert.equal(r.ok, false, JSON.stringify(bad));
+    assert.match(r.ok ? "" : r.reason, /gap/);
+  }
+  // Nothing undeclared travels inside it either.
+  const extra = parseDelivery({ ...delivery([event()]), gap: { ...gap, note: "<b>x</b>" } });
+  assert.deepEqual(extra.ok && extra.delivery.gap, gap);
 });
 
 test("signature: the backend's HMAC over «timestamp.body», fresh and untouched", () => {
@@ -185,6 +205,27 @@ test("store: the last snapshot and the alerts of each backend stay current", () 
   assert.deepEqual(store.summary().origins[0]!.alerts, []);
 });
 
+test("store: what a backend lost is kept per backend, counted once although it is told twice", () => {
+  const store = new MonitorStore();
+  const at = "2026-11-01T12:00:00.000Z";
+  const gapEvent = (data: Record<string, unknown>) => event({ type: "monitor.gap", source: "tilcai", severity: "error", subject: "web", data: { sink: "web", pendingMaxDays: 90, ...data }, at });
+  // The event and the delivery's gap describe the same prune.
+  store.ingest(delivery([gapEvent({ fromSeq: 2, toSeq: 4, count: 3 })], { gap: { fromSeq: 2, toSeq: 4, count: 3, prunedAt: at } }));
+  assert.deepEqual(lostEvents(store.summary().origins[0]!.gaps), { count: 3, fromSeq: 2, toSeq: 4 });
+  // A second prune before the site heard of the first: the delivery's gap grew and covers both.
+  store.ingest(delivery([gapEvent({ fromSeq: 6, toSeq: 7, count: 2 })], { deliveryId: "d-2", gap: { fromSeq: 2, toSeq: 7, count: 5, prunedAt: "2026-11-02T12:00:00.000Z" } }));
+  assert.deepEqual(lostEvents(store.summary().origins[0]!.gaps), { count: 5, fromSeq: 2, toSeq: 7 });
+  // Another backend's loss is its own.
+  store.ingest(delivery([event()], { origin: { env: "mainnet", instance: "host-a" }, gap: { fromSeq: 1, toSeq: 1, count: 1, prunedAt: at } }));
+  assert.deepEqual(store.summary().origins.map((o) => [o.env, lostEvents(o.gaps)?.count ?? 0]), [["testnet", 5], ["mainnet", 1]]);
+
+  // Separate losses add up; a smaller report inside a known one adds nothing.
+  const one = { fromSeq: 1, toSeq: 3, count: 3, prunedAt: at };
+  assert.deepEqual(addGap(addGap([], one), { fromSeq: 10, toSeq: 11, count: 2, prunedAt: at }).length, 2);
+  assert.deepEqual(addGap([one], { fromSeq: 2, toSeq: 3, count: 2, prunedAt: at }), [one]);
+  assert.equal(lostEvents([]), null);
+});
+
 test("store: with a file, a restarted server remembers the tail of the feed", () => {
   const dir = mkdtempSync(join(tmpdir(), "tilcai-monitor-"));
   const file = join(dir, "nested", "events.jsonl");
@@ -259,14 +300,20 @@ test("interpretation: alerts say what to do, including the one that kept payouts
   }
 });
 
-// With both repositories side by side (the team's layout), the mirror is checked against the
-// backend's own list. Elsewhere (CI of this repository alone) there is nothing to compare.
+// With the repositories side by side (the team's layout), the mirror is checked against the backend's own list:
+// tilcai-core/monitor's, plus what tilcai-infrastructure extends it with until Core carries it (monitor.gap).
+// Elsewhere (CI of this repository alone) there is nothing to compare.
 const backend = new URL("../../tilcai-infrastructure/src/modules/monitor/", import.meta.url);
+const core = new URL("../../tilcai-core/src/monitor.ts", import.meta.url);
 test("contract: event types and alert codes match the backend's", { skip: !existsSync(new URL("domain.ts", backend)) }, () => {
   const domain = readFileSync(new URL("domain.ts", backend), "utf8");
-  const list = /export const MONITOR_EVENT_TYPES = \[([\s\S]*?)\] as const;/.exec(domain)![1]!;
-  assert.deepEqual([...list.matchAll(/^\s*"([a-z0-9_.]+)"/gm)].map((m) => m[1]), [...MONITOR_EVENT_TYPES]);
-  assert.match(domain, new RegExp(`MONITOR_SCHEMA = "${MONITOR_SCHEMA}"`));
+  const typesIn = (source: string) => [.../export const MONITOR_EVENT_TYPES = \[([\s\S]*?)\] as const;/.exec(source)![1]!.matchAll(/"([a-z0-9_.]+)"/g)].map((m) => m[1]);
+  // A backend that takes the list from Core spreads it first (`...CORE_MONITOR_EVENT_TYPES`); an older one lists every type.
+  const fromCore = domain.includes("...CORE_MONITOR_EVENT_TYPES");
+  if (fromCore) assert.ok(existsSync(core), "tilcai-core is not next to tilcai-infrastructure");
+  const contract = fromCore ? readFileSync(core, "utf8") : domain;
+  assert.deepEqual(fromCore ? [...typesIn(contract), ...typesIn(domain)] : typesIn(domain), [...MONITOR_EVENT_TYPES]);
+  assert.match(contract, new RegExp(`MONITOR_SCHEMA = "${MONITOR_SCHEMA}"`));
 
   const resources = readFileSync(new URL("resources.ts", backend), "utf8");
   const codes = new Set([...resources.matchAll(/add\((?:"|`)([A-Z_]+)/g)].map((m) => m[1]!));
@@ -315,4 +362,56 @@ test("the dashboard does not call anything a mock or a demo, and old events are 
   assert.equal(cleanEventText("QR Simple (Mock): token emitido"), "QR Simple: token emitido");
   assert.equal(cleanEventText('{"payerBank":"BANCO MOCK"}'), '{"payerBank":"BANCO NO INFORMADO"}');
   assert.equal(cleanEventText("Desembolso de 10 USDC CONFIRMED"), "Desembolso de 10 USDC CONFIRMED");
+});
+
+test("the dashboard states a loss plainly in both languages, and never hides it behind a colour", () => {
+  for (const lang of ["en", "es"] as const) {
+    const o = MONITOR_COPY[lang].origin;
+    for (const key of ["lost", "positions", "lostNote", "retention", "retentionDelivered", "retentionPending", "days"] as const) assert.ok(o[key].length > 1, `${lang}.${key}`);
+    // The note says where the truth for that period is, not that nothing happened.
+    assert.match(o.lostNote, lang === "es" ? /cadena/ : /chain/);
+  }
+  assert.notEqual(MONITOR_COPY.en.origin.lost, MONITOR_COPY.es.origin.lost);
+
+  const board = readFileSync(new URL("../src/components/monitor/MonitorBoard.tsx", import.meta.url), "utf8");
+  assert.match(board, /lostEvents\(origin\.gaps \?\? \[\]\)/, "the board reads every gap of the backend");
+  assert.match(board, /role="status"[\s\S]{0,80}<Mark level="error"/, "an error mark with its word, announced to assistive technology");
+  assert.match(board, /from "@\/lib\/monitor\/gaps"/, "the browser bundle takes the gap maths from the module without Node APIs");
+  assert.doesNotMatch(board, /import \{[^}]*\} from "@\/lib\/monitor\/store"/, "only types come from the server store");
+});
+
+test("store: a gap told only in a delivery survives a restart (review of #30)", () => {
+  const dir = mkdtempSync(join(tmpdir(), "tilcai-monitor-"));
+  const file = join(dir, "events.jsonl");
+  try {
+    const gap = { fromSeq: 1, toSeq: 5, count: 5, prunedAt: "2026-11-01T12:00:00.000Z" };
+    // Saul's reproduction: a delivery with no events, head 10, and the gap.
+    new MonitorStore(3, file).ingest(delivery([], { head: 10, gap }));
+    const again = new MonitorStore(3, file);
+    assert.deepEqual(again.summary().origins.map((o) => [o.env, o.instance, lostEvents(o.gaps)]), [["testnet", "host-a", { count: 5, fromSeq: 1, toSeq: 5 }]]);
+    // The same report after the restart is not counted twice.
+    again.ingest(delivery([], { deliveryId: "d-2", head: 10, gap }));
+    assert.equal(lostEvents(new MonitorStore(3, file).summary().origins[0]!.gaps)?.count, 5);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("store: a monitor.gap pushed out of the reloaded tail is still known after a restart", () => {
+  const dir = mkdtempSync(join(tmpdir(), "tilcai-monitor-"));
+  const file = join(dir, "events.jsonl");
+  try {
+    const first = new MonitorStore(3, file);
+    first.ingest(delivery([event({ type: "monitor.gap", source: "tilcai", severity: "error", subject: "web", data: { sink: "web", fromSeq: 2, toSeq: 4, count: 3, pendingMaxDays: 90 }, at: "2026-11-01T12:00:00.000Z" })]));
+    // Many more events than the capacity: the gap event is no longer in the tail a restart reads.
+    first.ingest(delivery(Array.from({ length: 10 }, () => event()), { deliveryId: "d-2" }));
+    const again = new MonitorStore(3, file);
+    assert.ok(!again.list({ limit: 500 }).some((e) => e.type === "monitor.gap"), "the event itself is gone from the tail");
+    assert.deepEqual(lostEvents(again.summary().origins[0]!.gaps), { count: 3, fromSeq: 2, toSeq: 4 });
+    // An unreadable gaps file does not stop the store.
+    writeFileSync(`${file}.gaps.json`, "{no es json");
+    assert.doesNotThrow(() => new MonitorStore(3, file).ingest(delivery([event()], { deliveryId: "d-3" })));
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

@@ -4,8 +4,10 @@
  *
  * A network is `verified` when the team has tested that route end to end. The CCTP lab (tilcai-cctp-engine) models
  * eight testnets; it does not make seven commercial corridors. Only Avalanche Fuji has evidence rows below (burn and
- * mint hashes). Ethereum, Arbitrum and Base Sepolia were marked verified on 2026-10-10 at the team's request while
- * their route tests are running: add their hashes to `evidencePayments` when they exist.
+ * mint hashes), so it is the only `verified` one, as the official context says (Fuji «verificado», the rest «laboratorio»).
+ * Ethereum, Arbitrum and Base Sepolia were shown as verified from 2026-10-10 while their route tests ran; no hashes
+ * came of them by 2026-11-01, so they are back in the lab (TIL-07, tilcai-web#24). To promote a network, add its
+ * burn and mint hashes to `evidencePayments` first: a test refuses a `verified` network without them.
  */
 export type NetworkStatus = "verified" | "lab";
 
@@ -17,9 +19,9 @@ export interface OriginNetwork {
 
 export const originNetworks: readonly OriginNetwork[] = [
   { id: "avalanche-fuji", name: "Avalanche Fuji", status: "verified" },
-  { id: "ethereum-sepolia", name: "Ethereum Sepolia", status: "verified" },
-  { id: "arbitrum-sepolia", name: "Arbitrum Sepolia", status: "verified" },
-  { id: "base-sepolia", name: "Base Sepolia", status: "verified" },
+  { id: "ethereum-sepolia", name: "Ethereum Sepolia", status: "lab" },
+  { id: "arbitrum-sepolia", name: "Arbitrum Sepolia", status: "lab" },
+  { id: "base-sepolia", name: "Base Sepolia", status: "lab" },
   { id: "arc-testnet", name: "Arc Testnet", status: "lab" },
   { id: "solana-devnet", name: "Solana Devnet", status: "lab" },
   { id: "sui-testnet", name: "Sui Testnet", status: "lab" },
@@ -36,6 +38,8 @@ export const destinationNetwork = { id: "stellar-testnet", name: "Stellar Testne
  */
 export interface EvidencePayment {
   id: "gasless" | "external";
+  /** The origin network it proves (an `originNetworks` id). A network is only `verified` with a row here. */
+  network: OriginNetwork["id"];
   /** Burn transaction on Avalanche Fuji (0x + 64 hex). */
   burnTxHash: `0x${string}`;
   /** Mint transaction on Stellar Testnet (64 hex). */
@@ -47,11 +51,13 @@ export const evidenceDate = "2026-10-08";
 export const evidencePayments: readonly EvidencePayment[] = [
   {
     id: "gasless",
+    network: "avalanche-fuji",
     burnTxHash: "0x2527dc5f84b131dc6bcc1b7d47a60abf2d3edb170f5aa361f125cb83b94021c3",
     mintTxHash: "b6a9dfd9abc9dffde03abadf4bf0d6df6da7b20428be48f33c8b7e6f918116de",
   },
   {
     id: "external",
+    network: "avalanche-fuji",
     burnTxHash: "0xc8339ace7d935fbf64fe45581fa388da2a63ed3d8b8cae1c4bdbf8218cf58deb",
     mintTxHash: "7d93687051850acdaa23d7a059e0286a7e029492f9e9c7ab41e06bb7910218b7",
   },

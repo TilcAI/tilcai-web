@@ -6,6 +6,33 @@ English is the default language; Spanish is available through the EN / ES select
 
 > The landing's policy demo is a visual simulation. The infrastructure separately has documented USDC transfers from Avalanche to Stellar on mainnet, testnet support for Monad, and SDK/MCP packages. The complete commercial purchase flow remains in integration; proprietary contracts are not independently audited. See the documentation for evidence and environment-specific scope.
 
+## Check-in · 1 de noviembre de 2026
+
+Contexto para el equipo de lo que se hizo hoy (OmarQV con Claude Code). Detalle en `AGENT_HISTORY.md` y en cada PR.
+
+**Entorno**
+- [x] Node.js local actualizado a **24.22.1**, la misma versión mayor que la imagen de producción (`deploy/Dockerfile`, `NODE_VERSION=24`). Con eso, las suites de los cuatro PRs de infraestructura pasan completas; los 17 fallos de antes venían de Node 22.16.
+
+**tilcai-web** (rama `feat/monitor-gap-til07`)
+- [x] **Monitor (N-11):** el contrato reconoce `monitor.gap`, el campo `gap` de la entrega y los nuevos campos de retención de la foto. El store guarda por backend los eventos perdidos sin contarlos dos veces (`src/lib/monitor/gaps.ts`), y el tablero muestra cuántos se perdieron, en qué posiciones y la retención vigente.
+- [x] **TIL-07 (#24):** Ethereum, Arbitrum y Base Sepolia vuelven a «laboratorio». No hay hashes de esas rutas y el contexto oficial dice Fuji «verificado», el resto «laboratorio». Un test impide marcar una red como verificada sin un pago en `evidencePayments`. Para promover una red: agregar su burn y su mint, y después cambiar su estado.
+- [x] **Documentación:** artículo nuevo «Operación y despliegue»; `/ready` en la referencia de la API; retención en Monitorización; arranque cerrado y escritor único en Seguridad y límites; estado y fuentes al 1 de noviembre.
+- [x] Verificación: `npm test` 114/114, `tsc --noEmit` sin errores, `npm run build` con 56 páginas estáticas.
+
+**tilcai-infrastructure** (mergeados en `main` el 4 de noviembre)
+- [x] [#43](https://github.com/TilcAI/tilcai-infrastructure/pull/43) · N-04 #30: el proceso no arranca si `TILCAI_API_KEYS` no se sincroniza, en lugar de seguir aceptando una clave retirada. 195/195 tests.
+- [x] [#44](https://github.com/TilcAI/tilcai-infrastructure/pull/44) · N-12 #38: `/health` queda como liveness y `/ready` como readiness por modo, con `?mode=transactional` antes de activar mainnet. 208/208 tests.
+- [x] [#45](https://github.com/TilcAI/tilcai-infrastructure/pull/45) · N-11 #37: retención del monitor sin pérdidas silenciosas; lo pendiente se conserva hasta 90 días y después se informa `monitor.gap`. 201/201 tests. Usa la migración 9: la 6 es de los cobros QR, la 7 de la cuota patrocinada (N-14) y la 8 de las credenciales de socios. También cierra los streams del monitor al apagar el servidor.
+- [x] [#46](https://github.com/TilcAI/tilcai-infrastructure/pull/46) · N-07 #33: análisis de escritor único en Cloud Run, protocolo de staging y herramienta `deploy/staging/n07-writer.mjs`. **No cierra el issue.**
+- [x] [#47](https://github.com/TilcAI/tilcai-infrastructure/pull/47) · dependencias: corrige las 11 alertas de Dependabot; `npm audit --omit=dev` sin vulnerabilidades.
+
+**Pendiente**
+- [ ] Llevar `monitor.gap` y el campo `gap` a `tilcai-core`: hoy infra extiende la lista de Core y el test de contrato de esta web compara con las dos.
+- [ ] N-07: un proyecto de staging autorizado por operación para correr los ensayos E1–E5. Hasta entonces, **no etiquetar revisiones de `tilcai` en Cloud Run** y publicar sin pagos en curso.
+- [ ] `feat/qr-gateway-events` (web): esta rama ya trae sus cuatro eventos con los mismos textos; al integrarla quedan conflictos chicos en el monitor.
+- [ ] `minimatch` (solo desarrollo, vía eslint) en infra: aviso moderado sin arreglo compatible todavía.
+- [ ] Un almacén duradero para el monitor de la web, si va a correr con más de una instancia (sin cambios).
+
 ## Run it
 
 Requirements: Node.js 20.9+ (22 LTS recommended) and pnpm.
@@ -173,6 +200,7 @@ backend ── POST /api/monitor/events (signed) ──▶ MonitorStore (memory)
 | Contract | `src/lib/monitor/contract.ts` | Types of `tilcai-monitor-v1` and the validation of a delivery. Mirrors the backend's `src/modules/monitor/domain.ts` |
 | Signature | `src/lib/monitor/signature.ts` | `X-Tilcai-Signature: v1=HMAC-SHA256(secret, "<X-Tilcai-Timestamp>.<body>")`, refused when older than 5 minutes |
 | Store | `src/lib/monitor/store.ts` | The last 2000 events, each backend's last resource snapshot and its active alerts. A cache of the backend's log, not the log |
+| Gaps | `src/lib/monitor/gaps.ts` | Events a backend pruned before they reached this site (`monitor.gap` and the delivery's `gap`), counted once. No Node APIs: the dashboard uses it in the browser. With `MONITOR_STORE_FILE`, the store keeps every backend's gaps whole in `<file>.gaps.json`, so a restart remembers them even when the feed's bounded tail no longer holds the `monitor.gap` event |
 | Interpretation | `src/lib/monitor/interpret.ts` | What every event type and alert code means, and what to do about an alert, in English and Spanish |
 | Access | `src/lib/monitor/access.ts` | Who may read: the dashboard token (session cookie or `Authorization: Bearer`) |
 | Hook and view | `src/components/monitor/` | `useMonitorFeed()` (summary + events + live stream) and `MonitorBoard`, a plain base view |

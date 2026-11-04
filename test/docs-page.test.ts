@@ -107,3 +107,25 @@ test("every table in both languages ends up with labels on all of its cells but 
   }
   assert.ok(rows > 20, "the documentation has tables to label");
 });
+
+test("the portal documents what the backend gained on 1 November, in both languages", () => {
+  for (const [name, docs] of locales) {
+    const html = (id: string) => docs.sections.find((s) => s.id === id)?.html ?? "";
+    assert.ok(html("operations"), `${name}: the operations article exists`);
+    assert.match(html("api"), /<code>\/ready<\/code>/, `${name}: /ready is in the API reference`);
+    assert.match(html("operations"), /\/ready\?mode=transactional/, `${name}: the step before enabling mainnet`);
+    assert.match(html("operations"), /MONITOR_PENDING_MAX_DAYS/, `${name}: monitor retention`);
+    assert.match(html("monitoring"), /monitor\.gap/, `${name}: lost events are named`);
+    assert.match(html("limits"), /TILCAI_API_KEYS/, `${name}: the fail-closed key sync`);
+    // N-07 is not claimed solved: the article says it waits for staging.
+    assert.match(html("operations"), name === "es" ? /pendiente de validación en staging/ : /pending validation in staging/);
+    for (const pr of [43, 44, 45, 46]) assert.match(html("sources"), new RegExp(`tilcai-infrastructure/pull/${pr}"`), `${name}: PR #${pr} is cited`);
+  }
+});
+
+test("the portal never shows a Sepolia network as verified", () => {
+  for (const [name, docs] of locales) {
+    const all = docs.sections.map((s) => s.html).join("\n");
+    assert.doesNotMatch(all, /Sepolia[^.<]{0,80}(verificad|verified)/i, `${name}: a Sepolia route is called verified`);
+  }
+});

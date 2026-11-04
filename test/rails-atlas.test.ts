@@ -12,8 +12,9 @@ const header = read("RailsHeader.tsx");
 const section = readFileSync(new URL("../src/components/sections/RailsSection.tsx", import.meta.url), "utf8");
 
 test("the map draws what the data says: the first network is the straight run, the others feed it (solid if verified, dashed if lab), one destination", () => {
-  assert.equal(originNetworks.filter((n) => n.status === "verified").length, 4);
-  assert.deepEqual(originNetworks.slice(0, 4).map((n) => n.status), ["verified", "verified", "verified", "verified"], "the verified networks come first");
+  const statuses = originNetworks.map((n) => n.status);
+  assert.ok(statuses.includes("lab"), "the lab networks are on the map too");
+  assert.deepEqual(statuses, [...statuses].sort((a, b) => (a === b ? 0 : a === "verified" ? -1 : 1)), "the verified networks come first");
   assert.equal(originNetworks[0]!.status, "verified", "the verified network is first, because the solid line leaves from its row");
   assert.equal(originNetworks[0]!.id, "avalanche-fuji");
   // Every network gets a row and a port the lines are measured from; the verified one is the only solid, bright dot.
@@ -95,4 +96,17 @@ test("the headline reveal never clips the descenders afterwards and does not pla
   assert.match(header, /overflow: "visible"/);
   assert.match(header, /played/);
   assert.match(header, /once: true/);
+});
+
+test("a network is only verified with a real payment behind it, and every payment proves a verified network", () => {
+  const known = new Set(originNetworks.map((n) => n.id));
+  for (const payment of evidencePayments) {
+    assert.ok(known.has(payment.network), `${payment.id}: ${payment.network} is not on the map`);
+    assert.equal(originNetworks.find((n) => n.id === payment.network)!.status, "verified", `${payment.id} proves a network shown as lab`);
+    assert.match(payment.burnTxHash, /^0x[0-9a-f]{64}$/);
+    assert.match(payment.mintTxHash, /^[0-9a-f]{64}$/);
+  }
+  for (const network of originNetworks.filter((n) => n.status === "verified")) {
+    assert.ok(evidencePayments.some((p) => p.network === network.id), `${network.name} is shown as verified without a payment in evidencePayments`);
+  }
 });

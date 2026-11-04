@@ -15,7 +15,23 @@ export interface MonitorCopy {
   retry: string;
   status: { ok: string; warning: string; error: string; unknown: string };
   alerts: { title: string; none: string; since: string; action: string };
-  origin: { title: string; lastDelivery: string; snapshot: string; noSnapshot: string; lag: string; upToDate: string };
+  origin: {
+    title: string;
+    lastDelivery: string;
+    snapshot: string;
+    noSnapshot: string;
+    lag: string;
+    upToDate: string;
+    /** Events the backend pruned before they reached this site (N-11). */
+    lost: string;
+    positions: string;
+    lostNote: string;
+    /** How long the backend keeps delivered and pending events. */
+    retention: string;
+    retentionDelivered: string;
+    retentionPending: string;
+    days: string;
+  };
   /** The environment of a backend. Mainnet is spelled out: what it shows is real money. */
   env: { testnet: string; mainnet: string; filter: string; all: string };
   tiles: {
@@ -72,7 +88,21 @@ export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
     retry: "Try again",
     status: { ok: "OK", warning: "Attention", error: "Error", unknown: "No data" },
     alerts: { title: "Active alerts", none: "No active alerts.", since: "since", action: "What to do" },
-    origin: { title: "Backend", lastDelivery: "Last delivery", snapshot: "Resources as of", noSnapshot: "No resource snapshot yet.", lag: "events still to arrive", upToDate: "Up to date" },
+    origin: {
+      title: "Backend",
+      lastDelivery: "Last delivery",
+      snapshot: "Resources as of",
+      noSnapshot: "No resource snapshot yet.",
+      lag: "events still to arrive",
+      upToDate: "Up to date",
+      lost: "events never reached this dashboard",
+      positions: "positions",
+      lostNote: "They waited longer than the backend keeps pending events and were pruned. For that period, rely on the chain and the backend's own records.",
+      retention: "Event retention",
+      retentionDelivered: "delivered",
+      retentionPending: "pending, at most",
+      days: "days",
+    },
     env: { testnet: "Testnet · test funds", mainnet: "Mainnet · real funds", filter: "Environment", all: "All" },
     tiles: {
       vault: "Vault balance",
@@ -126,7 +156,21 @@ export const MONITOR_COPY: Record<Lang, MonitorCopy> = {
     retry: "Reintentar",
     status: { ok: "Bien", warning: "Atención", error: "Error", unknown: "Sin datos" },
     alerts: { title: "Alertas activas", none: "Sin alertas activas.", since: "desde", action: "Qué hacer" },
-    origin: { title: "Backend", lastDelivery: "Última entrega", snapshot: "Recursos al", noSnapshot: "Aún no hay foto de recursos.", lag: "eventos por llegar", upToDate: "Al día" },
+    origin: {
+      title: "Backend",
+      lastDelivery: "Última entrega",
+      snapshot: "Recursos al",
+      noSnapshot: "Aún no hay foto de recursos.",
+      lag: "eventos por llegar",
+      upToDate: "Al día",
+      lost: "eventos nunca llegaron a este tablero",
+      positions: "posiciones",
+      lostNote: "Esperaron más de lo que el backend conserva lo pendiente y se borraron. Para ese período, consulta la cadena y los registros propios del backend.",
+      retention: "Retención de eventos",
+      retentionDelivered: "entregados",
+      retentionPending: "pendientes, como máximo",
+      days: "días",
+    },
     env: { testnet: "Testnet · fondos de prueba", mainnet: "Mainnet · fondos reales", filter: "Entorno", all: "Todos" },
     tiles: {
       vault: "Saldo del vault",

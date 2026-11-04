@@ -1522,6 +1522,96 @@ Se revisó y compactó el espaciado de documentación: subtítulos de 40/16 a 28
 
 Se entregaron 20 pares de comandos git add/git commit, agrupados por contenido bilingüe, helpers y tests, navegación, búsqueda, herramientas de lectura, diagramas, ilustración, evidencia Vaquita, portal, estilos, rutas, idiomas, metadatos, enlaces desde landing, pruebas, README, documentación técnica, capturas e historial, más git push origin main para ejecución manual. No se ejecutaron add, commit ni push. El lint sigue limitado por la incompatibilidad previamente documentada de TypeScript 7 con typescript-eslint.
 
+## 2026-11-01T18:30:19Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Solo nos vamos a enfocar en el proyecto tilcai, revisa mis issues
+
+### Salida
+
+Revisión, sin cambios de código, de los 5 issues TilcAI asignados a OmarQV: tilcai-web#24 (TIL-07, P0) y tilcai-infrastructure #30 (N-04), #38 (N-12), #37 (N-11) y #33 (N-07). En este repo: el #24 está avanzado en main (EvidenceLedger con los hashes reales Fuji → Stellar), pero src/lib/content/rails.ts marca Ethereum, Arbitrum y Base Sepolia como verified sin hashes que lo respalden, lo que contradice el criterio de aceptación de no atribuir datos no verificados. No hay PR vinculado ni comentarios. Pendiente: conseguir esos hashes o devolver las tres redes a lab, y cerrar con evidencia.
+
+## 2026-11-01T20:25:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> ACTUALIZA mi version de node (prioridad). Termina con las issues completamente, documenta en los readmes lo realizado en una lista como un check-in para que mis compañeros tengan el contexto. En tilcai-web agrega lo que falta lo de monitor.gap y lo demas, actualiza la Documentación (al terminar en el repo de tilcai-web debes reflejar en Documentacion todo lo realizado, se contabiliza los commits solo desde el repo tilcai-web así que realiza 20 add+commit).
+
+### Salida
+
+Node.js local actualizado de 22.16.0 a 24.22.1 (winget, MSI en Program Files; la copia de scoop 24.4.1 queda detrás en el PATH). En tilcai-web, 20 commits en feat/monitor-gap-til07, cada uno con la suite en verde:
+- Monitor (N-11): contrato con `monitor.gap`, `MonitorGap` y las alertas `MONITOR_BACKLOG_RETAINED` y `MONITOR_SINK_GAP`; validación de `gap`; campos de retención en la foto; brechas por backend sin contarlas dos veces, en src/lib/monitor/gaps.ts, sin Node; el tablero muestra los eventos perdidos y la retención; tests.
+- TIL-07 (#24): Ethereum, Arbitrum y Base Sepolia vuelven a laboratorio, porque no hay hashes y así lo dice el contexto oficial. Cada fila de `evidencePayments` dice qué red prueba, y un test impide una red verificada sin pago. Hoja de ruta, preguntas frecuentes y mapa en ambos idiomas.
+- Portal de documentación: `/ready` en la API, retención en Monitorización, arranque cerrado, readiness y escritor único en Seguridad y límites, artículo nuevo «Operación y despliegue», estado y fuentes al 1 de noviembre, tests del portal y docs/portal-documentation.md.
+- README con el check-in del día.
+
+Verificación: `npm test` 114/114, `tsc --noEmit` sin errores, `npm run build` con 56 páginas. Sin push. Pendiente: push y PR de esta rama, y los merges de los PR #43–#46 de tilcai-infrastructure.
+
+## 2026-11-01T21:40:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07 (tilcai-web), docs/n07-single-writer (tilcai-infrastructure)
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Si hazlo
+
+### Salida
+
+Push de feat/monitor-gap-til07 (20 commits) y PR tilcai-web#30 contra main, que referencia #24 sin cerrarlo, con revisión de SaulChoque y JHAMILCALI y el orden de merge indicado: tilcai-infrastructure#45 va antes. Push del check-in del README a docs/n07-single-writer (PR #46). Comentarios en tilcai-infrastructure#45 (enlace al espejo de la web) y en tilcai-web#24 (avance; falta la revisión visual en móvil y escritorio). Esta entrada queda sin commit, por la regla 9.
+
+## 2026-11-01T22:30:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Hazlo
+> Revisalas y corrige esas vulnerabilidades
+
+### Salida
+
+En este repo: el check-in del README indica la migración 8 de N-11 (la 7 es de feat/third-party-credentials). Es el commit 21 del PR #30. Las vulnerabilidades de Dependabot son del repo tilcai-infrastructure y se corrigen allí, en su propio PR.
+
+## 2026-11-03T00:00:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Revisa si hay nuevos issues
+
+### Salida
+
+No hay issues nuevos en TilcAI desde el 1 de noviembre; siguen los 5 asignados, cada uno con su PR. Hay una revisión de SaulChoque en el PR #30 con un hallazgo P2: las brechas recibidas por el campo `gap` de la entrega se pierden al reiniciar el sitio, y un `monitor.gap` que ya salió de las últimas 2000 líneas también. Ningún otro PR tiene revisiones.
+
+## 2026-11-03T00:05:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Hazlo, corrijelo
+
+### Salida
+
+P2 de la revisión del PR #30 corregido. Con `MONITOR_STORE_FILE`, el store guarda las brechas de cada backend completas en `<archivo>.gaps.json`, aparte del historial limitado. Se reescribe entero y se reemplaza de forma atómica en cada cambio, y se lee primero al arrancar, de modo que los `monitor.gap` del historial se deduplican contra él. Un historial anterior que tenga un `monitor.gap` lo migra al cargar. Si el archivo no se puede leer, el store sigue funcionando. Dos tests con los reinicios de la reproducción fallaban antes y pasan ahora. Suite 116/116, tsc correcto y build de 56 páginas.
 ## 2026-11-02T01:14:59Z · saulchoque · Codex / gpt-6.1-sol
 
 - **Sesión:** n/d
@@ -1535,3 +1625,46 @@ Se entregaron 20 pares de comandos git add/git commit, agrupados por contenido b
 ### Salida
 
 Actualicé el README de este repositorio con su alcance en la entrega, ramas publicadas, enlaces a la documentación y pendientes. Los cambios se publicaron en la rama indicada. Se revisaron el formato del diff y los enlaces locales de los README; no se modificó código ni se ejecutaron pruebas funcionales.
+
+## 2026-11-03T15:30:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Como vamos con las issues?
+
+### Salida
+
+Los 5 issues asignados siguen abiertos, cada uno con su PR listo y sin revisión: infra #43, #44, #45 y #46, y web #30. #47 (dependencias) también espera revisión. El PR #30 aparecía con conflicto (AGENT_HISTORY.md, que GitHub no combina por unión) y su test de contrato fallaba contra el nuevo `main` de infra, que toma la lista de eventos del Core.
+
+## 2026-11-03T15:40:00Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** n/d
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Resuelve el conflicto y haz merge de mis issues
+
+### Salida
+
+PR #30: se combinó `main` (el conflicto de AGENT_HISTORY.md se resuelve por unión). La web suma los cuatro eventos del gateway de QR que ya tiene tilcai-core, con los mismos textos que feat/qr-gateway-events de SaulChoque. El test de contrato compara con la lista de tilcai-core más la extensión de infra (`monitor.gap`). Suite 116/116 y tsc correcto, contra el `main` de infra con #45 y el `main` de Core. El merge de los PR quedó bloqueado por el permiso de Claude Code «merge sin revisión»: queda preparado para que lo ejecute OmarQV.
+
+
+## 2026-11-04T14:39:51Z · OmarQV · Claude Code (claude-opus-5-5)
+
+- **Sesión:** 326c05ab-c025-4213-8616-d60e79d08efb
+- **Rama:** feat/monitor-gap-til07
+- **Repositorios:** tilcai-web, tilcai-infrastructure
+
+### Prompt
+
+> Resuelve los conflictos y haz merge de todo
+
+### Salida
+
+Infra: #43 (N-04), #44 (N-12), #45 (N-11, migración pasada a la 9 tras las credenciales de #53), #46 (N-07) y #47 (dependencias) mergeados en main con CI verde; además, los streams del monitor se cierran al apagar el servidor. Web: el check-in del README pasa a «mergeados», corrige la migración de N-11 (9) y actualiza los pendientes. Suite 116/116 (sin tests omitidos) y tsc correcto contra el main de infra (7fcbc91) y de Core.
