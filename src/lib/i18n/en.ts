@@ -25,12 +25,13 @@ export const en: Copy = {
   office: officeEn,
   hero: {
     eyebrow: "Agent commerce infrastructure · Stellar · In development",
-    title: "Your agent buys. Your business responds. You stay in control.",
-    titleTop: "Your agent buys",
-    titleBottom: "You stay in control",
+    badge: "Payments for AI agents",
+    title: "Your agent buys. You decide.",
+    titleTop: "Your agent buys.",
+    titleBottom: "You decide.",
     visual: { person: "Person", business: "Business", document: "Document", development: "In development", docs: "Read docs", pause: "Pause animation", resume: "Play animation", scroll: "Explore the simulation" },
-    lead: "Businesses respond with verifiable terms and limited permissions.",
-    ctaPrimary: "Explore now", ctaSecondary: "Explore for my business",
+    lead: "Infrastructure for AI agents to make payments with defined permissions, spending limits, and verifiable transactions on Stellar.",
+    ctaPrimary: "Explore TilcAI", ctaSecondary: "See how it works",
     facts: ["Verifiable terms", "Limited permissions", "Approval per purchase"],
     visionNote: "Your agent interprets the request. The business provides terms and availability. TilcAI coordinates permissions, operations and evidence. The complete purchase flow is enabled in stages.",
     scene: {

@@ -6,14 +6,14 @@
  */
 @media (max-width: 640px) {
   /* ---------- Hero ---------- */
-  /* The particle field is decoration: keep it behind the copy, fainter, so the headline stays crisp. */
-  .hero-antigravity { opacity: 0.4; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 38%, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 38%, #000 70%, transparent 100%); }
   .brand-hero-title { text-wrap: balance; }
   .brand-hero-lead { max-width: 34ch; }
-  .brand-hero-actions { flex-wrap: wrap; row-gap: 14px; }
-  .brand-hero-primary { min-width: 0; flex: 1 1 200px; max-width: 280px; justify-content: space-between; height: 54px; }
-  .brand-hero-secondary { padding: 12px 2px; }
-  .hero-motion-control { min-height: 44px; min-width: 44px; }
+  .brand-hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+  .brand-hero-primary, .brand-hero-secondary { width: 100%; max-width: 340px; min-height: 54px; }
+  .brand-hero-primary { justify-content: space-between; }
+  .brand-hero-secondary { justify-content: center; }
+  .hero-tech-row { display: grid; grid-template-columns: repeat(2, max-content); column-gap: 20px; row-gap: 12px; }
+  .hero-tech-item:nth-child(2) { border-right: none; }
   .hero-scroll-cue { min-height: 44px; }
 
   /* ---------- Simulation: HUD ---------- */
@@ -113,6 +113,5 @@
   body .footer-meta { gap: 4px 20px; }
 
   /* ---------- Small floating controls ---------- */
-  body .hero-scene-badge { min-height: 40px; }
   body .office-hero .office-scroll { min-height: 40px; }
 }

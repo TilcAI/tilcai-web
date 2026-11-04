@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, type RefObject } from "react";
 import { gsap } from "gsap";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
 /** Separate transform layers keep pointer depth, floating objects and type independent. */
 export function useHeroAnimation(root: RefObject<HTMLElement | null>, paused: boolean) {
@@ -18,7 +17,6 @@ export function useHeroAnimation(root: RefObject<HTMLElement | null>, paused: bo
   useEffect(() => {
     const element = root.current;
     if (!element) return;
-    gsap.registerPlugin(MotionPathPlugin);
     const media = gsap.matchMedia();
     const syncPlayback = () => motion.current?.paused(pausedRef.current || !visibleRef.current || document.hidden);
 
@@ -39,14 +37,6 @@ export function useHeroAnimation(root: RefObject<HTMLElement | null>, paused: bo
       // A quiet travelling wave keeps the headline alive without shifting the layout.
       timeline.to(letters, { y: -3, duration: .9, stagger: .045, repeat: -1, repeatDelay: 4,
         yoyo: true, ease: "sine.inOut" }, 2.5);
-      timeline.to(".hero-star", { opacity: .2, scale: .45, duration: 1.6, stagger: .2,
-        repeat: -1, yoyo: true, ease: "sine.inOut" }, 0);
-      timeline.to(".hero-connection-flow", { strokeDashoffset: -120, duration: 5,
-        repeat: -1, ease: "none" }, 0);
-      ["one", "two"].forEach((orbit, i) => {
-        timeline.to(`.hero-satellite-${orbit}`, { duration: 15 + i * 8, repeat: -1, ease: "none",
-          motionPath: { path: `#hero-orbit-${orbit}`, align: `#hero-orbit-${orbit}`, alignOrigin: [.5, .5] } }, 0);
-      });
 
       const layers = Array.from(element.querySelectorAll<HTMLElement>(".hero-depth"));
       const setters = layers.map((layer) => ({

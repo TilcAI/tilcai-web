@@ -1,13 +1,25 @@
 "use client";
 
-import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { Poppins } from "next/font/google";
 import type { Copy } from "@/lib/i18n";
-import { paths } from "@/lib/site";
-import { Icon } from "../Icon";
-import { HeroBackdrop } from "./HeroBackdrop";
-import { HeroScene, type HeroStep } from "./HeroScene";
+import { Icon, type IconName } from "../Icon";
+import { HeroScene } from "./HeroScene";
 import { useHeroAnimation } from "./useHeroAnimation";
+
+/** Same marks as the tech band below: a mark per piece, not its logo. */
+const TECH_MARKS: Record<string, IconName> = { Soroban: "layers", x402: "bolt", CCTP: "route" };
+const TECH_ORDER = ["Stellar", "x402", "Soroban", "CCTP"];
+const heroSans = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
+
+function HeroStellarMark() {
+  return (
+    <svg className="hero-tech-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <circle cx="16" cy="16" r="12.5" />
+      <path d="M3 19.5 29 9M3 25 29 14.5" />
+    </svg>
+  );
+}
 
 function AnimatedLine({ text, accent = false }: { text: string; accent?: boolean }) {
   const words = text.split(" ");
@@ -19,52 +31,64 @@ function AnimatedLine({ text, accent = false }: { text: string; accent?: boolean
           {index < words.length - 1 && <span className="hero-word-space"> </span>}
         </span>
       ))}
+      {accent && <span className="hero-title-spark"><i /><i /><i /></span>}
     </span>
   );
 }
 
 export function HeroExperience({ t }: { t: Copy }) {
   const root = useRef<HTMLElement>(null);
-  const [active, setActive] = useState<HeroStep>("buyer");
-  const [paused, setPaused] = useState(false);
   const h = t.hero;
-  useHeroAnimation(root, paused);
-  const details = {
-    buyer: { label: h.visual.person, text: h.scene.buyer.message },
-    business: { label: h.visual.business, text: h.scene.business.availability },
-    control: { label: h.visual.document, text: h.scene.core.detail },
-  };
+  useHeroAnimation(root, false);
+  const tech = TECH_ORDER.map((name) => t.stack.badges.find((badge) => badge.name === name)).filter(
+    (badge): badge is NonNullable<typeof badge> => !!badge,
+  );
 
   return (
     <section ref={root} className="brand-hero" aria-labelledby="hero-title">
       <div className="hero-ambient" aria-hidden="true" />
-      <HeroBackdrop eventSource={root} paused={paused} />
-      <HeroScene t={t} active={active} onSelect={setActive} />
+      <HeroScene />
+
+      <svg className="hero-wave" viewBox="0 0 1600 150" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="hero-wave-fill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#1c1035" />
+            <stop offset="1" stopColor="#0d0a1c" />
+          </linearGradient>
+          <pattern id="hero-wave-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.3" fill="#ffffff26" />
+          </pattern>
+        </defs>
+        <path d="M0 60 C250 125,450 5,750 65 S1250 130,1600 55 L1600 150 L0 150 Z" fill="url(#hero-wave-fill)" />
+        <path d="M0 60 C250 125,450 5,750 65 S1250 130,1600 55 L1600 150 L0 150 Z" fill="url(#hero-wave-dots)" />
+        <path d="M0 60 C250 125,450 5,750 65 S1250 130,1600 55" fill="none" stroke="#9c6bff" strokeOpacity=".7" strokeWidth="2.5" />
+      </svg>
 
       <div className="brand-hero-content">
-        <div className="brand-hero-copy">
-          <h1 id="hero-title" className="brand-hero-title" aria-label={`${h.titleTop}. ${h.titleBottom}.`}>
+        <div className={`brand-hero-copy ${heroSans.className}`}>
+          <span className="hero-badge-pill" data-hero-reveal><Icon name="layers" className="hero-badge-icon" />{h.badge}</span>
+          <h1 id="hero-title" className="brand-hero-title" aria-label={h.title}>
             <AnimatedLine text={h.titleTop} />
             <AnimatedLine text={h.titleBottom} accent />
           </h1>
           <p className="brand-hero-lead" data-hero-reveal>{h.lead}</p>
           <div className="brand-hero-actions" data-hero-reveal>
             <a className="brand-hero-primary" href="#simulation">{h.ctaPrimary}<span aria-hidden="true">↗</span></a>
-            <Link className="brand-hero-secondary" href={paths.docs(t.locale)}>{h.visual.docs}</Link>
+            <a className="brand-hero-secondary" href="#flow"><Icon name="play" />{h.ctaSecondary}</a>
           </div>
-          <p id="hero-scene-detail" className="hero-scene-detail" role="status" aria-live="polite" data-hero-reveal>
-            <span className="hero-detail-dot" aria-hidden="true" />
-            <span><strong>{details[active].label}</strong><span className="hero-detail-divider" aria-hidden="true"> / </span>{details[active].text}</span>
-          </p>
+          <ul className="hero-tech-row" data-hero-reveal aria-label={t.stack.eyebrow}>
+            {tech.map((badge) => (
+              <li key={badge.name} className="hero-tech-item">
+                {badge.name === "Stellar" ? <HeroStellarMark /> : <Icon name={TECH_MARKS[badge.name] ?? "layers"} />}
+                <span>{badge.name}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
       <div className="hero-bottom-controls">
         <a className="hero-scroll-cue" href="#simulation"><span aria-hidden="true">↓</span>{h.visual.scroll}</a>
-        <button className="hero-motion-control" type="button" onClick={() => setPaused((value) => !value)}
-          aria-pressed={paused} aria-label={paused ? h.visual.resume : h.visual.pause} title={paused ? h.visual.resume : h.visual.pause}>
-          <Icon name={paused ? "play" : "pause"} /><span>{paused ? h.visual.resume : h.visual.pause}</span>
-        </button>
       </div>
     </section>
   );

@@ -115,6 +115,8 @@ export interface Copy {
   office: OfficeCopy;
   hero: {
     eyebrow: string;
+    /** Short pill above the title, e.g. "Powered by Stellar". */
+    badge: string;
     title: string;
     titleTop: string;
     titleBottom: string;

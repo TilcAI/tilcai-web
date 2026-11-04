@@ -25,12 +25,13 @@ export const es: Copy = {
   office: officeEs,
   hero: {
     eyebrow: "Infraestructura de comercio entre agentes · Stellar · En desarrollo",
-    title: "Tu agente compra. Tu empresa responde. Tú mantienes el control.",
+    badge: "Pagos para agentes de IA",
+    title: "Tu agente compra. Tú decides.",
     titleTop: "Tu agente compra",
-    titleBottom: "Tú mantienes el control",
+    titleBottom: "Tú decides",
     visual: { person: "Persona", business: "Empresa", document: "Documento", development: "En desarrollo", docs: "Ver docs", pause: "Pausar animación", resume: "Activar animación", scroll: "Descubre la simulación" },
-    lead: "La empresa responde con condiciones verificables y permisos limitados.",
-    ctaPrimary: "Explorar ahora", ctaSecondary: "Explorar para mi empresa",
+    lead: "Infraestructura para que agentes de IA realicen pagos con permisos definidos, límites de gasto y operaciones verificables en Stellar.",
+    ctaPrimary: "Explorar TilcAI", ctaSecondary: "Ver cómo funciona",
     facts: ["Condiciones verificables", "Permisos limitados", "Aprobación por compra"],
     visionNote: "Tu agente interpreta la solicitud. La empresa aporta condiciones y disponibilidad. TilcAI coordina permisos, operación y evidencia. La compra completa se habilita por etapas.",
     scene: {

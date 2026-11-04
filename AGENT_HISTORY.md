@@ -1695,3 +1695,454 @@ Infra: #43 (N-04), #44 (N-12), #45 (N-11, migración pasada a la 9 tras las cred
 Creé [CONTEXTO_PROYECTO.md](<C:/Users/OMAR/Documents/OMAR/2026 ACTIVIDADES/23. STELLAR-ELITE/CONTEXTO_PROYECTO.md>) con arquitectura, estado de los ocho repositorios, 18 issues abiertas, PR, discrepancias y pendientes.
 
 También configuré `AGENTS.md` para que futuras sesiones lo lean y actualicen su bitácora. Respeté ambas carpetas excluidas.
+
+## 2026-11-04T15:49:25Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> la priemera seccion de la landing se parecera a esta imagen de referencia lo de abajo no el header y para el gatito usa lo que es esta imagen C:\proyectos 2026\tilcAI\tilcai-web\public\assets\img\inicio\gato inicio.svg
+>
+> [adjunto: imagen de referencia del hero "TilcAI" con píldora "Impulsado por Stellar", título, botones y fila de badges Stellar/x402/Soroban/CCTP]
+> [adjunto: captura de pantalla pegada, mismo contenido]
+
+### Salida
+
+Acerqué solo el contenido del hero (no el header) a la referencia, reutilizando copy y assets existentes:
+
+- `HeroExperience.tsx`: nueva píldora "Impulsado por Stellar" sobre el título (icono `StellarIcon` ya usado en `StackSection`) y una fila de badges Stellar/x402/Soroban/CCTP bajo los CTA, tomando los nombres de `t.stack.badges` en vez de inventar datos nuevos.
+- `HeroScene.tsx`: el gato pasa de `hero-cat-transparent.png` al SVG nuevo (`/assets/img/inicio/gato inicio.svg`); las tres tarjetas interactivas (persona/empresa/documento) se aplanan a burbujas circulares con solo el icono (etiqueta movida a `sr-only`) y se añade un anillo punteado alrededor del gato.
+- `hero.css`: estilos de la píldora y la fila de badges, burbujas aplanadas sin el tilt 3D previo, anillo punteado y una línea ondulada morada al pie de la sección; limpieza de CSS muerto de las tarjetas antiguas (check, líneas, label).
+- `types.ts`/`es.ts`/`en.ts`: campo nuevo `hero.badge` ("Impulsado por Stellar" / "Powered by Stellar"); el resto del copy del hero no cambió.
+
+Verificado: `tsc --noEmit` limpio; `curl` contra el dev server existente (puerto 3000, ya en marcha antes de esta sesión) confirma que el HTML servido trae la píldora, la fila de badges y el SVG del gato (ruta con espacio, se sirve bien con %20); el log del servidor no muestra errores de hidratación en las cargas posteriores a la edición (sí hubo uno transitorio durante el primer Fast Refresh, esperable y no reproducible en una carga nueva). No pude abrir un navegador real en este entorno (no hay herramienta de navegador disponible), así que no hay captura visual verificada a ojo. ESLint sigue sin poder ejecutarse por la incompatibilidad preexistente entre `typescript-eslint` y TypeScript 7. Sin commit.
+
+## 2026-11-04T15:55:59Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok pero quitale todo lo que son imagenes inecesarias iconos de la primera parte y la cual sera la nueva priemra parte sera la siguinte esa imagen sera como deveria de verse quitale lo ineceseario a lo que se tiene
+>
+> [adjunto: misma imagen de referencia del hero de la entrada anterior]
+
+### Salida
+
+Seguimiento de la entrada anterior (15:49:25Z): quité del hero todo lo que no aparece en la referencia, dejando la escena puramente decorativa.
+
+- `HeroScene.tsx`: reescrito de cero. Fuera el SVG de órbitas/cables/satélites, la marca TilcAI flotante del centro, las tres píldoras "En desarrollo / Permisos limitados / Condiciones verificables" y las chispas (`hero-star`). Las tres tarjetas interactivas (persona/empresa/documento con estado activo y clic) pasan a ser tres burbujas estáticas con un solo icono cada una (carrito, tienda, persona), sin `button` ni `aria-pressed`; toda la escena queda `aria-hidden` por ser decorativa. El componente ya no recibe props.
+- `HeroExperience.tsx`: quité el estado `active`/`onSelect` y el párrafo de estado `#hero-scene-detail` que mostraba el detalle del paso seleccionado (no existe en la referencia y dependía de las burbujas interactivas que ya no están).
+- `useHeroAnimation.ts`: quité las animaciones muertas que apuntaban a elementos eliminados (parpadeo de `hero-star`, flujo de `hero-connection-flow`, órbita de los satélites con `MotionPathPlugin`) y el import/registro de ese plugin, ya sin uso.
+- `hero.css` y `mobile.css`: quité todas las reglas de los selectores eliminados (`hero-orbits`, `hero-core*`, `hero-development/permissions/terms`, `hero-scene-badge*`, `hero-star*`, `hero-scene-detail*`) y renombré las posiciones de las burbujas a `hero-icon-cart` (arriba), `hero-icon-store` (izquierda) y `hero-icon-person` (derecha), siguiendo la composición de la referencia.
+
+Verificado: `tsc --noEmit` limpio; `curl` contra el dev server ya en marcha confirma que el HTML servido ya no trae ninguno de los selectores eliminados y sí las tres burbujas nuevas. Grep confirmó que no quedó ninguna referencia suelta a las clases borradas en el resto de `src/`, salvo una regla en `mobile.css` que también quité. Sin navegador real disponible en este entorno, así que no hay captura visual verificada a ojo; tampoco toqué el fondo de partículas (`HeroBackdrop`/Antigravity) ni los controles inferiores (scroll cue, pausar animación), que no son parte de la escena ilustrativa y siguen funcionando. Sin commit.
+
+## 2026-11-04T16:09:32Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> Repo: C:\proyectos 2026\tilcAI\tilcai-web (Next.js). Task: in the landing hero section, remove two things only.
+>
+> 1. The city-skyline image behind/below the cat. In src\components\sections\HeroScene.tsx it's this block:
+>    <div className="hero-city hero-depth" data-depth=".4">
+>      <Image src="/assets/hero-city-transparent.png" ... className="hero-city-image" priority />
+>    </div>
+>    Delete that block, then delete its now-unused CSS rules in src\app\hero.css (.hero-city, .hero-city-image, and the .hero-city overrides inside the @media (max-width: 800px) and (max-width: 480px) blocks). Do not touch the cat image, the orbit ring, or the three icon bubbles (cart/store/person) in the same file.
+>
+> 2. The "antigravity" particle background (a three.js canvas) behind the whole hero. It's wired in src\components\sections\HeroExperience.tsx as:
+>    <HeroBackdrop eventSource={root} paused={paused} />
+>    Remove that line (and the now-unused `paused`/`setPaused` state and the "hero-motion-control" pause/resume button in hero-bottom-controls that only existed to pause this particle field — keep the "hero-scroll-cue" scroll-down link, just drop the pause button). Then check with grep whether src\components\sections\HeroBackdrop.tsx and src\components\Antigravity.tsx are still referenced anywhere else in src\; if not, delete both files. Also remove the now-dead .hero-antigravity, .hero-motion-control CSS rules from src\app\hero.css (keep .hero-bottom-controls and .hero-scroll-cue rules, since the scroll cue stays).
+>
+> Constraints: don't touch anything else in the hero or elsewhere in the app. After the change, run `npx tsc --noEmit` in the repo root and confirm it's clean. Report back exactly what you removed/deleted and the tsc result.
+
+### Salida
+
+Removed the skyline block from HeroScene.tsx, plus `.hero-city` and `.hero-city-image` rules and media overrides in hero.css. Removed `HeroBackdrop` rendering, the pause state/button, and `.hero-antigravity` and `.hero-motion-control` rules in hero.css. Deleted HeroBackdrop.tsx and Antigravity.tsx after confirming no other `src` references. The cat, orbit ring, three icon bubbles, and scroll cue remain.
+
+`npx tsc --noEmit` passed (exit 0).
+
+## 2026-11-04T16:16:47Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> usando lo que es orca sin plugin asignale en una tarea a codex que es que haga que quite lo que es esa imagen debajo del gato y que quite lo que es esas particulas de antigravity asiganle tareas a los agentes
+
+### Salida
+
+Delegué la tarea completa (quitar la imagen de la ciudad detrás del gato y el fondo de partículas antigravity del hero, en `tilcai-web`) al subagente `codex:codex-rescue`, que la corrió en Codex vía el runtime compartido; su entrada queda registrada por separado arriba (16:09:32Z). No repartí nada a las sesiones hermanas (`atlas`, `moto`, `shiro`, etc.): era una sola tarea autocontenida sobre los mismos archivos, y hacer que dos agentes la toquen a la vez arriesga choques, así que usé un solo agente (Codex) para ella.
+
+Verifiqué el resultado de Codex antes de darlo por bueno: `HeroBackdrop.tsx` y `Antigravity.tsx` quedaron borrados, `HeroScene.tsx` y `HeroExperience.tsx` ya no referencian la ciudad ni el fondo de partículas, `hero.css` quedó sin las reglas muertas, `tsc --noEmit` limpio y el HTML servido por el dev server ya en marcha (puerto 3000) no trae ningún rastro de `hero-city`, `hero-antigravity`, `hero-motion-control` ni `Antigravity`. Encontré un resto que Codex no tocó (fuera del alcance que le di): dos reglas muertas en `mobile.css` (`.hero-antigravity` y `.hero-motion-control` dentro de `@media (max-width: 640px)`); las quité yo mismo. Sin commit.
+
+## 2026-11-04T16:19:22Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pudes controlar a la cli de antigravity y delegarle tareas con orca
+
+### Salida
+
+Sí, puedo delegar tareas a Antigravity mediante Orca: comprobé que Orca registra dos sesiones `antigravity` en esta máquina. No encontré una CLI `antigravity` en el PATH; el acceso confirmado es el de Orca. Aún no lancé ninguna tarea en este repositorio. Indícame la tarea concreta y la asigno.
+
+## 2026-11-04T16:31:23Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero dentro de orca puedes abrir lo que es abrir una ventana de orca dentro de este proeycto y delegarle?
+
+### Salida
+
+Sí. Este proyecto ya está abierto en Orca como el espacio `main`. Puedo abrir una pestaña de Antigravity dentro de ese espacio y enviarle la tarea desde Orca; también puedo crearle un worktree separado si la tarea debe quedar aislada. Dime qué quieres delegarle y lo hago.
+
+## 2026-11-04T16:33:36Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok leete lo que es docs puedes delegarle a antigravity y que docuemnete para obsidian todo lo que se tiene y los nuevos cambios que se esta haciendo C:\Obsidian Vault\tilcAI para lo que es tilcai
+
+### Salida
+
+Leí el README, la documentación del sitio y la estructura actual de la bóveda. Delegué a Antigravity, dentro del espacio `main` de Orca, la actualización de `C:\Obsidian Vault\tilcAI`, incluyendo el estado de los repositorios TilcAI y los cambios locales sin commit del hero. Orca aceptó la tarea `task_100408626c24` (despacho `ctx_f6206dcdd604`). Antigravity está trabajando; la documentación aún no está terminada.
+
+## 2026-11-04T16:48:17Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> tilcai-web\public\assets\img\inicio\image.png esa imagen convertilo bien de la mejor manera en svg
+>
+> [mensaje enviado a mitad del turno] despues de convertir esa imagen en svg ponlo detras del gato y que se vea como en esta imagen de referencia y usa lo que es la tipografia de lo que es font para que se vea mejor lo que es las letras que y lo de abajo esa medio onada con particulas trata de realizarlo de la mejor manera
+>
+> [adjunto: imagen de referencia del hero completo, con los tres iconos en tarjetas oscuras con borde brillante, el anillo punteado, el destello junto al carrito, el gato con laptop y taza humeante, y la onda con puntos al pie]
+
+### Salida
+
+`public/assets/img/inicio/image.png` (1448×1086, RGBA) resultó ser solo el acento decorativo: tres tarjetas casi transparentes (blanco a ~1 % de alfa, invisibles sobre blanco) con un ícono cada una, un anillo punteado degradado violeta y un destello de tres trazos junto al carrito — nada de esto tiene fondo oscuro ni colores sólidos propios salvo el degradado violeta del anillo/destello y el toldo de la tienda. Antes de usar una herramienta de auto-trazado (`vtracer`, instalado localmente) verifiqué que produce ~2000 trazados y 787 KB por el antialiasing/blur del PNG — inservible para un ícono de interfaz. En su lugar lo recreé a mano como vector fiel: `public/assets/img/inicio/image.svg` (anillo punteado con degradado `#e3c6fb→#a24bfb` y el destello de tres trazos junto al carrito, con el degradado medido por muestreo de píxeles del PNG original).
+
+- `HeroScene.tsx`: la vieja `.hero-orbit-ring` (CSS, círculo punteado plano) se reemplazó por este `image.svg` como capa detrás del gato (mismo sistema de profundidad/parallax `hero-depth`/`hero-float` que ya tenía el gato y las burbujas).
+- `hero.css`: nueva `.hero-ring-art` posicionada para que el anillo quede alineado donde estaba antes y el destello asome arriba a la derecha, junto a la burbuja del carrito; los íconos de las burbujas pasan de lila a un blanco casi puro (`#f1eaff`) y el de la tienda queda con un tinte violeta propio, acercándose a la referencia.
+- La onda inferior pasó de una simple línea con `background` en `::after` a un `<svg>` real en `HeroExperience.tsx` (`.hero-wave`): una curva cerrada con relleno degradado oscuro, un patrón de puntos (`<pattern>`) encima a baja opacidad, y el trazo violeta de la curva por encima — imitando la banda punteada de la referencia.
+- Tipografía: confirmé que el título ya usa `Anton` vía `next/font/google` (`--font-anton`, cargada en `src/app/[lang]/layout.tsx`), que es la fuente condensada en negrita de la referencia; no hizo falta ningún cambio ahí.
+
+Verificado: `tsc --noEmit` limpio; `curl` contra el dev server ya en marcha confirma que `image.svg` se sirve (200), que el HTML trae `hero-ring-art`, `hero-wave` y el ícono de tienda teñido, y el log del servidor no muestra errores de compilación ni de hidratación tras el cambio. No pude previsualizar el render final (sin navegador en este entorno; tampoco pude rasterizar el SVG para una captura — `cairosvg` no tiene la librería nativa `cairo` en Windows y `sharp` no está instalado), así que las proporciones exactas del anillo/destello contra el gato y la fidelidad visual de la onda con puntos quedan sin verificar a ojo. Mientras trabajaba, otra sesión (ver entrada anterior, Antigravity/Orca) seguía documentando este mismo repositorio; no toqué nada relacionado con esa tarea. Sin commit.
+
+
+## 2026-11-04T16:34:57Z · JHAMILCALI · Antigravity (Gemini 3.8 Flash)
+
+- **Sesión:** 037bb74e-0a20-4d4b-8659-6acf7e937ec3
+- **Rama:** main
+- **Repositorios:** tilcai-web (y la bóveda en C:\Obsidian Vault\tilcAI)
+
+### Prompt
+
+> ok leete lo que es docs puedes delegarle a antigravity y que docuemnete para obsidian todo lo que se tiene y los nuevos cambios que se esta haciendo C:\Obsidian Vault\tilcAI para lo que es tilcai
+
+### Salida
+
+Actualicé exhaustivamente la bóveda de Obsidian en `C:\Obsidian Vault\tilcAI` (29 notas en `Raw/`, `Wiki/`, `Output/` y raíz) con fecha de corte al 4 de noviembre de 2026, contrastando el corte anterior (15/10) con la evolución de `tilcai-web`, `tilcai-infrastructure`, `tilcai-core`, `tilcai-cctp-engine` y `documentation`.
+
+- `Wiki/11 - Web, narrativa y simulaciones.md`: Documenté las 19 guías técnicas del portal `/docs`, la clasificación TIL-07 de redes, la lógica de retención y persistencia de brechas (`gaps.ts`, `monitor.gap`), y los cambios locales en curso en el Hero visual (reemplazo del gato por SVG `gato inicio.svg`, anillo/destello vectorial `image.svg` en `hero-ring-art`, tres burbujas planas, badges tecnológicos de Stellar/x402/Soroban/CCTP, onda decorativa SVG `hero-wave`, y eliminación del fondo de partículas Antigravity y la silueta urbana).
+- `Wiki/18 - Estado, evidencia y pendientes.md` y `Output/Matriz de capacidades.md`: Actualicé la matriz de madurez técnica clasificando rigurosamente código observado, pruebas testnet, evidencia mainnet comprobada (0.01 y 1 USDC Avalanche→Stellar y Vaquita), laboratorio (Sepolia, Arbitrum y Base en `lab` bajo TIL-07) y pendientes estructurales (integración comercial E2E bajo un mismo `orderId`, validación de escritor único en Cloud Run N-07 en staging, y auditoría independiente de contratos).
+- `Wiki/09 - Backend e infraestructura.md`: Registré los PRs mergeados en infraestructura (N-04 fail-closed #43, N-12 liveness/readiness #44 con `/ready?mode=transactional`, N-11 retención a 90 días #45, N-01 liquidación atómica #49, N-14 cuotas patrocinadas #51, N-07 Cloud Run #46 y migración de core a npm #52).
+- `Wiki/00`, `01`, `02`, `03`, `04`, `05`, `06`, `07`, `08`, `10`, `12`, `13`, `14`, `15`, `16`, `17`, `19`, `Output/Resumen ejecutivo.md`, `Flujo de extremo a extremo.md`, `Guia de mantenimiento.md`, `Raw/Estado de repositorios.md`, `Inventario de fuentes.md`, `Decisiones y evidencia.md` y `Rutas de codigo.md`: Actualizados con contratos `@tilcai/core@0.1.0`, paquetes `tilcai-sdk` 0.1.0 y `tilcai-mcp` 0.2.0, estado de ramas locales e integridad total de enlaces wiki (0 enlaces rotos).
+
+No se modificó código funcional en los repositorios ni se realizaron commits o transacciones externas.
+
+## 2026-11-04T16:57:12Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> You have 1 orchestration message. Run `orca orchestration check --run run_6b40e75311d1`.
+
+### Salida
+
+Antigravity terminó la tarea en Orca (`succeeded`). Actualizó las 29 notas de la bóveda `C:\Obsidian Vault\tilcAI` con el estado al 4 de noviembre, incluidos los cambios locales del hero y los avances de infraestructura. Revisé las notas de web y de estado: distinguen cambios sin commit, evidencia verificada y pendientes. Siguen pendientes la integración comercial completa, los ensayos N-07 en staging y la auditoría externa de contratos. No hubo commit ni cambios de código funcional.
+
+## 2026-11-04T17:25:34Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok pero la iamgen del svg no quedo tal cual te falto los demas iconos tilcai-web\public\assets\img\inicio\image.png realiza tal cual el svg que quede de la misma manera
+
+### Salida
+
+Tenía razón: mi primer `image.svg` (turno anterior) solo traía el anillo punteado y el destello, sin los tres iconos. Volví a medir `image.png` con muestreo de píxeles (Pillow) para ubicar cada pieza en coordenadas reales: ajusté un círculo por mínimos cuadrados a 36 puntos del anillo (centro ≈1046,615 en el PNG original, r≈380) y saqué el cuadro delimitador de cada icono (carrito, tienda, persona) y del destello. Confirmé que los tres iconos están dibujados a opacidad completa en blanco casi puro (no "fantasma": se veían débiles solo por estar sobre fondo blanco en el PNG) y que la tienda es la única con un acento de color — el techo relleno en púrpura sólido — mientras carrito y persona son solo contorno blanco.
+
+Reescribí `public/assets/img/inicio/image.svg` completo con las cinco piezas: el anillo punteado con degradado, el destello de tres trazos, el carrito, la tienda (techo púrpura + cuerpo blanco) y la persona — reutilizando las mismas formas de línea que ya tiene `Icon.tsx` (carrito, tienda, usuario), reposicionadas y escaladas a las coordenadas medidas.
+
+Verificado visualmente esta vez: `sharp` sí está disponible como dependencia transitiva en `node_modules/.pnpm`, así que lo usé para rasterizar el SVG a PNG y revisarlo con mis propios ojos antes de darlo por bueno (algo que no pude hacer en el turno anterior). El resultado coincide con la composición del PNG original. `tsc --noEmit` limpio y el archivo se sigue sirviendo (200) sin tocar `HeroScene.tsx` (la ruta ya apuntaba a este mismo archivo). Sin commit.
+
+## 2026-11-04T17:41:49Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero el imagen de referencia no quedo lo mismo que el svg tilcai-web\public\assets\img\inicio\image.png esa imagen no quedo como realmente se deveri de ver el svg
+
+### Salida
+
+Tenía razón otra vez: al volver a ver `image.png` con el visor de imágenes note una tarjeta cuadrada difusa (con esquinas redondeadas y una sombra suave) detrás de cada icono, que mi SVG anterior no tenía. Al medir los píxeles de esa zona con Pillow encontré que el canal alfa ahí es ~1/255 (≈0,4 %) en casi toda la tarjeta, sin un borde nítido — es decir, es una forma real pero tan tenue que un muestreo por umbral no la distingue del ruido; el visor de imágenes la hace visible (probablemente por cómo normaliza el contraste), aunque matemáticamente sea casi imperceptible contra blanco puro.
+
+Como ese nivel de alfa es demasiado frágil para reproducir igual (depende de cómo cada navegador redondee 1/255), añadí el mismo efecto visual de forma robusta: un rectángulo redondeado semitransparente (`fill:#ffffff0f`, borde `#ffffff26`) con `feGaussianBlur` detrás de cada uno de los tres iconos en `image.svg`, del mismo tamaño y centrado en cada icono, igual que las otras piezas ya medidas.
+
+Volví a rasterizar con `sharp` y lo revisé: ahora se ve el halo difuso detrás del carrito y la persona (el de la tienda queda menos visible porque el propio icono, con su techo morado sólido, ya ocupa casi toda la tarjeta — mismo tratamiento que los otros dos, solo que el icono lo tapa más). `tsc --noEmit` limpio, el archivo se sigue sirviendo (200). Sin commit.
+
+## 2026-11-04T18:10:34Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es el svg que se adpte bien lo que es este svg C:\proyectos 2026\tilcAI\tilcai-web\public\assets\img\inicio\orbita-morada-iconos-ui.svg a lo que esta atras del gato remplazalo por ese y que se vea de la mejor manera y que no tenga los iconos ese fondo blanco que se vea bien de la mejor manera
+
+### Salida
+
+El usuario aportó un SVG propio, más limpio que el mío (`orbita-morada-iconos-ui.svg`, 1200×900, íconos estilo lucide, anillo punteado, destello y tres iconos con `<rect>` de fondo casi blanco por tarjeta). Lo adapté y lo puse detrás del gato en reemplazo de mi `image.svg` anterior (que borré, sin más referencias):
+
+- Quité los tres `<rect fill="#FAFAFB/#FFFFFF" ...>` que daban el fondo blanco a cada icono (y el filtro `cardShadow` que solo ellos usaban, ya sin uso).
+- La altura del `viewBox` se quedaba corta (900) para el círculo punteado (`cy=595 r=366` → fondo en y=961): la subí a 980 para que no se recortara el anillo.
+- `HeroScene.tsx`: cambié la ruta de la imagen a este archivo y quité el bloque que dibujaba los mismos tres iconos por segunda vez como tarjetas HTML (`.hero-glass-card` + `Icon`) — se superponían con los iconos que ya trae el propio SVG. Ya no hace falta el import de `Icon` en este archivo.
+- `hero.css`: recalculé `.hero-ring-art` (pasó a `left:13% top:-4% width:82% height:67%`) a partir de la nueva proporción del círculo dentro del `viewBox`, para que quede alineado con el gato igual que antes; borré las reglas muertas `.hero-card-position`, `.hero-icon-cart/store/person`, `.hero-glass-card` y sus referencias en los media queries de 800px/480px.
+
+Verificado: rastericé el SVG con `sharp` (ya estaba disponible como dependencia transitiva) y lo miré — sin fondos blancos, círculo completo sin recortes, iconos limpios. `tsc --noEmit` limpio, `curl` contra el dev server confirma que `orbita-morada-iconos-ui.svg` se sirve (200) y que el HTML ya no trae `hero-glass-card` ni `hero-card-position` (sin duplicado). El log del servidor no muestra errores de compilación tras el cambio. Sin commit.
+
+## 2026-11-04T18:20:30Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> puedes hacer que los svg se muevan un poco y que tengan movimiento y el gato mueva su cabeza
+
+### Salida
+
+- **El arte del anillo/iconos** (`orbita-morada-iconos-ui.svg`) ya tiene movimiento: le agregué la clase `hero-float` (el mismo balanceo suave que ya usaban el gato y el resto de la escena, vía `useHeroAnimation.ts`), así que ahora flota junto con el gato en vez de quedar estático.
+- **El gato mueve la cabeza:** el gato es un único SVG externo de 89 paths sin agrupar por partes (sin un `<g id="head">` que aislar), así que en vez de diseccionar el archivo armé la cabeza con un truco de CSS: una segunda copia de la misma imagen, recortada con `clip-path` para mostrar solo la mitad de arriba (orejas y cara) superpuesta sobre la copia de siempre (recortada para mostrar solo de la mitad para abajo), con 6 puntos de solape para que no se note la costura. Solo esa copia de arriba gira unos grados con GSAP (`useHeroAnimation.ts`), con eje de giro cerca del cuello, dando el efecto de que asiente/ladea la cabeza sin tocar el resto del cuerpo.
+- Antes de escribir el código final probé el recorte y el giro con `sharp` (composición de imágenes, no CSS) para encontrar el porcentaje de corte correcto: en reposo (0°) reconstruye el gato exacto sin costura visible; con 6° de giro de prueba se ve un ladeo de cabeza creíble, con una arruga mínima y aceptable cerca de la pata que sostiene la barbilla.
+
+Verificado: `tsc --noEmit` limpio, el HTML servido trae las clases nuevas (`hero-cat-body`, `hero-cat-head`, `hero-cat-head-image`, `hero-ring-art` con `hero-float` adentro), sin errores de compilación en el log del servidor. Lo que no pude probar es el movimiento en vivo (sin navegador en este entorno): validé la geometría del recorte con una simulación estática en `sharp`, pero el timing/la suavidad real de la animación GSAP en el navegador queda sin confirmar a ojo. Sin commit.
+
+## 2026-11-04T18:26:49Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> y que parpade el gato lo que es el svg
+
+### Salida
+
+Como el SVG del gato no tiene los ojos como pieza aparte, medí su posición por píxeles (recorté y amplié la cara renderizada con `sharp` para ubicar los dos óvalos oscuros) y creé `public/assets/img/inicio/ojos-parpadeo.svg`: dos píldoras del mismo blanco del pelaje (`#fcfcfc`), del tamaño exacto de los ojos, en el mismo sistema de coordenadas que el SVG original (`viewBox 0 0 1254 1254`) para que next/image las escale y recorte exactamente igual que al gato (mismo `object-fit:contain`, sin matemática de porcentajes propia que se pudiera desalinear en otro tamaño de pantalla).
+
+Esa tercera capa se monta dentro de `.hero-cat-head` (así parpadea pegada a la cara cuando esta ladea), en `opacity:0` por defecto; `useHeroAnimation.ts` le sube la opacidad a 1 y la vuelve a bajar en 80ms, con una pausa de 3.6s entre parpadeos — igual que el resto de la escena, respeta el `prefers-reduced-motion` y se pausa si la sección sale de pantalla.
+
+Antes de integrarlo compuse el SVG de los ojos sobre el render del gato con `sharp`: las píldoras tapan los ojos exactos, sin desplazamiento. `tsc --noEmit` limpio, el HTML servido trae `hero-cat-eyelids`/`ojos-parpadeo.svg` (200). Encontré una advertencia transitoria en el log del servidor ("Image with fill and parent... position static") de una carga a medio aplicar los estilos; una carga posterior, ya con todos los cambios compilados, no la repite — no era un error real. Lo que sigue sin poder verse es el parpadeo en movimiento real (sin navegador en este entorno). Sin commit.
+
+## 2026-11-04T18:28:59Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero no crees su parpados solo era lo que es de color negro sus ojos cerar un lento parpadeo normal
+
+### Salida
+
+El parpadeo anterior cerraba y abría en 80ms (casi un destello). Lo cambié por un parpadeo más lento y natural en `useHeroAnimation.ts`: cierra en 220ms, se queda cerrado 90ms y abre en otros 220ms (ciclo completo ~0,53s, antes 0,16s), con una pausa de 3,6s entre parpadeo y parpadeo — mismo patrón de un parpadeo real (cierra y abre a la misma velocidad, con un instante de ojos cerrados en medio) en vez de un simple flash de opacidad. Mantuve la forma de los párpados (`ojos-parpadeo.svg`) que ya había verificado alineada con `sharp` en el turno anterior — el cambio es solo de ritmo, no de técnica.
+
+`tsc --noEmit` limpio, recompiló sin errores ni advertencias en una carga fresca del dev server. Sigue sin poder verse el parpadeo en movimiento real (sin navegador en este entorno). Sin commit.
+
+## 2026-11-04T18:30:30Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> quitale lo de parpadear ya no le hagas cambio que quede como antes sin parpadear
+
+### Salida
+
+Deshice el parpadeo por completo: quité la segunda imagen de párpados (`hero-cat-eyelids`) de `HeroScene.tsx`, su bloque de animación en `useHeroAnimation.ts`, la regla `.hero-cat-eyelids` en `hero.css` y borré `public/assets/img/inicio/ojos-parpadeo.svg` (sin otras referencias). Quedó igual que antes de pedir el parpadeo: el gato sigue ladeando la cabeza (eso no se tocó), solo sin parpadeo.
+
+`tsc --noEmit` limpio, el HTML servido ya no trae `hero-cat-eyelids` ni `ojos-parpadeo`, compiló sin errores. Sin commit.
+
+## 2026-11-04T18:35:43Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> [fragmento del JSX con las dos copias del gato] que no se vea lo que es su cuello o ese corte de la cabeza ya que es muy notable
+
+### Salida
+
+Causa probable: `.hero-cat-image` (compartida por las dos copias recortadas del gato, cuerpo y cabeza) tenía su propio `filter: drop-shadow(...)`. Con `clip-path`, los navegadores suelen calcular el filtro antes de recortar, así que cada copia proyectaba su propia sombra hasta el borde del recorte — eso es lo que se veía como una línea marcada justo en el cuello, no un problema de alineación de las dos imágenes (esa parte ya la había verificado con `sharp` en un turno anterior y coincidía en reposo sin ninguna costura).
+
+Arreglo en `hero.css`: saqué el `drop-shadow` de `.hero-cat-image` y lo puse una sola vez en el contenedor que envuelve ambas copias (`.hero-cat > .hero-float`), para que la sombra se calcule sobre el gato ya compuesto en vez de sobre cada recorte por separado.
+
+`tsc --noEmit` limpio, recompiló sin errores en el dev server. No pude confirmar a ojo si esto quita la línea (sigo sin navegador en este entorno); si la costura persiste después de este cambio, probablemente no sea la sombra sino el propio recorte y haga falta otro enfoque. Sin commit.
+
+## 2026-11-04T18:43:57Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> [fragmento de `.hero-cat-head`] has bien el corte de la cabeza por que la manos y una parte de la cola se nota en la transicion que solo este bien la cabeza [...] sin lo que es la mano y la cola
+
+### Salida
+
+Tenía razón: midiendo el render en píxeles, la línea de corte anterior (56 % de alto) quedaba por debajo de donde empieza la pata que el gato tiene apoyada en la barbilla (~46 %) y de la punta de la cola (~55 %), así que ambas quedaban dentro de la capa de la "cabeza" y se movían con ella al inclinarse, separándose del resto del brazo/cola que se queda quieto en el cuerpo.
+
+El problema real: los ojos (que sí deben quedar en la cabeza) terminan casi a la misma altura donde empieza esa pata (~44-46 % ambos), así que no hay un corte horizontal perfecto — tuve que elegir entre perder un poco el filo inferior del ojo izquierdo o arriesgar un trocito de pata. Elegí lo primero: recorté más arriba, al 44 %, verificando antes con `sharp` (comparando el recorte de "solo cabeza" para confirmar que no quedó ni rastro de pata ni de cola, y una rotación de prueba a 6° para confirmar que no se nota el corte en movimiento). `hero.css`: `.hero-cat-body` pasa a `inset(41% 0 0 0)`, `.hero-cat-head-image` a `inset(0 0 56% 0)` (muestra 0-44%), con 3% de solape (41-44%) y el eje de giro en `50% 42.5%`.
+
+`tsc --noEmit` limpio, recompiló sin errores. La verificación visual fue con una simulación estática en `sharp` (no en el navegador real, que sigue sin estar disponible en este entorno), pero esta vez comparé explícitamente que la capa de "cabeza" no contenga ni un píxel de mano ni de cola antes de aplicarlo. Sin commit.
+
+## 2026-11-04T18:59:39Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> quiero que partas esa imagen del gato en dos partes uno que sea el curpo y manos normal y otra imagen svg que solo sea la cabeza para que no se sobrepongan genera ese cambio de la mejor manera que se vea bien partilo bien
+
+### Salida
+
+Antes de partirlo investigué si el SVG se podía separar por piezas (sus 89 `<path>` no tienen grupos ni IDs): midiendo con `sharp` la caja de cada uno por separado, el pelaje principal es un solo `<path>` que dibuja oreja+cabeza+torso como una sola silueta continua (de y=78 a y=698 en el lienzo de 1254). No hay forma de "seleccionar las piezas de la cabeza" como subconjunto de paths — cualquier separación real tiene que recortar esa silueta, no elegir entre piezas existentes.
+
+Generé los dos archivos recortando el mismo contenido (mismos 89 paths, mismo filtro de contorno) con una ventana de `<svg>` anidado en cada uno — no con `clip-path`, que até con `sharp` dejaba una línea gris de un píxel justo en el corte (cada capa antialiasa su propio borde con alfa parcial, y con las dos capas cortando exactamente en la misma línea, ninguna cubre del todo esa fila y se cuela el fondo). Les di una pequeña superposición de 10 unidades (cabeza hasta 555, cuerpo desde 545, sobre 1254) para que siempre haya una capa opaca detrás del borde difuminado de la otra — confirmado sin rastro de la línea tras el ajuste. Archivos: `gato-cabeza.svg` (orejas, cara, ojos — sin pata ni cola, confirmado con un render aislado) y `gato-cuerpo.svg` (torso, pata, cola, laptop, taza).
+
+`HeroScene.tsx` ahora carga estos dos archivos directamente (ya no la misma imagen dos veces con `clip-path` en CSS); `hero.css` perdió las reglas `.hero-cat-body`/`.hero-cat-head-image` (el recorte ya viene en el archivo) y el eje de giro de la cabeza se ajustó al nuevo punto de solape (`50% 44%`). El `gato inicio.svg` original queda en el repo sin usar en el código (no lo borré: es el archivo que subió el usuario).
+
+Verificado con `sharp`: composición final a resolución completa (1672px) sin ninguna línea visible, cabeza aislada sin pata ni cola. `tsc --noEmit` limpio, el HTML servido ya trae `gato-cabeza.svg`/`gato-cuerpo.svg` (ambos 200) y ya no las clases de recorte viejas; el log del servidor no muestra errores. Sigue siendo una verificación estática con `sharp`, no en un navegador real (sin uno disponible en este entorno), así que el resultado final en Chrome/Firefox no está confirmado a ojo. Sin commit.
+
+## 2026-11-04T19:15:30Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> volve a donde todo era estatico lo del gato
+
+### Salida
+
+Deshice todo el experimento de la cabeza que ladea: `HeroScene.tsx` vuelve a usar un solo `gato inicio.svg` (sin la segunda capa `.hero-cat-head`), `useHeroAnimation.ts` perdió la animación de rotación de la cabeza, y `hero.css` perdió la regla `.hero-cat-head`. Borré `gato-cabeza.svg` y `gato-cuerpo.svg` (los generé yo en el turno anterior, no son archivos que subió el usuario, así que no hacía falta conservarlos). El gato queda con el único movimiento que ya tenía antes de todo esto: el balanceo suave de `.hero-float` sobre la imagen completa.
+
+`tsc --noEmit` limpio; el HTML servido confirma una sola imagen (`gato inicio.svg`) sin rastro de `gato-cabeza`, `gato-cuerpo` ni `hero-cat-head`. Sin commit.
+
+## 2026-11-04T19:19:35Z · JHAMILCALI · Claude Code (claude-sonnet-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pon lo que es tilcai-web\public\assets\img\inicio\orbita.webp esa imagen en ves del svg que quede de la mejor manera posible en la parte de atras
+
+### Salida
+
+Reemplacé `orbita-morada-iconos-ui.svg` por `orbita.webp` en la capa que va detrás del gato (`HeroScene.tsx`). Antes de cablearlo lo compuse con `sharp` sobre el fondo oscuro del hero para revisarlo: se ve mejor que el SVG anterior — trae las tarjetas oscuras con borde blanco ya resueltas (no el "fantasma" casi invisible de versiones previas), carrito y persona en contorno blanco, tienda en dos tonos (techo morado + contorno blanco), anillo punteado y destello.
+
+Como el `.webp` tiene una proporción distinta a la del SVG anterior (1448×1086 contra 1200×980) y las dos imágenes no comparten el mismo encuadre del círculo, recalculé `.hero-ring-art` en `hero.css` (pasó a `left:7% top:-2% width:95% height:71%`) a partir de dónde cae el círculo dentro de esta imagen — reutilicé el centro y radio del círculo que ya había medido por píxeles en un turno muy anterior sobre un archivo con las mismas dimensiones exactas (1448×1086), que todo indica que es la misma pieza de diseño re-exportada. El resultado debería quedar alineado con el gato igual que antes.
+
+`tsc --noEmit` limpio; el HTML servido ya trae `orbita.webp` (con el conjunto de tamaños que genera el optimizador de imágenes de Next, cosa que el SVG no tenía) y ninguna referencia a `orbita-morada-iconos-ui.svg`, que queda en el repo sin usar (no lo borré, lo subió el usuario). Sin errores de compilación. Sin commit.
+
+## 2026-11-04T19:26:45Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> [adjunto: captura de referencia del hero de TilcAI] puedes hacer que quede de esa manara lo que es las letras y  todoo lo que es del lado izquiedo modifica eso
+
+### Salida
+
+Listo. Ajusté el lado izquierdo del hero para seguir la captura: titular «TU AGENTE COMPRA. TÚ DECIDES.», texto, píldora, botones y fila tecnológica. También actualicé la traducción inglesa y el diseño móvil. Verifiqué las vistas en navegador (1729×910 y 390×844); `npx tsc --noEmit` y `git diff --check` pasaron. Sin commit.
+
+## 2026-11-04T19:40:26Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok pero que se adapte bien por que se ve grande algunas cosas
+
+### Salida
+
+Ajusté la escala del hero: botones, píldora e iconos se reducen en portátiles, y el título y texto se compactan en pantallas bajas. Comprobé los anchos de 1366, 1181, 1180 y 320 px sin desbordes; `npx tsc --noEmit` y `git diff --check` pasaron. Sin commit.
+
+## 2026-11-04T19:51:37Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> generame los commit correspondientes de los cambios que tenemos que implementamos
+
+### Salida
+
+Creé el commit `feat(hero): actualizar portada y diseño adaptable` en `main`, con el gato y la órbita usados, el nuevo texto ES/EN, el diseño adaptable y el historial. `npx tsc --noEmit` y `git diff --check` pasaron. `npm test` terminó con 115/116 pruebas: falla el contrato del monitor porque el checkout vecino de infraestructura reexporta sus tipos y la prueba busca una lista local. Las descargas de fuentes duplicadas y el SVG de órbita anterior quedaron sin incluir porque la aplicación no los usa. No hice push.
