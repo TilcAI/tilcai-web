@@ -117,8 +117,6 @@
   .hero-badge-icon { width: 22px; height: 22px; }
   .hero-scene { right: 1%; width: 98%; bottom: 145px; height: 360px; }
 }
-html:not(.js) .brand-hero { margin-top: 0; }
-
 @media (prefers-reduced-motion: reduce) {
   .hero-depth { will-change: auto; }
   .brand-hero * { transition: none !important; }

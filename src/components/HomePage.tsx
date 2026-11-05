@@ -10,6 +10,7 @@ import { HeroSection } from "./sections/HeroSection";
 import { OfficeHero } from "./office/OfficeHero";
 import { OfficeLegendSection, OfficeRoomsSection } from "./sections/OfficeLegendSection";
 import { ProductOverview } from "./sections/ProductOverview";
+import { ProblemSection } from "./sections/ProblemSection";
 import { BuyerEntrances } from "./sections/BuyerEntrances";
 import { RailsSection } from "./sections/RailsSection";
 import { SolutionsSection } from "./sections/SolutionsSection";
@@ -20,6 +21,7 @@ export function HomePage({ t }: { t: Copy }) {
   return (
     <>
       <HeroSection t={t} />
+      <ProblemSection t={t} />
       <OfficeHero t={t} />
       <ProductOverview t={t} />
       <OfficeLegendSection t={t} />

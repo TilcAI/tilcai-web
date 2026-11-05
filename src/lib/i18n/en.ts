@@ -16,7 +16,7 @@ export const en: Copy = {
     codeTabs: "Illustrative data structures", mainNav: "Main navigation", footerNav: "Footer navigation",
   },
   nav: {
-    problem: "What it is", flow: "How it works", rails: "Payment routes", demo: "Simulation", capabilities: "Businesses",
+    problem: "The problem", flow: "How it works", rails: "Payment routes", demo: "Simulation", capabilities: "Businesses",
     agents: "Agents", code: "Contracts", roadmap: "Progress", docs: "Docs", home: "Home",
   },
   stageLabels: { available: "Available foundation", integration: "Being integrated", next: "Next steps" },
@@ -29,7 +29,7 @@ export const en: Copy = {
     title: "Your agent buys. You decide.",
     titleTop: "Your agent buys.",
     titleBottom: "You decide.",
-    visual: { person: "Person", business: "Business", document: "Document", development: "In development", docs: "Read docs", pause: "Pause animation", resume: "Play animation", scroll: "Explore the simulation" },
+    visual: { person: "Person", business: "Business", document: "Document", development: "In development", docs: "Read docs", pause: "Pause animation", resume: "Play animation", scroll: "Explore the problem" },
     lead: "Infrastructure for AI agents to make payments with defined permissions, spending limits, and verifiable transactions on Stellar.",
     ctaPrimary: "Explore TilcAI", ctaSecondary: "See how it works",
     facts: ["Verifiable terms", "Limited permissions", "Approval per purchase"],
@@ -50,6 +50,18 @@ export const en: Copy = {
         quote: { label: "Quote", amount: "10 USDC", note: "within your limit" },
       },
     },
+  },
+  problemIntro: {
+    eyebrow: "THE PROBLEM",
+    titleTop: "AGENTS CAN TAKE ACTION.",
+    titleBottom: "BUT WHO CONTROLS THEIR PAYMENTS?",
+    lead: "As AI agents begin to carry out economic transactions, a challenge emerges: letting them pay without giving them unlimited control over funds.",
+    cards: [
+      { title: "Broad permissions", body: "An agent may have more access than it needs." },
+      { title: "Unlimited spending", body: "Without clear rules, it may spend more than expected." },
+      { title: "Duplicate payments", body: "Errors or retries can repeat a charge." },
+    ],
+    conclusion: "Without control infrastructure, an agent can act without clear limits.",
   },
   problem: {
     eyebrow: "What TilcAI is",

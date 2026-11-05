@@ -129,6 +129,7 @@ export interface Copy {
     visionNote: string;
     scene: HeroScene;
   };
+  problemIntro: { eyebrow: string; titleTop: string; titleBottom: string; lead: string; cards: Card[]; conclusion: string };
   /** "What TilcAI is": cards are buyer's agent, TilcAI, the business — in that order. */
   problem: { eyebrow: string; title: string; /** Word inside `title` that is highlighted. */ titleAccent?: string; lead: string; cards: Card[]; question: string };
   businesses: {

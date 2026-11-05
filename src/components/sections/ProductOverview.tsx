@@ -8,7 +8,7 @@ import styles from "./ProductOverview.module.css";
 const blockIcons: IconName[] = ["agent", "link", "store"];
 const blockArt = ["/assets/img/description/p3-c1.png", "/assets/img/description/p3-c2.png", "/assets/img/description/p3-c3.png"];
 
-/** "What TilcAI is". Keeps the public `#problem` anchor and the `problem` copy key. */
+/** "What TilcAI is". The `problem` copy key predates the separate problem section. */
 export function ProductOverview({ t }: { t: Copy }) {
   const { problem } = t;
 
@@ -20,11 +20,11 @@ export function ProductOverview({ t }: { t: Copy }) {
       : [problem.title.slice(0, at), problem.titleAccent, problem.title.slice(at + problem.titleAccent.length)];
 
   return (
-    <TilcAIParallax id="problem" labelledBy="problem-title">
+    <TilcAIParallax id="overview" labelledBy="overview-title">
       <div className={styles.wrap}>
         <header className={`section-head reveal ${styles.head}`}>
           <p className={`eyebrow ${styles.eyebrow}`}>{problem.eyebrow}</p>
-          <h2 id="problem-title" className={styles.title}>
+          <h2 id="overview-title" className={styles.title}>
             {before}
             {accent && <span className={styles.accent}>{accent}</span>}
             {after}

@@ -2160,3 +2160,115 @@ Creé el commit `feat(hero): actualizar portada y diseño adaptable` en `main`, 
 ### Salida
 
 Dejé `src/fonts` con Anton regular, Plus Jakarta variable y cuatro pesos de Poppins, más sus licencias. La web ahora carga esas fuentes localmente. Eliminé las carpetas duplicadas, el SVG de órbita anterior y tres PNG del hero sin uso. `npx tsc --noEmit`, `git diff --check` y la carga de `/es` en navegador pasaron. Creé el commit `chore(assets): depurar fuentes y recursos del hero`. No hice push.
+
+## 2026-11-04T22:45:39Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web (y la bóveda en C:\Obsidian Vault\tilcAI)
+
+### Prompt
+
+> docuementa para obsidian pero con antigravity los nuevos cambios
+
+### Salida
+
+Le asigné a Antigravity en Orca la actualización de `C:\Obsidian Vault\tilcAI` sobre los commits `1aac01d` y `2a66d4a`. Debe corregir las notas que aún describen el hero como trabajo sin commit, actualizar fuentes y recursos, y registrar el resultado actual de las pruebas. La tarea `task_26329e341802` fue aceptada y sigue en curso; la documentación aún no está terminada.
+
+
+## 2026-11-04T22:56:00Z · JHAMILCALI · Antigravity (Gemini 3.8 Flash)
+
+- **Sesión:** task_26329e341802
+- **Rama:** main
+- **Repositorios:** tilcai-web (y la bóveda en C:\Obsidian Vault\tilcAI)
+
+### Prompt
+
+> docuementa para obsidian pero con antigravity los nuevos cambios
+
+### Salida
+
+Actualicé la bóveda de Obsidian en `C:\Obsidian Vault\tilcAI` reflejando los commits `1aac01d` y `2a66d4a` de `tilcai-web`. Corregí el estado del Hero (eliminando las menciones a trabajo sin commit, `image.svg`, `hero-icon-*`, píldora «Impulsado por Stellar» y fuentes no rastreadas), documentando la escena decorativa con `gato inicio.svg` y `orbita.webp`, la onda inferior SVG, el copy bilingüe («TU AGENTE COMPRA. TÚ DECIDES.»), la píldora «Pagos para agentes de IA», los badges Stellar/x402/Soroban/CCTP, y la carga local con `next/font/local` de las fuentes depuradas en `src/fonts/` (Anton, Poppins, Plus Jakarta Sans). Registré el estado real de la suite: 115/116 pruebas pasando en `npm test` con fallo en `test/monitor.test.ts` por tipos reexportados en infraestructura vecina, y `tsc --noEmit` junto con `git diff --check` limpios. Se editaron 10 notas en la bóveda (`Wiki/11`, `Raw/Estado de repositorios`, `Raw/Inventario de fuentes`, `Raw/Rutas de codigo`, `Wiki/18`, `Output/Resumen ejecutivo`, `Output/Matriz de capacidades`, `Raw/Decisiones y evidencia`, `Wiki/00` y `README.md`). No se tocó código funcional ni se hizo commit o push.
+
+## 2026-11-04T22:58:02Z · JHAMILCALI · Antigravity (Gemini 3.8 Flash)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de lo que es los otros repos de lo que es infrestructure isiste lo que es la doc para lo que es obsidian
+
+### Salida
+
+Aclaré que `tilcai-infrastructure` (así como `tilcai-core`, `tilcai-cctp-engine` y `documentation`) ya cuenta con documentación completa en la bóveda de Obsidian (`C:\Obsidian Vault\tilcAI`). Detallé los nodos wiki donde está reflejado: `Wiki/09 - Backend e infraestructura` (servidores Fastify, arranque cerrado N-04, sondas N-12, retención N-11, escritor único N-07, liquidación atómica N-01, cuota N-14 y endpoints), `Wiki/10 - Cuentas inteligentes y tenants`, `Wiki/12 - Monitorizacion`, `Wiki/15 - Entornos y despliegue`, `Wiki/16 - Seguridad y limites`, y las notas de soporte en `Raw/`. Expliqué que la tarea previa se centró en los cambios nuevos de `tilcai-web` (commits 1aac01d y 2a66d4a) porque la documentación de infraestructura ya estaba actualizada al corte del 4 de noviembre (PRs #43 al #52).
+
+## 2026-11-04T23:10:07Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> [adjunto: captura de referencia de la sección «02 / EL PROBLEMA»]debajo de lo que hicim lo que es el hero has con referencia a lo que es la siguinte imagen [Image #1] esta seccion de la mejor manera posible
+
+### Salida
+
+Añadí «02 / El problema» justo debajo del hero, con ilustración del gato, tres riesgos y cierre, adaptado a escritorio, tableta y móvil. Conservé la sección «Qué es TilcAI» después de la simulación y actualicé los enlaces y el mapa de mensajes. TypeScript, 19 pruebas de contenido y `git diff --check` pasaron. ESLint no pudo ejecutarse porque la versión instalada de `typescript-eslint` no soporta TypeScript 7.0. Los cambios quedaron sin commit.
+
+## 2026-11-05T22:21:16Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> lo que es la seccion del hero la aparecion no se haga un scrolling para abajo que sea una aparcion visualmente atractiva usa loq que es /impeccable para que sea esa transion buena
+
+### Salida
+
+Rediseñé la aparición de entrada del hero (`useHeroAnimation.ts`) con la skill `impeccable` (comando `animate`). El titular entraba con `yPercent: 105`, es decir, cada letra subía toda una altura de línea desde abajo — eso es lo que se leía como "hacer scroll hacia abajo". Lo sustituí por un único momento autoral de "enfoque": título, escena del gato y badges/CTA aparecen con desenfoque (`blur`) y escala que se asientan en su sitio (`opacity` + `scale` + `filter: blur()`, sin ningún `translateY`/`yPercent`), con `expo.out` como curva de llegada confiada y duraciones de 0,6–0,9 s según el elemento (dentro del rango de "entrada autoral" que marca la skill). El bobeo flotante y el parallax de cursor que ya existían no se tocaron: solo cambié la entrada inicial.
+
+Comprobado: `tsc --noEmit` limpio, el detector mecánico de Impeccable (`impeccable detect`) sin hallazgos sobre el archivo, y el servidor de desarrollo ya en marcha compiló sin errores (`curl` a `/es` devuelve 200). No hay navegador disponible en este entorno: no pude grabar la transición en vídeo ni verificar la sensación final a ojo, solo el código, el tipo y la compilación. Sin commit.
+
+## 2026-11-05T22:32:54Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> no osea al recargar la pagina [adjunto: captura del hero ya cargado, en reposo] esta seccion se sube ariba y se baja abajo no queda bien has que quede bien y normal
+
+### Salida
+
+El cambio anterior (entrada por enfoque, sin `yPercent`) no era la causa de lo que describía la captura; encontré dos motivos reales de que el hero "se suba y se baje" al recargar:
+
+1. **Salto de posición real.** `.brand-hero` solo lleva `margin-top: calc(-1 * var(--header-h))` cuando `<html>` tiene la clase `js`; esa clase la ponía `RevealObserver` en un `useEffect`, que corre **después** del primer pintado del navegador. Es decir: en cada recarga se veía un instante la posición "sin JS" (`margin-top: 0`, el hero empujado hacia abajo del header) y, en cuanto React montaba, saltaba de golpe hacia arriba esos 64–80px. Lo moví a un `<Script strategy="beforeInteractive">` de Next (`src/app/[lang]/layout.tsx`) — Next garantiza que corre antes de la hidratación, así que el hero ya nace en su posición final sin salto. (Probé primero con una etiqueta `<script>` cruda; React la rechaza en cliente con un error de consola — por eso terminé en `next/script`.)
+2. **Vaivén permanente del titular.** Había una animación en bucle infinito (`useHeroAnimation.ts`) que hacía subir y bajar las letras del título unos 3px cada ~5s, para siempre, por debajo de la entrada única. La quité: ahora solo queda el momento de entrada autoral (una vez) y el flote suave del gato/anillo de iconos (decoración de la ilustración, no del bloque de texto).
+
+Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos nuevos (el único hallazgo, texto con degradado en el título, es preexistente y ya documentado como intencional), y el HTML servido confirma que el script de `next/script` queda como primer elemento de `<body>`, antes del contenido. No tengo navegador en este entorno para grabar la carga real y confirmar a ojo que ya no se percibe el salto; si sigue sin verse bien, dime qué parte exacta persiste. Sin commit.
+
+## 2026-11-05T22:39:29Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero sigue haciendo ese salto hacia abajo y se repone eso no quiero que se haga si no se quede estatico todo
+
+### Salida
+
+El intento anterior (mover el `classList.add('js')` a un `next/script` con `strategy="beforeInteractive"`) seguía dependiendo de que ese script corriera antes del primer pintado, y evidentemente no era lo bastante determinista. En vez de seguir afinando el timing, quité la dependencia por completo:
+
+- **Quitada la regla** `html:not(.js) .brand-hero { margin-top: 0; }` de `hero.css`. Antes, el hero nacía en la posición "sin JS" (empujado debajo del header) y saltaba hacia arriba, a su posición final, en cuanto el navegador añadía la clase `js` — eso era el "salto hacia abajo [antes de] reponerse". Ahora `.brand-hero` solo tiene un estado: `margin-top: calc(-1 * var(--header-h))`, presente desde el primer byte del HTML del servidor, sin ningún script de por medio. No hay dos estados entre los que saltar.
+- **Revertido** el `next/script beforeInteractive` de `src/app/[lang]/layout.tsx` (ya no hace falta; `RevealObserver` sigue poniendo la clase `js` para lo demás que la usa, como el menú móvil del header).
+- Confirmé que la regla del `header` que sí depende de `.js` (`SiteHeader.module.css`) está dentro de su media query de móvil y es para el menú de navegación sin JS, no para la posición del header en escritorio — no afecta a este salto.
+
+Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos nuevos (el único hallazgo sigue siendo el texto con degradado del título, preexistente e intencional), servidor de desarrollo responde 200 y sin errores en el log. Sigo sin navegador en este entorno para grabar la carga real. Sin commit.

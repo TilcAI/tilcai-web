@@ -16,7 +16,7 @@ export const es: Copy = {
     codeTabs: "Estructuras de datos ilustrativas", mainNav: "Navegación principal", footerNav: "Navegación del pie de página",
   },
   nav: {
-    problem: "Qué es", flow: "Cómo funciona", rails: "Rutas de pago", demo: "Simulación", capabilities: "Empresas",
+    problem: "El problema", flow: "Cómo funciona", rails: "Rutas de pago", demo: "Simulación", capabilities: "Empresas",
     agents: "Agentes", code: "Contratos", roadmap: "Avance", docs: "Docs", home: "Inicio",
   },
   stageLabels: { available: "Base disponible", integration: "En integración", next: "Siguiente evolución" },
@@ -29,7 +29,7 @@ export const es: Copy = {
     title: "Tu agente compra. Tú decides.",
     titleTop: "Tu agente compra",
     titleBottom: "Tú decides",
-    visual: { person: "Persona", business: "Empresa", document: "Documento", development: "En desarrollo", docs: "Ver docs", pause: "Pausar animación", resume: "Activar animación", scroll: "Descubre la simulación" },
+    visual: { person: "Persona", business: "Empresa", document: "Documento", development: "En desarrollo", docs: "Ver docs", pause: "Pausar animación", resume: "Activar animación", scroll: "Descubre el problema" },
     lead: "Infraestructura para que agentes de IA realicen pagos con permisos definidos, límites de gasto y operaciones verificables en Stellar.",
     ctaPrimary: "Explorar TilcAI", ctaSecondary: "Ver cómo funciona",
     facts: ["Condiciones verificables", "Permisos limitados", "Aprobación por compra"],
@@ -50,6 +50,18 @@ export const es: Copy = {
         quote: { label: "Cotización", amount: "10 USDC", note: "dentro de tu límite" },
       },
     },
+  },
+  problemIntro: {
+    eyebrow: "EL PROBLEMA",
+    titleTop: "LOS AGENTES PUEDEN ACTUAR.",
+    titleBottom: "¿PERO QUIÉN CONTROLA SUS PAGOS?",
+    lead: "A medida que los agentes de IA comienzan a realizar operaciones económicas, surge un desafío: permitirles pagar sin entregarles control ilimitado sobre los fondos.",
+    cards: [
+      { title: "Permisos amplios", body: "El agente puede tener más acceso del necesario." },
+      { title: "Gastos sin límite", body: "Sin reglas claras, puede gastar más de lo esperado." },
+      { title: "Pagos duplicados", body: "Los errores o reintentos pueden repetir un cobro." },
+    ],
+    conclusion: "Sin una infraestructura de control, un agente puede actuar sin límites claros.",
   },
   problem: {
     eyebrow: "Qué es TilcAI",

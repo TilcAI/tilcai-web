@@ -15,6 +15,7 @@ una simulación no demuestra una compra operativa.
 | Bloque / clave | Mensaje ES | Equivalente EN | Acción / límite |
 | --- | --- | --- | --- |
 | Hero / `hero` | Tu agente compra. Tu empresa responde. Tú mantienes el control. | Your agent buys. Your business responds. You stay in control. | Explorar el flujo; no iniciar una compra |
+| El problema / `problemIntro` | Los agentes pueden actuar. ¿Pero quién controla sus pagos? | Agents can take action. But who controls their payments? | Mostrar riesgos de permisos amplios, gastos sin límite y pagos duplicados |
 | Qué es TilcAI / `problem` | Una conexión entre tu intención y la operación del negocio | A connection between your intent and the business operation | Tres actores: tu agente, TilcAI y la empresa |
 | Empresas / `businesses`, `capabilities` | Preparar servicios para atender solicitudes de agentes | Prepare services to respond to agents | Catálogo, condiciones, disponibilidad, órdenes y cumplimiento |
 | Asistentes / `agents` | Usar el asistente con el que ya trabajas | Use the assistant you already work with | Cliente/superficie concreta; seleccionarlo no autoriza gasto |
@@ -24,8 +25,8 @@ una simulación no demuestra una compra operativa.
 | Roadmap / `roadmap`, `stageLabels` | Construimos por capacidades, no por promesas | We build around capabilities, not promises | Base disponible, en integración, siguiente evolución |
 | FAQ / `faq` | Responder dudas de uso, autoridad y operación | Explain use, authority and operation | Ocho respuestas de 40–80 palabras por idioma |
 
-`problem` y `#problem` se conservan por compatibilidad, pero ahora contienen el
-overview de los tres actores. Las demás rutas y anchors existentes se mantienen.
+`#problem` presenta los riesgos inmediatamente después del hero. El overview de
+los tres actores conserva la clave `problem` y usa el anchor `#overview`.
 Se reutilizan los componentes actuales: la composición del hero, grid empresarial
 y control visual corresponden a los issues de Jhamil y Jose.
 

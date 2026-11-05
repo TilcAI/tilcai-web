@@ -414,7 +414,7 @@ export function OfficeHero({ t }: { t: Copy }) {
 
       {!running && reduced && userRunning === null && <p className="office-reduced">{o.reducedMotion}</p>}
 
-      <a className="office-scroll" href="#problem">
+      <a className="office-scroll" href="#overview">
         {o.scroll}
         <Icon name="chevron" />
       </a>

@@ -23,20 +23,20 @@ export function useHeroAnimation(root: RefObject<HTMLElement | null>, paused: bo
     media.add("(prefers-reduced-motion: no-preference)", () => {
       const timeline = gsap.timeline();
       motion.current = timeline;
+      // A focus pull, not a scroll: everything materializes from a soft blur in place, never translating a full line height.
       const letters = element.querySelectorAll<HTMLElement>(".hero-letter");
-      timeline.fromTo(letters, { yPercent: 105, opacity: 0, rotateX: -65 }, {
-        yPercent: 0, opacity: 1, rotateX: 0, duration: .75, stagger: .025, ease: "power3.out",
+      timeline.fromTo(letters, { opacity: 0, scale: .88, filter: "blur(8px)" }, {
+        opacity: 1, scale: 1, filter: "blur(0px)", duration: .7, stagger: .022, ease: "expo.out",
       }, .1);
-      timeline.fromTo(".hero-scene", { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power3.out" }, .15);
-      timeline.fromTo("[data-hero-reveal]", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .8, stagger: .12, ease: "power2.out" }, .5);
+      timeline.fromTo(".hero-scene", { opacity: 0, scale: .92, filter: "blur(10px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: .9, ease: "expo.out" }, .18);
+      timeline.fromTo("[data-hero-reveal]", { opacity: 0, scale: .97 },
+        { opacity: 1, scale: 1, duration: .6, stagger: .09, ease: "expo.out" }, .45);
 
       element.querySelectorAll<HTMLElement>(".hero-float").forEach((item, i) => {
         timeline.to(item, { y: i % 2 ? 10 : -12, rotation: i % 2 ? 1.4 : -1.2,
           duration: 2.8 + i * .28, repeat: -1, yoyo: true, ease: "sine.inOut" }, .4 + i * .12);
       });
-      // A quiet travelling wave keeps the headline alive without shifting the layout.
-      timeline.to(letters, { y: -3, duration: .9, stagger: .045, repeat: -1, repeatDelay: 4,
-        yoyo: true, ease: "sine.inOut" }, 2.5);
 
       const layers = Array.from(element.querySelectorAll<HTMLElement>(".hero-depth"));
       const setters = layers.map((layer) => ({
