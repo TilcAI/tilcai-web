@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import localFont from "next/font/local";
 import type { Copy } from "@/lib/i18n";
 import { Icon, type IconName } from "../Icon";
@@ -29,13 +29,19 @@ function HeroStellarMark() {
   );
 }
 
-function AnimatedLine({ text, accent = false }: { text: string; accent?: boolean }) {
+function AnimatedLine({ text, accent = false, startIndex = 0 }: { text: string; accent?: boolean; startIndex?: number }) {
   const words = text.split(" ");
   return (
     <span className={`hero-title-line${accent ? " is-accent" : ""}`} aria-hidden="true">
       {words.map((word, index) => (
         <span className="hero-word" key={index}>
-          {Array.from(word).map((letter, i) => <span className="hero-letter" key={i}>{letter}</span>)}
+          {Array.from(word).map((letter, i) => (
+            <span
+              className="hero-letter"
+              key={i}
+              style={{ "--letter-delay": `${(startIndex + words.slice(0, index).join("").length + i) * 46}ms` } as CSSProperties}
+            >{letter}</span>
+          ))}
           {index < words.length - 1 && <span className="hero-word-space"> </span>}
         </span>
       ))}
@@ -74,17 +80,17 @@ export function HeroExperience({ t }: { t: Copy }) {
 
       <div className="brand-hero-content">
         <div className={`brand-hero-copy ${heroSans.className}`}>
-          <span className="hero-badge-pill" data-hero-reveal><Icon name="layers" className="hero-badge-icon" />{h.badge}</span>
+          <span className="hero-badge-pill"><Icon name="layers" className="hero-badge-icon" />{h.badge}</span>
           <h1 id="hero-title" className="brand-hero-title" aria-label={h.title}>
             <AnimatedLine text={h.titleTop} />
-            <AnimatedLine text={h.titleBottom} accent />
+            <AnimatedLine text={h.titleBottom} accent startIndex={Array.from(h.titleTop.replaceAll(" ", "")).length} />
           </h1>
-          <p className="brand-hero-lead" data-hero-reveal>{h.lead}</p>
-          <div className="brand-hero-actions" data-hero-reveal>
+          <p className="brand-hero-lead">{h.lead}</p>
+          <div className="brand-hero-actions">
             <a className="brand-hero-primary" href="#simulation">{h.ctaPrimary}<span aria-hidden="true">↗</span></a>
             <a className="brand-hero-secondary" href="#flow"><Icon name="play" />{h.ctaSecondary}</a>
           </div>
-          <ul className="hero-tech-row" data-hero-reveal aria-label={t.stack.eyebrow}>
+          <ul className="hero-tech-row" aria-label={t.stack.eyebrow}>
             {tech.map((badge) => (
               <li key={badge.name} className="hero-tech-item">
                 {badge.name === "Stellar" ? <HeroStellarMark /> : <Icon name={TECH_MARKS[badge.name] ?? "layers"} />}

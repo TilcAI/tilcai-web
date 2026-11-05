@@ -2272,3 +2272,137 @@ El intento anterior (mover el `classList.add('js')` a un `next/script` con `stra
 - Confirmé que la regla del `header` que sí depende de `.js` (`SiteHeader.module.css`) está dentro de su media query de móvil y es para el menú de navegación sin JS, no para la posición del header en escritorio — no afecta a este salto.
 
 Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos nuevos (el único hallazgo sigue siendo el texto con degradado del título, preexistente e intencional), servidor de desarrollo responde 200 y sin errores en el log. Sigo sin navegador en este entorno para grabar la carga real. Sin commit.
+
+## 2026-11-05T22:43:44Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> esta bien, ahora quiero que las aparaeciones del hero letras sean progresisvas y suaves con /emil-design-eng que se vea de la mejor manera
+
+### Salida
+
+Reajusté solo la entrada de las letras del titular (`useHeroAnimation.ts`) con el criterio de `emil-design-eng`: cada letra entra sola en cascada (stagger de 30ms, dentro del rango de 30–80ms que recomienda la skill para que se note progresiva sin sentirse lenta), con una curva más suave (`power2.out` en vez de `expo.out`, que es más agresiva/golpeada) y una duración más corta (0.5s en vez de 0.7s). Quité el `scale(.88→1)` que llevaba cada letra: con tantas letras animando a la vez, escalar cada una desde su propio origen hacía que la línea de base se viera irregular durante la transición — ahora solo queda opacidad + un desenfoque suave (`blur(6px)→0`), que es lo que de verdad transmite "suave" sin ruido visual. Quité también el `transform-origin: center bottom` de `.hero-letter` en `hero.css`, que ya no tenía uso al no quedar ningún `scale`/`rotate` sobre las letras.
+
+No toqué el resto del hero (escena del gato, badges/CTA, ni el posicionamiento ya arreglado que evitaba el salto de layout).
+
+Comprobado: `tsc --noEmit` limpio y el servidor de desarrollo responde 200 sin errores en el log. Sin navegador en este entorno para verlo correr; si el ritmo no se siente bien, dime si lo quieres más lento/rápido o con más/menos separación entre letras. Sin commit.
+
+## 2026-11-05T22:47:22Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero al iniciar la pagina lo que son los textos del hero que tenga las letras algunas transisiones de la mejor manera
+
+### Salida
+
+La entrada anterior se quedó en solo opacidad + desenfoque, que es sutil. Le añadí un tercer ingrediente a la cascada de letras del titular (`useHeroAnimation.ts`): un desplazamiento vertical pequeño (`y: 10px → 0`, nada que ver con el salto de línea completa que se quitó antes), junto con la opacidad y el desenfoque que ya tenía, así cada letra "asciende y se enfoca" en vez de solo aparecer. Subí la duración de 0.5 a 0.55s para que ese recorrido de 10px se sienta con el mismo peso que antes.
+
+Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos, servidor de desarrollo responde 200. Sin navegador en este entorno para verlo correr. Sin commit.
+
+## 2026-11-05T22:50:09Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero lo que es "
+>
+> [adjunto: texto pegado con el contenido completo del hero: píldora "Pagos para agentes de IA", titular, párrafo "Infraestructura para que agentes de IA...", botones "Explorar TilcAI" / "Ver cómo funciona" y la fila Stellar/x402/Soroban/CCTP]
+>
+> "
+> tenga trasiones el texto que no se quede quieto cuando aparescan
+
+### Salida
+
+El titular (letra por letra) ya tenía movimiento; lo que seguía entrando casi quieto era el resto del texto que pegaste: la píldora, el párrafo, los dos botones y la fila de tecnologías (todos marcados `data-hero-reveal` en `HeroExperience.tsx`), que solo cambiaban de opacidad y un `scale(.97→1)` apenas perceptible. Les añadí el mismo tipo de recorrido que a las letras: suben 16px al aparecer (`y: 16 → 0`), además de la opacidad y el scale que ya tenían, en cascada (píldora, párrafo, botones, fila de tecnologías, cada uno 90ms después del anterior).
+
+Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos, servidor de desarrollo responde 200. Sin navegador en este entorno para verlo correr. Sin commit.
+
+## 2026-11-05T23:03:01Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero no se nota esa transision de aparaion de texto progresivo
+
+### Salida
+
+Antes de tocar código le pregunté al usuario un diagnóstico rápido para saber si el problema era de tamaño o de que nada corría: confirmó que el gato/los íconos de atrás sí flotan al cargar, pero el texto no muestra transición — es decir, GSAP sí está corriendo, el problema es específico del texto.
+
+Causa más probable: cada letra del titular (20–30 `<span>` independientes) llevaba su propio `filter: blur(6px→0)`. Animar `filter` en tantos elementos a la vez es justo lo que `emil-design-eng` marca como caro (fuerza una capa de composición aparte por cada letra); en un equipo de gama media eso puede saturar el hilo de render y hacer que el navegador salte directo del primer al último fotograma — se ve como "aparece de golpe" en vez de una transición, mientras que el gato (una sola capa, sin filtro) sigue moviéndose perfecto. También añadí, por si acaso, una rama de `prefers-reduced-motion: reduce` que antes no existía: sin ella, si el sistema del usuario tuviera el movimiento reducido activado, no se vería ninguna entrada en absoluto (ni siquiera un fundido).
+
+Cambio: quité `filter`/`blur` de las letras y de `.hero-scene` por completo; ahora las letras solo animan `opacity` + `y` (propiedades baratas, sin paint ni layout), con la duración y el stagger un poco más generosos (0.6s, 35ms entre letras) para que el recorrido sea más fácil de percibir.
+
+Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos, servidor de desarrollo responde 200. Sigo sin navegador en este entorno para confirmarlo a ojo. Sin commit.
+
+## 2026-11-05T23:08:54Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> no se ve que sea halgo simple esa transision que pueda verlo todos
+
+### Salida
+
+Subí los valores de la entrada del texto (`useHeroAnimation.ts`) a algo que no debería dejar duda: las letras ahora suben 28px (antes 14px) en 0.7s con 45ms entre cada una, y la píldora/párrafo/botones/fila de tecnologías suben 24px también en 0.7s. Quité el `scale` que les quedaba a esos cuatro bloques (lo mismo que ya había hecho con las letras): solo opacidad + un desplazamiento vertical, nada más — es la combinación más simple y confiable que hay para animar, sin ninguna propiedad cara de por medio.
+
+Aviso honesto: en este entorno no tengo navegador para grabar la carga real y confirmar a ojo que ahora sí se nota en todas partes. Si después de una recarga normal (no solo refrescar caché) sigue sin notarse, el siguiente paso sería que abras la consola del navegador (F12) al recargar y me digas si aparece algún error en rojo — eso descartaría de una vez si es un problema de percepción/tamaño o algo que realmente está rompiendo el script en tu máquina.
+
+Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos, servidor de desarrollo responde 200. Sin commit.
+
+## 2026-11-05T23:26:31Z · JHAMILCALI · Claude Code (claude-sonnet-5-5)
+
+- **Sesión:** 11c340ab-a2c0-4bec-9c2a-4b82634d03b5
+- **Rama:** main (cambios sin commit)
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok bora si queda de lo antiguo codigo no valido para que funcione bien la transion por que no se nota
+
+### Salida
+
+Auditoría completa de todo lo relacionado con la entrada del hero, buscando restos de versiones anteriores (el flip 3D con `rotateX`/`yPercent`, el parpadeo del gato, el corte de cabeza/cuerpo) que pudieran seguir interfiriendo:
+
+- `HeroSection.tsx` es solo un envoltorio delgado de `HeroExperience`, se monta una sola vez desde `HomePage.tsx` — no hay dos copias del hero compitiendo por los mismos elementos.
+- No quedan referencias a `gato-cabeza.svg`, `gato-cuerpo.svg`, `ojos-parpadeo.svg` ni a las clases `.hero-cat-head`/`.hero-cat-body` en ningún archivo de `src/`.
+- Ningún CSS en `globals.css` ni `hero.css` fija `opacity`/`transform` sobre `.hero-letter`, `[data-hero-reveal]` o `.brand-hero-title` con una especificidad que pudiera ganarle al estilo inline que pone GSAP (que siempre gana salvo `!important`, y no hay ningún `!important` sobre esas clases).
+- Los elementos del hero no llevan la clase `.reveal` del otro sistema de aparición (`RevealObserver`), así que no compite con ese mecanismo.
+- Todos los imports de `gsap` en el proyecto usan la misma ruta (`"gsap"`), sin versiones duplicadas que pudieran crear dos tickers/contextos separados.
+- Sí encontré un resto real: `.hero-title-line { perspective: 800px; }` en `hero.css`, que servía para el efecto 3D (`rotateX`) de hace varias vueltas atrás, ya eliminado del código JS. No causaba el problema (sin ningún `rotateX`/`rotateY` en los hijos no tiene efecto visual), pero es exactamente el tipo de resto que pediste quitar — lo borré.
+
+No encontré ningún código que esté bloqueando u opacando la animación. Dejo constancia honesta: sin poder abrir un navegador en este entorno, agoté lo que la revisión estática del código puede decirme. Si después de esto sigue sin notarse, necesito que abras la consola (F12) al recargar y me copies cualquier error en rojo — es el único paso que me falta para saber si es el código o algo específico de tu máquina/navegador.
+
+Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos nuevos. Sin commit.
+
+## 2026-11-05T23:29:24Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> quiero que el hero sus letras al inciar tengan transsiones que se vean bien profesionales que se note esa transion al iniciar la pagina con los elementos de la letra ya que no se nota cambios mejora ese apartado de aparicion de la letra
+
+### Salida
+
+Mejoré el hero: el titular ahora entra letra por letra con un ascenso y giro suave desde el primer render; los demás textos y la escena siguen una secuencia coordinada. Se respeta la preferencia de movimiento reducido.
+
+Verificado: compilación y TypeScript correctos; página responde 200. ESLint está bloqueado por una incompatibilidad instalada entre TypeScript 7 y `typescript-eslint`. No pude hacer la revisión visual automatizada porque el controlador no logró validar la URL de Chrome.

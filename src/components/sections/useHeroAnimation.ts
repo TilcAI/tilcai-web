@@ -23,16 +23,7 @@ export function useHeroAnimation(root: RefObject<HTMLElement | null>, paused: bo
     media.add("(prefers-reduced-motion: no-preference)", () => {
       const timeline = gsap.timeline();
       motion.current = timeline;
-      // A focus pull, not a scroll: everything materializes from a soft blur in place, never translating a full line height.
-      const letters = element.querySelectorAll<HTMLElement>(".hero-letter");
-      timeline.fromTo(letters, { opacity: 0, scale: .88, filter: "blur(8px)" }, {
-        opacity: 1, scale: 1, filter: "blur(0px)", duration: .7, stagger: .022, ease: "expo.out",
-      }, .1);
-      timeline.fromTo(".hero-scene", { opacity: 0, scale: .92, filter: "blur(10px)" },
-        { opacity: 1, scale: 1, filter: "blur(0px)", duration: .9, ease: "expo.out" }, .18);
-      timeline.fromTo("[data-hero-reveal]", { opacity: 0, scale: .97 },
-        { opacity: 1, scale: 1, duration: .6, stagger: .09, ease: "expo.out" }, .45);
-
+      // The entrance runs in CSS at first paint; GSAP only owns ambient movement.
       element.querySelectorAll<HTMLElement>(".hero-float").forEach((item, i) => {
         timeline.to(item, { y: i % 2 ? 10 : -12, rotation: i % 2 ? 1.4 : -1.2,
           duration: 2.8 + i * .28, repeat: -1, yoyo: true, ease: "sine.inOut" }, .4 + i * .12);
