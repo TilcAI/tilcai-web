@@ -2733,3 +2733,21 @@ Ajusté las secciones desde «El problema» hasta el cierre: tarjetas con hover,
 ### Salida
 
 El gato ahora hace gestos en «La solución» (mira y toca el portátil), «Tecnología» (sigue el flujo y mueve las patas) y el cierre (saluda repetidamente). Las animaciones se activan al ver cada sección y respetan movimiento reducido. `npm run build` pasó. No pude revisar capturas: el lanzamiento de Chrome headless fue rechazado automáticamente por política.
+
+## 2026-11-06T21:13:14Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora lo que es el ceo de la pagina que aparesca en los buscadores de google de la mejor manera ya que tenemos los dominios de de www.tilcai.com y tilcai.com mejora el CEO de la pagina como un profecional
+
+### Salida
+
+Corregí el SEO técnico: `www.tilcai.com` es ahora el dominio canónico, con enlaces de idioma ES/EN, [sitemap.xml](<C:\proyectos 2026\tilcAI\tilcai-web\src\app\sitemap.ts>), [robots.txt](<C:\proyectos 2026\tilcAI\tilcai-web\src\app\robots.ts>), metadatos para compartir y datos estructurados de TilcAI. El sitemap incluye 46 páginas públicas; el monitor y los despliegues de vista previa quedan fuera del índice.
+
+`npm run build` pasó. Verifiqué localmente las canónicas, el sitemap, robots y JSON-LD. `npm run lint` no arrancó por la incompatibilidad existente entre TypeScript 7 y typescript-eslint.
+
+Para que Google procese estos cambios falta publicarlos y enviar `https://www.tilcai.com/sitemap.xml` en Search Console. Google indica que un sitemap ayuda a descubrir páginas, pero no garantiza su indexación. [Guía de Google Search Central](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap). Los cambios quedaron sin commit.

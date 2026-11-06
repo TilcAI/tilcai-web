@@ -229,7 +229,9 @@ Limits to know before relying on it:
 
 ## Deployment
 
-The team publishes the landing at `https://tilcai.vercel.app/en`. This is a website deployment, not a deployed TilcAI payment service. It also works on any Next.js host or as a Node server with `pnpm build && pnpm start`.
+The public site is `https://www.tilcai.com/en`; `https://tilcai.com` redirects to the `www` host. This is a website deployment, not a deployed TilcAI payment service. It also works on any Next.js host or as a Node server with `pnpm build && pnpm start`.
+
+Search metadata always points to `https://www.tilcai.com`, including on Vercel preview and deployment URLs. The public routes appear in `/sitemap.xml` with English and Spanish alternates; `/robots.txt` advertises that sitemap and blocks API and local preview paths. Vercel previews are marked `noindex` and disallow crawling. The monitor is `noindex` and is not included in the sitemap. After deploying, verify the `tilcai.com` domain property in Google Search Console, submit `https://www.tilcai.com/sitemap.xml`, and inspect `/en` and `/es`. `GOOGLE_SITE_VERIFICATION` optionally adds a verification meta tag when a URL-prefix verification method is used. A sitemap helps discovery but does not guarantee indexing.
 
 ### In a container
 

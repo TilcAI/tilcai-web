@@ -44,6 +44,9 @@ export function generateStaticParams() {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: "TilcAI",
+  robots: process.env.VERCEL_ENV === "preview" ? { index: false, follow: false } : undefined,
+  verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
     icon: [
       { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },

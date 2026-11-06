@@ -6,10 +6,10 @@ export const en: Copy = {
   locale: "en",
   htmlLang: "en",
   meta: {
-    title: "TilcAI — Agent commerce with human control",
-    description: "We connect agents acting for people and businesses to inquire, book and buy with verifiable terms, limited permissions and payments on Stellar. Project in development.",
-    docsTitle: "TilcAI Docs — Guides, SDK, API and payments on Stellar",
-    docsDescription: "Integrate TilcAI with its SDK, MCP or API. Guides to crosschain USDC, mainnet, Monad Testnet, smart accounts, x402, QR and security, with evidence and current status.",
+    title: "TilcAI | AI Agent Payments With Human Control",
+    description: "Infrastructure in development for AI agent payments on Stellar, with limited permissions, approval per purchase and verifiable operations. Explore TilcAI.",
+    docsTitle: "TilcAI Docs | API, SDK, MCP and Stellar Payments",
+    docsDescription: "Technical guides to integrate TilcAI through its API, SDK and MCP. Explore USDC routes, Stellar, security, limits and evidence for available capabilities.",
   },
   a11y: {
     skip: "Skip to content", langSwitch: "Language", menu: "Menu", copied: "Copied", copy: "Copy",
