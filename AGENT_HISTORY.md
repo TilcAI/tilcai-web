@@ -2706,3 +2706,17 @@ Rediseñé el footer (`SiteFooter.tsx` y el nuevo `SiteFooter.module.css`) con e
 ### Salida
 
 Adapté el header a las secciones actuales. Los enlaces «Empresas», «Cómo funciona», «Rutas de pago» y «Agentes» apuntaban a secciones que ya no están en la portada; ahora son «El problema», «La solución» y «La tecnología», y se mantienen «Avance» y «Docs». El botón morado, que iba a `#simulation` (ya no existe), pasa a ser «Empieza» con texto y lleva a la sección 5; en móviles angostos queda solo la flecha. En la portada, el enlace de la sección visible se subraya mientras haces scroll. El header usa Poppins como las secciones y el footer. Textos nuevos en `nav` (español e inglés); el footer toma de ahí los nombres de sección y quité su copia duplicada. Revisé portada y avance en escritorio, laptop, tablet y móvil sin errores de consola; `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-06T06:24:03Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> desde el EL PROBLEMA hasta abajo que despues de hacer scroolling sigan teniendo animaciones y hover que se vean bien y sea visualmente genial sigue
+
+### Salida
+
+Ajusté las secciones desde «El problema» hasta el cierre: tarjetas con hover, movimiento ambiental mientras están visibles y respeto por movimiento reducido. `npm run build` pasó. No pude completar la inspección visual: Computer Use se detuvo porque no pudo verificar con suficiente confianza la URL del navegador en Windows. Los cambios quedaron sin commit.

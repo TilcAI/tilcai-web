@@ -36,6 +36,7 @@
 .stageLayer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 /* Head box: x80 y125 w420 h280 of the stage. */
 .head { position: absolute; left: 11.111%; top: 26.596%; width: 58.333%; height: 59.574%; will-change: transform; animation: solution-head-bob 3.8s ease-in-out infinite; }
+:global(.js) .section:not(:global(.motion-active)) .head { animation-play-state: paused; }
 .headImage { object-fit: contain; }
 @keyframes solution-head-bob {
   0%, 100% { transform: translate3d(0, 0, 0); }
@@ -58,12 +59,19 @@
 
 /* Steps read left to right; each card lands after the previous one, then its arrow points on. */
 .steps { --step-gap: clamp(30px, 2.8vw, 48px); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--step-gap); margin: clamp(26px, 3.4vh, 44px) 0 0; padding: 0; list-style: none; }
-.step { position: relative; display: flex; flex-direction: column; align-items: center; min-height: clamp(168px, 11.5vw, 200px); padding: clamp(16px, 1.3vw, 22px) clamp(12px, 1vw, 18px); border: 2px solid #b886f1; border-radius: 20px; background: linear-gradient(160deg, #ffffff0a, #371d522e); box-shadow: inset 0 0 32px #b96afa0d, 0 10px 26px #03020d4d; text-align: center; }
-.step:global(.reveal) { transition-delay: calc(var(--i, 0) * 130ms); }
+.step { position: relative; display: flex; flex-direction: column; align-items: center; min-height: clamp(168px, 11.5vw, 200px); padding: clamp(16px, 1.3vw, 22px) clamp(12px, 1vw, 18px); border: 2px solid #b886f1; border-radius: 20px; background: linear-gradient(160deg, #ffffff0a, #371d522e); box-shadow: inset 0 0 32px #b96afa0d, 0 10px 26px #03020d4d; text-align: center; transition: scale .28s ease, border-color .28s ease, box-shadow .28s ease; }
+.step:global(.reveal) { transition: opacity .7s ease calc(var(--i, 0) * 130ms), transform .7s cubic-bezier(.16, 1, .3, 1) calc(var(--i, 0) * 130ms), scale .28s ease, border-color .28s ease, box-shadow .28s ease; }
 .stepIcon { display: grid; place-items: center; width: clamp(48px, 3.6vw, 60px); height: clamp(48px, 3.6vw, 60px); margin-bottom: clamp(10px, .9vw, 14px); border: 1.5px solid #c48cff; border-radius: 14px; background: linear-gradient(160deg, #6a35b8, #36186a); box-shadow: 0 6px 16px #1d0a3d99; }
-.stepIcon svg { width: 54%; height: 54%; stroke-width: 1.7; }
+.stepIcon svg { width: 54%; height: 54%; stroke-width: 1.7; transition: transform .3s cubic-bezier(.16, 1, .3, 1); }
 .step h3 { margin-bottom: 8px; font-size: clamp(16px, 1.32vw, 23px); font-weight: 700; line-height: 1.15; letter-spacing: -.035em; text-wrap: balance; }
 .step p { color: #e6dff0; font-size: clamp(13px, 1vw, 17px); line-height: 1.38; letter-spacing: -.015em; text-wrap: balance; }
+@media (hover: hover) {
+  .step:hover { border-color: #dfb8ff; box-shadow: inset 0 0 32px #b96afa1f, 0 16px 34px #6d28d94d; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .step:hover { scale: 1.025; }
+  .step:hover .stepIcon svg { transform: translate3d(0, -3px, 0) rotate(-5deg); }
+}
 .arrow { position: absolute; top: 50%; right: calc(var(--step-gap) / -2); display: grid; place-items: center; color: #c070ff; transform: translate(50%, -50%); }
 .arrow svg { width: clamp(20px, 1.6vw, 26px); height: clamp(20px, 1.6vw, 26px); stroke-width: 2; }
 @media (prefers-reduced-motion: no-preference) {

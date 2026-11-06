@@ -18,6 +18,9 @@ export function RevealObserver() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce || !("IntersectionObserver" in window)) {
       items.forEach((el) => el.classList.add("is-visible"));
+      if (!reduce) {
+        document.querySelectorAll("#problem, #solution, #technology, #start").forEach((section) => section.classList.add("motion-active"));
+      }
       return;
     }
     const io = new IntersectionObserver(
@@ -32,7 +35,25 @@ export function RevealObserver() {
       { rootMargin: "0px", threshold: 0.02 },
     );
     items.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+
+    // Keep ambient motion limited to the landing section currently on screen.
+    // Reveal remains one-way, so fast scrolling never hides finished content.
+    const sections = document.querySelectorAll<HTMLElement>("#problem, #solution, #technology, #start");
+    const motionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          entry.target.classList.toggle("motion-active", entry.isIntersecting);
+        }
+      },
+      { rootMargin: "-8% 0px -8% 0px" },
+    );
+    sections.forEach((section) => motionObserver.observe(section));
+
+    return () => {
+      io.disconnect();
+      motionObserver.disconnect();
+      sections.forEach((section) => section.classList.remove("motion-active"));
+    };
   }, [pathname]);
   return null;
 }

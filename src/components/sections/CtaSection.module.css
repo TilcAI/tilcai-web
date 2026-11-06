@@ -36,6 +36,13 @@
 .hill { filter: drop-shadow(0 0 7px #b566fa); }
 .head { position: absolute; left: 23.44%; top: 31.58%; width: 53.13%; height: 59.74%; }
 .headImage { object-fit: contain; }
+@media (prefers-reduced-motion: no-preference) {
+  .section:global(.motion-active) .stage:global(.is-visible) .headImage { animation: cta-cat-breathe 5s ease-in-out 1.6s infinite; }
+}
+@keyframes cta-cat-breathe {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -2%, 0); }
+}
 /* Right paw rests on the hill at x352 y296 w96 h64; it pivots at its base to wave. */
 .wavePaw { position: absolute; left: 55%; top: 77.9%; width: 15%; height: 16.84%; transform-origin: 50% 100%; }
 @media (prefers-reduced-motion: no-preference) {
@@ -65,6 +72,7 @@
 .actionIcon { display: grid; flex: none; place-items: center; width: clamp(46px, 3.6vw, 60px); height: clamp(46px, 3.6vw, 60px); border: 1.5px solid #c48cff; border-radius: 14px; background: linear-gradient(160deg, #6a35b8, #36186a); box-shadow: 0 6px 16px #1d0a3d99; }
 .primary .actionIcon { border-color: #ffffff66; background: #ffffff1f; box-shadow: none; }
 .actionIcon svg { width: 52%; height: 52%; stroke-width: 1.7; }
+.actionIcon svg { transition: transform .3s cubic-bezier(.16, 1, .3, 1); }
 .actionCopy { display: flex; flex: 1; flex-direction: column; gap: 5px; min-width: 0; }
 .actionTitle { font-size: clamp(16px, 1.3vw, 22px); font-weight: 700; line-height: 1.15; letter-spacing: -.03em; }
 .actionBody { color: #e6dff0; font-size: clamp(13px, .95vw, 16px); line-height: 1.38; letter-spacing: -.015em; }
@@ -75,6 +83,7 @@
   .action:hover { transform: translateY(-4px); border-color: #e2c4ff; box-shadow: inset 0 0 30px #b96afa1a, 0 18px 40px #6d28d94d; color: #fff; }
   .primary:hover { box-shadow: inset 0 1px 0 #ffffff33, 0 20px 44px #7c3aed80; }
   .action:hover .actionArrow { transform: translateX(3px); border-color: #fff; background: #ffffff1a; }
+  .action:hover .actionIcon svg, .action:focus-visible .actionIcon svg { transform: translate3d(0, -3px, 0) rotate(-5deg); }
 }
 .action:active { transform: scale(.98); transition-duration: .1s; }
 .action:focus-visible { outline: 3px solid #e2c4ff; outline-offset: 4px; }

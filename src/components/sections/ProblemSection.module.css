@@ -32,6 +32,7 @@
 .catLayer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 /* The head box mirrors its old SVG placement (x70 y80 w510 h340 of 640×455); it pivots at the neck. */
 .catHead { position: absolute; left: 10.9375%; top: 17.582%; width: 79.6875%; height: 74.725%; transform-origin: 50% 97.65%; will-change: transform; animation: cat-head-turn 4.6s ease-in-out infinite; }
+:global(.js) .section:not(:global(.motion-active)) .catHead { animation-play-state: paused; }
 .catHeadImage { object-fit: contain; }
 @keyframes cat-head-turn {
   0%, 100% { transform: rotate(-5deg); }
@@ -49,13 +50,20 @@
   .cloudFill { opacity: 1; transition: none; }
 }
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 20px); position: relative; z-index: 3; margin-top: 20px; padding: 0; list-style: none; }
-.card { display: flex; align-items: center; min-height: clamp(86px, 5vw, 104px); padding: clamp(10px, 1vw, 16px); border: 2px solid #b886f1; border-radius: 16px; background: linear-gradient(125deg, #ffffff09, #371d5229); box-shadow: inset 0 0 32px #b96afa0b, 0 8px 24px #03020d45; }
-.card:global(.reveal) { transition-delay: calc(var(--i, 0) * 110ms); }
+.card { display: flex; align-items: center; min-height: clamp(86px, 5vw, 104px); padding: clamp(10px, 1vw, 16px); border: 2px solid #b886f1; border-radius: 16px; background: linear-gradient(125deg, #ffffff09, #371d5229); box-shadow: inset 0 0 32px #b96afa0b, 0 8px 24px #03020d45; transition: scale .28s ease, border-color .28s ease, box-shadow .28s ease; }
+.card:global(.reveal) { transition: opacity .7s ease calc(var(--i, 0) * 110ms), transform .7s cubic-bezier(.16, 1, .3, 1) calc(var(--i, 0) * 110ms), scale .28s ease, border-color .28s ease, box-shadow .28s ease; }
 .cardIcon { display: grid; place-items: center; flex: 0 0 clamp(42px, 3.4vw, 58px); align-self: stretch; padding-right: clamp(9px, .9vw, 14px); border-right: 2px solid #bc6bfa; color: #fff; }
-.cardIcon svg { width: clamp(28px, 2.4vw, 38px); height: clamp(28px, 2.4vw, 38px); filter: drop-shadow(0 3px 8px #ae62f54d); }
+.cardIcon svg { width: clamp(28px, 2.4vw, 38px); height: clamp(28px, 2.4vw, 38px); filter: drop-shadow(0 3px 8px #ae62f54d); transition: transform .3s cubic-bezier(.16, 1, .3, 1); }
 .cardCopy { min-width: 0; padding-left: clamp(10px, .9vw, 15px); }
 .cardCopy h3 { margin-bottom: 4px; color: #fff; font-size: clamp(14px, 1.1vw, 19px); font-weight: 700; line-height: 1.14; letter-spacing: -.035em; }
 .cardCopy p { color: #e6dff0; font-size: clamp(12px, .82vw, 14px); line-height: 1.32; letter-spacing: -.015em; }
+@media (hover: hover) {
+  .card:hover { border-color: #dfb8ff; box-shadow: inset 0 0 32px #b96afa1f, 0 16px 34px #6d28d94d; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover { scale: 1.018; }
+  .card:hover .cardIcon svg { transform: translate3d(0, -3px, 0) scale(1.1); }
+}
 .conclusion { display: flex; align-items: center; gap: 18px; margin: clamp(24px, 3.4vh, 40px) 0 0 35px; color: #f6f1fc; font-size: clamp(17px, 1.4vw, 24px); font-style: italic; font-weight: 500; line-height: 1.4; }
 .conclusion::before { content: ""; flex: 0 0 10px; height: 38px; border-radius: 8px; background: #bd75f8; }
 .wave { position: absolute; z-index: 0; left: 0; bottom: -1px; width: 100%; height: 105px; pointer-events: none; }
