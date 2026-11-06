@@ -1,0 +1,25 @@
+.word { display: inline-block; white-space: nowrap; }
+.wordSpace { display: inline-block; width: .22em; }
+.letter, .wordIn { display: inline-block; }
+.accent { color: #bd75f8; background: linear-gradient(180deg, #e2a4ff, #a447ec); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(.js) :global(.reveal) .letter { opacity: 0; transform: translate3d(0, .48em, 0) rotate(4deg); }
+  :global(.js) :global(.reveal.is-visible) .letter {
+    animation: reveal-letter .86s cubic-bezier(.18, .82, .2, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+  :global(.js) :global(.reveal) .wordIn { opacity: 0; transform: translate3d(0, .42em, 0); }
+  :global(.js) :global(.reveal.is-visible) .wordIn {
+    animation: reveal-word .7s cubic-bezier(.16, 1, .3, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+}
+@keyframes reveal-letter {
+  from { opacity: 0; transform: translate3d(0, .48em, 0) rotate(4deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-word {
+  from { opacity: 0; transform: translate3d(0, .42em, 0); }
+  to { opacity: 1; transform: none; }
+}

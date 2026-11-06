@@ -1,17 +1,9 @@
 import type { Copy } from "@/lib/i18n";
-import localFont from "next/font/local";
+import Image from "next/image";
+import type { CSSProperties } from "react";
+import { letterCount, RevealLetters, RevealWords } from "./RevealText";
+import { sectionSans } from "./sectionFont";
 import styles from "./ProblemSection.module.css";
-
-const problemSans = localFont({
-  src: [
-    { path: "../../fonts/Poppins-Regular.ttf", weight: "400", style: "normal" },
-    { path: "../../fonts/Poppins-Medium.ttf", weight: "500", style: "normal" },
-    { path: "../../fonts/Poppins-SemiBold.ttf", weight: "600", style: "normal" },
-    { path: "../../fonts/Poppins-Bold.ttf", weight: "700", style: "normal" },
-  ],
-  display: "swap",
-  variable: "--font-problem",
-});
 
 function LockIcon() {
   return <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M28 42V31a20 20 0 0 1 40 0v11" /><rect x="20" y="42" width="56" height="45" rx="9" /><circle cx="48" cy="63" r="4" fill="#b969f8" stroke="none" /><path d="M48 67v9" stroke="#b969f8" /></svg>;
@@ -30,7 +22,7 @@ const icons = [LockIcon, CoinsIcon, RepeatIcon];
 /** Draws itself in on scroll: strokes trace their outline, then the card fill and dots pop in. */
 function ThoughtCloud({ x, y, size }: { x: number; y: number; size: number }) {
   return (
-    <svg x={x} y={y} width={size} height={size} viewBox="0 0 1254 1254" className={`${styles.cloud} reveal`} aria-hidden="true">
+    <svg x={x} y={y} width={size} height={size} viewBox="0 0 1254 1254" className={`${styles.cloud} reveal`} suppressHydrationWarning aria-hidden="true">
       <g fill="none" stroke="#FFFFFF" strokeWidth="23" strokeLinecap="round" strokeLinejoin="round">
         <path className={styles.cloudStroke} pathLength="1" d="M 447,781 C 432,755 421,733 414,721 C 334,732 259,700 206,646 C 154,592 155,524 176,458 C 203,372 275,325 366,315 C 384,206 470,128 577,136 C 657,134 719,184 754,257 C 797,229 835,218 870,226 C 950,239 993,306 991,389 C 1076,411 1113,480 1108,562 C 1108,661 1037,738 926,751 C 868,833 754,857 672,813 C 644,831 619,839 594,838" />
         <circle className={styles.cloudStroke} pathLength="1" cx="508" cy="876" r="72" />
@@ -46,46 +38,66 @@ function ThoughtCloud({ x, y, size }: { x: number; y: number; size: number }) {
   );
 }
 
+/** Three stacked layers so the head turns on the compositor: an SVG child's transform repaints the whole SVG every frame. */
 function ProblemCat() {
   return (
-    <svg className={styles.cat} viewBox="0 0 640 455" fill="none" aria-hidden="true">
-      <defs>
-        <pattern id="problem-hill-dots" width="19" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#bd75f8" /></pattern>
-      </defs>
-      <path d="M87 303l-28-19M75 324l-33-8M77 346l-34 3M549 303l28-19M561 324l33-8M559 346l34 3" stroke="#b56af5" strokeWidth="12" strokeLinecap="round" />
-      <image className={styles.catHead} href="/assets/img/section_problema/cabeza%20gato.webp" x="70" y="80" width="510" height="340" />
-      <ThoughtCloud x={235} y={-35} size={240} />
-      <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450V455H0Z" fill="#180e2e" />
-      <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450V455H0Z" fill="url(#problem-hill-dots)" />
-      <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450" fill="none" stroke="#b566fa" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-      <image href="/assets/img/section_problema/patitas.webp" x="82" y="342" width="145" height="97" />
-      <image href="/assets/img/section_problema/patitas.webp" x="413" y="342" width="145" height="97" />
-    </svg>
+    <div className={`${styles.cat} reveal`} suppressHydrationWarning aria-hidden="true">
+      <svg className={styles.catLayer} viewBox="0 0 640 455" fill="none">
+        <path d="M87 303l-28-19M75 324l-33-8M77 346l-34 3M549 303l28-19M561 324l33-8M559 346l34 3" stroke="#b56af5" strokeWidth="12" strokeLinecap="round" />
+      </svg>
+      <div className={styles.catHead}>
+        <Image src="/assets/img/section_problema/cabeza gato.webp" alt="" fill sizes="(max-width: 1100px) 80vw, 34vw" className={styles.catHeadImage} />
+      </div>
+      <svg className={styles.catLayer} viewBox="0 0 640 455" fill="none">
+        <defs>
+          <pattern id="problem-hill-dots" width="19" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#bd75f8" /></pattern>
+        </defs>
+        <ThoughtCloud x={235} y={-35} size={240} />
+        <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450V455H0Z" fill="#180e2e" />
+        <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450V455H0Z" fill="url(#problem-hill-dots)" />
+        <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450" fill="none" stroke="#b566fa" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <image href="/assets/img/section_problema/patitas.webp" x="82" y="342" width="145" height="97" />
+        <image href="/assets/img/section_problema/patitas.webp" x="413" y="342" width="145" height="97" />
+      </svg>
+    </div>
   );
 }
 
 export function ProblemSection({ t }: { t: Copy }) {
   const copy = t.problemIntro;
   return (
-    <section id="problem" className={`${styles.section} ${problemSans.variable}`} aria-labelledby="problem-intro-title">
+    <section id="problem" className={`${styles.section} ${sectionSans.variable}`} aria-labelledby="problem-intro-title">
       <div className={styles.inner}>
         <div className={styles.intro}>
           <div className={styles.copy}>
-            <p className={styles.eyebrow}><span>02 /</span> {copy.eyebrow}<i aria-hidden="true" /></p>
-            <h2 id="problem-intro-title" className={styles.title}><span>{copy.titleTop}</span><span className={styles.accent}>{copy.titleBottom}</span></h2>
-            <p className={styles.lead}>{copy.lead}</p>
+            <p className={`${styles.eyebrow} reveal`} suppressHydrationWarning><span className={styles.eyebrowNumber}><RevealWords text="02 /" stepMs={70} /></span><RevealWords text={copy.eyebrow} stepMs={70} baseMs={140} /><i aria-hidden="true" /></p>
+            <h2 id="problem-intro-title" className={`${styles.title} reveal`} suppressHydrationWarning aria-label={`${copy.titleTop} ${copy.titleBottom}`}>
+              <span aria-hidden="true"><RevealLetters text={copy.titleTop} /></span>
+              <span className={styles.accent} aria-hidden="true">
+                <RevealLetters text={copy.titleBottom} startIndex={letterCount(copy.titleTop)} accent />
+              </span>
+            </h2>
+            <p className={`${styles.lead} reveal`} suppressHydrationWarning><RevealWords text={copy.lead} stepMs={34} baseMs={280} /></p>
           </div>
           <ProblemCat />
         </div>
         <ul className={styles.cards}>
           {copy.cards.map((card, index) => {
             const CardIcon = icons[index];
-            return <li className={styles.card} key={card.title}><div className={styles.cardIcon}><CardIcon /></div><div className={styles.cardCopy}><h3>{card.title}</h3><p>{card.body}</p></div></li>;
+            return (
+              <li className={`${styles.card} reveal`} suppressHydrationWarning key={card.title} style={{ "--i": index } as CSSProperties}>
+                <div className={styles.cardIcon}><CardIcon /></div>
+                <div className={styles.cardCopy}>
+                  <h3><RevealWords text={card.title} stepMs={80} baseMs={120 + index * 100} /></h3>
+                  <p><RevealWords text={card.body} stepMs={36} baseMs={360 + index * 100} /></p>
+                </div>
+              </li>
+            );
           })}
         </ul>
-        <p className={styles.conclusion}>{copy.conclusion}</p>
+        <p className={`${styles.conclusion} reveal`} suppressHydrationWarning><RevealWords text={copy.conclusion} stepMs={42} baseMs={100} /></p>
       </div>
-      <svg className={styles.wave} viewBox="0 0 1600 110" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="problem-wave-dots" width="19" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#bd75f8" /></pattern></defs><path d="M0 34C210 91 379 0 585 26c235 25 301 77 540 47 185-23 344-57 475-34v71H0Z" fill="#180e2e" /><path d="M0 34C210 91 379 0 585 26c235 25 301 77 540 47 185-23 344-57 475-34v71H0Z" fill="url(#problem-wave-dots)" /><path d="M0 34C210 91 379 0 585 26c235 25 301 77 540 47 185-23 344-57 475-34" stroke="#b566fa" strokeWidth="3" /></svg>
+      <svg className={styles.wave} viewBox="0 0 1600 110" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="problem-wave-dots" width="19" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#bd75f8" /></pattern></defs><path d="M0 34C210 91 379 0 585 26c235 25 301 77 540 47 185-23 344-57 475-34v71H0Z" fill="#180e2e" /><path d="M0 34C210 91 379 0 585 26c235 25 301 77 540 47 185-23 344-57 475-34v71H0Z" fill="url(#problem-wave-dots)" /><path d="M0 34C210 91 379 0 585 26c235 25 301 77 540 47 185-23 344-57 475-34" fill="none" stroke="#b566fa" strokeWidth="3" /></svg>
     </section>
   );
 }
