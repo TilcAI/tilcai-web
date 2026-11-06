@@ -9,7 +9,7 @@ export function DemoSection({ t }: { t: Copy }) {
   return (
     <section id="demo" className="section" aria-labelledby="demo-title">
       <div className="container">
-        <header className="section-head reveal">
+        <header className="section-head reveal" suppressHydrationWarning>
           <h2 id="demo-title">{t.demo.title}</h2>
           <p className="section-lead">{t.demo.lead}</p>
         </header>

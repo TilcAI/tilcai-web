@@ -19,7 +19,7 @@ export function RoadmapSection({ t, hideHeader = false }: { t: Copy; hideHeader?
         {roadmapStages.map((stage, index) => {
           const column = r.columns[stage];
           return (
-            <section key={stage} className={`${styles.stage} ${styles[stage]} reveal`} aria-labelledby={`road-${stage}`}>
+            <section key={stage} className={`${styles.stage} ${styles[stage]} reveal`} suppressHydrationWarning aria-labelledby={`road-${stage}`}>
               <header className={styles.head}>
                 <div className={styles.headTop}>
                   <span className={styles.n} aria-hidden="true">
@@ -65,7 +65,7 @@ export function RoadmapSection({ t, hideHeader = false }: { t: Copy; hideHeader?
             </section>
           );
         })}
-        <div className={`${styles.closing} reveal`}>
+        <div className={`${styles.closing} reveal`} suppressHydrationWarning>
           <aside className={styles.metrics} aria-labelledby="road-metrics-title">
             <h3 id="road-metrics-title">{r.metrics.title}</h3>
             <p>{r.metrics.body}</p>

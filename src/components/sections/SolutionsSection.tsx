@@ -42,7 +42,7 @@ export function SolutionsSection({ t }: { t: Copy }) {
   return (
     <section id="solutions" className={styles.root} aria-labelledby="solutions-title">
       <div className={styles.inner}>
-        <header className={`${styles.head} reveal`}>
+        <header className={`${styles.head} reveal`} suppressHydrationWarning>
           <div>
             <p className={styles.eyebrow}>{c.eyebrow}</p>
             <h2 id="solutions-title" className={styles.title}>{c.title}</h2>
@@ -51,7 +51,7 @@ export function SolutionsSection({ t }: { t: Copy }) {
         </header>
 
         <div className={styles.grid}>
-          <article className={`${styles.card} ${styles.featured} reveal`} style={index(0)} aria-labelledby="solution-optipagos">
+          <article className={`${styles.card} ${styles.featured} reveal`} suppressHydrationWarning style={index(0)} aria-labelledby="solution-optipagos">
             <div className={styles.cardHead}>
               <span className={styles.brand}>
                 <Image className={styles.glyph} src={src(optipagos.file)} width={optipagos.width} height={optipagos.height} alt="" />
@@ -73,7 +73,7 @@ export function SolutionsSection({ t }: { t: Copy }) {
             />
           </article>
 
-          <article className={`${styles.card} ${styles.upcoming} reveal`} style={index(1)} aria-labelledby="solution-baral">
+          <article className={`${styles.card} ${styles.upcoming} reveal`} suppressHydrationWarning style={index(1)} aria-labelledby="solution-baral">
             <div className={styles.cardHead}>
               <span className={styles.logoBox}>
                 <Image className={styles.baralLogo} src={src(baral.file)} width={baral.width} height={baral.height} alt={c.baral.logoAlt} sizes="(min-width: 1000px) 320px, 70vw" />
@@ -94,7 +94,7 @@ export function SolutionsSection({ t }: { t: Copy }) {
             <p className={styles.scope}><span>{c.baral.scopeLabel}</span>{c.baral.scope}</p>
           </article>
 
-          <aside className={`${styles.invite} reveal`} style={index(2)} aria-labelledby="solution-invite">
+          <aside className={`${styles.invite} reveal`} suppressHydrationWarning style={index(2)} aria-labelledby="solution-invite">
             <span className={styles.inviteIcon} aria-hidden="true"><Icon name="store" /></span>
             <h3 id="solution-invite">{c.invite.title}</h3>
             <p>{c.invite.body}</p>

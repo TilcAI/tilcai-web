@@ -11,7 +11,7 @@ export function CapabilitiesSection({ t }: { t: Copy }) {
         <SectionHead id="cap-title" eyebrow={t.capabilities.eyebrow} title={t.capabilities.title} lead={t.capabilities.lead} />
         <ul className="grid grid-3" role="list">
           {t.capabilities.items.map((c, i) => (
-            <li key={c.title} className={`card cap reveal stage-${c.stage}`}>
+            <li key={c.title} className={`card cap reveal stage-${c.stage}`} suppressHydrationWarning>
               <div className="cap-top">
                 <Icon name={capIcons[i]} className="icon icon-card" />
                 <StageTag t={t} stage={c.stage} />
@@ -22,7 +22,7 @@ export function CapabilitiesSection({ t }: { t: Copy }) {
             </li>
           ))}
         </ul>
-        <p className="disclaimer reveal">{t.capabilities.disclaimer}</p>
+        <p className="disclaimer reveal" suppressHydrationWarning>{t.capabilities.disclaimer}</p>
       </div>
     </section>
   );

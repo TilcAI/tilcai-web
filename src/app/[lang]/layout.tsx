@@ -13,6 +13,28 @@ const display = localFont({ src: "../../fonts/PlusJakartaSans-VariableFont_wght.
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
 const heroDisplay = localFont({ src: "../../fonts/Anton-Regular.ttf", variable: "--font-anton", weight: "400", display: "swap" });
 
+// Activate reveal styles before the sections paint, then observe the initial
+// document before React hydrates. RevealObserver continues handling navigation.
+const revealBootstrap = `
+  document.documentElement.classList.add('js');
+  document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.reveal:not(.is-visible)');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      items.forEach((item) => item.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.02 });
+    items.forEach((item) => observer.observe(item));
+  }, { once: true });
+`;
+
 // Only /en and /es exist; anything else is a 404.
 export const dynamicParams = false;
 
@@ -49,6 +71,7 @@ export default async function RootLayout({
   return (
     <html lang={lang} className={`${display.variable} ${mono.variable} ${heroDisplay.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: revealBootstrap }} />
         {children}
         <RevealObserver />
       </body>

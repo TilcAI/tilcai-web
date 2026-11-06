@@ -8,13 +8,13 @@ export function FaqSection({ t }: { t: Copy["faq"] }) {
   return (
     <section id="faq" className={`section section-alt ${styles.faq}`} aria-labelledby="faq-title">
       <div className={`container ${styles.faqLayout}`}>
-        <header className="section-head reveal">
+        <header className="section-head reveal" suppressHydrationWarning>
           <p className="eyebrow">{t.eyebrow}</p>
           <h2 id="faq-title">{t.title}</h2>
         </header>
         <div className="faq-list">
           {landingQuestions.map((id) => (
-            <details key={id} className="faq-item reveal">
+            <details key={id} className="faq-item reveal" suppressHydrationWarning>
               <summary>{t.items[id].question}</summary>
               <p>{t.items[id].answer}</p>
             </details>

@@ -22,7 +22,7 @@ export function ProductOverview({ t }: { t: Copy }) {
   return (
     <TilcAIParallax id="overview" labelledBy="overview-title">
       <div className={styles.wrap}>
-        <header className={`section-head reveal ${styles.head}`}>
+        <header className={`section-head reveal ${styles.head}`} suppressHydrationWarning>
           <p className={`eyebrow ${styles.eyebrow}`}>{problem.eyebrow}</p>
           <h2 id="overview-title" className={styles.title}>
             {before}
@@ -34,7 +34,7 @@ export function ProductOverview({ t }: { t: Copy }) {
 
         <ol className={styles.cards} role="list">
           {problem.cards.map((c, i) => (
-            <li key={c.title} className={`${styles.card} reveal`}>
+            <li key={c.title} className={`${styles.card} reveal`} suppressHydrationWarning>
               <div className={styles.art} aria-hidden="true">
                 <Image src={blockArt[i]} alt="" fill sizes="(min-width: 1024px) 33vw, 90vw" quality={85} draggable={false} />
               </div>

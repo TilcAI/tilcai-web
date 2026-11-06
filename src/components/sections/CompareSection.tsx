@@ -6,7 +6,7 @@ export function CompareSection({ t }: { t: Copy }) {
   return (
     <TechnicalSection id="compare" titleId="cmp-title" eyebrow={t.compare.eyebrow} title={t.compare.title}>
           <p className="section-lead technical-lead">{t.compare.lead}</p>
-          <div className="table-wrap reveal">
+          <div className="table-wrap reveal" suppressHydrationWarning>
             <table className="compare">
               <thead>
                 <tr>
@@ -38,7 +38,7 @@ export function CompareSection({ t }: { t: Copy }) {
               </tbody>
             </table>
           </div>
-          <p className="disclaimer reveal">{t.compare.footnote}</p>
+          <p className="disclaimer reveal" suppressHydrationWarning>{t.compare.footnote}</p>
       </TechnicalSection>
   );
 }

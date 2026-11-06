@@ -10,7 +10,7 @@ export function InterfaceSection({ t }: { t: Copy }) {
   return (
     <TechnicalSection id="interface" titleId="code-title" eyebrow={t.code.eyebrow} title={t.code.title}>
         <div className="code-grid">
-          <header className="section-head reveal">
+          <header className="section-head reveal" suppressHydrationWarning>
             <p className="section-lead">{t.code.lead}</p>
             <ul className="bullets" role="list">
               {t.code.bullets.map((b) => (

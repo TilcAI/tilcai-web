@@ -37,7 +37,7 @@ export function StackSection({ t }: { t: Copy }) {
             <Icon name="arrow" />
           </Link>
         </div>
-        <ul className={`${styles.pieces} reveal`} role="list">
+        <ul className={`${styles.pieces} reveal`} suppressHydrationWarning role="list">
           {t.stack.badges.map((badge, i) => (
             <li key={badge.name} className={styles.piece} style={{ "--i": i } as CSSProperties}>
               <span className={styles.mark} aria-hidden="true">{badge.name === "Stellar" ? <StellarIcon /> : <Icon name={MARKS[badge.name] ?? "layers"} />}</span>

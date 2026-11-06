@@ -8,7 +8,7 @@ export function StageTag({ t, stage }: { t: Copy; stage: Stage }) {
 
 export function SectionHead({ id, eyebrow, title, dim, lead }: { id: string; eyebrow: string; title: string; dim?: string; lead?: string }) {
   return (
-    <header className="section-head reveal">
+    <header className="section-head reveal" suppressHydrationWarning>
       <p className="eyebrow">{eyebrow}</p>
       <h2 id={id}>{title}{dim && <> <span className="dim">{dim}</span></>}</h2>
       {lead && <p className="section-lead">{lead}</p>}

@@ -93,7 +93,7 @@ export function AgentCatalog({ t }: { t: Copy }) {
           <p className={styles.permission}><Icon name="shield" /><span>{t.agents.permissionNote}</span></p>
         </header>
 
-        <div className={`${styles.layout} reveal`}>
+        <div className={`${styles.layout} reveal`} suppressHydrationWarning>
           <div className={styles.picker}>
             <div ref={list} className={styles.list} role="tablist" id="agent-tablist" aria-orientation="vertical"
               aria-label={t.agents.carousel.label} data-expanded={expanded ? "" : undefined} onKeyDown={onKeyDown} style={tint(current)}>

@@ -12,7 +12,7 @@ export function BusinessGrid({ profiles, t }: { profiles: readonly BusinessProfi
   return (
     <ul className="business-grid" role="list">
       {profiles.map((business, index) => (
-        <li key={business.id} className="reveal" style={{ "--i": index } as CSSProperties}>
+        <li key={business.id} className="reveal" suppressHydrationWarning style={{ "--i": index } as CSSProperties}>
           <BusinessCard business={business} t={t} />
         </li>
       ))}

@@ -5,14 +5,14 @@ import { usePathname } from "next/navigation";
 
 /**
  * Adds `is-visible` to `.reveal` elements as they enter the viewport.
- * The `js` class is added only when this client component runs, so the page
- * stays fully readable without JavaScript.
+ * The `js` class is set before paint by the layout. This effect keeps it as a
+ * fallback for client navigation, while no-JavaScript pages stay readable.
  */
 export function RevealObserver() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Enable the enhancement and observe the current route's nodes.
+    // Observe the current route's nodes, including any already in the viewport.
     document.documentElement.classList.add("js");
     const items = document.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

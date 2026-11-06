@@ -25,7 +25,7 @@ export function CodeTabs({ tabs, label, ariaLabel }: { tabs: CodeTab[]; label: s
   };
 
   return (
-    <div className="code-window reveal">
+    <div className="code-window reveal" suppressHydrationWarning>
       <div className="code-bar">
         <span className="dots" aria-hidden="true">
           <i />
