@@ -38,18 +38,36 @@
 .hill { filter: drop-shadow(0 0 7px #b566fa); }
 /* Head box: x260 y20 w280 h187 of 800×220. */
 .head { position: absolute; left: 32.5%; top: 9.09%; width: 35%; height: 85%; }
-.headImage { object-fit: contain; }
+.headImage { object-fit: contain; transform-origin: 50% 88%; }
+.paw { position: absolute; top: 66.364%; width: 9%; height: 21.818%; }
+.pawLeft { left: 37.25%; }
+.pawRight { left: 53.75%; }
+.pawImage { object-fit: contain; transform-origin: 50% 84%; }
 @media (prefers-reduced-motion: no-preference) {
-  .section:global(.motion-active) .stage:global(.is-visible) .headImage { animation: tech-cat-breathe 4.8s ease-in-out 1.2s infinite; }
+  .section:global(.motion-active) .stage:global(.is-visible) .headImage { animation: tech-head-gesture 7s ease-in-out 1.25s infinite; }
+  .section:global(.motion-active) .stage:global(.is-visible) .pawLeft .pawImage { animation: tech-left-paw 7s ease-in-out 1.25s infinite; }
+  .section:global(.motion-active) .stage:global(.is-visible) .pawRight .pawImage { animation: tech-right-paw 7s ease-in-out 1.25s infinite; }
 }
-@keyframes tech-cat-breathe {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -2.5%, 0); }
+@keyframes tech-head-gesture {
+  0%, 10%, 37%, 43%, 70%, 100% { transform: none; }
+  21%, 27% { transform: translate3d(-2%, 1%, 0) rotate(-7deg); }
+  54%, 61% { transform: translate3d(2%, 1%, 0) rotate(7deg); }
+  82% { transform: translate3d(0, -2%, 0); }
+}
+@keyframes tech-left-paw {
+  0%, 16%, 31%, 100% { transform: none; }
+  21% { transform: translate3d(-3%, -17%, 0) rotate(-10deg); }
+  26% { transform: translate3d(0, 2%, 0) rotate(3deg); }
+}
+@keyframes tech-right-paw {
+  0%, 48%, 64%, 100% { transform: none; }
+  54% { transform: translate3d(3%, -17%, 0) rotate(10deg); }
+  59% { transform: translate3d(0, 2%, 0) rotate(-3deg); }
 }
 @media (prefers-reduced-motion: no-preference) {
   :global(.js) .head { transform: translate3d(0, 58%, 0); transition: transform 1.1s cubic-bezier(.16, 1, .3, 1) .2s; }
   :global(.js) .stage:global(.is-visible) .head { transform: none; }
-  :global(.js) .paw { opacity: 0; transform: translateY(10px); transform-box: fill-box; transition: opacity .4s ease .75s, transform .55s cubic-bezier(.16, 1, .3, 1) .75s; }
+  :global(.js) .paw { opacity: 0; transform: translateY(10px); transition: opacity .4s ease .75s, transform .55s cubic-bezier(.16, 1, .3, 1) .75s; }
   :global(.js) .stage:global(.is-visible) .paw { opacity: 1; transform: none; }
   :global(.js) .sparks { opacity: 0; transition: opacity .5s ease 1s; }
   :global(.js) .stage:global(.is-visible) .sparks { opacity: 1; }

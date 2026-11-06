@@ -22,9 +22,13 @@ function TechCat() {
       <svg className={styles.stageLayer} viewBox="0 0 800 220" fill="none">
         <path d="M30 220C190 178 305 166 400 166C495 166 610 178 770 220Z" fill="#120a24" />
         <path className={styles.hill} d="M30 220C190 178 305 166 400 166C495 166 610 178 770 220" stroke="#c07bff" strokeWidth="4" strokeLinecap="round" />
-        <image className={styles.paw} href="/assets/img/section_problema/patitas.webp" x="298" y="146" width="72" height="48" />
-        <image className={styles.paw} href="/assets/img/section_problema/patitas.webp" x="430" y="146" width="72" height="48" />
       </svg>
+      <div className={`${styles.paw} ${styles.pawLeft}`}>
+        <Image src="/assets/img/section_problema/patitas.webp" alt="" fill sizes="(max-width: 1100px) 9vw, 5vw" className={styles.pawImage} />
+      </div>
+      <div className={`${styles.paw} ${styles.pawRight}`}>
+        <Image src="/assets/img/section_problema/patitas.webp" alt="" fill sizes="(max-width: 1100px) 9vw, 5vw" className={styles.pawImage} />
+      </div>
     </div>
   );
 }

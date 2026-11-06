@@ -40,11 +40,13 @@ function SolutionStage() {
         <path d="M302 290H500Q512 290 509 302L486 410Q483 422 471 422H286Q274 422 277 410L297 302Q299 290 302 290Z" fill="#1b0f36" stroke="#c99df8" strokeWidth="6" strokeLinejoin="round" />
         <path d="M292 304L310 296" stroke="#ffffff" strokeOpacity=".18" strokeWidth="5" strokeLinecap="round" />
         <image href="/brand/tilcai-mark-white.png" x="352" y="314" width="88" height="88" />
-        <image href="/assets/img/section_problema/patitas.webp" x="148" y="356" width="132" height="88" />
         {LINKS.map((link, index) => (
           <circle key={link.icon} className={styles.linkDot} style={{ "--i": index } as CSSProperties} cx={link.end[0]} cy={link.end[1]} r="6.5" fill="#ffffff" stroke="#b566fa" strokeWidth="3" />
         ))}
       </svg>
+      <div className={styles.workingPaw}>
+        <Image src="/assets/img/section_problema/patitas.webp" alt="" fill sizes="(max-width: 1100px) 22vw, 10vw" className={styles.workingPawImage} />
+      </div>
       {LINKS.map((link, index) => (
         <span
           key={link.icon}
