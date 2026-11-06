@@ -56,11 +56,6 @@
 .rules :global(.icon) { width: 20px; height: 20px; color: #a885e6; margin-top: 3px; flex: none; }
 .rules h3 { color: #ddd4e9; font-size: 15px; }
 .rules p { color: #a39ab3; margin-top: 3px; font-size: 13px; }
-.closing { padding: 64px 0; background: radial-gradient(ellipse at 80% 100%, #6024e825, transparent 60%), #0b0a1e; }
-.closingInner { display: flex; justify-content: space-between; gap: 36px; align-items: center; }
-.closing h2 { font-size: clamp(28px, 3vw, 42px); font-weight: 500; line-height: 1.15; letter-spacing: -.04em; max-width: 20ch; }
-.closing p { font-size: 14px; line-height: 1.7; color: #a89bbd; max-width: 50ch; margin-top: 15px; }
-.closing .actions { flex-direction: column; align-items: stretch; flex: none; text-align: center; }
 .faq:global(.section) { padding-block: 52px; }
 .faqLayout { display: grid; grid-template-columns: .7fr 1.3fr; gap: 60px; }
 .faq :global(.section-head) { text-align: left; margin: 0; }
@@ -84,7 +79,6 @@
   .sticky { position: static; }
   .progress { display: none; }
   .step { min-height: 0; padding: 16px 0; }
-  .closingInner { align-items: start; }
   .faqLayout { grid-template-columns: 1fr; gap: 25px; }
 }
 @media (max-width: 540px) {
@@ -94,8 +88,6 @@
   .description { min-height: 106px; font-size: 14px; }
   .artifact { margin-left: 10%; padding: 18px; }
   .artLabel { font-size: 11px; }
-  .closingInner { flex-direction: column; align-items: flex-start; gap: 18px; }
-  .closing .actions { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .selectors button { transition: none; }

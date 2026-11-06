@@ -1,10 +1,8 @@
 import type { Copy } from "@/lib/i18n";
 import { CtaSection } from "./sections/CtaSection";
-import { FaqSection } from "./FaqSection";
 import { HeroSection } from "./sections/HeroSection";
 import { ProblemSection } from "./sections/ProblemSection";
 import { SolutionIntroSection } from "./sections/SolutionIntroSection";
-import { StackSection } from "./sections/StackSection";
 import { TechIntroSection } from "./sections/TechIntroSection";
 
 /** Landing composition. Server component: every section renders on the server. */
@@ -15,8 +13,6 @@ export function HomePage({ t }: { t: Copy }) {
       <ProblemSection t={t} />
       <SolutionIntroSection t={t} />
       <TechIntroSection t={t} />
-      <StackSection t={t} />
-      <FaqSection t={t.faq} />
       <CtaSection t={t} />
     </>
   );

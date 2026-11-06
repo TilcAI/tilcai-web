@@ -29,7 +29,8 @@ interface NarrativeCopy {
   flow: { title: string; lead: string; label: string; agent: string; business: string; actor: string; state: string; steps: FlowStepCopy[]; scene: FlowSceneCopy };
   control: { title: string; lead: string; recipient: string; recipientValue: string; expiry: string; expiryValue: string; review: string; docs: string };
   stack: { title: string; note?: string };
-  cta: { title: string; body: string; primary: string; secondary: string; tertiary: string };
+  /** Closing section. Actions in order: docs, contact for a pilot. */
+  cta: { eyebrow: string; titleTop: string; titleBottom: string; body: string; actions: { title: string; body: string }[] };
   rails: {
     eyebrow: string; title: string; lead: string; routes: RouteCopy[];
     /** Plain-language definition of paying across networks, with the term people may search for. */
@@ -100,7 +101,16 @@ const es: NarrativeCopy = {
   },
   control: { title: "Una tarea concreta. Un permiso limitado.", lead: "Tú decides qué se autoriza, cuánto puede gastar y cuándo deja de ser válido.", recipient: "Destinatario", recipientValue: "Negocio autorizado", expiry: "Vigencia", expiryValue: "Solo esta compra", review: "Condiciones para revisar", docs: "Entender los permisos" },
   stack: { title: "Las piezas detrás de cada operación." },
-  cta: { title: "Explora cómo comprarían tus agentes.", body: "Prueba las decisiones en la simulación, mira qué funciona hoy o conoce cómo preparar tu negocio para un piloto.", primary: "Explorar la simulación", secondary: "Explorar para mi empresa", tertiary: "Ver qué funciona hoy" },
+  cta: {
+    eyebrow: "EMPIEZA",
+    titleTop: "EXPLORA CÓMO",
+    titleBottom: "COMPRARÍAN TUS AGENTES.",
+    body: "Lee cómo integrar TilcAI o escríbenos para preparar tu negocio para un piloto.",
+    actions: [
+      { title: "Leer la documentación", body: "Arquitectura, integración y políticas, paso a paso." },
+      { title: "Preparar mi negocio", body: "Escríbenos por Telegram para un piloto." },
+    ],
+  },
   rails: {
     eyebrow: "Rutas de pago",
     title: "El negocio cobra en USDC sobre Stellar. Hay dos formas de llegar.",
@@ -210,7 +220,16 @@ const en: NarrativeCopy = {
   },
   control: { title: "A specific task. A limited permission.", lead: "You decide what is authorized, how much it can spend and when it expires.", recipient: "Payee", recipientValue: "Authorized business", expiry: "Validity", expiryValue: "This purchase only", review: "Terms to review", docs: "Understand permissions" },
   stack: { title: "The pieces behind each operation." },
-  cta: { title: "Explore how your agents would buy.", body: "Try the decisions in the simulation, see what works today, or learn how to prepare your business for a pilot.", primary: "Explore the simulation", secondary: "Explore for my business", tertiary: "See what works today" },
+  cta: {
+    eyebrow: "GET STARTED",
+    titleTop: "EXPLORE HOW",
+    titleBottom: "YOUR AGENTS WOULD BUY.",
+    body: "Read how to integrate TilcAI or message us to prepare your business for a pilot.",
+    actions: [
+      { title: "Read the docs", body: "Architecture, integration and policies, step by step." },
+      { title: "Prepare my business", body: "Message us on Telegram for a pilot." },
+    ],
+  },
   rails: {
     eyebrow: "Payment routes",
     title: "The business is paid in USDC on Stellar. There are two ways to get there.",

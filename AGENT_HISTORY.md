@@ -2627,3 +2627,46 @@ Hice cuatro commits en `main` (sin push): (1) entradas `reveal` antes de la hidr
 ### Salida
 
 Construí la sección 4 «La tecnología» debajo de «La solución», según la maqueta: título en dos líneas (la segunda más pequeña, en una sola línea salvo en móvil), texto de apoyo, gato asomado sobre un cerro iluminado, cadena de cinco nodos (API + SDK, MCP, Motor de políticas, Stellar + USDC, Monitoreo) con flechas, lazo punteado que cierra en el riel «x402 + CCTP», cinco tarjetas y la frase final. Animación al entrar en pantalla: el gato se asoma detrás del cerro, una señal recorre los nodos de izquierda a derecha y el lazo baja hasta el riel. Textos en español e inglés (`techIntro`), cuatro íconos nuevos (`code`, `tools`, `bars`, `swap`) y archivos nuevos `TechIntroSection.tsx` y su CSS; reusa `RevealText` y `sectionFont`. Revisé escritorio, laptop, tablet y móvil sin errores de consola ni desborde horizontal; `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-06T05:48:44Z · JHAMILCALI · Antigravity (Gemini 3.8 Flash)
+
+- **Sesión:** dbb2e903-6c42-4cf0-91f7-fe0165ef532b
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> borame lo que es estas secciones Las piezas detrás de cada operación. y Preguntas frecuentes esas
+
+### Salida
+
+Removí de `src/components/HomePage.tsx` las secciones «Las piezas detrás de cada operación.» (`StackSection`) y «Preguntas frecuentes» (`FaqSection`), junto con sus importaciones. La landing conserva `HeroSection`, `ProblemSection`, `SolutionIntroSection`, `TechIntroSection` y `CtaSection`. No se tocaron los componentes originales en el disco ni otros archivos del proyecto; `npx tsc --noEmit` y `git diff --check` pasaron sin errores.
+
+## 2026-11-06T05:58:37Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> esta seccion mejoralo con lo que es las otras seciones su UI y UX de esta seccion "Explora cómo comprarían tus agentes."
+
+### Salida
+
+Rediseñé el cierre de la portada (`CtaSection`) con el lenguaje de las secciones 2 a 4: etiqueta «05 / Empieza», título en dos líneas con entrada letra por letra, gato que se asoma y saluda con la patita, y tres tarjetas de acción completas (la primera destacada) con hover, foco visible y pulsación. Los botones anteriores llevaban a `#demo` y `#businesses`, que ya no están en la portada; con la opción que elegiste ahora llevan a /docs, /roadmap y Telegram (en otra pestaña), y ajusté el texto para no prometer la simulación (`narrative.ts`, español e inglés). Nuevo `CtaSection.module.css`; quité de `Narrative.module.css` las reglas del cierre que quedaron sin uso. Revisé escritorio, laptop, tablet y móvil sin errores de consola; los enlaces internos responden 200; `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-06T06:00:25Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> quitale esto Ver qué funciona hoy
+> Lo disponible, lo que está en integración y lo que sigue.
+
+### Salida
+
+Quité la tarjeta «Ver qué funciona hoy» del cierre (español e inglés). Quedan dos tarjetas, documentación y Telegram, repartidas en dos columnas. También quité «revisa qué funciona hoy» del texto de apoyo para que no anuncie algo que ya no está. Revisé escritorio y móvil; `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
