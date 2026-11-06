@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1254" height="1254" viewBox="0 0 1254 1254" role="img" aria-labelledby="title desc">
+  <title id="title">TilcAI — nube de pensamiento con alerta de pago</title>
+  <desc id="desc">Nube de pensamiento con tarjeta de pago y triángulo de advertencia. Diseño vectorial blanco y violeta de colores sólidos sobre fondo transparente.</desc>
+  <g fill="none" stroke="#FFFFFF" stroke-width="23" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Contour of the thought cloud -->
+    <path d="M 447,781
+      C 432,755 421,733 414,721
+      C 334,732 259,700 206,646
+      C 154,592 155,524 176,458
+      C 203,372 275,325 366,315
+      C 384,206 470,128 577,136
+      C 657,134 719,184 754,257
+      C 797,229 835,218 870,226
+      C 950,239 993,306 991,389
+      C 1076,411 1113,480 1108,562
+      C 1108,661 1037,738 926,751
+      C 868,833 754,857 672,813
+      C 644,831 619,839 594,838" />
+    <!-- Two thought circles -->
+    <circle cx="508" cy="876" r="72" />
+    <circle cx="591" cy="1004" r="33" />
+  </g>
+  <!-- Flat single-color stripe on payment card -->
+  <path d="M 428,435 H 816 V 491 H 428 Z" fill="#B76AF2"/>
+  <!-- Payment card white outline, right bottom section hidden by alert -->
+  <path d="M 827,490 V 412 Q 827,372 783,372 H 457 Q 414,372 414,415 V 610 Q 414,657 463,657 H 634" 
+        stroke="#FFFFFF" stroke-width="21" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <!-- Card digits: consistent white strokes -->
+  <path d="M 476,557 H 526 M 567,557 H 618" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round"/>
+  <!-- Warning triangle with a uniform solid purple line -->
+  <path d="M 742,500 C 755,477 780,477 793,500 L 886,649 C 899,674 889,695 857,695 H 675 C 645,695 633,673 649,648 Z" 
+       fill="none" stroke="#D89BF6" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Exclamation mark in pure white -->
+  <path d="M 766,563 V 609" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="766" cy="644" r="11" fill="#FFFFFF"/>
+</svg>
