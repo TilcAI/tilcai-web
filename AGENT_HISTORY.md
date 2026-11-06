@@ -2406,3 +2406,16 @@ Comprobado: `tsc --noEmit` limpio, detector de Impeccable sin hallazgos nuevos. 
 Mejoré el hero: el titular ahora entra letra por letra con un ascenso y giro suave desde el primer render; los demás textos y la escena siguen una secuencia coordinada. Se respeta la preferencia de movimiento reducido.
 
 Verificado: compilación y TypeScript correctos; página responde 200. ESLint está bloqueado por una incompatibilidad instalada entre TypeScript 7 y `typescript-eslint`. No pude hacer la revisión visual automatizada porque el controlador no logró validar la URL de Chrome.
+## 2026-11-05T23:51:58Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> de lo que es el hero quitale lo que es "Descubre el problema" ese boton que se ba abajo
+
+### Salida
+
+Quité del hero el enlace inferior «Descubre el problema» y eliminé sus estilos y textos de traducción sin uso. `npx tsc --noEmit` pasó correctamente.

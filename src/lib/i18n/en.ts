@@ -29,7 +29,7 @@ export const en: Copy = {
     title: "Your agent buys. You decide.",
     titleTop: "Your agent buys.",
     titleBottom: "You decide.",
-    visual: { person: "Person", business: "Business", document: "Document", development: "In development", docs: "Read docs", pause: "Pause animation", resume: "Play animation", scroll: "Explore the problem" },
+    visual: { person: "Person", business: "Business", document: "Document", development: "In development", docs: "Read docs", pause: "Pause animation", resume: "Play animation" },
     lead: "Infrastructure for AI agents to make payments with defined permissions, spending limits, and verifiable transactions on Stellar.",
     ctaPrimary: "Explore TilcAI", ctaSecondary: "See how it works",
     facts: ["Verifiable terms", "Limited permissions", "Approval per purchase"],

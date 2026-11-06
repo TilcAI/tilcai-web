@@ -29,7 +29,7 @@ export const es: Copy = {
     title: "Tu agente compra. Tú decides.",
     titleTop: "Tu agente compra",
     titleBottom: "Tú decides",
-    visual: { person: "Persona", business: "Empresa", document: "Documento", development: "En desarrollo", docs: "Ver docs", pause: "Pausar animación", resume: "Activar animación", scroll: "Descubre el problema" },
+    visual: { person: "Persona", business: "Empresa", document: "Documento", development: "En desarrollo", docs: "Ver docs", pause: "Pausar animación", resume: "Activar animación" },
     lead: "Infraestructura para que agentes de IA realicen pagos con permisos definidos, límites de gasto y operaciones verificables en Stellar.",
     ctaPrimary: "Explorar TilcAI", ctaSecondary: "Ver cómo funciona",
     facts: ["Condiciones verificables", "Permisos limitados", "Aprobación por compra"],

@@ -101,9 +101,6 @@ export function HeroExperience({ t }: { t: Copy }) {
         </div>
       </div>
 
-      <div className="hero-bottom-controls">
-        <a className="hero-scroll-cue" href="#problem"><span aria-hidden="true">↓</span>{h.visual.scroll}</a>
-      </div>
     </section>
   );
 }

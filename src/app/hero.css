@@ -80,10 +80,6 @@
 .hero-ring-art { position: absolute; z-index: 2; left: 7%; top: -2%; width: 95%; height: 71%; pointer-events: none; }
 .hero-ring-art > .hero-float { position: relative; width: 100%; height: 100%; }
 .hero-ring-art img { object-fit: contain; }
-.hero-bottom-controls { position: absolute; z-index: 6; bottom: 23px; left: 4.3vw; right: 4.3vw; display: flex; justify-content: space-between; align-items: center; }
-.hero-scroll-cue { display: flex; align-items: center; gap: 12px; color: #b8abc9; font-size: 11px; letter-spacing: .05em; }
-.hero-scroll-cue > span { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #b78ef84d; border-radius: 50%; font-size: 17px; }
-.hero-scroll-cue:hover { color: #dfc9ff; }
 
 /* Simulation follows the layered hero. */
 .office-hero { margin-top: 0; height: 100svh; min-height: 700px; border-top: 1px solid #aa4bff3d; }
@@ -127,7 +123,6 @@
   .brand-hero-primary, .brand-hero-secondary { height: 56px; font-size: 16px; }
   .hero-scene { top: auto; bottom: 165px; right: 3%; width: 94%; height: 450px; max-width: 630px; }
   .hero-cat { left: 20%; top: 12%; width: 66%; height: 86%; }
-  .hero-bottom-controls { bottom: 20px; left: 24px; right: 24px; }
   .office-hero { min-height: 680px; }
   .office-hud { top: 16px; }
   .office-feed.is-open { bottom: 76px; }

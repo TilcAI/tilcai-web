@@ -14,7 +14,6 @@
   .brand-hero-secondary { justify-content: center; }
   .hero-tech-row { display: grid; grid-template-columns: repeat(2, max-content); column-gap: 20px; row-gap: 12px; }
   .hero-tech-item:nth-child(2) { border-right: none; }
-  .hero-scroll-cue { min-height: 44px; }
 
   /* ---------- Simulation: HUD ---------- */
   .office-hero { height: 100svh; min-height: 680px; }

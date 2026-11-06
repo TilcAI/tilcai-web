@@ -120,7 +120,7 @@ export interface Copy {
     title: string;
     titleTop: string;
     titleBottom: string;
-    visual: { person: string; business: string; document: string; development: string; docs: string; pause: string; resume: string; scroll: string };
+    visual: { person: string; business: string; document: string; development: string; docs: string; pause: string; resume: string };
     lead: string;
     ctaPrimary: string;
     ctaSecondary: string;
