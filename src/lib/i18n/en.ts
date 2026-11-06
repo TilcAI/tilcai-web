@@ -77,6 +77,23 @@ export const en: Copy = {
     ],
     conclusion: "A bounded, authorized and verifiable operation from start to finish.",
   },
+  techIntro: {
+    eyebrow: "THE TECHNOLOGY",
+    titleTop: "THE INFRASTRUCTURE",
+    titleBottom: "THAT MAKES AGENT PAYMENTS POSSIBLE.",
+    lead: "TilcAI connects agents, businesses and payment rails with rules, integration and traceability. The assistant's intent passes through tools, evaluation, execution and monitoring.",
+    pipeline: ["API + SDK", "MCP", "Policy engine", "Stellar + USDC", "Monitoring"],
+    rail: "x402 + CCTP",
+    railLabel: "PAYMENT RAILS / API",
+    cards: [
+      { title: "API + SDK", body: "Integrate apps and services with TilcAI." },
+      { title: "MCP", body: "Connect assistants to payment tools." },
+      { title: "Policy engine", body: "Checks rules, limits and recipients." },
+      { title: "Payment rails", body: "x402 and CCTP carry the payment to Stellar." },
+      { title: "Monitoring", body: "Records events, alerts and activity." },
+    ],
+    conclusion: "Direct or cross-chain payment, always with rules, verification and traceability.",
+  },
   problem: {
     eyebrow: "What TilcAI is",
     title: "A connection between your intent and the business operation.",

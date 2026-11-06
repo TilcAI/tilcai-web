@@ -77,6 +77,23 @@ export const es: Copy = {
     ],
     conclusion: "Una operación limitada, autorizada y verificable de principio a fin.",
   },
+  techIntro: {
+    eyebrow: "LA TECNOLOGÍA",
+    titleTop: "LA INFRAESTRUCTURA",
+    titleBottom: "QUE HACE POSIBLES LOS PAGOS CON AGENTES.",
+    lead: "TilcAI conecta agentes, negocios y rieles de pago con reglas, integración y trazabilidad. La intención del asistente pasa por herramientas, evaluación, ejecución y monitoreo.",
+    pipeline: ["API + SDK", "MCP", "Motor de políticas", "Stellar + USDC", "Monitoreo"],
+    rail: "x402 + CCTP",
+    railLabel: "RIELES DE PAGO / API",
+    cards: [
+      { title: "API + SDK", body: "Integra apps y servicios con TilcAI." },
+      { title: "MCP", body: "Conecta asistentes con herramientas de pago." },
+      { title: "Motor de políticas", body: "Valida reglas, límites y destinatarios." },
+      { title: "Rieles de pago", body: "x402 y CCTP llevan el pago a Stellar." },
+      { title: "Monitoreo", body: "Registra eventos, alertas y actividad." },
+    ],
+    conclusion: "Pago directo o entre redes, siempre con reglas, verificación y trazabilidad.",
+  },
   problem: {
     eyebrow: "Qué es TilcAI",
     title: "Una conexión entre tu intención y la operación del negocio.",
