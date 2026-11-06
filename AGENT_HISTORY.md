@@ -2670,3 +2670,17 @@ Rediseñé el cierre de la portada (`CtaSection`) con el lenguaje de las seccion
 ### Salida
 
 Quité la tarjeta «Ver qué funciona hoy» del cierre (español e inglés). Quedan dos tarjetas, documentación y Telegram, repartidas en dos columnas. También quité «revisa qué funciona hoy» del texto de apoyo para que no anuncie algo que ya no está. Revisé escritorio y móvil; `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-06T06:04:19Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> mejora el footer y que se vea profesional y de la mejor manera
+
+### Salida
+
+Rediseñé el footer (`SiteFooter.tsx` y el nuevo `SiteFooter.module.css`) con el lenguaje de las secciones: línea superior iluminada, textura de puntos, Poppins y el mismo ancho que la portada. Tiene cuatro columnas: marca con lema y tecnologías (Stellar, Soroban, x402, CCTP), «Explora» con enlaces a las secciones de la portada, «Recursos» (Docs, Avance) y «Contacto» (X, Telegram, correo). Abajo van el copyright, un selector ES/EN que mantiene la página y «Volver arriba». En tablet la marca ocupa toda la fila y en móvil las columnas se acomodan en dos. Textos nuevos en español e inglés (`footer` en `types.ts`, `es.ts`, `en.ts`). Quité las reglas viejas del footer en `globals.css` y `mobile.css`. Revisé portada, docs y avance en cuatro tamaños sin errores de consola ni desborde; todos los enlaces internos responden 200; `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.

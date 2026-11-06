@@ -284,7 +284,12 @@ export interface Copy {
     signatureNote: string;
   };
   cta: { title: string; body: string; primary: string; secondary: string };
-  footer: { rights: string; contactLabel: string; xLabel: string; telegramLabel: string };
+  footer: {
+    rights: string; contactLabel: string; xLabel: string; telegramLabel: string;
+    tagline: string; builtWith: string; explore: string; resources: string; language: string; backToTop: string;
+    /** Labels for the home sections, linked from every page. */
+    sections: { problem: string; solution: string; technology: string; start: string };
+  };
   notFound: { title: string; body: string; back: string };
   docs: {
     status: string;
