@@ -53,7 +53,7 @@ function ProblemCat() {
         <pattern id="problem-hill-dots" width="19" height="19" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#bd75f8" /></pattern>
       </defs>
       <path d="M87 303l-28-19M75 324l-33-8M77 346l-34 3M549 303l28-19M561 324l33-8M559 346l34 3" stroke="#b56af5" strokeWidth="12" strokeLinecap="round" />
-      <image href="/assets/img/section_problema/cabeza%20gato.webp" x="70" y="80" width="510" height="340" />
+      <image className={styles.catHead} href="/assets/img/section_problema/cabeza%20gato.webp" x="70" y="80" width="510" height="340" />
       <ThoughtCloud x={235} y={-35} size={240} />
       <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450V455H0Z" fill="#180e2e" />
       <path d="M0 450C110 392 220 372 320 374C430 376 530 402 640 450V455H0Z" fill="url(#problem-hill-dots)" />

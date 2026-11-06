@@ -18,6 +18,14 @@
 .title .accent { margin-top: 4px; color: #bd75f8; background: linear-gradient(180deg, #e2a4ff, #a447ec); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .lead { max-width: 850px; margin-top: 22px; color: #e7e2f1; font-size: clamp(17px, 1.32vw, 24px); font-weight: 500; line-height: 1.42; letter-spacing: -.02em; }
 .cat { position: relative; z-index: 1; display: block; overflow: visible; width: 100%; max-width: 680px; height: auto; margin-left: auto; filter: drop-shadow(0 18px 28px #0b061c66); }
+.catHead { transform-origin: 325px 412px; animation: cat-head-turn 4.6s ease-in-out infinite; }
+@keyframes cat-head-turn {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catHead { animation: none; }
+}
 .cloudStroke { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.1s cubic-bezier(.3, .8, .3, 1); }
 .cloud:global(.is-visible) .cloudStroke { stroke-dashoffset: 0; }
 .cloudFill { opacity: 0; transition: opacity .5s ease .85s; }
