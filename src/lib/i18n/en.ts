@@ -63,6 +63,20 @@ export const en: Copy = {
     ],
     conclusion: "Without control infrastructure, an agent can act without clear limits.",
   },
+  solutionIntro: {
+    eyebrow: "THE SOLUTION",
+    titleTop: "FROM INTENT TO",
+    titleBottom: "A SAFE PURCHASE",
+    lead: "TilcAI orchestrates the process so your AI agent can buy with rules, limits and your approval at every step.",
+    steps: [
+      { title: "You ask", body: "You name the item and your limit." },
+      { title: "The agent checks", body: "It gets real prices and terms." },
+      { title: "TilcAI verifies", body: "It applies rules, budget and identity." },
+      { title: "You approve", body: "You confirm amount, network and destination." },
+      { title: "It runs and records", body: "It is paid and leaves verifiable evidence." },
+    ],
+    conclusion: "A bounded, authorized and verifiable operation from start to finish.",
+  },
   problem: {
     eyebrow: "What TilcAI is",
     title: "A connection between your intent and the business operation.",

@@ -1,0 +1,127 @@
+/* Picks up where the problem section's wave ends (#180e2e with its dot texture), then settles into the shared night ground. */
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: calc(100svh - var(--header-h));
+  color: #fff;
+  background: radial-gradient(ellipse 48% 52% at 72% 32%, #2a1350 0%, transparent 76%), linear-gradient(180deg, #180e2e, #0d0820 170px, #0d0820);
+  font-family: var(--font-section), var(--font-display);
+}
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 130px;
+  pointer-events: none;
+  background: radial-gradient(circle at 2px 2px, #bd75f8 1px, transparent 1.4px) 0 0 / 19px 19px;
+  opacity: .55;
+  mask-image: linear-gradient(#000, transparent);
+}
+.inner { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; width: min(100% - 11vw, 1700px); min-height: calc(100svh - var(--header-h)); margin: 0 auto; padding: clamp(45px, 7vh, 80px) 0 120px; }
+.intro { display: grid; grid-template-columns: minmax(0, 54%) minmax(0, 46%); align-items: center; gap: 2vw; }
+.copy { position: relative; z-index: 2; min-width: 0; }
+.eyebrow { display: flex; align-items: center; gap: 12px; width: min(100%, 760px); margin-bottom: 26px; font-size: clamp(17px, 1.5vw, 25px); font-weight: 600; line-height: 1.2; white-space: nowrap; }
+.eyebrowNumber { color: #b46af8; font-weight: 700; }
+.eyebrow i { flex: 1; height: 2px; margin-left: 9px; background: #a762ea; }
+.title { font: 400 clamp(43px, 3.8vw, 70px)/1.05 var(--font-anton), Impact, "Arial Narrow", sans-serif; letter-spacing: -.016em; text-transform: uppercase; }
+.title > span { display: block; white-space: nowrap; }
+.title .accent { margin-top: 4px; }
+:global(.js) .title:global(.reveal) { opacity: 1; transform: none; transition: none; }
+.lead { max-width: 640px; margin-top: 22px; color: #e7e2f1; font-size: clamp(17px, 1.32vw, 24px); font-weight: 500; line-height: 1.42; letter-spacing: -.02em; }
+
+/* Illustration: 720×470 stage, three stacked layers plus HTML nodes. */
+.stage { position: relative; width: 100%; max-width: 720px; aspect-ratio: 720 / 470; margin-left: auto; }
+.stage:global(.reveal) { transition: opacity 1s ease, transform 1s cubic-bezier(.16, 1, .3, 1); }
+.stageLayer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* Head box: x80 y125 w420 h280 of the stage. */
+.head { position: absolute; left: 11.111%; top: 26.596%; width: 58.333%; height: 59.574%; will-change: transform; animation: solution-head-bob 3.8s ease-in-out infinite; }
+.headImage { object-fit: contain; }
+@keyframes solution-head-bob {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -1.8%, 0); }
+}
+.node { position: absolute; display: grid; place-items: center; border: 2px solid #c48cff; border-radius: 18px; background: linear-gradient(150deg, #2a1650, #160c2c); box-shadow: inset 0 0 22px #b96afa14, 0 10px 24px #05020f80; color: #fff; }
+.nodeIcon { width: 46%; height: 60%; stroke-width: 1.5; }
+
+/* The authored moment: each link draws out of the laptop, then its node lands where the line arrives. */
+@media (prefers-reduced-motion: no-preference) {
+  :global(.js) .link { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .9s cubic-bezier(.65, 0, .35, 1) calc(450ms + var(--i) * 160ms); }
+  :global(.js) .stage:global(.is-visible) .link { stroke-dashoffset: 0; }
+  :global(.js) .linkDot, :global(.js) .node { opacity: 0; transform: scale(.82); transition: opacity .45s ease calc(1180ms + var(--i) * 160ms), transform .6s cubic-bezier(.16, 1, .3, 1) calc(1180ms + var(--i) * 160ms); }
+  .linkDot { transform-box: fill-box; transform-origin: center; }
+  :global(.js) .stage:global(.is-visible) .linkDot, :global(.js) .stage:global(.is-visible) .node { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .head { animation: none; }
+}
+
+/* Steps read left to right; each card lands after the previous one, then its arrow points on. */
+.steps { --step-gap: clamp(30px, 2.8vw, 48px); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--step-gap); margin: clamp(26px, 3.4vh, 44px) 0 0; padding: 0; list-style: none; }
+.step { position: relative; display: flex; flex-direction: column; align-items: center; min-height: clamp(168px, 11.5vw, 200px); padding: clamp(16px, 1.3vw, 22px) clamp(12px, 1vw, 18px); border: 2px solid #b886f1; border-radius: 20px; background: linear-gradient(160deg, #ffffff0a, #371d522e); box-shadow: inset 0 0 32px #b96afa0d, 0 10px 26px #03020d4d; text-align: center; }
+.step:global(.reveal) { transition-delay: calc(var(--i, 0) * 130ms); }
+.stepIcon { display: grid; place-items: center; width: clamp(48px, 3.6vw, 60px); height: clamp(48px, 3.6vw, 60px); margin-bottom: clamp(10px, .9vw, 14px); border: 1.5px solid #c48cff; border-radius: 14px; background: linear-gradient(160deg, #6a35b8, #36186a); box-shadow: 0 6px 16px #1d0a3d99; }
+.stepIcon svg { width: 54%; height: 54%; stroke-width: 1.7; }
+.step h3 { margin-bottom: 8px; font-size: clamp(16px, 1.32vw, 23px); font-weight: 700; line-height: 1.15; letter-spacing: -.035em; text-wrap: balance; }
+.step p { color: #e6dff0; font-size: clamp(13px, 1vw, 17px); line-height: 1.38; letter-spacing: -.015em; text-wrap: balance; }
+.arrow { position: absolute; top: 50%; right: calc(var(--step-gap) / -2); display: grid; place-items: center; color: #c070ff; transform: translate(50%, -50%); }
+.arrow svg { width: clamp(20px, 1.6vw, 26px); height: clamp(20px, 1.6vw, 26px); stroke-width: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  :global(.js) .arrow { opacity: 0; transform: translate(10%, -50%); transition: opacity .4s ease, transform .5s cubic-bezier(.16, 1, .3, 1); transition-delay: calc(var(--i, 0) * 130ms + 380ms); }
+  :global(.js) .step:global(.is-visible) .arrow { opacity: 1; transform: translate(50%, -50%); }
+}
+
+.conclusion { display: flex; align-items: center; gap: clamp(16px, 1.6vw, 26px); width: min(100%, 1120px); margin: clamp(26px, 3.6vh, 46px) auto 0; padding: clamp(14px, 1.2vw, 20px) clamp(22px, 2.4vw, 40px); border: 2px solid #b886f1; border-radius: 22px; background: linear-gradient(120deg, #ffffff08, #371d5226); color: #f6f1fc; font-size: clamp(17px, 1.45vw, 26px); font-style: italic; font-weight: 500; line-height: 1.35; }
+.conclusion:global(.reveal) { transition-delay: 700ms; }
+.conclusionIcon { flex: none; width: clamp(34px, 2.6vw, 44px); height: clamp(34px, 2.6vw, 44px); color: #fff; stroke-width: 1.6; }
+.conclusion i { flex: none; align-self: stretch; width: 2px; margin: 4px 0; border-radius: 2px; background: #bc6bfa; }
+.wave { position: absolute; z-index: 0; left: 0; bottom: -1px; width: 100%; height: 105px; pointer-events: none; }
+
+@media (min-width: 1101px) and (max-height: 880px) {
+  .inner { padding-top: 24px; padding-bottom: 92px; }
+  .stage { max-width: 560px; }
+  .step { min-height: 150px; padding: 13px 12px; }
+  .stepIcon { width: 46px; height: 46px; margin-bottom: 9px; }
+  .wave { height: 78px; }
+}
+@media (max-width: 1250px) {
+  .inner { width: min(100% - 6vw, 1160px); }
+  .intro { grid-template-columns: minmax(0, 56%) minmax(0, 44%); }
+  .title { font-size: clamp(42px, 4.25vw, 60px); }
+  .title > span { white-space: normal; }
+  .steps { --step-gap: 26px; }
+  .step h3 { font-size: 16px; }
+  .step p { font-size: 13.5px; }
+}
+@media (max-width: 1100px) {
+  .inner { display: block; width: min(100% - 48px, 900px); min-height: 0; padding-top: 70px; padding-bottom: 130px; }
+  .intro { display: block; }
+  .eyebrow { width: 100%; margin-bottom: 23px; }
+  .title { font-size: clamp(40px, 7.5vw, 64px); }
+  .lead { max-width: 640px; font-size: clamp(16px, 2.6vw, 20px); }
+  .stage { width: min(100%, 600px); margin: 24px auto 0; }
+  .steps { --step-gap: 22px; }
+  .step { min-height: 0; padding: 14px 8px; border-radius: 16px; }
+  .stepIcon { width: 44px; height: 44px; }
+  .step h3 { font-size: 15px; }
+  .step p { font-size: 12.5px; }
+}
+/* One column: the flow turns vertical and the arrows point down. */
+@media (max-width: 850px) {
+  .steps { --step-gap: 30px; grid-template-columns: 1fr; }
+  .step { display: grid; grid-template-columns: auto 1fr; column-gap: 16px; align-items: center; padding: 14px 18px; text-align: left; }
+  .stepIcon { grid-row: span 2; margin: 0; }
+  .step h3 { margin-bottom: 3px; font-size: clamp(17px, 3vw, 21px); text-wrap: wrap; }
+  .step p { font-size: clamp(13.5px, 2.2vw, 16px); text-wrap: wrap; }
+  .arrow, :global(.js) .step:global(.is-visible) .arrow { top: auto; right: auto; bottom: calc(var(--step-gap) / -2); left: 50%; transform: translate(-50%, 50%) rotate(90deg); }
+  :global(.js) .arrow { transform: translate(-50%, 20%) rotate(90deg); }
+  .conclusion { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .inner { width: calc(100% - 38px); padding-top: 58px; padding-bottom: 110px; }
+  .eyebrow { gap: 8px; margin-bottom: 21px; font-size: 15px; }
+  .title { font-size: clamp(35px, 9.2vw, 44px); line-height: 1.08; }
+  .lead { margin-top: 17px; font-size: 15.5px; line-height: 1.48; }
+  .conclusion { gap: 12px; padding: 14px 16px; font-size: 15px; }
+  .wave { height: 80px; }
+}

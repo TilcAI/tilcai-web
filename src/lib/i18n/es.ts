@@ -63,6 +63,20 @@ export const es: Copy = {
     ],
     conclusion: "Sin una infraestructura de control, un agente puede actuar sin límites claros.",
   },
+  solutionIntro: {
+    eyebrow: "LA SOLUCIÓN",
+    titleTop: "DE LA INTENCIÓN A",
+    titleBottom: "UNA COMPRA SEGURA",
+    lead: "TilcAI orquesta el proceso para que tu agente de IA pueda comprar con reglas, límites y tu aprobación en cada paso.",
+    steps: [
+      { title: "Pides algo", body: "Indicas el artículo y tu límite." },
+      { title: "El agente consulta", body: "Obtiene precio y condiciones reales." },
+      { title: "TilcAI verifica", body: "Aplica reglas, presupuesto e identidad." },
+      { title: "Tú apruebas", body: "Confirmas monto, red y destino." },
+      { title: "Se ejecuta y registra", body: "Se paga y queda evidencia verificable." },
+    ],
+    conclusion: "Una operación limitada, autorizada y verificable de principio a fin.",
+  },
   problem: {
     eyebrow: "Qué es TilcAI",
     title: "Una conexión entre tu intención y la operación del negocio.",
