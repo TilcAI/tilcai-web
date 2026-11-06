@@ -1,7 +1,7 @@
 /*
  * Site header: one bar for every page (home, docs, roadmap, monitor). Same links, same order, same place, so
  * changing page never moves the navigation. Brand left, links centred on the viewport (not on the leftover space),
- * language and the simulation shortcut right.
+ * language and the "start" action right.
  *
  * Authored with the unprefixed `backdrop-filter` only. The old header declared both the prefixed and unprefixed
  * property and the CSS pipeline kept just `-webkit-backdrop-filter`, which Chrome ignores: the bar never blurred and
@@ -15,6 +15,7 @@
   z-index: 50;
   height: var(--header-h);
   isolation: isolate;
+  font-family: var(--font-section), var(--font-display);
 }
 
 /*
@@ -94,8 +95,8 @@
   transform-origin: left center;
   transition: transform .22s var(--ease-out);
 }
-.link[aria-current="page"] { color: #fff; }
-.link[aria-current="page"]::after { transform: scaleX(1); }
+.link[aria-current] { color: #fff; }
+.link[aria-current]::after { transform: scaleX(1); }
 .link:active { transform: scale(.97); }
 .link:focus-visible, .brand:focus-visible, .cta:focus-visible, .menuBtn:focus-visible, .lang a:focus-visible {
   outline: 2px solid #57d2f9;
@@ -118,22 +119,29 @@
   .lang a:hover { color: #fff; }
 }
 
+/* The one action in the bar: it leads to the closing section, where the docs and pilot contact live. */
 .cta {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #7546ff;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 16px 0 22px;
+  border: 1px solid #b991ff80;
+  border-radius: 999px;
+  background: linear-gradient(105deg, #8c19f6, #7546ff);
   box-shadow: 0 8px 24px -8px #6f3cffb0, inset 0 1px 0 #ffffff2e;
   color: #fff;
-  transition: background-color .2s ease, transform .16s var(--ease-out);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: box-shadow .2s ease, transform .16s var(--ease-out);
 }
-.cta .icon { width: 20px; height: 20px; transition: transform .25s var(--ease-out); }
-.cta:active { transform: scale(.94); }
+.cta .icon { width: 17px; height: 17px; stroke-width: 2; transition: transform .25s var(--ease-out); }
+.cta[aria-current] { box-shadow: 0 0 0 3px #a58bff59, 0 8px 24px -8px #6f3cffb0, inset 0 1px 0 #ffffff2e; }
+.cta:active { transform: scale(.96); }
 @media (hover: hover) and (pointer: fine) {
-  .cta:hover { background: #8e64ff; }
-  .cta:hover .icon { transform: rotate(45deg); }
+  .cta:hover { color: #fff; box-shadow: 0 12px 30px -8px #8556ffcc, inset 0 1px 0 #ffffff3d; }
+  .cta:hover .icon { transform: translateX(3px); }
 }
 
 .menuBtn {
@@ -158,7 +166,7 @@
   .brand img { height: 35px; }
   .tools { gap: 10px; }
   .menuBtn { display: inline-flex; }
-  .cta { width: 44px; height: 44px; }
+  .cta { height: 44px; padding: 0 14px 0 18px; font-size: 14px; }
 
   .nav {
     display: none;
@@ -181,7 +189,7 @@
   .navOpen { display: flex; animation: panel-in .18s var(--ease-out); }
   .link { min-height: 52px; padding: 0 12px; border-radius: 0; border-bottom: 1px solid var(--border); font-size: 17px; }
   .link::after { display: none; }
-  .link[aria-current="page"] { color: #cdb8ff; font-weight: 600; }
+  .link[aria-current] { color: #cdb8ff; font-weight: 600; }
   .docs {
     margin-top: 14px;
     padding: 0 16px;
@@ -211,6 +219,12 @@
   }
   :global(html):not(:global(.js)) .docs { margin-top: 0; }
   :global(html):not(:global(.js)) .menuBtn { display: none; }
+}
+
+/* Narrow phones: the action keeps its arrow and drops the word, so the bar never wraps. */
+@media (max-width: 420px) {
+  .cta { width: 44px; padding: 0; justify-content: center; }
+  .ctaLabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
 
 @keyframes panel-in { from { opacity: 0; transform: translateY(-6px); } }

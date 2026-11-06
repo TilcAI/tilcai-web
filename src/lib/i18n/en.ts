@@ -16,7 +16,7 @@ export const en: Copy = {
     codeTabs: "Illustrative data structures", mainNav: "Main navigation", footerNav: "Footer navigation",
   },
   nav: {
-    problem: "The problem", flow: "How it works", rails: "Payment routes", demo: "Simulation", capabilities: "Businesses",
+    problem: "The problem", solution: "The solution", technology: "The technology", start: "Get started", flow: "How it works", rails: "Payment routes", demo: "Simulation", capabilities: "Businesses",
     agents: "Agents", code: "Contracts", roadmap: "Progress", docs: "Docs", home: "Home",
   },
   stageLabels: { available: "Available foundation", integration: "Being integrated", next: "Next steps" },
@@ -407,7 +407,6 @@ export const en: Copy = {
     resources: "Resources",
     language: "Language",
     backToTop: "Back to top",
-    sections: { problem: "The problem", solution: "The solution", technology: "The technology", start: "Get started" },
   },
   notFound: { title: "Page not found", body: "This page does not exist. Return to the home page to explore TilcAI or read its documentation.", back: "Back to home" },
   docs: docsEn,

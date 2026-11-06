@@ -108,7 +108,7 @@ export interface Copy {
   htmlLang: string;
   meta: { title: string; description: string; docsTitle: string; docsDescription: string };
   a11y: { skip: string; langSwitch: string; menu: string; copied: string; copy: string; codeTabs: string; mainNav: string; footerNav: string };
-  nav: { problem: string; flow: string; rails: string; demo: string; capabilities: string; agents: string; code: string; roadmap: string; docs: string; home: string };
+  nav: { problem: string; solution: string; technology: string; start: string; flow: string; rails: string; demo: string; capabilities: string; agents: string; code: string; roadmap: string; docs: string; home: string };
   stageLabels: Record<Stage, string>;
   integrationLabels: Record<IntegrationStatus, string>;
   environmentLabels: Record<Environment, string>;
@@ -287,8 +287,6 @@ export interface Copy {
   footer: {
     rights: string; contactLabel: string; xLabel: string; telegramLabel: string;
     tagline: string; builtWith: string; explore: string; resources: string; language: string; backToTop: string;
-    /** Labels for the home sections, linked from every page. */
-    sections: { problem: string; solution: string; technology: string; start: string };
   };
   notFound: { title: string; body: string; back: string };
   docs: {

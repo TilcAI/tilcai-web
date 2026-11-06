@@ -30,10 +30,10 @@ export function SiteFooter({ t, page }: { t: Copy; page: Page }) {
   const f = t.footer;
   const lang = t.locale;
   const sections = [
-    { id: "problem", label: f.sections.problem },
-    { id: "solution", label: f.sections.solution },
-    { id: "technology", label: f.sections.technology },
-    { id: "start", label: f.sections.start },
+    { id: "problem", label: t.nav.problem },
+    { id: "solution", label: t.nav.solution },
+    { id: "technology", label: t.nav.technology },
+    { id: "start", label: t.nav.start },
   ];
   return (
     <footer className={`${styles.footer} ${sectionSans.variable}`}>
