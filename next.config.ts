@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
       { source: "/roadmap", destination: "/en/roadmap", permanent: true },
     ];
   },
+  async rewrites() {
+    return [{ source: "/demo", destination: "/es/demo" }];
+  },
 };
 
 export default nextConfig;

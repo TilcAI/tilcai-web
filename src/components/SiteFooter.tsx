@@ -6,13 +6,13 @@ import { Icon } from "./Icon";
 import { sectionSans } from "./sections/sectionFont";
 import styles from "./SiteFooter.module.css";
 
-type Page = "home" | "docs" | "roadmap";
+type Page = "home" | "docs" | "roadmap" | "demo";
 const TECH = ["Stellar", "Soroban", "x402", "CCTP"];
 const LOCALES: { lang: Locale; label: string; name: string }[] = [
   { lang: "es", label: "ES", name: "Español" },
   { lang: "en", label: "EN", name: "English" },
 ];
-const pageHref = (page: Page, lang: Locale) => (page === "docs" ? paths.docs(lang) : page === "roadmap" ? paths.roadmap(lang) : paths.home(lang));
+const pageHref = (page: Page, lang: Locale) => (page === "docs" ? paths.docs(lang) : page === "roadmap" ? paths.roadmap(lang) : page === "demo" ? paths.demo(lang) : paths.home(lang));
 
 function XMark() {
   return <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>;
@@ -62,6 +62,7 @@ export function SiteFooter({ t, page }: { t: Copy; page: Page }) {
             <ul>
               <li><Link href={paths.docs(lang)} aria-current={page === "docs" ? "page" : undefined}>{t.nav.docs}</Link></li>
               <li><Link href={paths.roadmap(lang)} aria-current={page === "roadmap" ? "page" : undefined}>{t.nav.roadmap}</Link></li>
+              <li><Link href={paths.demo(lang)} aria-current={page === "demo" ? "page" : undefined}>{t.demoPage.nav}</Link></li>
             </ul>
           </nav>
 

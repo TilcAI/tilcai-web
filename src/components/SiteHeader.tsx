@@ -6,5 +6,5 @@ import { SiteHeaderBar, type HeaderPage } from "./SiteHeaderBar";
  * props of a client component travel to the browser, and the whole page copy is not the header's business.
  */
 export function SiteHeader({ t, page }: { t: Copy; page: HeaderPage }) {
-  return <SiteHeaderBar t={{ locale: t.locale, nav: t.nav, a11y: t.a11y }} page={page} />;
+  return <SiteHeaderBar t={{ locale: t.locale, nav: t.nav, demoPage: t.demoPage, a11y: t.a11y }} page={page} />;
 }

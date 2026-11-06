@@ -19,6 +19,13 @@ export const es: Copy = {
     problem: "El problema", solution: "La solución", technology: "La tecnología", start: "Empieza", flow: "Cómo funciona", rails: "Rutas de pago", demo: "Simulación", capabilities: "Empresas",
     agents: "Agentes", code: "Contratos", roadmap: "Avance", docs: "Docs", home: "Inicio",
   },
+  demoPage: {
+    nav: "Demo",
+    eyebrow: "Explora TilcAI",
+    title: "Demo de TilcAI",
+    description: "Estamos preparando una experiencia para mostrar cómo funciona TilcAI.",
+    status: "Próximamente",
+  },
   stageLabels: { available: "Base disponible", integration: "En integración", next: "Siguiente evolución" },
   integrationLabels: { preparation: "En preparación", guide: "Guía disponible", pilot: "Piloto", enabled: "Habilitado" },
   environmentLabels: { simulation: "Simulación", testnet: "Testnet", mainnet: "Mainnet", production: "Producción" },

@@ -10,9 +10,9 @@ import { Icon } from "./Icon";
 import { sectionSans } from "./sections/sectionFont";
 import styles from "./SiteHeader.module.css";
 
-export type HeaderPage = "home" | "docs" | "roadmap" | "monitor";
+export type HeaderPage = "home" | "docs" | "roadmap" | "demo" | "monitor";
 /** The only labels the bar renders. The server wrapper passes this slice, not the whole page copy. */
-export type HeaderCopy = Pick<Copy, "locale" | "nav" | "a11y">;
+export type HeaderCopy = Pick<Copy, "locale" | "nav" | "demoPage" | "a11y">;
 
 const subscribeScroll = (cb: () => void) => {
   window.addEventListener("scroll", cb, { passive: true });
@@ -39,7 +39,7 @@ export function SiteHeaderBar({ t, page }: { t: HeaderCopy; page: HeaderPage }) 
   // Section links are `#id` on the home page and `/{lang}#id` from every other page: same links, same order.
   const anchor = (id: string) => (page === "home" ? `#${id}` : paths.section(lang, id));
   const localeHref = (loc: Locale) =>
-    page === "home" ? paths.home(loc) : page === "docs" ? (pathname?.replace(/^\/(en|es)(?=\/)/, `/${loc}`) ?? paths.docs(loc)) : page === "roadmap" ? paths.roadmap(loc) : paths.monitor(loc);
+    page === "home" ? paths.home(loc) : page === "docs" ? (pathname?.replace(/^\/(en|es)(?=\/)/, `/${loc}`) ?? paths.docs(loc)) : page === "roadmap" ? paths.roadmap(loc) : page === "demo" ? paths.demo(loc) : paths.monitor(loc);
 
   useEffect(() => {
     if (!open) return;
@@ -85,10 +85,11 @@ export function SiteHeaderBar({ t, page }: { t: HeaderCopy; page: HeaderPage }) 
     [t.nav.problem, anchor("problem"), "problem"],
     [t.nav.solution, anchor("solution"), "solution"],
     [t.nav.technology, anchor("technology"), "technology"],
+    [t.demoPage.nav, paths.demo(lang)],
     [t.nav.roadmap, paths.roadmap(lang)],
   ];
   const current = (href: string, id?: string) =>
-    href === paths.roadmap(lang) && page === "roadmap" ? "page" : id && id === active ? "location" : undefined;
+    (href === paths.roadmap(lang) && page === "roadmap") || (href === paths.demo(lang) && page === "demo") ? "page" : id && id === active ? "location" : undefined;
 
   return (
     <header className={cx(styles.header, sectionSans.variable, scrolled && styles.scrolled, open && styles.open)}>

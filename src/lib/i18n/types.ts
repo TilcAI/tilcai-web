@@ -109,6 +109,7 @@ export interface Copy {
   meta: { title: string; description: string; docsTitle: string; docsDescription: string };
   a11y: { skip: string; langSwitch: string; menu: string; copied: string; copy: string; codeTabs: string; mainNav: string; footerNav: string };
   nav: { problem: string; solution: string; technology: string; start: string; flow: string; rails: string; demo: string; capabilities: string; agents: string; code: string; roadmap: string; docs: string; home: string };
+  demoPage: { nav: string; eyebrow: string; title: string; description: string; status: string };
   stageLabels: Record<Stage, string>;
   integrationLabels: Record<IntegrationStatus, string>;
   environmentLabels: Record<Environment, string>;
