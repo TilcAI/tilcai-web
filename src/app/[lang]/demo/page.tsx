@@ -6,6 +6,9 @@ import styles from "./demo.module.css";
 
 type Props = { params: Promise<{ lang: string }> };
 
+// youtube-nocookie: no YouTube cookies until the visitor presses play.
+const DEMO_VIDEO = "https://www.youtube-nocookie.com/embed/F2DpPsqXMsI?rel=0";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
@@ -28,9 +31,18 @@ export default async function DemoPage({ params }: Props) {
       <section className={styles.section} aria-labelledby="demo-title">
         <div className={styles.inner}>
           <p className={styles.eyebrow}>{copy.eyebrow}</p>
-          <h1 id="demo-title" className={styles.title}>{copy.title}</h1>
+          <h1 id="demo-title" className="sr-only">{copy.title}</h1>
           <p className={styles.description}>{copy.description}</p>
-          <span className={styles.status}>{copy.status}</span>
+          <div className={styles.player}>
+            <iframe
+              src={DEMO_VIDEO}
+              title={copy.videoTitle}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          </div>
         </div>
       </section>
     </PageShell>

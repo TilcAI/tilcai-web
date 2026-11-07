@@ -2821,3 +2821,31 @@ Agregué animaciones de entrada en `/aliados`: título y texto escalonados, fich
 ### Salida
 
 Animé los textos de `/aliados`: las líneas del título aparecen con desplazamiento y desenfoque; nombres, estados, descripciones y pasos se revelan por separado al entrar en pantalla. Comprobé escritorio, móvil y movimiento reducido; `npm run build` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-07T05:14:27Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> en lo que es /demo puedes poner este video como iframe https://www.youtube.com/watch?v=F2DpPsqXMsI
+
+### Salida
+
+Inserté el video de YouTube en la página /demo como iframe, debajo del título, en un marco 16:9 con borde y brillo morado. Usé youtube-nocookie.com (sin cookies de YouTube hasta reproducir), carga diferida, título accesible y pantalla completa. El reproductor se ajusta para verse completo en la primera pantalla en escritorio, laptop y móvil. Cambié el texto de apoyo («Mira en video cómo funciona TilcAI») y quité la etiqueta «Próximamente», que contradecía el video (`demoPage` en `types.ts`, `es.ts`, `en.ts`). Revisé /demo y /en/demo sin errores de consola; `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-07T05:16:38Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero quitale el tiulo de ariba que ocype mayormente la pantalla
+
+### Salida
+
+Quité de la vista el título grande «Demo de TilcAI» en /demo; queda como encabezado oculto para lectores de pantalla y buscadores. Arriba del video solo quedan la etiqueta «Explora TilcAI» y la línea «Mira en video cómo funciona TilcAI». El video sube y crece (1236 px de ancho en 1600×1000, 917 px en 1366×768) y se ve completo en la primera pantalla también en móvil. Quité la regla `.title` que quedó sin uso. `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
