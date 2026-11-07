@@ -8,6 +8,7 @@ export const paths = {
   docs: (lang: Locale) => `/${lang}/docs`,
   roadmap: (lang: Locale) => `/${lang}/roadmap`,
   demo: (lang: Locale) => (lang === "es" ? "/demo" : "/en/demo"),
+  allies: (lang: Locale) => (lang === "es" ? "/aliados" : "/en/aliados"),
   monitor: (lang: Locale) => `/${lang}/monitor`,
   section: (lang: Locale, id: string) => `/${lang}#${id}`,
 };

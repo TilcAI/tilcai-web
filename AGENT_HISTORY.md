@@ -2751,3 +2751,73 @@ Corregí el SEO técnico: `www.tilcai.com` es ahora el dominio canónico, con en
 `npm run build` pasó. Verifiqué localmente las canónicas, el sitemap, robots y JSON-LD. `npm run lint` no arrancó por la incompatibilidad existente entre TypeScript 7 y typescript-eslint.
 
 Para que Google procese estos cambios falta publicarlos y enviar `https://www.tilcai.com/sitemap.xml` en Search Console. Google indica que un sitemap ayuda a descubrir páginas, pero no garantiza su indexación. [Guía de Google Search Central](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap). Los cambios quedaron sin commit.
+
+## 2026-11-06T21:49:39Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> crea un apartado de lo que es http://localhost:3000/demo esa secion de demo por el momento semi vacio talvez un titulo
+
+### Salida
+
+Se creó la ruta `/demo` con un título y contenido breve en español e inglés, navegación y diseño coherente con TilcAI. `npm run build` pasó y la ruta respondió 200. Quedó incluida en el commit `ee718e1`.
+
+## 2026-11-06T22:05:41Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok de lo que era antes de los aliados como optipagos y lo de varal en otr ruta creame con nuestros nuevos estilos
+
+### Salida
+
+Creé la página de aliados en `/aliados` (inglés: `/en/aliados`) con el estilo actual, los logos, el recorrido y la captura de Optipagos. Optipagos aparece como implementación en curso y Baral como próxima implementación. Añadí enlaces en la navegación, metadatos y sitemap. `npm run build` pasó; verifiqué las rutas y la presentación en escritorio y móvil. Los cambios quedaron sin commit.
+
+## 2026-11-06T23:22:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> [adjunto: captura de la página de aliados] pero que se vea bien http://localhost:3000/aliados [Image #1] por que no quiero que haya ese corte que se vea de mejor manera
+
+### Salida
+
+Corregí la composición de `/aliados`: reduje el bloque de título, aproveché el ancho de pantalla y compacté las fichas de Optipagos y Baral. En la resolución de la captura, las dos fichas se ven completas sin quedar cortadas; en móvil mantienen una columna legible. `npm run build` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-06T23:30:00Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok pero /aliados que tenga animaciones de entrada que quede de la mejor manera que se viasualmente atractivo
+
+### Salida
+
+Agregué animaciones de entrada en `/aliados`: título y texto escalonados, fichas al entrar en pantalla, y aparición del teléfono, el logo y los pasos. Las fichas conservan sus efectos de hover y el movimiento se desactiva si el visitante prefiere movimiento reducido. Verifiqué la presentación en escritorio y móvil, y `npm run build` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-07T00:10:59Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> que las letras tengan movimeinto de aparicion
+
+### Salida
+
+Animé los textos de `/aliados`: las líneas del título aparecen con desplazamiento y desenfoque; nombres, estados, descripciones y pasos se revelan por separado al entrar en pantalla. Comprobé escritorio, móvil y movimiento reducido; `npm run build` pasó. Los cambios quedaron sin commit.

@@ -13,7 +13,10 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return [{ source: "/demo", destination: "/es/demo" }];
+    return [
+      { source: "/demo", destination: "/es/demo" },
+      { source: "/aliados", destination: "/es/aliados" },
+    ];
   },
 };
 

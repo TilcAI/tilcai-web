@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
 import { getCopy, locales } from "@/lib/i18n";
-import { siteUrl } from "@/lib/site";
+import { paths, siteUrl } from "@/lib/site";
 
 /** Only public, indexable routes. Both language versions share the same doc IDs. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const docIds = getCopy("en").docs.sections.map((section) => section.id);
   const routes = ["", "/docs", "/roadmap", ...docIds.map((id) => `/docs/${id}`)];
 
-  return routes.flatMap((route) => {
+  const localizedRoutes = routes.flatMap((route) => {
     const languages = {
       en: `${siteUrl}/en${route}`,
       es: `${siteUrl}/es${route}`,
@@ -18,4 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: { languages },
     }));
   });
+  const allyLanguages = {
+    en: `${siteUrl}${paths.allies("en")}`,
+    es: `${siteUrl}${paths.allies("es")}`,
+    "x-default": `${siteUrl}${paths.allies("en")}`,
+  };
+  return [...localizedRoutes, ...locales.map((locale) => ({
+    url: allyLanguages[locale],
+    alternates: { languages: allyLanguages },
+  }))];
 }
