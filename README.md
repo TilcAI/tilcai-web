@@ -66,6 +66,7 @@ pnpm test         # node --experimental-strip-types --test test/*.test.ts
 | `/en`, `/es` | Landing |
 | `/en/docs`, `/es/docs` | Developer portal: entry guides, local search and integration paths |
 | `/en/docs/[slug]`, `/es/docs/[slug]` | 19 guides: SDK, MCP, API, networks, Monad Testnet, mainnet evidence, accounts, x402, fiat/QR, architecture and security |
+| `/demo`, `/en/demo` | Demo video, then business model, go-to-market and roadmap (animated, interactive). Content and how to update it: [docs/demo-strategy.md](docs/demo-strategy.md) |
 | `/en/monitor`, `/es/monitor` | Backend monitor: resources, alerts and events reported by TilcAI's backend (see [Backend monitor](#backend-monitor)). Not linked from the site and not indexed |
 | `/api/monitor/*` | The monitor's API: `events` (ingest and feed), `summary`, `stream` (Server-Sent Events) and `session` |
 
@@ -123,10 +124,12 @@ src/
 │   ├── CodeTabs.tsx              # client: accessible tabs for the proposed JSON
 │   ├── DocsToc.tsx               # client: table of contents with scroll-spy
 │   ├── RevealObserver.tsx        # client: reveal as content enters the viewport
+│   ├── demo/                     # /demo: BusinessModel, GoToMarket, StrategyRoadmap, LiquiditySim, DemoNav (copy in lib/content/strategy.ts)
 │   └── Icon.tsx
 └── lib/
     ├── content/agents.ts         # typed catalog, surfaces and official references
     ├── content/roadmap.ts        # stage, environment (simulation/testnet) and optional maintainer of every roadmap item (no dates)
+    ├── content/strategy.ts       # /demo business model, GTM and roadmap, es + en (source: Notion, see docs/demo-strategy.md)
     ├── content/rails.ts          # CCTP lab networks with their status, and the testnet evidence hashes
     ├── i18n/                     # all visible copy — en.ts, es.ts, docs.en.ts, docs.es.ts, types.ts
     ├── highlight.ts              # build-time syntax colouring for code blocks
@@ -147,6 +150,7 @@ public/assets/                    # TilcAI branding and supplied Codex / Claude 
 
 ## Editing content
 
+- The business model, go-to-market and roadmap on `/demo` live in `src/lib/content/strategy.ts` and come from Notion; follow [docs/demo-strategy.md](docs/demo-strategy.md) when they change. Public copy only: `test/demo-strategy.test.ts` rejects draft or unverified wording.
 - Change text in `src/lib/i18n/en.ts` and `es.ts`. `types.ts` forces both languages to carry the same keys, so a page never mixes languages.
 - Architecture sections live in `docs.en.ts` / `docs.es.ts` as small HTML strings written in this repo (trusted content, rendered with `dangerouslySetInnerHTML`). Never put user input there.
 - The ES/EN message map, CTA destinations and team handoffs are in [docs/messaging-map.md](docs/messaging-map.md).

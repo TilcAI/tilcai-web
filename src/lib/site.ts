@@ -17,7 +17,7 @@ export const paths = {
 export const contact = {
   xUrl: "https://x.com/tilcai_ai",
   xHandle: "@tilcai_ai",
-  email: "tilcai.ai@gmail.com",
+  email: "contacto@tilcai.com",
   telegramUrl: "https://t.me/+CfbYnvPNXTo2OGMx",
   telegramName: "Telegram",
 } as const;

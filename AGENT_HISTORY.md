@@ -2849,3 +2849,38 @@ Inserté el video de YouTube en la página /demo como iframe, debajo del título
 ### Salida
 
 Quité de la vista el título grande «Demo de TilcAI» en /demo; queda como encabezado oculto para lectores de pantalla y buscadores. Arriba del video solo quedan la etiqueta «Explora TilcAI» y la línea «Mira en video cómo funciona TilcAI». El video sube y crece (1236 px de ancho en 1600×1000, 917 px en 1366×768) y se ve completo en la primera pantalla también en móvil. Quité la regla `.title` que quedó sin uso. `npx tsc --noEmit` pasó. Los cambios quedaron sin commit.
+
+## 2026-11-08T06:16:00Z · SaulChoque · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web, tilcai-pitch
+
+### Prompt
+
+> modifica el pitch para usar la informacion de la seccion 'Instawards · Paso 2 · Borradores TilcAI' del notion al
+>   que estas conectado, asi tambien usando la misma informacion, actualiza la subruta '/demo' de 'tilcai-web' con componentes animados e interactivos de los documentos (antes revisa si estas implementaciones existen en alguna rama):
+> - Modelo de negocios
+> - GTM
+> - Roadmap
+> ten en cuenta que esta informacion cambiara en el futuro asi que manten estos cambios documentados en el repo
+> NUNCA menciones en la web que son datos preliminares, falsos, sin comprobacion o similares, esta es una pagina publica asi que nada de ese tipo de terminos
+> al final tambien deja un comando de terminal para commitear los cambios
+
+### Salida
+
+Revisé las ramas remotas: ninguna tenía modelo de negocio, GTM ni roadmap para `/demo` (solo el roadmap de construcción de la landing y `/roadmap`). Debajo del video de `/demo` y `/en/demo` añadí navegación fija con scroll-spy y tres secciones animadas e interactivas con el contenido de Notion (01 Modelo de negocio, 02 GTM, 03 Roadmap): recorrido de un cobro con selector de actor, modalidades de ingreso con barra animada, economía unitaria, señales del mercado con contadores y fuentes enlazadas; posicionamiento, cliente inicial, canales, pestañas de eventos, alianzas y embudo de validación de 8 pasos; punto de partida, entregables D1–D3 con dependencias, sprint de 30 días que se reproduce solo y un simulador de liquidez prefondeada con reposición CCTP por lotes. Todo el texto (es/en) está en `src/lib/content/strategy.ts`; cómo actualizarlo, en `docs/demo-strategy.md`; README actualizado. `test/demo-strategy.test.ts` rechaza términos de borrador o de dato no comprobado, exige misma estructura en ambos idiomas, fuentes https y sprint de días 1–30 sin huecos. `npm test`: 121 pasan, 1 falla previa y ajena (sección «Empresas» de la landing). `tsc` solo marca el `lenis` no instalado (previo); ESLint no corre en este entorno (typescript-eslint no soporta TS 7). Revisé capturas en 1440 px y 390 px sin errores de consola ni desbordamiento horizontal. En tilcai-pitch actualicé las diapositivas de evidencia, modelo de negocio, hoja de ruta y equipo, añadí una de GTM y documenté la fuente en `docs/fuentes-notion.md`. Sin commit.
+
+## 2026-11-08T06:30:00Z · SaulChoque · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> asi tambien modifica el correo de contacto de la web de 'tilcai.ai@gmail.com' a 'contacto@tilcai.com' y tambien cambia cualquier otro correo comercial a '@tilcai.com', luego listalo aqui
+
+### Salida
+
+La web tenía un solo correo: el de contacto del pie de página (`src/lib/site.ts`), que pasó de `tilcai.ai@gmail.com` a `contacto@tilcai.com`. No había otros correos comerciales en el código, la documentación ni los textos (fuera de `AGENT_HISTORY.md`, que no se edita). `test/demo-strategy.test.ts` comprueba que el contacto siga en `@tilcai.com`. Sin commit.

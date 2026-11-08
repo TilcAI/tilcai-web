@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
+import { BusinessModel } from "@/components/demo/BusinessModel";
+import { DemoNav } from "@/components/demo/DemoNav";
+import { GoToMarket } from "@/components/demo/GoToMarket";
+import { StrategyRoadmap } from "@/components/demo/StrategyRoadmap";
+import { strategy } from "@/lib/content/strategy";
 import { getCopy, isLocale } from "@/lib/i18n";
 import styles from "./demo.module.css";
 
@@ -25,10 +30,12 @@ export default async function DemoPage({ params }: Props) {
   if (!isLocale(lang)) notFound();
   const t = getCopy(lang);
   const copy = t.demoPage;
+  // Business model, GTM and roadmap: src/lib/content/strategy.ts (how to update it: docs/demo-strategy.md).
+  const s = strategy[lang];
 
   return (
     <PageShell t={t} page="demo">
-      <section className={styles.section} aria-labelledby="demo-title">
+      <section id="video" className={styles.section} aria-labelledby="demo-title">
         <div className={styles.inner}>
           <p className={styles.eyebrow}>{copy.eyebrow}</p>
           <h1 id="demo-title" className="sr-only">{copy.title}</h1>
@@ -45,6 +52,10 @@ export default async function DemoPage({ params }: Props) {
           </div>
         </div>
       </section>
+      <DemoNav nav={s.nav} />
+      <BusinessModel c={s.business} locale={lang} />
+      <GoToMarket c={s.gtm} />
+      <StrategyRoadmap c={s.roadmap} />
     </PageShell>
   );
 }
