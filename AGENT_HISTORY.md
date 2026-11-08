@@ -2884,3 +2884,17 @@ Revisé las ramas remotas: ninguna tenía modelo de negocio, GTM ni roadmap para
 ### Salida
 
 La web tenía un solo correo: el de contacto del pie de página (`src/lib/site.ts`), que pasó de `tilcai.ai@gmail.com` a `contacto@tilcai.com`. No había otros correos comerciales en el código, la documentación ni los textos (fuera de `AGENT_HISTORY.md`, que no se edita). `test/demo-strategy.test.ts` comprueba que el contacto siga en `@tilcai.com`. Sin commit.
+
+## 2026-11-08T06:52:00Z · SaulChoque · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> tengo errores en el deploy de vercel, corrigelos y verifica los cambios en tilcai.com
+
+### Salida
+
+El proyecto de Vercel que sirve tilcai.com falló en el commit `dec0a1b` (el otro proyecto conectado al repo sí compiló). Según el log que pasó el usuario, Turbopack no pudo resolver los archivos de JetBrains Mono descargados por `next/font/google` (`next/font/google queries have exactly one entry`, en `src/app/[lang]/layout.tsx`), con la caché del despliegue anterior restaurada; no era un error del código de `/demo`. Pasé JetBrains Mono a `next/font/local` con el woff2 variable latino de @fontsource-variable/jetbrains-mono 5.3.0 y su licencia OFL en `src/fonts`; el build ya no descarga nada de Google Fonts. Build de producción limpio local OK; `npm test` 121 pasan, 1 falla previa y ajena. README actualizado. Commit y push a main; verificación en tilcai.com en la respuesta final.

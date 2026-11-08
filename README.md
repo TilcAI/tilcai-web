@@ -172,7 +172,7 @@ public/assets/                    # TilcAI branding and supplied Codex / Claude 
 
 The visual system follows thegraph.com (palette, type scale, buttons, gradient); see [docs/redesign-the-graph.md](docs/redesign-the-graph.md) for the extracted tokens and the layout mock-up.
 Tokens live at the top of `globals.css` (`--bg #0C0A1D`, `--pane #1A172F`, `--purple #6F4CFF`, secondary blue/turquoise/green/yellow/red/pink). Semantic CSS classes stay unlayered so they take precedence over Tailwind's base layer; Tailwind v4 remains available (`bg-surface`, `text-purple`, `font-mono`…).
-Fonts: Plus Jakarta Sans (display/UI) and JetBrains Mono (figures) via `next/font/google`. The Graph uses the licensed Euclid Circular A; to switch, load it with `next/font/local` and point `--font-jakarta` at it.
+Fonts: Plus Jakarta Sans (display/UI), Anton (titles) and JetBrains Mono (figures), all self-hosted in `src/fonts` and loaded with `next/font/local` (no Google Fonts download at build time: `next/font/google` broke the Vercel build on 2026-11-08). The Graph uses the licensed Euclid Circular A; to switch, load it with `next/font/local` and point `--font-jakarta` at it.
 Brand assets generated from `TilcAI_logo.png` are in `public/brand/` (white logo, cat mark, favicon, apple-touch icon, 512 icon, Open Graph image).
 
 `office.css` styles the full-screen hero; `landing.css` the sections, office legend, flow layers and technical disclosures; `agents.css` the carousel and right-side modal.
