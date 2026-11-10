@@ -24,7 +24,7 @@ export const en: Copy = {
     eyebrow: "Explore TilcAI",
     title: "TilcAI Demo",
     description: "Watch how TilcAI works.",
-    videoTitle: "TilcAI demo video",
+    videoTitle: "TilcAI presentation in English",
   },
   stageLabels: { available: "Available foundation", integration: "Being integrated", next: "Next steps" },
   integrationLabels: { preparation: "In preparation", guide: "Guide available", pilot: "Pilot", enabled: "Enabled" },

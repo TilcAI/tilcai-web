@@ -12,7 +12,10 @@ import styles from "./demo.module.css";
 type Props = { params: Promise<{ lang: string }> };
 
 // youtube-nocookie: no YouTube cookies until the visitor presses play.
-const DEMO_VIDEO = "https://www.youtube-nocookie.com/embed/F2DpPsqXMsI?rel=0";
+const DEMO_VIDEOS = {
+  es: "https://www.youtube-nocookie.com/embed/cD9y1Oj-1Ug?rel=0",
+  en: "https://www.youtube-nocookie.com/embed/C3S3HpPLS4U?rel=0",
+} as const;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params;
@@ -42,7 +45,7 @@ export default async function DemoPage({ params }: Props) {
           <p className={styles.description}>{copy.description}</p>
           <div className={styles.player}>
             <iframe
-              src={DEMO_VIDEO}
+              src={DEMO_VIDEOS[lang]}
               title={copy.videoTitle}
               loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import type { ReactNode } from "react";
 import { RevealObserver } from "@/components/RevealObserver";
 import { isLocale, locales } from "@/lib/i18n";
@@ -18,7 +19,7 @@ const heroDisplay = localFont({ src: "../../fonts/Anton-Regular.ttf", variable: 
 // document before React hydrates. RevealObserver continues handling navigation.
 const revealBootstrap = `
   document.documentElement.classList.add('js');
-  document.addEventListener('DOMContentLoaded', () => {
+  function initReveal() {
     const items = document.querySelectorAll('.reveal:not(.is-visible)');
     if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
       items.forEach((item) => item.classList.add('is-visible'));
@@ -33,7 +34,12 @@ const revealBootstrap = `
       });
     }, { threshold: 0.02 });
     items.forEach((item) => observer.observe(item));
-  }, { once: true });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReveal, { once: true });
+  } else {
+    initReveal();
+  }
 `;
 
 // Only /en and /es exist; anything else is a 404.
@@ -75,7 +81,7 @@ export default async function RootLayout({
   return (
     <html lang={lang} className={`${display.variable} ${mono.variable} ${heroDisplay.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
-        <script dangerouslySetInnerHTML={{ __html: revealBootstrap }} />
+        <Script id="reveal-bootstrap" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: revealBootstrap }} />
         {children}
         <RevealObserver />
       </body>
