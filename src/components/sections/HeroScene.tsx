@@ -6,7 +6,7 @@ export function HeroScene() {
     <div className="hero-scene" aria-hidden="true">
       <div className="hero-ring-art hero-depth" data-depth="1.1">
         <div className="hero-float">
-          <Image src="/assets/img/inicio/orbita.webp" alt="" fill sizes="(max-width: 800px) 90vw, 50vw" />
+          <Image src="/assets/img/inicio/orbita.webp" alt="" fill loading="eager" sizes="(max-width: 800px) 90vw, 50vw" />
         </div>
       </div>
       <div className="hero-cat hero-depth" data-depth="1.3">

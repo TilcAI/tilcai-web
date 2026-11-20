@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import type { ReactNode } from "react";
 import { RevealObserver } from "@/components/RevealObserver";
 import { isLocale, locales } from "@/lib/i18n";
@@ -14,33 +13,6 @@ const display = localFont({ src: "../../fonts/PlusJakartaSans-VariableFont_wght.
 // next/font/google failed on Vercel resolving the downloaded font files (2026-11-08).
 const mono = localFont({ src: "../../fonts/JetBrainsMono-latin-wght.woff2", variable: "--font-jetbrains", weight: "400 600", display: "swap" });
 const heroDisplay = localFont({ src: "../../fonts/Anton-Regular.ttf", variable: "--font-anton", weight: "400", display: "swap" });
-
-// Activate reveal styles before the sections paint, then observe the initial
-// document before React hydrates. RevealObserver continues handling navigation.
-const revealBootstrap = `
-  document.documentElement.classList.add('js');
-  function initReveal() {
-    const items = document.querySelectorAll('.reveal:not(.is-visible)');
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
-      items.forEach((item) => item.classList.add('is-visible'));
-      return;
-    }
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.02 });
-    items.forEach((item) => observer.observe(item));
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initReveal, { once: true });
-  } else {
-    initReveal();
-  }
-`;
 
 // Only /en and /es exist; anything else is a 404.
 export const dynamicParams = false;
@@ -79,9 +51,9 @@ export default async function RootLayout({
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={`${display.variable} ${mono.variable} ${heroDisplay.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} className={`${display.variable} ${mono.variable} ${heroDisplay.variable} js`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
-        <Script id="reveal-bootstrap" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: revealBootstrap }} />
+        <noscript><style>{".js .reveal { opacity: 1; transform: none; transition: none; }"}</style></noscript>
         {children}
         <RevealObserver />
       </body>

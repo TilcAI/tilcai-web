@@ -2928,3 +2928,102 @@ Ejecuté `git pull --ff-only origin main`; ya estaba actualizado. Añadí `/favi
 ### Salida
 
 Restauré el diseño del favicon anterior en `/favicon.ico`: el símbolo ocupa más espacio y se reconoce mejor en tamaño pequeño. También volví a declarar el PNG original de 32 px como alternativa. `npm run build` pasó y publiqué el cambio en `main`. Google puede tardar en actualizar su favicon guardado.
+
+## 2026-11-20T03:33:08Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> ok pero me sale estos errores "## Error Type
+> Console Error
+>
+> ## Error Message
+> Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously tries to update the component. Move this work to useEffect instead.
+>
+> Next.js version: 16.3.8 (Turbopack)
+>  "
+
+### Salida
+
+Eliminé el script de inicialización del layout que seguía generando el aviso de `<script>` durante la navegación entre idiomas; `RevealObserver` mantiene la aparición de los elementos. `npm run build` pasó y comprobé en Chrome `/es`, `/en` y `/es/demo`, incluidas navegaciones entre ellas, sin errores de React. El aviso concreto de actualización de estado no se reprodujo; si reaparece, necesito la URL y la pila del componente. `npm run lint` está bloqueado por la incompatibilidad actual de TypeScript 7 con typescript-eslint.
+
+## 2026-11-20T04:01:20Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> esta igual hay error soluciona pero me sale este error "Console Error
+>
+>
+> A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+> - A server/client branch `if (typeof window !== 'undefined')`.
+> - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+> - Date formatting in a user's locale which doesn't match the server.
+> - External changing data without sending a snapshot of it along with the HTML.
+> - Invalid HTML tag nesting.
+>
+> It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+>
+> See more info here: https://nextjs.org/docs/messages/react-hydration-error
+>
+>
+> +
+> Client
+> -
+> Server
+>   ...
+>     <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+>       <AppDevOverlayErrorBoundary globalError={[...]}>
+>         <ReplaySsrOnlyErrors>
+>         <DevRootHTTPAccessFallbackBoundary>
+>           <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+>             <HTTPAccessFallbackErrorBoundary pathname="/en" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+>               <RedirectBoundary>
+>                 <RedirectErrorBoundary router={{...}}>
+>                   <Head headCacheNode={{rsc:{...}, ...}}>
+>                     <__next_viewport_boundary__>
+>                     <MetadataWrapper>
+>                       <div
+>                         hidden={true}
+> -                       bis_skin_checked="1"
+>                       >
+>                     ...
+> "
+
+### Salida
+
+El HTML de `/en` llega sin `bis_skin_checked`, y en un Chrome limpio hidrata sin avisos. Ese atributo lo añade una extensión del navegador; [Next.js lo reconoce como causa de errores de hidratación](https://nextjs.org/docs/messages/react-hydration-error). Para quitarlo, abre `chrome://extensions`, desactiva extensiones una por una y recarga `/en`. Cuando encuentres la causante, cambia su «Acceso al sitio» a «Al hacer clic» en el sitio donde pruebas o déjala desactivada. [Chrome explica cómo cambiar ese permiso](https://support.google.com/chrome/answer/2664769). No cambié el código para ocultar el aviso. Si también aparece sin extensiones, envíame la nueva traza.
+
+## 2026-11-20T04:05:44Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> [adjunto: error de consola de Next.js «A tree hydrated but some attributes of the server rendered HTML didn't match the client properties» con el atributo `bis_skin_checked="1"` en un `<div hidden>`] solucioname eso
+
+### Salida
+
+No es un fallo del código: el atributo `bis_skin_checked` no existe en el repositorio; lo inserta en cada `<div>` la extensión de navegador de Bitdefender (TrafficLight / Anti-Tracker) antes de que React hidrate, y el `<div hidden>` es un contenedor interno de Next. Se soluciona desactivando la extensión para localhost o probando en una ventana de incógnito sin extensiones. Los visitantes sin esa extensión no ven el aviso. No cambié archivos.
+
+## 2026-11-20T04:10:05Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> por que me sale este error "[adjunto: error de hidratación de React con atributos `bis_skin_checked`, `bis_register` y `__processed_…__` en casi todos los `<div>` y en `<body>`, más el aviso de Next «Image with src "/assets/img/inicio/orbita.webp" was detected as the Largest Contentful Paint (LCP)»]"
+
+### Salida
+
+El error de hidratación no viene del código: los atributos `bis_skin_checked`, `bis_register` y `__processed_…__` los inserta una extensión del navegador en el HTML antes de que React cargue (el ID de la extensión va dentro de `bis_register`). Se quita desactivando esa extensión para localhost o usando incógnito. El aviso de LCP sí era del código: la imagen de la órbita del hero es lo más grande de la primera pantalla y se cargaba en diferido; le puse `loading="eager"` en `HeroScene.tsx`. `npx tsc --noEmit` pasó. Sin commit.
