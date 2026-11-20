@@ -3027,3 +3027,17 @@ No es un fallo del código: el atributo `bis_skin_checked` no existe en el repos
 ### Salida
 
 El error de hidratación no viene del código: los atributos `bis_skin_checked`, `bis_register` y `__processed_…__` los inserta una extensión del navegador en el HTML antes de que React cargue (el ID de la extensión va dentro de `bis_register`). Se quita desactivando esa extensión para localhost o usando incógnito. El aviso de LCP sí era del código: la imagen de la órbita del hero es lo más grande de la primera pantalla y se cargaba en diferido; le puse `loading="eager"` en `HeroScene.tsx`. `npx tsc --noEmit` pasó. Sin commit.
+
+## 2026-11-20T04:15:06Z · JHAMILCALI · Claude Code (Claude Opus 5.5)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero por que sigue saliendo la favicong de google no me sale [adjunto: resultados de Google de tilcai.com con el ícono de globo en vez del favicon] sigue con el mundo rapido
+
+### Salida
+
+Google Search solo muestra un favicon cuyo lado sea múltiplo de 48 px; el sitio publicado declaraba 64 px (`favicon.ico`), 32 px y 180 px (apple-touch), así que caía al globo. Generé `public/brand/icon-48.png`, `icon-96.png` e `icon-192.png` desde `icon-512.png` y los declaré primero en `icons` de `src/app/[lang]/layout.tsx` (se mantienen los anteriores para navegadores). Comprobé en local que los `<link rel="icon">` salen en /es y /en y que los archivos responden 200. Hace falta desplegar y luego pedir a Google que vuelva a rastrear la portada en Search Console; el cambio en los resultados tarda de días a semanas. `npx tsc --noEmit` pasó. Sin commit.
