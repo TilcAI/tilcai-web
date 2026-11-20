@@ -2914,3 +2914,17 @@ El proyecto de Vercel que sirve tilcai.com falló en el commit `dec0a1b` (el otr
 ### Salida
 
 Ejecuté `git pull --ff-only origin main`; ya estaba actualizado. Añadí `/favicon.ico` de 64 px con la marca actual y lo declaré como icono principal en el layout. `npm run build` pasó y `/favicon.ico` respondió 200 en producción local. Envié el cambio a `main`. Google puede tardar en volver a rastrear el icono y actualizar los resultados.
+
+## 2026-11-20T03:27:40Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> pero volve al antiguo favicon que se vea bien
+
+### Salida
+
+Restauré el diseño del favicon anterior en `/favicon.ico`: el símbolo ocupa más espacio y se reconoce mejor en tamaño pequeño. También volví a declarar el PNG original de 32 px como alternativa. `npm run build` pasó y publiqué el cambio en `main`. Google puede tardar en actualizar su favicon guardado.
