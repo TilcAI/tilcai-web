@@ -2898,3 +2898,19 @@ La web tenía un solo correo: el de contacto del pie de página (`src/lib/site.t
 ### Salida
 
 El proyecto de Vercel que sirve tilcai.com falló en el commit `dec0a1b` (el otro proyecto conectado al repo sí compiló). Según el log que pasó el usuario, Turbopack no pudo resolver los archivos de JetBrains Mono descargados por `next/font/google` (`next/font/google queries have exactly one entry`, en `src/app/[lang]/layout.tsx`), con la caché del despliegue anterior restaurada; no era un error del código de `/demo`. Pasé JetBrains Mono a `next/font/local` con el woff2 variable latino de @fontsource-variable/jetbrains-mono 5.3.0 y su licencia OFL en `src/fonts`; el build ya no descarga nada de Google Fonts. Build de producción limpio local OK; `npm test` 121 pasan, 1 falla previa y ajena. README actualizado. Commit y push a main; verificación en tilcai.com en la respuesta final.
+
+## 2026-11-20T03:11:28Z · JHAMILCALI · Codex (GPT-6)
+
+- **Sesión:** n/d
+- **Rama:** main
+- **Repositorios:** tilcai-web
+
+### Prompt
+
+> [adjunto: captura de resultados de búsqueda de Google de tilcai.com donde aparece un globo genérico en vez del favicon]
+>
+> [Image #1] no se esta mostrando lo que es la favicon no se ve de la pagina web www.tilcai.com ya como antes soluciona eso y primero hast pull de main si es que hay
+
+### Salida
+
+Ejecuté `git pull --ff-only origin main`; ya estaba actualizado. Añadí `/favicon.ico` de 64 px con la marca actual y lo declaré como icono principal en el layout. `npm run build` pasó y `/favicon.ico` respondió 200 en producción local. Envié el cambio a `main`. Google puede tardar en volver a rastrear el icono y actualizar los resultados.

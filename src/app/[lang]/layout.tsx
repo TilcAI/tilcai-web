@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
     icon: [
-      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico", sizes: "64x64", type: "image/x-icon" },
       { url: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: "/brand/apple-touch-icon.png",
